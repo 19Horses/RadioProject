@@ -18,7 +18,7 @@ export const djs = [
     ],
     "tracklist": [
       { "startTime": "0", "title": "RADIO (a)"},
-      { "title": "B Rockaaaaa Intro", "artist": "Brandy"},
+      { "title": "B Rocka Intro", "artist": "Brandy"},
       { "title": "capsule rmx →", "artist": "CAPSULE"},
       { "title": "What You Waiting For?", "artist": "Gwen Stefani"},
       { "title": "3.14159", "artist": "Lexie Liu"},
