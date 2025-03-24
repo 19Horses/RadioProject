@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
 import { styled, keyframes } from "styled-components";
-import items from "./items.json";
+import { djs as items } from "./items.js";
 import SoundCloudPlayer from "./soundcloudPlayer";
 import Header from "./header";
 import { useLocation } from "react-router-dom"; // Import this hook

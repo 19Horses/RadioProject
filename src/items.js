@@ -1,10 +1,11 @@
-[
+import {pr1} from './assets/pr1'
+
+export const djs = [
   {
     "id": 0,
-    "src": "../pr1/e.png",
-    "meSrc": "../pr1/mk.png",
+    "src": pr1.p,
     "rpCount": "RP1 ♪ ",
-    "2ppSrc": "../pr1/2pp.png",
+    "2ppSrc": pr1.pp,
     "title": "\"games that touch the arts\"",
     "title2": "ubiifuruuu",
     "title3": "<b>DJ</b> <br /> <b>Producer</b><br /> <b>EXXTRALIFE Founder</b><br /> <b>Developer</b> ",
