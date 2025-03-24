@@ -1,0 +1,29 @@
+ name: Actions
+
+on: [push]
+
+permissions:
+  contents: write
+
+jobs:
+  
+  build-and-deploy:
+    name: build and deploy
+    if: github.ref == 'refs/heads/main'
+    concurrency: ci-${{ github.ref }}
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Install and Build
+        run: |
+          yarn install
+          yarn build
+
+      - name: Deploy
+        uses: JamesIves/github-pages-deploy-action@v4.2.5
+        with:
+          branch: gh-pages # The branch the action should deploy to.
+          folder: dist # The folder the action should deploy.
