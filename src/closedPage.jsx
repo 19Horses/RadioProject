@@ -1,0 +1,363 @@
+import { useEffect, useRef, useState } from "react";
+import { styled, keyframes } from "styled-components";
+import items from "./items.json";
+import SoundCloudPlayer from "./soundcloudPlayer";
+import Header from "./header";
+import { useLocation } from "react-router-dom"; // Import this hook
+
+const fadeIn = keyframes`
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+`;
+
+const fadeOut = keyframes`
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+`;
+
+const GridContainer = styled.div`
+  position: relative;
+  display: flex;
+  overflow: hidden;
+  opacity: ${(props) => (props.$selectedIndex !== null ? 1 : 0)};
+  width: fit-content;
+  flex: ${(props) => (props.$selected ? "-1" : "1")};
+  transition: all 0.5s ease-in-out;
+  &:hover {
+    flex: ${(props) => props.$total};
+    z-index: 998;
+  }
+  margin-left: 0.05vw;
+  margin-right: 0.05vw;
+  //   border: 1px solid #ebebeb;
+  transition: all 0.5s ease-in-out;
+  animation: ${(props) => (props.$selectedIndex !== null ? fadeOut : fadeIn)}
+    0.5s ease-out forwards;
+  animation-delay: ${(props) =>
+    Math.abs(props.$contents - props.$total / 2) * 100}ms;
+`;
+
+const PhotoContainer = styled.div`
+  display: flex;
+  position: absolute;
+  width: 500px;
+  height: 500px;
+  transition: all 0.5s ease-in-out;
+  left: ${(props) =>
+    props.$isLeft ? `-${props.$contents * props.$parentWidth}px` : "unset;"};
+  right: ${(props) =>
+    props.$isLeft
+      ? "unset"
+      : `-${(props.$total - (props.$contents + 1)) * props.$parentWidth}px`};
+  &:hover {
+    cursor: pointer;
+    ${(props) =>
+      props.$isLeft ? "left: -0; right: unset;" : "right: 0; left: unset;"};
+  }
+`;
+
+const CursorTitle = styled.p`
+  background-color: ${(props) => (props.hovered ? props.bgColor : "")};
+  color: ${(props) => (props.hovered ? props.color : "black")};
+  display: inline;
+  font-size: ${(props) => props.fontSize || "inherit"};
+
+  animation: ${(props) => (props.hovered ? fadeIn : "none")} 0.5s ease-out
+    forwards;
+  animation-delay: ${(props) => props.delay}s;
+  opacity: 0;
+`;
+
+export const CustomCursor = ({ rpc, t1, t2, t3, isLeft, hovered }) => {
+  const cursor = useRef(null);
+
+  useEffect(() => {
+    const moveCursor = (event) => {
+      if (!cursor.current) return;
+
+      const { clientX, clientY } = event;
+      const offsetX = isLeft ? -16 : 1; // Shift text left or right
+      const offsetY = -20; // Small offset to position text slightly below the cursor
+      const vw = window.innerWidth / 100;
+
+      cursor.current.style.transform = `translate3d(${
+        clientX / vw + offsetX
+      }vw, ${clientY + offsetY}px, 0)`;
+    };
+
+    document.addEventListener("mousemove", moveCursor);
+    return () => document.removeEventListener("mousemove", moveCursor);
+  }, [isLeft]); // Re-run effect when isLeft changes
+
+  return (
+    <div
+      className={"cursor"}
+      ref={cursor}
+      style={{ textAlign: isLeft ? "right" : "left" }}
+    >
+      <CursorTitle
+        className="cursor-title"
+        hovered={hovered}
+        bgColor={"rgb(247, 247, 247);"}
+        delay={0.1}
+      >
+        {rpc}
+      </CursorTitle>
+      <CursorTitle
+        className="cursor-title"
+        hovered={hovered}
+        bgColor="black"
+        color="white"
+        delay={0.15}
+      >
+        <b>{t1}</b>
+      </CursorTitle>
+      <br />
+      <CursorTitle
+        className="cursor-title"
+        hovered={hovered}
+        bgColor="black"
+        color="white"
+        fontSize="2vw"
+        delay={0.2}
+      >
+        <b>{t2}</b>
+      </CursorTitle>
+      <br />
+      <CursorTitle
+        className="cursor-title"
+        hovered={hovered}
+        bgColor="black"
+        color="white"
+        delay={0.25}
+        dangerouslySetInnerHTML={{ __html: t3 }}
+      />
+    </div>
+  );
+};
+
+export default function ClosedPage() {
+  const [rpCount, setRpCount] = useState("");
+  const [title, setTitle] = useState("");
+  const [title2, setTitle2] = useState("");
+  const [title3, setTitle3] = useState("");
+  const [hovered, setHovered] = useState(false);
+  const [selectedIndex, setSelectedIndex] = useState(null);
+  const [w, setW] = useState(null);
+  const flexContainer = useRef(null);
+  const [isLeft, setIsLeft] = useState(false);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [selectedTrack, setSelectedTrack] = useState("");
+  const [selectedChapters, setSelectedChapters] = useState([]);
+  const [selectedTitle, setSelectedTitle] = useState("");
+  const [selectedArtist, setSelectedArtist] = useState("");
+  const [selectedTracklist, setSelectedTracklist] = useState([]);
+  const location = useLocation();
+  const [headerHover, setHeaderHover] = useState(false);
+
+  const resetInfo = () => {
+    setSelectedTracklist(null);
+    setSelectedIndex(null);
+    scrollToTop();
+  };
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    // Check the pathname instead of hash when using HashRouter
+    if (location.pathname === "/ubiifuruuu") {
+      setSelectedIndex(1);
+      const selectedItem = items[1];
+      if (selectedItem) {
+        setSelectedTrack(selectedItem.mixId);
+        setSelectedChapters(selectedItem.chapters || []);
+        setSelectedTracklist(selectedItem.tracklist || []);
+        setSelectedTitle(selectedItem.rpCount + selectedItem.title);
+        setSelectedArtist(selectedItem.title2);
+      }
+    }
+  }, [location]);
+
+  useEffect(() => {
+    console.log({ isLeft });
+    if (flexContainer.current) {
+      setW(flexContainer.current.clientWidth / items.length);
+    }
+    const handleResize = () => {
+      setW(flexContainer.current.clientWidth / items.length);
+    };
+    window.addEventListener("resize", handleResize);
+    handleResize();
+    return () => window.removeEventListener("resize", handleResize);
+  }, [flexContainer]);
+
+  return (
+    <>
+      {selectedTrack != "" && (
+        <SoundCloudPlayer
+          track={selectedTrack}
+          chapters={selectedChapters}
+          title={selectedTitle}
+          artist={selectedArtist}
+          tracklist={selectedTracklist}
+        />
+      )}
+      {selectedIndex === null && (
+        <CustomCursor
+          rpc={rpCount}
+          t1={title}
+          t2={title2}
+          t3={title3}
+          isLeft={isLeft}
+          hovered={hovered}
+        />
+      )}
+      <Header />
+      <div className="header-logo">
+        <a href="/">
+          <img
+            onMouseOver={() => {
+              setHeaderHover(true);
+            }}
+            onMouseLeave={() => {
+              setHeaderHover(false);
+            }}
+            className="main"
+            src="./transplogo.png"
+            alt="Logo"
+          />
+        </a>
+        <a href="/">
+          <img
+            className="second"
+            style={{
+              opacity: headerHover === true ? "1" : "0",
+              transform: headerHover === true ? "translateX(10%)" : "",
+            }}
+            src="./transplogo2.png"
+          />
+        </a>
+      </div>
+      <div
+        className={"total-container "}
+        style={{
+          pointerEvents: selectedIndex === null ? "" : "none",
+        }}
+      >
+        <div ref={flexContainer} className="flex-container">
+          {items.map((pic, i) => {
+            const isLeft = i < items.length / 2;
+            return (
+              <GridContainer
+                key={i}
+                $total={items.length}
+                $selectedIndex={selectedIndex}
+                $contents={i}
+                $isLeft={isLeft}
+              >
+                <PhotoContainer
+                  className="pc"
+                  key={i}
+                  $contents={i}
+                  $selectedIndex={selectedIndex}
+                  $parentWidth={w}
+                  $total={items.length}
+                  $isLeft={isLeft}
+                >
+                  <img
+                    src={pic.src}
+                    alt={pic.title}
+                    className="image"
+                    onMouseEnter={() => {
+                      setHovered(true);
+                      setRpCount(pic.rpCount);
+                      setTitle(pic.title);
+                      setTitle2(pic.title2);
+                      setTitle3(pic.title3);
+                      setIsLeft(isLeft);
+                      setHoveredIndex(i);
+                    }}
+                    onMouseLeave={() => {
+                      setHoveredIndex(null);
+                      setHovered(false);
+                      setRpCount("");
+                      setTitle("");
+                      setTitle2("");
+                      setTitle3("");
+                    }}
+                    onClick={() => {
+                      setSelectedIndex(pic.id);
+                      setSelectedTrack(items[pic.id]?.mixId);
+                      setSelectedChapters(pic?.chapters || []);
+                      setSelectedTracklist(pic?.tracklist || []);
+                      setSelectedTitle([pic?.rpCount + pic?.title]);
+                      setSelectedArtist(pic?.title2);
+                    }}
+                    style={{
+                      transition: "filter 0.3s ease-in-out",
+                    }}
+                  />
+                </PhotoContainer>
+              </GridContainer>
+            );
+          })}
+        </div>
+      </div>
+
+      {selectedIndex != null && (
+        <div className="selected-artist-container">
+          <p className="back-button" onClick={() => resetInfo()}>
+            BACK
+          </p>
+          <div className="description-container">
+            <p className="description-header" style={{ fontSize: "2vw" }}>
+              <span
+                style={{
+                  fontFamily: "Helvetica",
+                  fontWeight: "100",
+                }}
+              >
+                {items[selectedIndex]?.rpCount}
+              </span>{" "}
+              <span
+                style={{
+                  backgroundColor: "black",
+                  color: "white",
+                  padding: "2px 5px", // Optional for better visibility
+                }}
+              >
+                <b>{items[selectedIndex]?.title}</b>
+              </span>
+            </p>
+          </div>
+
+          <div className="artist-pics">
+            <a href="https://www.instagram.com/ubiifuruuu/" target="_blank">
+              <img
+                src={items[selectedIndex]?.["2ppSrc"]}
+                className="selected-artist-image"
+              />
+            </a>
+          </div>
+          <p
+            style={{ fontSize: "1.7vw", fontWeight: "100" }}
+            dangerouslySetInnerHTML={{
+              __html: items[selectedIndex]?.description,
+            }}
+          />
+        </div>
+      )}
+    </>
+  );
+}

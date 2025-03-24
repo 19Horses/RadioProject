@@ -1,0 +1,23 @@
+:root {
+
+
+  color: rgb(0, 0, 0);
+  background-color: #f7f7f7;
+  cursor: url('./indic.svg') 8 8, auto;
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  
+}
+
+i::selection,
+a::selection,
+p::selection,
+b::selection,
+br::selection,
+span::selection,
+sup::selection {
+  color: white;
+  background-color: rgb(255, 0, 0);
+}
