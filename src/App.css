@@ -73,11 +73,9 @@
 .flex-container {
   position: relative;
   display: flex;
-  flex-wrap: nowrap;
-  width: 50vw; /* Adjust based on screen width */
-  height: 50vw; /* Adjust based on screen height */
-  max-width: 80vh; /* Prevent excessive scaling */
-  max-height: 80vh;
+  width: 70vh; 
+  height: 70vh; 
+  
 }
 
 .total-container{
@@ -275,7 +273,6 @@
 }
 
 .header-logo img {
-  
   width: 50%;
   height: auto;
   max-width: 100%;
@@ -316,8 +313,6 @@
   ); 
   pointer-events: none;
   z-index: 1; /* Ensure the overlay is above the text */
-  
-  
 }
 
 .gradient-overlay {
@@ -396,9 +391,6 @@ position: absolute;
 .header-item:hover {
   opacity: 0.7;
 }
-
-
-
 
 .tracklist{
   opacity: 0;

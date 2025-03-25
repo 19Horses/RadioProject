@@ -39,7 +39,6 @@ const GridContainer = styled.div`
   }
   margin-left: 0.05vw;
   margin-right: 0.05vw;
-  //   border: 1px solid #ebebeb;
   transition: all 0.5s ease-in-out;
   animation: ${(props) => (props.$selectedIndex !== null ? fadeOut : fadeIn)}
     0.5s ease-out forwards;
