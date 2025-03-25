@@ -50,19 +50,17 @@ const GridContainer = styled.div`
 const PhotoContainer = styled.div`
   display: flex;
   position: absolute;
-  width: 500px;
-  height: 500px;
+  width: 100%;
+  height: 100%;
   transition: all 0.5s ease-in-out;
   left: ${(props) =>
     props.$isLeft ? `-${props.$contents * props.$parentWidth}px` : "unset;"};
   right: ${(props) =>
-    props.$isLeft
-      ? "unset"
-      : `-${(props.$total - (props.$contents + 1)) * props.$parentWidth}px`};
+    props.$isLeft ? "unset" : `${props.$contents * props.$parentWidth}px`};
   &:hover {
     cursor: pointer;
     ${(props) =>
-      props.$isLeft ? "left: -0; right: unset;" : "right: 0; left: unset;"};
+      props.$isLeft ? "left: 0; right: unset;" : "right: 97%; left: unset;"};
   }
 `;
 
@@ -129,7 +127,7 @@ export const CustomCursor = ({ rpc, t1, t2, t3, isLeft, hovered }) => {
         hovered={hovered}
         bgColor="black"
         color="white"
-        fontSize="2.55vh"
+        fontSize="2.6vh"
         delay={0.2}
       >
         <b>{t2}</b>

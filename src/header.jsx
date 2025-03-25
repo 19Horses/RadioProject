@@ -62,11 +62,10 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
             }}
             style={{
               cursor: "pointer",
-              fontWeight: "bold",
               color: selected === "Info" ? "red" : "black",
             }}
           >
-            &#9432;
+            Info
           </a>
         </nav>
       </header>

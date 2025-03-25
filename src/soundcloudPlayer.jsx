@@ -148,92 +148,90 @@ export default function SoundCloudPlayer({
 
   return (
     <>
-      <div className={""}>
-        {tracklist != null && (
-          <div className={`tracklist `}>
-            <table>
-              {tracklist?.map((mixTrack, index) => (
-                <React.Fragment key={index}>
-                  {mixTrack.title === "RADIO (a)" ||
-                  mixTrack.title === "PROJECT" ||
-                  mixTrack.title === "RADIO (b)" ? (
-                    <tr style={{ width: "100%", height: "1vh" }}></tr>
-                  ) : null}
-                  <tr
+      {tracklist != null && (
+        <div className={`tracklist `}>
+          <table>
+            {tracklist?.map((mixTrack, index) => (
+              <React.Fragment key={index}>
+                {mixTrack.title === "RADIO (a)" ||
+                mixTrack.title === "PROJECT" ||
+                mixTrack.title === "RADIO (b)" ? (
+                  <tr style={{ width: "100%", height: "1vh" }}></tr>
+                ) : null}
+                <tr
+                  className="mix-track"
+                  style={{
+                    cursor:
+                      mixTrack.title === "RADIO (a)" ||
+                      mixTrack.title === "PROJECT" ||
+                      mixTrack.title === "RADIO (b)"
+                        ? "pointer"
+                        : "",
+                    width: "100%",
+                    animationDelay: `${index * 0.0375}s`,
+                  }}
+                  onClick={(e) => {
+                    if (
+                      mixTrack.title === "RADIO (a)" ||
+                      mixTrack.title === "PROJECT" ||
+                      mixTrack.title === "RADIO (b)"
+                    ) {
+                      handleChapterClick(mixTrack.startTime, e);
+                    }
+                  }}
+                  onMouseEnter={() => {
+                    setHoveredTitle(mixTrack.title);
+                  }}
+                  onMouseLeave={() => setHoveredTitle("")}
+                >
+                  <td
                     className="mix-track"
                     style={{
-                      cursor:
-                        mixTrack.title === "RADIO (a)" ||
-                        mixTrack.title === "PROJECT" ||
-                        mixTrack.title === "RADIO (b)"
-                          ? "pointer"
-                          : "",
-                      width: "100%",
-                      animationDelay: `${index * 0.0375}s`,
+                      color:
+                        hoveredTitle === mixTrack?.title &&
+                        mixTrack?.title !== "UNRELEASED"
+                          ? "red"
+                          : mixTrack.title === "RADIO (a)" ||
+                            mixTrack.title === "PROJECT" ||
+                            mixTrack.title === "RADIO (b)"
+                          ? "rgb(255, 0, 0)"
+                          : "black",
+                      textAlign: "right",
+                      width: "30vw",
+                      paddingLeft: "1vw",
+                      paddingRight: "1vw",
                     }}
-                    onClick={(e) => {
-                      if (
-                        mixTrack.title === "RADIO (a)" ||
-                        mixTrack.title === "PROJECT" ||
-                        mixTrack.title === "RADIO (b)"
-                      ) {
-                        handleChapterClick(mixTrack.startTime, e);
-                      }
-                    }}
-                    onMouseEnter={() => {
-                      setHoveredTitle(mixTrack.title);
-                    }}
-                    onMouseLeave={() => setHoveredTitle("")}
                   >
-                    <td
+                    <b
                       className="mix-track"
                       style={{
+                        backgroundColor:
+                          hoveredChapter === mixTrack?.title ||
+                          mixTrack?.title === "UNRELEASED"
+                            ? "black"
+                            : "",
                         color:
-                          hoveredTitle === mixTrack?.title &&
-                          mixTrack?.title !== "UNRELEASED"
-                            ? "red"
-                            : mixTrack.title === "RADIO (a)" ||
-                              mixTrack.title === "PROJECT" ||
-                              mixTrack.title === "RADIO (b)"
-                            ? "rgb(255, 0, 0)"
-                            : "black",
-                        textAlign: "right",
-                        width: "30vw",
-                        paddingLeft: "1vw",
-                        paddingRight: "1vw",
+                          hoveredChapter === mixTrack?.title ? "white" : "",
+                        fontWeight: mixTrack?.artist === "" ? "100" : "",
                       }}
                     >
-                      <b
-                        className="mix-track"
-                        style={{
-                          backgroundColor:
-                            hoveredChapter === mixTrack?.title ||
-                            mixTrack?.title === "UNRELEASED"
-                              ? "black"
-                              : "",
-                          color:
-                            hoveredChapter === mixTrack?.title ? "white" : "",
-                          fontWeight: mixTrack?.artist === "" ? "100" : "",
-                        }}
-                      >
-                        {mixTrack.title}
-                      </b>
-                    </td>
-                    <td
-                      style={{
-                        color: "rgb(137, 137, 137)",
-                        fontWeight: "100",
-                      }}
-                    >
-                      {mixTrack.artist}
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
-            </table>
-          </div>
-        )}
-      </div>
+                      {mixTrack.title}
+                    </b>
+                  </td>
+                  <td
+                    style={{
+                      color: "rgb(137, 137, 137)",
+                      fontWeight: "100",
+                    }}
+                  >
+                    {mixTrack.artist}
+                  </td>
+                </tr>
+              </React.Fragment>
+            ))}
+          </table>
+        </div>
+      )}
 
       <div
         className={`total-timeline-container `}

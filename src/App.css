@@ -43,6 +43,9 @@
   }
 }
 
+  /* Adjust sizes, layout, and font sizes for very small screens */
+
+
 .logo-header{
   height: 20%;
   width: 20%;
@@ -71,9 +74,10 @@
   position: relative;
   display: flex;
   flex-wrap: nowrap;
-  
-  width: 500px;
-  height: 500px;
+  width: 50vw; /* Adjust based on screen width */
+  height: 50vw; /* Adjust based on screen height */
+  max-width: 80vh; /* Prevent excessive scaling */
+  max-height: 80vh;
 }
 
 .total-container{
@@ -82,6 +86,7 @@
   justify-content: center;
   align-items: center;
   height: 100vh;
+  width: 100vw;
 }
 
 .cursor{
@@ -248,7 +253,7 @@
 .header-container {
   position: fixed; /* Ensure the header is fixed to the viewport */
   top: 2vh; /* Align to the top of the viewport */
-  right: 0;
+  right: 0vh;
   width: 50%; /* Full width */
   padding-top: 0.5vw; /* Adjust padding as needed */
   height: 4vh; /* Adjust height as needed */
@@ -263,7 +268,7 @@
 
   position: fixed;
   top: 0;
-  max-width: 18vw;  /* Makes the logo size responsive based on viewport width */
+  max-width: 15vw;  /* Makes the logo size responsive based on viewport width */
   overflow: hidden;
   height: 20vh;
   z-index: 991;
@@ -300,8 +305,8 @@
   position: fixed;
   top: 0;
   left: 0;
-  width: 100%;
-  height: 100%;
+  width: 100vw;
+  height: 100vh;
   background: linear-gradient(
     to bottom,
     rgb(255, 255, 255) 0%,
@@ -311,6 +316,7 @@
   ); 
   pointer-events: none;
   z-index: 1; /* Ensure the overlay is above the text */
+  
   
 }
 
@@ -406,7 +412,10 @@ position: absolute;
   padding-bottom: 10vh;
   left: 33%;
   width: 40%;
+  
 }
+
+
 
 .mix-track{
   animation: trackFadeIn 0.5s ease-in-out forwards;
@@ -471,6 +480,7 @@ table{
   margin-right: .5rem; /* Add some space between the paragraphs */
   font-size: 31px ;
   bottom: 0;
+  
 }
 
 .article-grid {
