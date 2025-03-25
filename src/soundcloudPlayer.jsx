@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import { FaPlay, FaPause } from "react-icons/fa";
 
 export default function SoundCloudPlayer({
   track,
@@ -264,11 +265,11 @@ export default function SoundCloudPlayer({
                     &#10226;
                   </div>
                   <a
-                    style={{ fontSize: "1.5vw" }}
+                    style={{ fontSize: ".8vw" }}
                     className="control"
                     onClick={(e) => togglePlayPause(e)}
                   >
-                    {isPlaying ? "⏸" : "⏵"}
+                    {isPlaying ? <FaPause /> : <FaPlay />}
                   </a>
                   <div
                     className="control"
