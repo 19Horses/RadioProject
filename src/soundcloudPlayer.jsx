@@ -247,9 +247,13 @@ export default function SoundCloudPlayer({
             <div className="info-text">
               <p>
                 <div className="controls">
-                  <div className="control" onClick={skipBackward}>
+                  <div
+                    className="control"
+                    onClick={skipBackward}
+                    style={{ fontSize: "1.8vw" }}
+                  >
                     {" "}
-                    &lt;&lt;
+                    &#10226;
                   </div>
                   <a
                     style={{ fontSize: "1.5vw" }}
@@ -258,8 +262,12 @@ export default function SoundCloudPlayer({
                   >
                     {isPlaying ? "⏸" : "⏵"}
                   </a>
-                  <div className="control" onClick={skipForward}>
-                    &gt;&gt;
+                  <div
+                    className="control"
+                    onClick={skipForward}
+                    style={{ fontSize: "1.8vw" }}
+                  >
+                    &#10227;
                   </div>
                 </div>
                 <div ref={containerRef} className="scrolling-title-container">
