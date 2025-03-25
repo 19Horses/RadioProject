@@ -71,7 +71,6 @@ const CursorTitle = styled.p`
   color: ${(props) => (props.hovered ? props.color : "black")};
   display: inline;
   font-size: ${(props) => props.fontSize || "inherit"};
-
   animation: ${(props) => (props.hovered ? fadeIn : "none")} 0.5s ease-out
     forwards;
   animation-delay: ${(props) => props.delay}s;
@@ -110,6 +109,7 @@ export const CustomCursor = ({ rpc, t1, t2, t3, isLeft, hovered }) => {
         hovered={hovered}
         bgColor={"rgb(247, 247, 247);"}
         delay={0.1}
+        fontSize="1.9vh"
       >
         {rpc}
       </CursorTitle>
@@ -118,17 +118,18 @@ export const CustomCursor = ({ rpc, t1, t2, t3, isLeft, hovered }) => {
         hovered={hovered}
         bgColor="black"
         color="white"
+        fontSize="1.9vh"
         delay={0.15}
       >
         <b>{t1}</b>
       </CursorTitle>
       <br />
       <CursorTitle
-        className="cursor-title"
+        className="cursor-title "
         hovered={hovered}
         bgColor="black"
         color="white"
-        fontSize="2vw"
+        fontSize="2.55vh"
         delay={0.2}
       >
         <b>{t2}</b>
@@ -139,6 +140,7 @@ export const CustomCursor = ({ rpc, t1, t2, t3, isLeft, hovered }) => {
         hovered={hovered}
         bgColor="black"
         color="white"
+        fontSize="1.9vh"
         delay={0.25}
         dangerouslySetInnerHTML={{ __html: t3 }}
       />
@@ -346,14 +348,7 @@ export default function ClosedPage() {
         </div>
       )}
       {infoSelected == true && (
-        <div
-          className="selected-artist-container"
-          style={{
-            fontSize: "1.7vw",
-            fontWeight: "100",
-            paddingBottom: "3vh",
-          }}
-        >
+        <div className="info-container">
           <a
             onClick={() => setInfoSelected(false)}
             style={{ fontWeight: "1000", cursor: "pointer" }}
@@ -392,45 +387,46 @@ export default function ClosedPage() {
       )}
       {selectedIndex != null && (
         <div className="selected-artist-container">
-          <p className="back-button" onClick={() => resetInfo()}>
-            BACK
-          </p>
-          <div className="description-container">
-            <p className="description-header" style={{ fontSize: "2vw" }}>
-              <span
-                style={{
-                  fontFamily: "Helvetica",
-                  fontWeight: "100",
-                }}
-              >
-                {items[selectedIndex]?.rpCount}
-              </span>{" "}
-              <span
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  padding: "2px 5px", // Optional for better visibility
-                }}
-              >
-                <b>{items[selectedIndex]?.title}</b>
-              </span>
-            </p>
+          <div className="all-left-cont">
+            <div className="description-container">
+              <p className="back-button" onClick={() => resetInfo()}>
+                BACK
+              </p>
+              <p className="description-header" style={{ fontSize: "3.7vh" }}>
+                <span
+                  style={{
+                    fontFamily: "Helvetica",
+                    fontWeight: "100",
+                  }}
+                >
+                  {items[selectedIndex]?.rpCount}
+                </span>{" "}
+                <span
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "2px 5px", // Optional for better visibility
+                  }}
+                >
+                  <b>{items[selectedIndex]?.title}</b>
+                </span>
+              </p>
+            </div>
+            <div className="artist-pics">
+              <a href={items[selectedIndex]?.igLink} target="_blank">
+                <img
+                  src={items[selectedIndex]?.["2ppSrc"]}
+                  className="selected-artist-image"
+                />
+              </a>
+            </div>
+            <p
+              style={{ fontSize: "2.9vh", fontWeight: "100" }}
+              dangerouslySetInnerHTML={{
+                __html: items[selectedIndex]?.description,
+              }}
+            />
           </div>
-
-          <div className="artist-pics">
-            <a href={items[selectedIndex]?.igLink} target="_blank">
-              <img
-                src={items[selectedIndex]?.["2ppSrc"]}
-                className="selected-artist-image"
-              />
-            </a>
-          </div>
-          <p
-            style={{ fontSize: "1.7vw", fontWeight: "100" }}
-            dangerouslySetInnerHTML={{
-              __html: items[selectedIndex]?.description,
-            }}
-          />
         </div>
       )}
       {articleHeaderSelected && articleSelected === null && (

@@ -234,6 +234,7 @@ export default function SoundCloudPlayer({
           </div>
         )}
       </div>
+
       <div
         className={`total-timeline-container `}
         style={{
@@ -241,7 +242,6 @@ export default function SoundCloudPlayer({
           opacity: track == null ? "0" : "1",
         }}
       >
-        {/* Audio element without ReactAudioPlayer */}
         <audio ref={audioRef} src={track} />
         <div
           className={"progress-bar-container"}
@@ -259,13 +259,13 @@ export default function SoundCloudPlayer({
                   <div
                     className="control"
                     onClick={skipBackward}
-                    style={{ fontSize: "1.8vw" }}
+                    style={{ fontSize: "3.15vh" }}
                   >
                     {" "}
                     &#10226;
                   </div>
                   <a
-                    style={{ fontSize: ".8vw" }}
+                    style={{ fontSize: "1.4vh" }}
                     className="control"
                     onClick={(e) => togglePlayPause(e)}
                   >
@@ -274,14 +274,13 @@ export default function SoundCloudPlayer({
                   <div
                     className="control"
                     onClick={skipForward}
-                    style={{ fontSize: "1.8vw" }}
+                    style={{ fontSize: "3.15vh" }}
                   >
                     &#10227;
                   </div>
                 </div>
                 <div ref={containerRef} className="scrolling-title-container">
-                  <div className="gradient-overlay"></div>
-
+                  <div className="gradient-overlay" />
                   <div
                     ref={titleRef}
                     className={`scrolling-title ${
@@ -303,6 +302,7 @@ export default function SoundCloudPlayer({
                       paddingBottom: ".25vh",
                       paddingLeft: ".25vw",
                       paddingRight: ".25vw",
+                      fontSize: "1.745vh",
                     }}
                   >
                     {artist}
@@ -325,7 +325,6 @@ export default function SoundCloudPlayer({
 
           {chapters?.map((chapter, index) => (
             <React.Fragment key={index}>
-              {/* Chapter Slit */}
               <div
                 onMouseEnter={() => {
                   setHoveredChapter(chapter?.title);
