@@ -263,9 +263,9 @@
 
   position: fixed;
   top: 0;
-  max-width: 10vw;  /* Makes the logo size responsive based on viewport width */
+  max-width: 18vw;  /* Makes the logo size responsive based on viewport width */
   overflow: hidden;
-  height: 8em;
+  height: 20vh;
   z-index: 991;
 }
 
@@ -404,7 +404,7 @@ position: absolute;
   position: absolute;
   padding-top: 10vh;
   padding-bottom: 10vh;
-  left: 31%;
+  left: 33%;
   width: 40%;
 }
 
