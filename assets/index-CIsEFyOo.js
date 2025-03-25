@@ -91,7 +91,7 @@ Please change the parent <Route path="${j}"> to <Route path="${j==="/"?"*":`${j}
   transition: all 0.5s ease-in-out;
   animation: ${n=>n.$selectedIndex!==null?vb:eg}
     0.5s ease-out forwards;
-  animation-delay: ${n=>Math.abs(n.$contents-n.$total/2)*100-100}ms;
+  animation-delay: ${n=>Math.abs(n.$contents-n.$total/2)*100}ms;
 `,bb=Iu.div`
   display: flex;
   position: absolute;
