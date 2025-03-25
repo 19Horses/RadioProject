@@ -44,7 +44,7 @@ const GridContainer = styled.div`
   animation: ${(props) => (props.$selectedIndex !== null ? fadeOut : fadeIn)}
     0.5s ease-out forwards;
   animation-delay: ${(props) =>
-    Math.abs(props.$contents - props.$total / 2) * 100 - 100}ms;
+    Math.abs(props.$contents - props.$total / 2) * 100}ms;
 `;
 
 const PhotoContainer = styled.div`
