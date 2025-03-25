@@ -170,7 +170,15 @@ export default function SoundCloudPlayer({
                       width: "100%",
                       animationDelay: `${index * 0.0375}s`,
                     }}
-                    onClick={(e) => handleChapterClick(mixTrack.startTime, e)}
+                    onClick={(e) => {
+                      if (
+                        mixTrack.title === "RADIO (a)" ||
+                        mixTrack.title === "PROJECT" ||
+                        mixTrack.title === "RADIO (b)"
+                      ) {
+                        handleChapterClick(mixTrack.startTime, e);
+                      }
+                    }}
                     onMouseEnter={() => {
                       setHoveredTitle(mixTrack.title);
                     }}
