@@ -10,7 +10,6 @@ export default function SoundCloudPlayer({
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("--:--");
   const [isPlaying, setIsPlaying] = useState(false);
-  const [isMaximised, setIsMaximised] = useState(false);
   const audioRef = useRef(null);
   const [hoveredTitle, setHoveredTitle] = useState("");
   const [hoveredChapter, setHoveredChapter] = useState("");
@@ -28,11 +27,6 @@ export default function SoundCloudPlayer({
     }
 
     setIsPlaying(!audioRef.current.paused); // Update the state manually
-  };
-
-  const toggleMax = (event) => {
-    event.stopPropagation();
-    setIsMaximised(!isMaximised);
   };
 
   const handleChapterClick = (chapterStartTime, event) => {
@@ -153,10 +147,9 @@ export default function SoundCloudPlayer({
 
   return (
     <>
-      <div className={"gradient-overlay-tl"}></div>
       <div className={""}>
         {tracklist != null && (
-          <div className="tracklist">
+          <div className={`tracklist `}>
             <table>
               {tracklist?.map((mixTrack, index) => (
                 <React.Fragment key={index}>
@@ -242,14 +235,15 @@ export default function SoundCloudPlayer({
         {/* Audio element without ReactAudioPlayer */}
         <audio ref={audioRef} src={track} />
         <div
-          className={` ${
-            isMaximised
-              ? "progress-bar-container-max"
-              : "progress-bar-container"
-          }`}
+          className={"progress-bar-container"}
           onClick={handleProgressBarClick}
+          style={{ zIndex: "999", right: "1%" }}
         >
-          <div className="track-info" onClick={(e) => e.stopPropagation()}>
+          <div
+            className="track-info"
+            onClick={(e) => e.stopPropagation()}
+            style={{ cursor: "pointer" }}
+          >
             <div className="info-text">
               <p>
                 <div className="controls">
@@ -336,25 +330,25 @@ export default function SoundCloudPlayer({
               <div
                 className="icon"
                 style={{
-                  height: `${hoveredTitle === chapter?.title ? "3px" : "1px"}`,
-
+                  height: hoveredChapter === chapter?.title ? "3px" : "1px",
                   top: `${
                     audioRef.current?.duration
                       ? (chapter.startTime / audioRef.current.duration) * 100
                       : 0
                   }%`,
-                  backgroundColor: `${
-                    hoveredTitle === chapter?.title ? "#7a0000" : "white"
-                  }`,
+                  backgroundColor:
+                    hoveredChapter === chapter?.title ? "#7a0000" : "white",
                 }}
+                onMouseEnter={() => setHoveredChapter(chapter?.title)}
+                onMouseLeave={() => setHoveredChapter("")}
               >
                 <span
                   className="tag"
                   style={{
                     backgroundColor: "black",
                     color: "white",
-
-                    opacity: `${hoveredTitle === chapter?.title ? "1" : "0"}`,
+                    opacity: hoveredChapter === chapter?.title ? "1" : "0",
+                    transition: "opacity 0.3s ease-in-out", // Smooth fade effect
                   }}
                 >
                   {chapter?.title}

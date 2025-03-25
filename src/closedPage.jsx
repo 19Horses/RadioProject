@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { styled, keyframes } from "styled-components";
 import { djs as items } from "./items.js";
+import { writers as items2 } from "./articles.js";
 import SoundCloudPlayer from "./soundcloudPlayer";
 import Header from "./header";
 import { useLocation } from "react-router-dom"; // Import this hook
@@ -163,6 +164,9 @@ export default function ClosedPage() {
   const [selectedTracklist, setSelectedTracklist] = useState([]);
   const location = useLocation();
   const [headerHover, setHeaderHover] = useState(false);
+  const [infoSelected, setInfoSelected] = useState(false);
+  const [articleHeaderSelected, setarticleHeaderSelected] = useState(false);
+  const [articleSelected, setArticleSelected] = useState(null);
 
   const resetInfo = () => {
     setSelectedTracklist(null);
@@ -204,6 +208,7 @@ export default function ClosedPage() {
 
   return (
     <>
+      <div className={"gradient-overlay-tl"} />
       {selectedTrack != "" && (
         <SoundCloudPlayer
           track={selectedTrack}
@@ -213,7 +218,7 @@ export default function ClosedPage() {
           tracklist={selectedTracklist}
         />
       )}
-      {selectedIndex === null && (
+      {selectedIndex === null && articleSelected === null && (
         <CustomCursor
           rpc={rpCount}
           t1={title}
@@ -223,7 +228,31 @@ export default function ClosedPage() {
           hovered={hovered}
         />
       )}
-      <Header />
+
+      <Header
+        onInfoClick={() => {
+          setInfoSelected(true);
+          resetInfo();
+          setarticleHeaderSelected(false);
+          setArticleSelected(null);
+          scrollToTop();
+        }}
+        onArticleClick={() => {
+          setInfoSelected(false);
+          setarticleHeaderSelected(true);
+          setArticleSelected(null);
+          resetInfo();
+          scrollToTop();
+        }}
+        onRadioClick={() => {
+          setInfoSelected(false);
+          setSelectedIndex(null);
+          setarticleHeaderSelected(false);
+          setArticleSelected(null);
+          setSelectedTracklist(null);
+          scrollToTop();
+        }}
+      />
       <div className="header-logo">
         <a href="/">
           <img
@@ -249,72 +278,118 @@ export default function ClosedPage() {
           />
         </a>
       </div>
-      <div
-        className={"total-container "}
-        style={{
-          pointerEvents: selectedIndex === null ? "" : "none",
-        }}
-      >
-        <div ref={flexContainer} className="flex-container">
-          {items.map((pic, i) => {
-            const isLeft = i < items.length / 2;
-            return (
-              <GridContainer
-                key={i}
-                $total={items.length}
-                $selectedIndex={selectedIndex}
-                $contents={i}
-                $isLeft={isLeft}
-              >
-                <PhotoContainer
-                  className="pc"
+      {!infoSelected && !articleHeaderSelected && (
+        <div
+          className={"total-container "}
+          style={{
+            pointerEvents: selectedIndex === null ? "" : "none",
+          }}
+        >
+          <div ref={flexContainer} className="flex-container">
+            {items.map((pic, i) => {
+              const isLeft = i < items.length / 2;
+              return (
+                <GridContainer
                   key={i}
-                  $contents={i}
-                  $selectedIndex={selectedIndex}
-                  $parentWidth={w}
                   $total={items.length}
+                  $selectedIndex={selectedIndex}
+                  $contents={i}
                   $isLeft={isLeft}
                 >
-                  <img
-                    src={pic.src}
-                    alt={pic.title}
-                    className="image"
-                    onMouseEnter={() => {
-                      setHovered(true);
-                      setRpCount(pic.rpCount);
-                      setTitle(pic.title);
-                      setTitle2(pic.title2);
-                      setTitle3(pic.title3);
-                      setIsLeft(isLeft);
-                      setHoveredIndex(i);
-                    }}
-                    onMouseLeave={() => {
-                      setHoveredIndex(null);
-                      setHovered(false);
-                      setRpCount("");
-                      setTitle("");
-                      setTitle2("");
-                      setTitle3("");
-                    }}
-                    onClick={() => {
-                      setSelectedIndex(pic.id);
-                      setSelectedTrack(items[pic.id]?.mixId);
-                      setSelectedChapters(pic?.chapters || []);
-                      setSelectedTracklist(pic?.tracklist || []);
-                      setSelectedTitle([pic?.rpCount + pic?.title]);
-                      setSelectedArtist(pic?.title2);
-                    }}
-                    style={{
-                      transition: "filter 0.3s ease-in-out",
-                    }}
-                  />
-                </PhotoContainer>
-              </GridContainer>
-            );
-          })}
+                  <PhotoContainer
+                    className="pc"
+                    key={i}
+                    $contents={i}
+                    $selectedIndex={selectedIndex}
+                    $parentWidth={w}
+                    $total={items.length}
+                    $isLeft={isLeft}
+                  >
+                    <img
+                      src={pic.src}
+                      alt={pic.title}
+                      className="image"
+                      onMouseEnter={() => {
+                        setHovered(true);
+                        setRpCount(pic.rpCount);
+                        setTitle(pic.title);
+                        setTitle2(pic.title2);
+                        setTitle3(pic.title3);
+                        setIsLeft(isLeft);
+                        setHoveredIndex(i);
+                      }}
+                      onMouseLeave={() => {
+                        setHoveredIndex(null);
+                        setHovered(false);
+                        setRpCount("");
+                        setTitle("");
+                        setTitle2("");
+                        setTitle3("");
+                      }}
+                      onClick={() => {
+                        setSelectedIndex(pic.id);
+                        setSelectedTrack(items[pic.id]?.mixId);
+                        setSelectedChapters(pic?.chapters || []);
+                        setSelectedTracklist(pic?.tracklist || []);
+                        setSelectedTitle([pic?.rpCount + pic?.title]);
+                        setSelectedArtist(pic?.title2);
+                      }}
+                      style={{
+                        transition: "filter 0.3s ease-in-out",
+                      }}
+                    />
+                  </PhotoContainer>
+                </GridContainer>
+              );
+            })}
+          </div>
         </div>
-      </div>
-
+      )}
+      {infoSelected == true && (
+        <div
+          className="selected-artist-container"
+          style={{
+            fontSize: "1.7vw",
+            fontWeight: "100",
+            paddingBottom: "3vh",
+          }}
+        >
+          <a
+            onClick={() => setInfoSelected(false)}
+            style={{ fontWeight: "1000", cursor: "pointer" }}
+          >
+            BACK
+          </a>
+          <p>RADIO PROJECT is a space for auditory and written agency.</p>
+          <p>RADIO PROJECT blah blah blah</p>
+          <p>RADIO PROJECT blah blah blah</p>
+          <a href="https://www.instagram.com/mkprote/" target="_blank">
+            {" "}
+            Elisha Olunaike
+          </a>
+          <br />
+          <br />
+          <br />
+          <a href="https://www.instagram.com/radio__project/" target="_blank">
+            Instagram
+          </a>
+          <br />
+          <a href="https://soundcloud.com/radio_project" target="_blank">
+            SoundCloud
+          </a>
+          <br />
+          <a
+            href="https://www.ninaprotocol.com/profiles/radio-project"
+            target="_blank"
+          >
+            Nina Protocol
+          </a>
+          <br />
+          <a href="mailto:contact@radioproject.live" target="_blank">
+            Contact
+          </a>
+        </div>
+      )}
       {selectedIndex != null && (
         <div className="selected-artist-container">
           <p className="back-button" onClick={() => resetInfo()}>
@@ -343,7 +418,7 @@ export default function ClosedPage() {
           </div>
 
           <div className="artist-pics">
-            <a href="https://www.instagram.com/ubiifuruuu/" target="_blank">
+            <a href={items[selectedIndex]?.igLink} target="_blank">
               <img
                 src={items[selectedIndex]?.["2ppSrc"]}
                 className="selected-artist-image"
@@ -356,6 +431,50 @@ export default function ClosedPage() {
               __html: items[selectedIndex]?.description,
             }}
           />
+        </div>
+      )}
+      {articleHeaderSelected && articleSelected === null && (
+        <>
+          <div className="article-grid">
+            {items2.map((pic, i) => {
+              return (
+                // Make sure to return the JSX
+                <div
+                  key={i}
+                  className="article-grid-item"
+                  onMouseEnter={() => {
+                    setIsLeft(false);
+                    setHovered(true);
+                    setRpCount(pic.rpCount);
+                    setTitle(pic.title);
+                    setTitle2(pic.title2);
+                    setTitle3(pic.title3);
+                    setHoveredIndex(i);
+                  }}
+                  onMouseLeave={() => {
+                    setHoveredIndex(null);
+                    setHovered(false);
+                    setRpCount("");
+                    setTitle("");
+                    setTitle2("");
+                    setTitle3("");
+                  }}
+                  onClick={() => {
+                    console.log(pic.id);
+                    setArticleSelected(pic);
+                  }}
+                >
+                  <img src={pic.src} alt={`Article ${i + 1}`} />{" "}
+                  {/* Use the pic.src here */}
+                </div>
+              );
+            })}
+          </div>
+        </>
+      )}
+      {articleSelected != null && (
+        <div>
+          <p>{articleSelected.description}</p>
         </div>
       )}
     </>

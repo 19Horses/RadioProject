@@ -1,6 +1,4 @@
 :root {
-
-
   color: rgb(0, 0, 0);
   background-color: #f7f7f7;
   cursor: url('./assets/indic.svg') 8 8, auto;
@@ -8,7 +6,6 @@
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
-  
 }
 
 i::selection,
