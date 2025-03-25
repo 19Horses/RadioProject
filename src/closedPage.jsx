@@ -284,7 +284,12 @@ export default function ClosedPage() {
             pointerEvents: selectedIndex === null ? "" : "none",
           }}
         >
-          <div ref={flexContainer} className="flex-container">
+          <div
+            ref={flexContainer}
+            className={`flex-container ${
+              selectedIndex != null ? "fadeOutGrid" : ""
+            }`}
+          >
             {items.map((pic, i) => {
               const isLeft = i < items.length / 2;
               return (

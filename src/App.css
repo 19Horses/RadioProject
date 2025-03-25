@@ -36,14 +36,20 @@
 
 @keyframes fadeOut{
   0%{
-    opacity: 1;
+    background-color: red;
+    opacity: .5;
   }
   100%{
+    background-color: white;
     opacity: 0;
   }
 }
 
   /* Adjust sizes, layout, and font sizes for very small screens */
+
+.fadeOutGrid{
+  animation: fadeOut 1s ease-in forwards;
+}
 
 
 .logo-header{
