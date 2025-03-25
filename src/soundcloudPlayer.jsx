@@ -363,6 +363,7 @@ export default function SoundCloudPlayer({
                   style={{
                     backgroundColor: "black",
                     color: "white",
+                    fontWeight: "bold",
                     opacity: hoveredChapter === chapter?.title ? "1" : "0",
                     transition: "opacity 0.3s ease-in-out", // Smooth fade effect
                   }}
