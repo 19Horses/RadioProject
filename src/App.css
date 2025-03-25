@@ -470,6 +470,7 @@ table{
   user-select: none;
   margin-right: .5rem; /* Add some space between the paragraphs */
   font-size: 31px ;
+  bottom: 0;
 }
 
 .article-grid {

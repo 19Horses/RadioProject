@@ -349,12 +349,12 @@ export default function ClosedPage() {
       )}
       {infoSelected == true && (
         <div className="info-container">
-          <a
+          {/* <a
             onClick={() => setInfoSelected(false)}
             style={{ fontWeight: "1000", cursor: "pointer" }}
           >
             BACK
-          </a>
+          </a> */}
           <p>RADIO PROJECT is a space for auditory and written agency.</p>
           <p>RADIO PROJECT blah blah blah</p>
           <p>RADIO PROJECT blah blah blah</p>
@@ -389,9 +389,9 @@ export default function ClosedPage() {
         <div className="selected-artist-container">
           <div className="all-left-cont">
             <div className="description-container">
-              <p className="back-button" onClick={() => resetInfo()}>
+              {/* <p className="back-button" onClick={() => resetInfo()}>
                 BACK
-              </p>
+              </p> */}
               <p className="description-header" style={{ fontSize: "3.7vh" }}>
                 <span
                   style={{
@@ -412,6 +412,23 @@ export default function ClosedPage() {
                 </span>
               </p>
             </div>
+            {/* <p className="description-header" style={{ fontSize: "1vh" }}>
+              <span
+                style={{
+                  fontFamily: "Helvetica",
+                  fontWeight: "100",
+                }}
+              >
+                {items[selectedIndex]?.broadcastDate}
+              </span>{" "}
+              <span
+                style={{
+                  padding: "2px 5px", // Optional for better visibility
+                }}
+              >
+                <b>{items[selectedIndex]?.length}</b>
+              </span>
+            </p> */}
             <div className="artist-pics">
               <a href={items[selectedIndex]?.igLink} target="_blank">
                 <img
