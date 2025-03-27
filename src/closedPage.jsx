@@ -295,7 +295,7 @@ export default function ClosedPage() {
         >
           <div
             ref={flexContainer}
-            className={`flex-container ${
+            className={`${isMobile ? "flex-container-mob" : "flex-container"} ${
               selectedIndex != null ? "fadeOutGrid" : ""
             }`}
           >
