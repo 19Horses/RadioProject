@@ -49,13 +49,14 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                 <a
                   className="header-item"
                   onClick={() => {
-                    onArticleClick();
-                    setSelected("Articles");
+                    // onArticleClick();
+                    // setSelected("Articles");
                     setMenuOpen(false);
                   }}
                   style={{
                     cursor: "pointer",
-                    color: selected === "Articles" ? "red" : "black",
+                    color: "black",
+                    // color: selected === "Articles" ? "red" : "black",
                   }}
                   target="_blank"
                 >
@@ -117,12 +118,13 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
             <a
               className="header-item"
               onClick={() => {
-                onArticleClick();
-                setSelected("Articles");
+                // onArticleClick();
+                // setSelected("Articles");
               }}
               style={{
                 cursor: "pointer",
-                color: selected === "Articles" ? "red" : "black",
+                // color: selected === "Articles" ? "red" : "black",
+                color: "black",
               }}
               target="_blank"
             >

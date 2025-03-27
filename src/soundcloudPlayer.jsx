@@ -279,7 +279,11 @@ export default function SoundCloudPlayer({
                   className="control-mob"
                   onClick={(e) => togglePlayPause(e)}
                 >
-                  {isPlaying ? <FaPause /> : <FaPlay />}
+                  {isPlaying ? (
+                    <FaPause style={{ color: "rgb(202, 202, 202)" }} />
+                  ) : (
+                    <FaPlay style={{ color: "rgb(202, 202, 202)" }} />
+                  )}
                 </a>
               </div>
               <div className="mix-info">
@@ -300,7 +304,7 @@ export default function SoundCloudPlayer({
                 <div style={{ height: "20px" }}>
                   <p
                     style={{
-                      fontSize: "1.8vh",
+                      fontSize: "1.4vh",
                       fontFamily: "Helvetica",
                       margin: "auto",
                       fontWeight: "1000",
@@ -383,13 +387,13 @@ export default function SoundCloudPlayer({
                     <div
                       className="control"
                       onClick={skipBackward}
-                      style={{ fontSize: "3.15vh" }}
+                      style={{ fontSize: "2.8vh", color: "gray" }}
                     >
                       {" "}
                       &#10226;
                     </div>
                     <a
-                      style={{ fontSize: "1.4vh" }}
+                      style={{ fontSize: "1.4vh", color: "gray" }}
                       className="control"
                       onClick={(e) => togglePlayPause(e)}
                     >
@@ -398,7 +402,7 @@ export default function SoundCloudPlayer({
                     <div
                       className="control"
                       onClick={skipForward}
-                      style={{ fontSize: "3.15vh" }}
+                      style={{ fontSize: "2.8vh", color: "gray" }}
                     >
                       &#10227;
                     </div>
@@ -486,18 +490,22 @@ export default function SoundCloudPlayer({
                 onMouseEnter={() => setHoveredChapter(chapter?.title)}
                 onMouseLeave={() => setHoveredChapter("")}
               >
-                <span
-                  className="tag"
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    fontWeight: "bold",
-                    opacity: hoveredChapter === chapter?.title ? "1" : "0",
-                    transition: "opacity 0.3s ease-in-out", // Smooth fade effect
-                  }}
-                >
-                  {chapter?.title}
-                </span>
+                {isMobile ? (
+                  <></>
+                ) : (
+                  <span
+                    className="tag"
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      fontWeight: "bold",
+                      opacity: hoveredChapter === chapter?.title ? "1" : "0",
+                      transition: "opacity 0.3s ease-in-out", // Smooth fade effect
+                    }}
+                  >
+                    {chapter?.title}
+                  </span>
+                )}
               </div>
             </React.Fragment>
           ))}

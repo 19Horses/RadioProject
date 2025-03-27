@@ -231,11 +231,11 @@ export default function ClosedPage() {
           scrollToTop();
         }}
         onArticleClick={() => {
-          setInfoSelected(false);
-          setarticleHeaderSelected(true);
-          setArticleSelected(null);
-          resetInfo();
-          scrollToTop();
+          // setInfoSelected(false);
+          // setarticleHeaderSelected(true);
+          // setArticleSelected(null);
+          // resetInfo();
+          // scrollToTop();
         }}
         onRadioClick={() => {
           setInfoSelected(false);
@@ -250,10 +250,12 @@ export default function ClosedPage() {
         className={`header-logo ${
           isMobile ? "header-logo-mob" : "header-logo-norm"
         }`}
+        style={{ cursor: "pointer" }}
       >
         <a
           onClick={() => {
             resetInfo();
+            setInfoSelected(false);
           }}
         >
           <img
@@ -367,32 +369,38 @@ export default function ClosedPage() {
           >
             BACK
           </a> */}
-          <p>RADIO PROJECT is a space for auditory and written agency.</p>
-          <p>RADIO PROJECT blah blah blah</p>
-          <p>RADIO PROJECT blah blah blah</p>
-          <a href="https://www.instagram.com/mkprote/" target="_blank">
-            {" "}
-            Elisha Olunaike
-          </a>
-          <br />
-          <br />
-          <br />
-          <a href="https://www.instagram.com/radio__project/" target="_blank">
-            Instagram
-          </a>
-          <br />
-          <a href="https://soundcloud.com/radio_project" target="_blank">
-            SoundCloud
-          </a>
-          <br />
+          <p>
+            <b>RADIO PROJECT</b> is a space for auditory and written agency.
+          </p>
+          <p>
+            <b>RADIO PROJECT</b> aims to spotlight individuals by broadcasting
+            mixes and conducting interviews.
+          </p>
+          <p>
+            <b>RADIO PROJECT</b> intends to inform through written articles made
+            by individuals.
+          </p>
           <a
-            href="https://www.ninaprotocol.com/profiles/radio-project"
+            href="https://www.instagram.com/mkprote/"
+            style={{
+              color: "black",
+              textDecoration: "none",
+              fontSize: "2.2vh",
+            }}
             target="_blank"
           >
-            Nina Protocol
+            {" "}
+            by Elisha Olunaike
           </a>
           <br />
-          <a href="mailto:contact@radioproject.live" target="_blank">
+          <br />
+          <br />
+
+          <a
+            href="mailto:contact@radioproject.live"
+            style={{ color: "black", textDecoration: "none" }}
+            target="_blank"
+          >
             Contact
           </a>
         </div>
@@ -454,15 +462,20 @@ export default function ClosedPage() {
               >
                 <div>
                   <p className="slight-info" style={{ fontSize: "1.2vh" }}>
-                    <span
+                    <a
                       style={{
                         fontWeight: "100",
                         fontSize: "2vh",
                         lineHeight: "1.5",
+                        textDecoration: "none",
+                        cursor: "pointer",
+                        color: "black",
                       }}
+                      href="https://www.instagram.com/ubiifuruuu/"
+                      target="_blank"
                     >
                       <b>{items[selectedIndex]?.title2}</b>
-                    </span>
+                    </a>
                     <br />
                     <span
                       style={{

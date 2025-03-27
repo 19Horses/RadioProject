@@ -163,17 +163,17 @@
   animation: fadeIn .3s ease-in forwards;
   animation-delay: .5s;
   transition: all .3s;
-  width: 30vw;
+  width: 40vw;
   height: auto;
   font-weight: 100;
   font-family: Helvetica;
   color: black;
-  font-size: 1.2vh;
+  font-size: 3vh;
 }
 
 .info-mob-addon{
-  width: 100vw;
-  font-size: 3vh;
+  width: 70%;
+  font-size: 2vh;
 }
 
 .artist-pics{
@@ -263,6 +263,8 @@
 
 
 
+
+
 .track-info{
   cursor: cell;
   text-align: right;
@@ -279,13 +281,13 @@
   position: fixed;
   bottom: 0%;
   left: 0;
-  height: 7vh;
+  height: 6vh;
   width: 100vw;
   background-color: white;
 }
 
 .track-info-addon img{
-  height: 7vh;
+  height: 6vh;
 }
 
 /* Ensure header takes full width and aligns items */
@@ -430,6 +432,7 @@
   display: inline-block;
   white-space: nowrap;
   animation: scroll-left 10s linear infinite;
+  font-size: 1.8vh;
 }
 
 
