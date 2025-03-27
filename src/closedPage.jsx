@@ -1,4 +1,4 @@
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { styled, keyframes } from "styled-components";
 import { djs as items } from "./items.js";
 import { writers as items2 } from "./articles.js";
@@ -166,6 +166,7 @@ export default function ClosedPage() {
   const [infoSelected, setInfoSelected] = useState(false);
   const [articleHeaderSelected, setarticleHeaderSelected] = useState(false);
   const [articleSelected, setArticleSelected] = useState(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const resetInfo = () => {
     setSelectedTracklist(null);
@@ -204,6 +205,12 @@ export default function ClosedPage() {
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, [flexContainer]);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
 
   return (
     <>
@@ -252,7 +259,11 @@ export default function ClosedPage() {
           scrollToTop();
         }}
       />
-      <div className="header-logo">
+      <div
+        className={`header-logo ${
+          isMobile ? "header-logo-mob" : "header-logo-norm"
+        }`}
+      >
         <a href="/">
           <img
             onMouseOver={() => {
@@ -277,6 +288,7 @@ export default function ClosedPage() {
           />
         </a>
       </div>
+
       {!infoSelected && !articleHeaderSelected && (
         <div
           className={"total-container "}
@@ -350,7 +362,7 @@ export default function ClosedPage() {
         </div>
       )}
       {infoSelected == true && (
-        <div className="info-container">
+        <div className={`info-container ${isMobile ? "info-mob-addon" : ""}`}>
           {/* <a
             onClick={() => setInfoSelected(false)}
             style={{ fontWeight: "1000", cursor: "pointer" }}
@@ -388,65 +400,218 @@ export default function ClosedPage() {
         </div>
       )}
       {selectedIndex != null && (
-        <div className="selected-artist-container">
-          <div className="all-left-cont">
-            <div className="description-container">
-              {/* <p className="back-button" onClick={() => resetInfo()}>
+        <>
+          <div
+            className={` ${
+              isMobile
+                ? "selected-artist-container-mob-addon"
+                : "selected-artist-container"
+            }`}
+          >
+            <div
+              className="all-left-cont"
+              style={{ top: isMobile ? "20%" : "" }}
+            >
+              <div className="description-container">
+                {/* <p className="back-button" onClick={() => resetInfo()}>
                 BACK
               </p> */}
-              <p className="description-header" style={{ fontSize: "3.7vh" }}>
-                <span
-                  style={{
-                    fontFamily: "Helvetica",
-                    fontWeight: "100",
-                  }}
-                >
-                  {items[selectedIndex]?.rpCount}
-                </span>{" "}
-                <span
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    padding: "2px 5px", // Optional for better visibility
-                  }}
-                >
-                  <b>{items[selectedIndex]?.title}</b>
-                </span>
-              </p>
-            </div>
-            {/* <p className="description-header" style={{ fontSize: "1vh" }}>
-              <span
+                <p className="description-header" style={{ fontSize: "3.7vh" }}>
+                  <span
+                    style={{
+                      fontFamily: "Helvetica",
+                      fontWeight: "100",
+                    }}
+                  >
+                    {items[selectedIndex]?.rpCount}
+                  </span>{" "}
+                  <span
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      padding: "2px 5px", // Optional for better visibility
+                    }}
+                  >
+                    <b>{items[selectedIndex]?.title}</b>
+                  </span>
+                </p>
+              </div>
+
+              <div className="artist-pics">
+                <a href={items[selectedIndex]?.igLink} target="_blank">
+                  <img
+                    src={items[selectedIndex]?.["2ppSrc"]}
+                    className="selected-artist-image"
+                  />
+                </a>
+              </div>
+              <div
                 style={{
-                  fontFamily: "Helvetica",
-                  fontWeight: "100",
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingTop: "2vh",
                 }}
               >
-                {items[selectedIndex]?.broadcastDate}
-              </span>{" "}
-              <span
-                style={{
-                  padding: "2px 5px", // Optional for better visibility
+                <div>
+                  <p className="slight-info" style={{ fontSize: "1.2vh" }}>
+                    <span
+                      style={{
+                        fontWeight: "100",
+                        fontSize: "2vh",
+                        lineHeight: "1.5",
+                      }}
+                    >
+                      <b>{items[selectedIndex]?.title2}</b>
+                    </span>
+                    <br />
+                    <span
+                      style={{
+                        fontWeight: "100",
+                      }}
+                    >
+                      {items[selectedIndex]?.broadcastDate}
+                    </span>
+                    <br />
+                    <span
+                      style={{
+                        fontWeight: "100",
+                      }}
+                    >
+                      {items[selectedIndex]?.length}
+                    </span>
+                  </p>
+                </div>
+
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "stretch", // Ensures child elements stretch to full height
+                    border: "1px solid black",
+                    paddingLeft: ".8vh",
+                    paddingRight: ".8vh",
+                    fontSize: "1.2vh",
+                    height: "100%", // Makes the div take full height of the parent
+                    margin: "auto",
+                    marginRight: "0",
+                  }}
+                >
+                  <p>
+                    <b>{items[selectedIndex]?.genre}</b>
+                  </p>
+                </div>
+                <div
+                  className="socials"
+                  style={{
+                    display: "flex",
+                    margin: "auto",
+                    marginRight: "0",
+                  }}
+                >
+                  <a href={items[selectedIndex]?.scLink} target="_blank">
+                    <img src="/sc.svg" className="sc-logo" />
+                  </a>
+                  <a href={items[selectedIndex]?.npLink} target="_blank">
+                    <img src="/np.png" className="sc-logo" />
+                  </a>
+                  <a href={items[selectedIndex]?.igLink} target="_blank">
+                    <img src="/ig.jpg" className="sc-logo" />
+                  </a>
+                </div>
+              </div>
+              <p
+                style={{ fontSize: "2.9vh", fontWeight: "100" }}
+                dangerouslySetInnerHTML={{
+                  __html: items[selectedIndex]?.description,
                 }}
-              >
-                <b>{items[selectedIndex]?.length}</b>
-              </span>
-            </p> */}
-            <div className="artist-pics">
-              <a href={items[selectedIndex]?.igLink} target="_blank">
-                <img
-                  src={items[selectedIndex]?.["2ppSrc"]}
-                  className="selected-artist-image"
-                />
-              </a>
+              />
             </div>
-            <p
-              style={{ fontSize: "2.9vh", fontWeight: "100" }}
-              dangerouslySetInnerHTML={{
-                __html: items[selectedIndex]?.description,
-              }}
-            />
           </div>
-        </div>
+
+          <div className={`tracklist-mobile`}>
+            {isMobile ? (
+              <table>
+                {items[selectedIndex]?.tracklist?.map((mixTrack, index) => (
+                  <React.Fragment key={index}>
+                    {mixTrack.title === "RADIO (a)" ||
+                    mixTrack.title === "PROJECT" ||
+                    mixTrack.title === "RADIO (b)" ? (
+                      <tr style={{ width: "100%", height: "3vh" }}></tr>
+                    ) : null}
+                    <tr
+                      className="mix-track"
+                      style={{
+                        cursor:
+                          mixTrack.title === "RADIO (a)" ||
+                          mixTrack.title === "PROJECT" ||
+                          mixTrack.title === "RADIO (b)"
+                            ? "pointer"
+                            : "",
+                        width: "100%",
+                      }}
+                    >
+                      <td
+                        className="mix-track"
+                        style={{
+                          color:
+                            mixTrack?.title !== "UNRELEASED"
+                              ? "red"
+                              : mixTrack.title === "RADIO (a)" ||
+                                mixTrack.title === "PROJECT" ||
+                                mixTrack.title === "RADIO (b)"
+                              ? "rgb(255, 0, 0)"
+                              : "black",
+                          textAlign: "left",
+                          width: "100vw",
+                          paddingRight: "1vw",
+                          lineHeight: mixTrack?.artist === "" ? ".5" : "",
+                        }}
+                      >
+                        <b
+                          className="mix-track"
+                          style={{
+                            backgroundColor:
+                              mixTrack?.title === "UNRELEASED" ? "black" : "",
+                            color: "black",
+                            fontWeight: mixTrack?.artist === "" ? "100" : "",
+                          }}
+                        >
+                          {mixTrack.title}
+                        </b>
+                      </td>
+                    </tr>
+                    <tr
+                      className="mix-track"
+                      style={{
+                        cursor:
+                          mixTrack.title === "RADIO (a)" ||
+                          mixTrack.title === "PROJECT" ||
+                          mixTrack.title === "RADIO (b)"
+                            ? "pointer"
+                            : "",
+                        width: "100%",
+                        animationDelay: `${index * 0.0375}s`,
+                      }}
+                    >
+                      <td
+                        style={{
+                          color: "rgb(137, 137, 137)",
+                          fontWeight: "100",
+                          paddingRight: "1vw",
+                          lineHeight: ".5",
+                          paddingBottom: "1vh",
+                        }}
+                      >
+                        {mixTrack.artist}
+                      </td>
+                    </tr>
+                  </React.Fragment>
+                ))}
+              </table>
+            ) : (
+              <></>
+            )}
+          </div>
+        </>
       )}
       {articleHeaderSelected && articleSelected === null && (
         <>

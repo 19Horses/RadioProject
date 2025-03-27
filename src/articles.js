@@ -1,15 +1,15 @@
 import {rpa1} from './assets/rpa1'
 
 export const writers = [
-//   {
-//     "id": 0,
-//     "src": rpa1.p,
-//     "rpCount": "RPA1 ♪ ",
-//     "title": "Anouk Losleben",
-//     "title2": "\"Anouk's Article\"",
-//     "title3": "<b>Textile Designer</b> ",
-//     "description": "article 1.",
-//   },
+   {
+     "id": 0,
+     "src": rpa1.p,
+     "rpCount": "RPA1 ♪ ",
+     "title": "Anouk Losleben",
+     "title2": "\"Anouk's Article\"",
+     "title3": "<b>Textile Designer</b> ",
+     "description": "article 1.",
+   },
 //   {
 //     "id": 1,
 //     "src": rpa1.p,

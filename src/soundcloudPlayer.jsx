@@ -17,6 +17,7 @@ export default function SoundCloudPlayer({
   const [shouldScroll, setShouldScroll] = useState(false);
   const titleRef = useRef(null);
   const containerRef = useRef(null);
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const togglePlayPause = () => {
     if (!audioRef.current) return;
@@ -110,6 +111,12 @@ export default function SoundCloudPlayer({
     };
   }, []);
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   const skipForward = () => {
     if (audioRef.current) {
       audioRef.current.currentTime = Math.min(
@@ -150,86 +157,90 @@ export default function SoundCloudPlayer({
     <>
       {tracklist != null && (
         <div className={`tracklist `}>
-          <table>
-            {tracklist?.map((mixTrack, index) => (
-              <React.Fragment key={index}>
-                {mixTrack.title === "RADIO (a)" ||
-                mixTrack.title === "PROJECT" ||
-                mixTrack.title === "RADIO (b)" ? (
-                  <tr style={{ width: "100%", height: "1vh" }}></tr>
-                ) : null}
-                <tr
-                  className="mix-track"
-                  style={{
-                    cursor:
-                      mixTrack.title === "RADIO (a)" ||
-                      mixTrack.title === "PROJECT" ||
-                      mixTrack.title === "RADIO (b)"
-                        ? "pointer"
-                        : "",
-                    width: "100%",
-                    animationDelay: `${index * 0.0375}s`,
-                  }}
-                  onClick={(e) => {
-                    if (
-                      mixTrack.title === "RADIO (a)" ||
-                      mixTrack.title === "PROJECT" ||
-                      mixTrack.title === "RADIO (b)"
-                    ) {
-                      handleChapterClick(mixTrack.startTime, e);
-                    }
-                  }}
-                  onMouseEnter={() => {
-                    setHoveredTitle(mixTrack.title);
-                  }}
-                  onMouseLeave={() => setHoveredTitle("")}
-                >
-                  <td
+          {isMobile ? (
+            <></>
+          ) : (
+            <table>
+              {tracklist?.map((mixTrack, index) => (
+                <React.Fragment key={index}>
+                  {mixTrack.title === "RADIO (a)" ||
+                  mixTrack.title === "PROJECT" ||
+                  mixTrack.title === "RADIO (b)" ? (
+                    <tr style={{ width: "100%", height: "1vh" }}></tr>
+                  ) : null}
+                  <tr
                     className="mix-track"
                     style={{
-                      color:
-                        hoveredTitle === mixTrack?.title &&
-                        mixTrack?.title !== "UNRELEASED"
-                          ? "red"
-                          : mixTrack.title === "RADIO (a)" ||
-                            mixTrack.title === "PROJECT" ||
-                            mixTrack.title === "RADIO (b)"
-                          ? "rgb(255, 0, 0)"
-                          : "black",
-                      textAlign: "right",
-                      width: "30vw",
-                      paddingLeft: "1vw",
-                      paddingRight: "1vw",
+                      cursor:
+                        mixTrack.title === "RADIO (a)" ||
+                        mixTrack.title === "PROJECT" ||
+                        mixTrack.title === "RADIO (b)"
+                          ? "pointer"
+                          : "",
+                      width: "100%",
+                      animationDelay: `${index * 0.0375}s`,
                     }}
+                    onClick={(e) => {
+                      if (
+                        mixTrack.title === "RADIO (a)" ||
+                        mixTrack.title === "PROJECT" ||
+                        mixTrack.title === "RADIO (b)"
+                      ) {
+                        handleChapterClick(mixTrack.startTime, e);
+                      }
+                    }}
+                    onMouseEnter={() => {
+                      setHoveredTitle(mixTrack.title);
+                    }}
+                    onMouseLeave={() => setHoveredTitle("")}
                   >
-                    <b
+                    <td
                       className="mix-track"
                       style={{
-                        backgroundColor:
-                          hoveredChapter === mixTrack?.title ||
-                          mixTrack?.title === "UNRELEASED"
-                            ? "black"
-                            : "",
                         color:
-                          hoveredChapter === mixTrack?.title ? "white" : "",
-                        fontWeight: mixTrack?.artist === "" ? "100" : "",
+                          hoveredTitle === mixTrack?.title &&
+                          mixTrack?.title !== "UNRELEASED"
+                            ? "red"
+                            : mixTrack.title === "RADIO (a)" ||
+                              mixTrack.title === "PROJECT" ||
+                              mixTrack.title === "RADIO (b)"
+                            ? "rgb(255, 0, 0)"
+                            : "black",
+                        textAlign: "right",
+                        width: "30vw",
+                        paddingLeft: "1vw",
+                        paddingRight: "1vw",
                       }}
                     >
-                      {mixTrack.title}
-                    </b>
-                  </td>
-                  <td
-                    style={{
-                      color: "rgb(137, 137, 137)",
-                      fontWeight: "100",
-                    }}
-                  >
-                    {mixTrack.artist}
-                  </td>
-                </tr>
-              </React.Fragment>
-            ))}
-          </table>
+                      <b
+                        className="mix-track"
+                        style={{
+                          backgroundColor:
+                            hoveredChapter === mixTrack?.title ||
+                            mixTrack?.title === "UNRELEASED"
+                              ? "black"
+                              : "",
+                          color:
+                            hoveredChapter === mixTrack?.title ? "white" : "",
+                          fontWeight: mixTrack?.artist === "" ? "100" : "",
+                        }}
+                      >
+                        {mixTrack.title}
+                      </b>
+                    </td>
+                    <td
+                      style={{
+                        color: "rgb(137, 137, 137)",
+                        fontWeight: "100",
+                      }}
+                    >
+                      {mixTrack.artist}
+                    </td>
+                  </tr>
+                </React.Fragment>
+              ))}
+            </table>
+          )}
         </div>
       )}
 
@@ -242,16 +253,18 @@ export default function SoundCloudPlayer({
       >
         <audio ref={audioRef} src={track} />
         <div
-          className={"progress-bar-container"}
+          className={`progress-bar-container ${
+            isMobile ? "progress-bar-container-mob" : ""
+          }`}
           onClick={handleProgressBarClick}
-          style={{ zIndex: "999", right: "1%" }}
+          style={{ zIndex: "999" }}
         >
-          <div
-            className="track-info"
+          {/* <div
+            className={`track-info ${isMobile ? "track-info-addon" : ""}`}
             onClick={(e) => e.stopPropagation()}
             style={{ cursor: "pointer" }}
           >
-            <div className="info-text">
+            <div className={`info-text `}>
               <p>
                 <div className="controls">
                   <div
@@ -277,7 +290,12 @@ export default function SoundCloudPlayer({
                     &#10227;
                   </div>
                 </div>
-                <div ref={containerRef} className="scrolling-title-container">
+                <div
+                  ref={containerRef}
+                  className={`scrolling-title-container ${
+                    isMobile ? "scrolling-title-container-mob-addon" : ""
+                  }`}
+                >
                   <div className="gradient-overlay" />
                   <div
                     ref={titleRef}
@@ -314,7 +332,7 @@ export default function SoundCloudPlayer({
                   : "--:--"}
               </p>
             </div>
-          </div>
+          </div> */}
 
           <div
             className="progress-bar"

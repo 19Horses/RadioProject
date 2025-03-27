@@ -72,8 +72,8 @@
 .flex-container {
   position: relative;
   display: flex;
-  width: 70vh; 
-  height: 70vh; 
+  width: 250px; 
+  height: 250px; 
   
 }
 
@@ -122,6 +122,27 @@
   animation-delay: .5s;
   transition: all .3s;
   width: 30vw;
+  font-family: Helvetica;
+  color: black;
+  font-size: 1.2vw;
+}
+
+.selected-artist-container-mob-addon{
+  opacity: 0;
+  height: 100vh;
+  position: absolute; 
+  display: block;
+  padding-top: 3vh;
+  padding-left: 3vh;
+  bottom: 0;
+  left: 0;
+  animation: fadeIn .3s ease-in forwards;
+  animation-delay: .5s;
+  transition: all .3s;
+  width: 85%;
+  font-family: Helvetica;
+  color: black;
+  font-size: 1.2vw;
 }
 
 .info-container {
@@ -136,7 +157,15 @@
   transition: all .3s;
   width: 30vw;
   height: auto;
-  font-weight: 100,
+  font-weight: 100;
+  font-family: Helvetica;
+  color: black;
+  font-size: 1.2vh;
+}
+
+.info-mob-addon{
+  width: 100vw;
+  font-size: 3vh;
 }
 
 .artist-pics{
@@ -150,31 +179,8 @@
   transition: all .4s;
 }
 
-.info-container p, a {
-  font-family: Helvetica;
-  color: black;
-  font-size: 1.2vw;
-}
-
 .info-container a {
-  line-height: 3vh;
   text-decoration:none;
-}
-
-.info-container p {
-  line-height: 2.3vh;
-}
-
-.selected-artist-container p {
-  font-family: Helvetica;
-  color: black;
-  font-size: 1.2vw;
-}
-
-.selected-artist-container a {
-  font-family: Helvetica;
-  color: black;
-  font-size: 1.2vw;
 }
 
 .track-info p {
@@ -194,6 +200,14 @@
   background-color: rgb(202, 202, 202);
   cursor: e-resize;
   transition: all 1s;
+  right: 1%
+}
+
+.progress-bar-container-mob {
+  bottom: initial;
+  height: 95%;
+  top: 1.5%;
+  right: 3%
 }
 
 
@@ -212,6 +226,12 @@
 
 }
 
+.sc-logo {
+  display: flex;
+  height: 12px;
+  padding-left: 10px;
+
+}
 
 .chapter-slit{
   position: absolute;
@@ -239,11 +259,24 @@
   cursor: cell;
   text-align: right;
   position: fixed; 
-  /* 285px */
   width: 19.5vw;
   bottom: 0;
   right: 5vh;
   bottom: 2vh;
+}
+
+.track-info-addon{
+  padding-top: 3vh;
+  bottom: 0vh;
+  background: linear-gradient(
+    to bottom,
+    rgba(247, 247, 247, 0) 0%,
+    rgb(247, 247, 247) 40%,
+    rgb(247, 247, 247) 85%,
+    rgba(0, 255, 26, 0) 100%
+    
+  ); 
+  width: 91vw;
 }
 
 /* Ensure header takes full width and aligns items */
@@ -269,10 +302,29 @@
   overflow: hidden;
   height: 20vh;
   z-index: 991;
+  
+}
+
+.header-logo .second{
+  position: fixed;
+  top: 0;
+  opacity: 0;
+  transform: translateX(-20%);
+  width: 11vh;
+}
+
+.header-logo-norm{
+  width: 11vh;
+
+}
+
+.header-logo-mob{
+  width: 50px;
+  height: 50px;
 }
 
 .header-logo img {
-  width: 50%;
+    width: 100%;
   height: auto;
   max-width: 100%;
   object-fit: contain; /* Keeps aspect ratio */
@@ -280,10 +332,7 @@
   transition: all .5s;
 }
 
-.header-logo .second{
-  opacity: 0;
-  transform: translateX(-30%)
-}
+
 
 .scrolling-title-container {
   width: 100%; /* Adjust based on your design */
@@ -297,6 +346,11 @@
   background-color: black;
 }
 
+.scrolling-title-container-mob-addon {
+  height: 33px;
+  font-size: 4vh;
+}
+
 .gradient-overlay-tl {
   position: fixed;
   top: 0;
@@ -305,7 +359,7 @@
   height: 100vh;
   background: linear-gradient(
     to bottom,
-    rgb(255, 255, 255) 0%,
+    rgb(247, 247, 247) 0%,
     rgba(255, 255, 255, 0) 15%,
     rgba(255, 255, 255, 0) 85%
     
@@ -406,6 +460,22 @@ position: absolute;
   
 }
 
+.tracklist-mobile{
+  opacity: 1;
+  animation-delay: .5s;
+  font-family: Helvetica;
+  font-size: 1.77vh;
+  color: black;
+  position: absolute;
+   width: 80%;
+  padding-bottom: 10vh;
+  padding-top: 5vh;
+  padding-left: 2vh;
+}
+
+
+
+
 
 
 .mix-track{
@@ -474,6 +544,13 @@ table{
   
 }
 
+.slight-info {
+  user-select: none;
+  font-size: 31px ;
+  bottom: 0;
+  
+}
+
 .article-grid {
   display: grid;
   grid-template-columns: repeat(4, 1fr); /* 5 columns */
@@ -501,3 +578,61 @@ table{
   height: 100%;
   object-fit:scale-down; /* Ensure images fill the squares */
 }
+
+
+.menu-toggle-container{
+  width: 100%;
+  height: 44px;
+  position: fixed;
+  top: 0vh;
+  left:0vw;
+  z-index: 1000;
+}
+
+.menu-toggle {
+  
+  position: absolute;
+  background: none;
+  border: none;
+  font-size: 2rem;
+  right: 2%;
+  cursor: pointer;
+  color: black;
+  
+}
+
+.dropdown-menu {
+  position: fixed;
+  top:44px; /* Start at the top of the viewport */
+  right: 0; /* Start at the left of the viewport */
+  width: 100vw; /* Full width of the viewport */
+  height: 100vh; /* Full height of the viewport */
+  padding-right: 2%;
+  display: flex;
+  flex-direction: column;
+  z-index: 990;
+  background-color: rgba(247, 247, 247, 0.95); /* Optional: Add a background color */
+}
+
+.dropdown-menu .header-item {
+  padding: 10px;
+  
+  text-align: right;
+  width: 90%;
+
+}
+
+@keyframes slideIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+
+.slide-in{
+  animation: slideIn .5s forwards;
+}
+

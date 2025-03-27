@@ -12,8 +12,11 @@ export const djs = [
     "description": "<b><i>ubi</i></b> sits and talks with us about his <b>inspirations, video game soundtracks and gives insight into his event organisation, EXXTRALIFE.</b> <br /><br /><b><i>ubi</i></b> is an <b>electronic producer and DJ</b>, as well as a <b>web developer</b> with strong design sensibilities, hailing from Ireland, now based in North London.",
     "mixId": "https://d2rmb5ql8vpbx8.cloudfront.net/RP1.wav",
     "igLink": "https://www.instagram.com/ubiifuruuu/",
+    "scLink": "https://soundcloud.com/radio_project",
+    "npLink": "https://www.ninaprotocol.com/profiles/radio-project",
     "broadcastDate": "13/4/25 15:00",
     "length": "(1 Hour and 26 Minutes)",
+    "genre": "ELECTRO-POP",
     "chapters": [
       { "startTime": 0, "title": "RADIO (a)" },
       { "startTime": 1954, "title": "PROJECT" },
