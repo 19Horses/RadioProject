@@ -161,6 +161,7 @@ export default function ClosedPage() {
   const [selectedTitle, setSelectedTitle] = useState("");
   const [selectedArtist, setSelectedArtist] = useState("");
   const [selectedTracklist, setSelectedTracklist] = useState([]);
+  const [selectedPic, setSelectedPic] = useState("");
   const location = useLocation();
   const [headerHover, setHeaderHover] = useState(false);
   const [infoSelected, setInfoSelected] = useState(false);
@@ -177,21 +178,6 @@ export default function ClosedPage() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  useEffect(() => {
-    // Check the pathname instead of hash when using HashRouter
-    if (location.pathname === "/ubiifuruuu") {
-      setSelectedIndex(1);
-      const selectedItem = items[1];
-      if (selectedItem) {
-        setSelectedTrack(selectedItem.mixId);
-        setSelectedChapters(selectedItem.chapters || []);
-        setSelectedTracklist(selectedItem.tracklist || []);
-        setSelectedTitle(selectedItem.rpCount + selectedItem.title);
-        setSelectedArtist(selectedItem.title2);
-      }
-    }
-  }, [location]);
 
   useEffect(() => {
     console.log({ isLeft });
@@ -217,6 +203,7 @@ export default function ClosedPage() {
       <div className={"gradient-overlay-tl"} />
       {selectedTrack != "" && (
         <SoundCloudPlayer
+          pic={selectedPic}
           track={selectedTrack}
           chapters={selectedChapters}
           title={selectedTitle}
@@ -264,11 +251,21 @@ export default function ClosedPage() {
           isMobile ? "header-logo-mob" : "header-logo-norm"
         }`}
       >
-        <a href="/">
+        <a
+          onClick={() => {
+            resetInfo();
+          }}
+        >
           <img
-            onMouseOver={() => {
-              setHeaderHover(true);
-            }}
+            onMouseOver={`${
+              isMobile
+                ? () => {
+                    setHeaderHover(true);
+                  }
+                : () => {
+                    setHeaderHover(false);
+                  }
+            }`}
             onMouseLeave={() => {
               setHeaderHover(false);
             }}
@@ -277,7 +274,7 @@ export default function ClosedPage() {
             alt="Logo"
           />
         </a>
-        <a href="/">
+        <a>
           <img
             className="second"
             style={{
@@ -349,6 +346,7 @@ export default function ClosedPage() {
                         setSelectedTracklist(pic?.tracklist || []);
                         setSelectedTitle([pic?.rpCount + pic?.title]);
                         setSelectedArtist(pic?.title2);
+                        setSelectedPic(pic?.src);
                       }}
                       style={{
                         transition: "filter 0.3s ease-in-out",
@@ -410,7 +408,9 @@ export default function ClosedPage() {
           >
             <div
               className="all-left-cont"
-              style={{ top: isMobile ? "20%" : "" }}
+              style={{
+                top: isMobile ? "7%" : "",
+              }}
             >
               <div className="description-container">
                 {/* <p className="back-button" onClick={() => resetInfo()}>
@@ -438,7 +438,7 @@ export default function ClosedPage() {
               </div>
 
               <div className="artist-pics">
-                <a href={items[selectedIndex]?.igLink} target="_blank">
+                <a onClick={() => resetInfo()} target="_blank">
                   <img
                     src={items[selectedIndex]?.["2ppSrc"]}
                     className="selected-artist-image"
@@ -519,15 +519,19 @@ export default function ClosedPage() {
                 </div>
               </div>
               <p
-                style={{ fontSize: "2.9vh", fontWeight: "100" }}
+                style={{
+                  fontSize: "2.9vh",
+                  fontWeight: "100",
+                }}
                 dangerouslySetInnerHTML={{
                   __html: items[selectedIndex]?.description,
                 }}
               />
+              {isMobile ? <div style={{ height: "100px" }} /> : <></>}
             </div>
           </div>
 
-          <div className={`tracklist-mobile`}>
+          {/* <div className={`tracklist-mobile`}>
             {isMobile ? (
               <table>
                 {items[selectedIndex]?.tracklist?.map((mixTrack, index) => (
@@ -610,7 +614,7 @@ export default function ClosedPage() {
             ) : (
               <></>
             )}
-          </div>
+          </div> */}
         </>
       )}
       {articleHeaderSelected && articleSelected === null && (

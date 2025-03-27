@@ -129,11 +129,12 @@
 
 .selected-artist-container-mob-addon{
   opacity: 0;
-  height: 100vh;
+  height: auto;
   position: absolute; 
   display: block;
   padding-top: 3vh;
   padding-left: 3vh;
+  top: 0;
   bottom: 0;
   left: 0;
   animation: fadeIn .3s ease-in forwards;
@@ -143,6 +144,7 @@
   font-family: Helvetica;
   color: black;
   font-size: 1.2vw;
+  margin-bottom: 10vh ;
 }
 
 .info-container {
@@ -205,7 +207,7 @@
 
 .progress-bar-container-mob {
   bottom: initial;
-  height: 95%;
+  height: 90%;
   top: 1.5%;
   right: 3%
 }
@@ -265,18 +267,19 @@
   bottom: 2vh;
 }
 
+
+
 .track-info-addon{
-  padding-top: 3vh;
-  bottom: 0vh;
-  background: linear-gradient(
-    to bottom,
-    rgba(247, 247, 247, 0) 0%,
-    rgb(247, 247, 247) 40%,
-    rgb(247, 247, 247) 85%,
-    rgba(0, 255, 26, 0) 100%
-    
-  ); 
-  width: 91vw;
+  position: fixed;
+  bottom: 0%;
+  left: 0;
+  height: 7vh;
+  width: 100vw;
+  background-color: white;
+}
+
+.track-info-addon img{
+  height: 7vh;
 }
 
 /* Ensure header takes full width and aligns items */
@@ -347,8 +350,31 @@
 }
 
 .scrolling-title-container-mob-addon {
-  height: 33px;
-  font-size: 4vh;
+  font-family: Helvetica;
+  width: 100%; /* Adjust based on your design */
+  font-size: 2vh;
+  overflow: hidden;
+  white-space: nowrap;
+  position: relative;
+  background-color: white;
+  color: black;
+  
+}
+
+.gradient-overlay-mob {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgb(255, 255, 255) 0%,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0) 90%,
+    rgb(255, 255, 255) 100%
+  );  pointer-events: none; /* Ensure the overlay does not block interactions */
+  z-index: 1; /* Ensure the overlay is above the text */
 }
 
 .gradient-overlay-tl {
@@ -361,7 +387,7 @@
     to bottom,
     rgb(247, 247, 247) 0%,
     rgba(255, 255, 255, 0) 15%,
-    rgba(255, 255, 255, 0) 85%
+    rgba(255, 255, 255, 0) 100%
     
   ); 
   pointer-events: none;
@@ -385,21 +411,28 @@
 }
 
 .scrolling-title {
-  background-color: black;
-  color: white;
-  font-family: "VCR";
+  background-color: rgb(0, 0, 0);
+  color: rgb(255, 255, 255);
   display: inline-block;
   white-space: nowrap;
   animation: scroll-left 10s linear infinite;
-  text-transform:uppercase; /* Capitalize the first letter of each word */
 }
+
+.scrolling-title-mob {
+  background-color: rgb(255, 255, 255);
+  color: rgb(0, 0, 0);
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 10s linear infinite;
+}
+
 
 @keyframes scroll-left {
   from {
-    transform: translateX(100%);
+    transform: translateX(-100%);
   }
   to {
-    transform: translateX(-100%);
+    transform: translateX(100%);
   }
 }
 
@@ -412,10 +445,23 @@
   line-height: "5vh";
 }
 
+.controls-mob {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem; /* Adjust the gap between elements as needed */
+  font-family: "Helvetica";
+  width: 10%;
+}
+
 .control{
   user-select: none;
   cursor: pointer;
   font-size: 1.5vw;
+}
+
+.control-mob{
+  padding-top: 1vh;
 }
 
 /* Ensure the image scales properly */
@@ -473,7 +519,15 @@ position: absolute;
   padding-left: 2vh;
 }
 
-
+.mix-info{
+  display: flex;
+  flex-direction: column;
+  width: 50%;
+  padding-left: 10px;
+  justify-content: center;
+  margin: 0 auto;
+  height: 100%;
+}
 
 
 
@@ -521,6 +575,18 @@ table{
   padding-bottom: 3vh;
 }
 
+
+.timestamp{
+  font-family: Helvetica;
+  width: 20%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  margin: 0 auto;
+  height: 100%;
+  font-size: 1.5vh;
+}
 
 .total-timeline-container{
   position: absolute;

@@ -26,7 +26,12 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               </button>
             </div>
             {menuOpen && (
-              <div className="dropdown-menu slide-in">
+              <div
+                className="dropdown-menu slide-in"
+                onClick={() => {
+                  setMenuOpen(false);
+                }}
+              >
                 <a
                   className="header-item"
                   onClick={() => {

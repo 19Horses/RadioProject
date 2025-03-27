@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 
 export default function SoundCloudPlayer({
+  pic,
   track,
   chapters,
   title,
@@ -259,86 +260,197 @@ export default function SoundCloudPlayer({
           onClick={handleProgressBarClick}
           style={{ zIndex: "999" }}
         >
-          {/* <div
-            className={`track-info ${isMobile ? "track-info-addon" : ""}`}
-            onClick={(e) => e.stopPropagation()}
-            style={{ cursor: "pointer" }}
-          >
-            <div className={`info-text `}>
-              <p>
-                <div className="controls">
-                  <div
-                    className="control"
-                    onClick={skipBackward}
-                    style={{ fontSize: "3.15vh" }}
-                  >
-                    {" "}
-                    &#10226;
-                  </div>
-                  <a
-                    style={{ fontSize: "1.4vh" }}
-                    className="control"
-                    onClick={(e) => togglePlayPause(e)}
-                  >
-                    {isPlaying ? <FaPause /> : <FaPlay />}
-                  </a>
-                  <div
-                    className="control"
-                    onClick={skipForward}
-                    style={{ fontSize: "3.15vh" }}
-                  >
-                    &#10227;
-                  </div>
-                </div>
+          {isMobile ? (
+            <div
+              className={` ${isMobile ? "track-info-addon" : "track-info"}`}
+              onClick={(e) => e.stopPropagation()}
+              style={{ cursor: "pointer", display: "flex" }}
+            >
+              <div>
+                <img src={pic} />
+              </div>
+              <div className="controls-mob">
+                <a
+                  style={{
+                    fontSize: "3vh",
+                    paddingLeft: "15px",
+                    paddingRight: "30px",
+                  }}
+                  className="control-mob"
+                  onClick={(e) => togglePlayPause(e)}
+                >
+                  {isPlaying ? <FaPause /> : <FaPlay />}
+                </a>
+              </div>
+              <div className="mix-info">
                 <div
                   ref={containerRef}
-                  className={`scrolling-title-container ${
-                    isMobile ? "scrolling-title-container-mob-addon" : ""
-                  }`}
+                  className={"scrolling-title-container-mob-addon"}
                 >
-                  <div className="gradient-overlay" />
+                  <div className="gradient-overlay-mob" />
                   <div
                     ref={titleRef}
-                    className={`scrolling-title ${
-                      shouldScroll ? "scroll" : ""
-                    }`}
+                    className={`${
+                      isMobile ? "scrolling-title-mob" : "scrolling-title"
+                    } ${shouldScroll ? "scroll" : ""}`}
                   >
                     {title}
                   </div>
                 </div>
-                <span>
-                  <b
+                <div style={{ height: "20px" }}>
+                  <p
                     style={{
-                      fontFamily: "VCR",
-                      textTransform: "uppercase",
-                      width: "auto",
-                      backgroundColor: "black",
-                      color: "white",
-                      paddingTop: ".25vh",
-                      paddingBottom: ".25vh",
-                      paddingLeft: ".25vw",
-                      paddingRight: ".25vw",
-                      fontSize: "1.745vh",
+                      fontSize: "1.8vh",
+                      fontFamily: "Helvetica",
+                      margin: "auto",
+                      fontWeight: "1000",
                     }}
                   >
                     {artist}
+                  </p>
+                </div>
+              </div>
+              <div className="timestamp">
+                <p>
+                  {currentTime} /{" "}
+                  <b>
+                    {audioRef.current
+                      ? formatTime(audioRef.current.duration)
+                      : "--:--"}
                   </b>
-                </span>
-                <br />
-                <br />
-                {currentTime} /{" "}
-                {audioRef.current
-                  ? formatTime(audioRef.current.duration)
-                  : "--:--"}
-              </p>
+                </p>
+              </div>
+
+              {/* <div className={`info-text `}>
+                <p>
+                  <div className="controls">
+                    <div
+                      className="control"
+                      onClick={skipBackward}
+                      style={{ fontSize: "3.15vh" }}
+                    >
+                      {" "}
+                      &#10226;
+                    </div>
+                    <a
+                      style={{ fontSize: "1.4vh" }}
+                      className="control"
+                      onClick={(e) => togglePlayPause(e)}
+                    >
+                      {isPlaying ? <FaPause /> : <FaPlay />}
+                    </a>
+                    <div
+                      className="control"
+                      onClick={skipForward}
+                      style={{ fontSize: "3.15vh" }}
+                    >
+                      &#10227;
+                    </div>
+                  </div>
+                  
+                  <span>
+                    <b
+                      style={{
+                        textTransform: "uppercase",
+                        width: "auto",
+                        backgroundColor: "black",
+                        color: "white",
+                        paddingTop: ".25vh",
+                        paddingBottom: ".25vh",
+                        paddingLeft: ".25vw",
+                        paddingRight: ".25vw",
+                        fontSize: "1.745vh",
+                      }}
+                    >
+                      {artist}
+                    </b>
+                  </span>
+                  <br />
+                  <br />
+                  
+                </p>
+              </div> */}
             </div>
-          </div> */}
+          ) : (
+            <div
+              className={`track-info ${isMobile ? "track-info-addon" : ""}`}
+              onClick={(e) => e.stopPropagation()}
+              style={{ cursor: "pointer" }}
+            >
+              <div className={`info-text `}>
+                <p>
+                  <div className="controls">
+                    <div
+                      className="control"
+                      onClick={skipBackward}
+                      style={{ fontSize: "3.15vh" }}
+                    >
+                      {" "}
+                      &#10226;
+                    </div>
+                    <a
+                      style={{ fontSize: "1.4vh" }}
+                      className="control"
+                      onClick={(e) => togglePlayPause(e)}
+                    >
+                      {isPlaying ? <FaPause /> : <FaPlay />}
+                    </a>
+                    <div
+                      className="control"
+                      onClick={skipForward}
+                      style={{ fontSize: "3.15vh" }}
+                    >
+                      &#10227;
+                    </div>
+                  </div>
+                  <div
+                    ref={containerRef}
+                    className={`scrolling-title-container ${
+                      isMobile ? "scrolling-title-container-mob-addon" : ""
+                    }`}
+                  >
+                    <div className="gradient-overlay" />
+                    <div
+                      ref={titleRef}
+                      className={`scrolling-title ${
+                        shouldScroll ? "scroll" : ""
+                      }`}
+                    >
+                      <b>{title}</b>
+                    </div>
+                  </div>
+                  <span>
+                    <b
+                      style={{
+                        textTransform: "uppercase",
+                        width: "auto",
+                        backgroundColor: "black",
+                        color: "white",
+                        paddingTop: ".25vh",
+                        paddingBottom: ".25vh",
+                        paddingLeft: ".25vw",
+                        paddingRight: ".25vw",
+                        fontSize: "1.745vh",
+                      }}
+                    >
+                      {artist}
+                    </b>
+                  </span>
+                  <br />
+                  <br />
+                  {currentTime} /{" "}
+                  {audioRef.current
+                    ? formatTime(audioRef.current.duration)
+                    : "--:--"}
+                </p>
+              </div>
+            </div>
+          )}
 
           <div
             className="progress-bar"
             style={{ height: `${progress}%` }}
           ></div>
-
           {chapters?.map((chapter, index) => (
             <React.Fragment key={index}>
               <div
