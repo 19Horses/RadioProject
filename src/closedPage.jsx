@@ -410,6 +410,7 @@ export default function ClosedPage() {
           >
             Contact
           </a>
+          {isMobile ? <div style={{ height: "5vh" }} /> : <></>}
         </div>
       )}
       {selectedIndex != null && (
