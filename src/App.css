@@ -283,7 +283,7 @@
   left: 0;
   height: 6vh;
   width: 100vw;
-  background-color: white;
+  background-color: rgb(247, 247, 247);
 }
 
 .track-info-addon img{
@@ -348,7 +348,7 @@
 .scrolling-title-container {
   width: 100%; /* Adjust based on your design */
   /* 17.5 */
-  height: 2.1vh;
+  height: 2.4vh;
   /* 14.7 */
   font-size: 1.745vh;
   overflow: hidden;
@@ -364,7 +364,7 @@
   overflow: hidden;
   white-space: nowrap;
   position: relative;
-  background-color: white;
+  background-color: rgb(247, 247, 247);
   color: black;
   
 }
@@ -377,10 +377,10 @@
   height: 100%;
   background: linear-gradient(
     to right,
-    rgb(255, 255, 255) 0%,
+    rgb(247, 247, 247) 0%,
     rgba(255, 255, 255, 0) 10%,
     rgba(255, 255, 255, 0) 90%,
-    rgb(255, 255, 255) 100%
+    rgb(247, 247, 247) 100%
   );  pointer-events: none; /* Ensure the overlay does not block interactions */
   z-index: 1; /* Ensure the overlay is above the text */
 }
@@ -427,7 +427,7 @@
 }
 
 .scrolling-title-mob {
-  background-color: rgb(255, 255, 255);
+  background-color: rgb(247, 247, 247);
   color: rgb(0, 0, 0);
   display: inline-block;
   white-space: nowrap;
@@ -438,7 +438,7 @@
 
 @keyframes scroll-left {
   from {
-    transform: translateX(-100%);
+    transform: translateX(-150%);
   }
   to {
     transform: translateX(100%);

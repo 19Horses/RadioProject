@@ -378,16 +378,15 @@ export default function ClosedPage() {
       {infoSelected == true && (
         <div className={`info-container ${isMobile ? "info-mob-addon" : ""}`}>
           <p>
-            <b>RADIO PROJECT</b> is a space for auditory and written agency.
+            <b>RADIO PROJECT</b> is a space for auditory, verbal and written
+            agency.
           </p>
           <p>
             <b>RADIO PROJECT</b> aims to spotlight individuals by broadcasting
-            mixes and conducting interviews.
+            mixes and conducting interviews, and to inform through written
+            articles.
           </p>
-          <p>
-            <b>RADIO PROJECT</b> intends to inform through written articles made
-            by individuals.
-          </p>
+
           <a
             href="https://www.instagram.com/mkprote/"
             style={{
@@ -398,7 +397,7 @@ export default function ClosedPage() {
             target="_blank"
           >
             {" "}
-            by Elisha Olunaike
+            by <b>Elisha Olunaike</b>
           </a>
           <br />
           <br />

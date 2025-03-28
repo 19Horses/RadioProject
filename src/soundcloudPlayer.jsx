@@ -299,6 +299,7 @@ export default function SoundCloudPlayer({
                     className={`${
                       isMobile ? "scrolling-title-mob" : "scrolling-title"
                     } ${shouldScroll ? "scroll" : ""}`}
+                    style={{ fontSize: "1.6vh", paddingLeft: "1vw" }}
                   >
                     {title}
                   </div>
@@ -306,7 +307,7 @@ export default function SoundCloudPlayer({
                 <div style={{ height: "20px" }}>
                   <p
                     style={{
-                      fontSize: "1.4vh",
+                      fontSize: "1.6vh",
                       fontFamily: "Helvetica",
                       margin: "auto",
                       fontWeight: "1000",
@@ -326,56 +327,6 @@ export default function SoundCloudPlayer({
                   </b>
                 </p>
               </div>
-
-              {/* <div className={`info-text `}>
-                <p>
-                  <div className="controls">
-                    <div
-                      className="control"
-                      onClick={skipBackward}
-                      style={{ fontSize: "3.15vh" }}
-                    >
-                      {" "}
-                      &#10226;
-                    </div>
-                    <a
-                      style={{ fontSize: "1.4vh" }}
-                      className="control"
-                      onClick={(e) => togglePlayPause(e)}
-                    >
-                      {isPlaying ? <FaPause /> : <FaPlay />}
-                    </a>
-                    <div
-                      className="control"
-                      onClick={skipForward}
-                      style={{ fontSize: "3.15vh" }}
-                    >
-                      &#10227;
-                    </div>
-                  </div>
-                  
-                  <span>
-                    <b
-                      style={{
-                        textTransform: "uppercase",
-                        width: "auto",
-                        backgroundColor: "black",
-                        color: "white",
-                        paddingTop: ".25vh",
-                        paddingBottom: ".25vh",
-                        paddingLeft: ".25vw",
-                        paddingRight: ".25vw",
-                        fontSize: "1.745vh",
-                      }}
-                    >
-                      {artist}
-                    </b>
-                  </span>
-                  <br />
-                  <br />
-                  
-                </p>
-              </div> */}
             </div>
           ) : (
             <div
@@ -445,9 +396,11 @@ export default function SoundCloudPlayer({
                   <br />
                   <br />
                   {currentTime} /{" "}
-                  {audioRef.current
-                    ? formatTime(audioRef.current.duration)
-                    : "--:--"}
+                  <b>
+                    {audioRef.current
+                      ? formatTime(audioRef.current.duration)
+                      : "--:--"}
+                  </b>
                 </p>
               </div>
             </div>
