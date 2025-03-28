@@ -198,6 +198,20 @@ export default function ClosedPage() {
     return () => window.removeEventListener("resize", handleResize);
   }, []);
 
+  useEffect(() => {
+    if (location.pathname === "/rp1-ubi") {
+      // Set specific states for rp1
+      setSelectedIndex(0); // Example: Select the first DJ
+      setSelectedTrack(items[0]?.mixId); // Set the track to first DJ's mix
+      setSelectedChapters(items[0]?.chapters || []);
+      setSelectedTracklist(items[0]?.tracklist || []);
+      setSelectedTitle(items[0]?.rpCount + items[0]?.title);
+      setSelectedArtist(items[0]?.title2);
+      setSelectedPic(items[0]?.src);
+      console.log("hi");
+    }
+  }, [location.pathname]); // Runs once when pathname changes
+
   return (
     <>
       <div className={"gradient-overlay-tl"} />
@@ -363,12 +377,6 @@ export default function ClosedPage() {
       )}
       {infoSelected == true && (
         <div className={`info-container ${isMobile ? "info-mob-addon" : ""}`}>
-          {/* <a
-            onClick={() => setInfoSelected(false)}
-            style={{ fontWeight: "1000", cursor: "pointer" }}
-          >
-            BACK
-          </a> */}
           <p>
             <b>RADIO PROJECT</b> is a space for auditory and written agency.
           </p>
@@ -543,91 +551,6 @@ export default function ClosedPage() {
               {isMobile ? <div style={{ height: "100px" }} /> : <></>}
             </div>
           </div>
-
-          {/* <div className={`tracklist-mobile`}>
-            {isMobile ? (
-              <table>
-                {items[selectedIndex]?.tracklist?.map((mixTrack, index) => (
-                  <React.Fragment key={index}>
-                    {mixTrack.title === "RADIO (a)" ||
-                    mixTrack.title === "PROJECT" ||
-                    mixTrack.title === "RADIO (b)" ? (
-                      <tr style={{ width: "100%", height: "3vh" }}></tr>
-                    ) : null}
-                    <tr
-                      className="mix-track"
-                      style={{
-                        cursor:
-                          mixTrack.title === "RADIO (a)" ||
-                          mixTrack.title === "PROJECT" ||
-                          mixTrack.title === "RADIO (b)"
-                            ? "pointer"
-                            : "",
-                        width: "100%",
-                      }}
-                    >
-                      <td
-                        className="mix-track"
-                        style={{
-                          color:
-                            mixTrack?.title !== "UNRELEASED"
-                              ? "red"
-                              : mixTrack.title === "RADIO (a)" ||
-                                mixTrack.title === "PROJECT" ||
-                                mixTrack.title === "RADIO (b)"
-                              ? "rgb(255, 0, 0)"
-                              : "black",
-                          textAlign: "left",
-                          width: "100vw",
-                          paddingRight: "1vw",
-                          lineHeight: mixTrack?.artist === "" ? ".5" : "",
-                        }}
-                      >
-                        <b
-                          className="mix-track"
-                          style={{
-                            backgroundColor:
-                              mixTrack?.title === "UNRELEASED" ? "black" : "",
-                            color: "black",
-                            fontWeight: mixTrack?.artist === "" ? "100" : "",
-                          }}
-                        >
-                          {mixTrack.title}
-                        </b>
-                      </td>
-                    </tr>
-                    <tr
-                      className="mix-track"
-                      style={{
-                        cursor:
-                          mixTrack.title === "RADIO (a)" ||
-                          mixTrack.title === "PROJECT" ||
-                          mixTrack.title === "RADIO (b)"
-                            ? "pointer"
-                            : "",
-                        width: "100%",
-                        animationDelay: `${index * 0.0375}s`,
-                      }}
-                    >
-                      <td
-                        style={{
-                          color: "rgb(137, 137, 137)",
-                          fontWeight: "100",
-                          paddingRight: "1vw",
-                          lineHeight: ".5",
-                          paddingBottom: "1vh",
-                        }}
-                      >
-                        {mixTrack.artist}
-                      </td>
-                    </tr>
-                  </React.Fragment>
-                ))}
-              </table>
-            ) : (
-              <></>
-            )}
-          </div> */}
         </>
       )}
       {articleHeaderSelected && articleSelected === null && (
