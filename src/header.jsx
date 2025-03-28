@@ -107,7 +107,6 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               onClick={() => {
                 onRadioClick();
                 setSelected("Radio");
-                document.title("RADIO Project");
               }}
               style={{
                 cursor: "pointer",
@@ -157,7 +156,6 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               onClick={() => {
                 onInfoClick();
                 setSelected("Info");
-                document.title("Info | RADIO Project");
               }}
               style={{
                 cursor: "pointer",
