@@ -44,7 +44,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                     color: selected === "Radio" ? "red" : "black",
                   }}
                 >
-                  <b>Radio</b>
+                  <b>Radio Archive</b>
                 </a>
                 <a
                   className="header-item"
@@ -60,7 +60,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                   }}
                   target="_blank"
                 >
-                  <b>Articles</b>
+                  <b>Library</b>
                 </a>
                 <a
                   className="header-item"
@@ -95,7 +95,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                     color: selected === "Info" ? "red" : "black",
                   }}
                 >
-                  Info
+                  About
                 </a>
               </div>
             )}
@@ -113,7 +113,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                 color: selected === "Radio" ? "red" : "black",
               }}
             >
-              <b>Radio</b>
+              <b>Radio Archive</b>
             </a>
             <a
               className="header-item"
@@ -128,7 +128,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               }}
               target="_blank"
             >
-              <b>Articles</b>
+              <b>Library</b>
             </a>
             <a
               className="header-item"
@@ -162,7 +162,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                 color: selected === "Info" ? "red" : "black",
               }}
             >
-              Info
+              About
             </a>
           </>
         )}
