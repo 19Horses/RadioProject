@@ -170,6 +170,8 @@ export default function ClosedPage() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   const resetInfo = () => {
+    document.title("RADIO Project");
+
     setSelectedTracklist(null);
     setSelectedIndex(null);
     scrollToTop();
@@ -200,6 +202,7 @@ export default function ClosedPage() {
 
   useEffect(() => {
     if (location.pathname === "/rp1-ubi") {
+      document.title("RP1 | RADIO Project");
       // Set specific states for rp1
       setSelectedIndex(0); // Example: Select the first DJ
       setSelectedTrack(items[0]?.mixId); // Set the track to first DJ's mix
@@ -363,6 +366,7 @@ export default function ClosedPage() {
                         setSelectedTitle([pic?.rpCount + pic?.title]);
                         setSelectedArtist(pic?.title2);
                         setSelectedPic(pic?.src);
+                        document.title(pic?.rpcount + " | RADIO Project");
                       }}
                       style={{
                         transition: "filter 0.3s ease-in-out",
@@ -429,9 +433,6 @@ export default function ClosedPage() {
               }}
             >
               <div className="description-container">
-                {/* <p className="back-button" onClick={() => resetInfo()}>
-                BACK
-              </p> */}
                 <p className="description-header" style={{ fontSize: "3.7vh" }}>
                   <span
                     style={{
