@@ -267,7 +267,9 @@ export default function SoundCloudPlayer({
               style={{ cursor: "pointer", display: "flex" }}
             >
               <div>
-                <img src={pic} />
+                <a href="https://instagram.com/ubiifuruuu" target="_blank">
+                  <img src={pic} />
+                </a>
               </div>
               <div className="controls-mob">
                 <a
