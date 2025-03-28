@@ -248,8 +248,8 @@ export default function ClosedPage() {
           // setInfoSelected(false);
           // setarticleHeaderSelected(true);
           // setArticleSelected(null);
-          // resetInfo();
-          // scrollToTop();
+          resetInfo();
+          scrollToTop();
         }}
         onRadioClick={() => {
           setInfoSelected(false);
