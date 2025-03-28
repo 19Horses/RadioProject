@@ -363,6 +363,20 @@ export default function ClosedPage() {
                         setSelectedTitle([pic?.rpCount + pic?.title]);
                         setSelectedArtist(pic?.title2);
                         setSelectedPic(pic?.src);
+                        if ("mediaSession" in navigator) {
+                          navigator.mediaSession.metadata = new MediaMetadata({
+                            title: ["RADIO Project 1 ♪ " + pic?.title],
+                            artist: pic?.title2, // Adjust artist name
+                            album: "Radio Project", // Adjust album name
+                            artwork: [
+                              {
+                                src: pic?.ipSrc,
+                                sizes: "512x512",
+                                type: "image/png",
+                              },
+                            ],
+                          });
+                        }
                       }}
                       style={{
                         transition: "filter 0.3s ease-in-out",

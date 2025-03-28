@@ -6,6 +6,7 @@ export const djs = [
     "src": rp1.p,
     "rpCount": "RP1 ♪ ",
     "2ppSrc": rp1.pp,
+    "ipSrc": rp1.ip,
     "title": "\"games that touch the arts\"",
     "title2": "ubi",
     "title3": "<b>DJ</b> <br /> <b>Musician</b><br /> <b>EXXTRALIFE Founder</b><br /> <b>Developer</b> ",
