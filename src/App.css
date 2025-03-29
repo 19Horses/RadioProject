@@ -629,7 +629,7 @@ table{
 
 .article-grid {
   display: grid;
-  grid-template-columns: repeat(4, 1fr); /* 5 columns */
+  grid-template-columns: repeat(1, 1fr); /* 5 columns */
   gap: 10px; /* Adjust gap size */
   width: 80vw;
   overflow: hidden;

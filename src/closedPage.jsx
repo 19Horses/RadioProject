@@ -225,16 +225,18 @@ export default function ClosedPage() {
           tracklist={selectedTracklist}
         />
       )}
-      {selectedIndex === null && articleSelected === null && (
-        <CustomCursor
-          rpc={rpCount}
-          t1={title}
-          t2={title2}
-          t3={title3}
-          isLeft={isLeft}
-          hovered={hovered}
-        />
-      )}
+      {selectedIndex === null &&
+        articleSelected === null &&
+        isMobile === false && (
+          <CustomCursor
+            rpc={rpCount}
+            t1={title}
+            t2={title2}
+            t3={title3}
+            isLeft={isLeft}
+            hovered={hovered}
+          />
+        )}
 
       <Header
         onInfoClick={() => {
@@ -245,9 +247,9 @@ export default function ClosedPage() {
           scrollToTop();
         }}
         onArticleClick={() => {
-          // setInfoSelected(false);
-          // setarticleHeaderSelected(true);
-          // setArticleSelected(null);
+          setInfoSelected(false);
+          setarticleHeaderSelected(true);
+          setArticleSelected(null);
           resetInfo();
           scrollToTop();
         }}
@@ -566,46 +568,250 @@ export default function ClosedPage() {
       )}
       {articleHeaderSelected && articleSelected === null && (
         <>
-          <div className="article-grid">
-            {items2.map((pic, i) => {
-              return (
-                // Make sure to return the JSX
-                <div
-                  key={i}
-                  className="article-grid-item"
-                  onMouseEnter={() => {
-                    setIsLeft(false);
-                    setHovered(true);
-                    setRpCount(pic.rpCount);
-                    setTitle(pic.title);
-                    setTitle2(pic.title2);
-                    setTitle3(pic.title3);
-                    setHoveredIndex(i);
-                  }}
-                  onMouseLeave={() => {
-                    setHoveredIndex(null);
-                    setHovered(false);
-                    setRpCount("");
-                    setTitle("");
-                    setTitle2("");
-                    setTitle3("");
-                  }}
-                  onClick={() => {
-                    console.log(pic.id);
-                    setArticleSelected(pic);
-                  }}
-                >
-                  <img src={pic.src} alt={`Article ${i + 1}`} />{" "}
-                  {/* Use the pic.src here */}
-                </div>
-              );
-            })}
+          <div
+            className={` ${
+              isMobile
+                ? "selected-artist-container-mob-addon"
+                : "selected-artist-container"
+            }`}
+          >
+            <div
+              className="all-left-cont"
+              style={{
+                top: isMobile ? "10%" : "",
+                width: "93%",
+                height: "100%",
+              }}
+            >
+              {items2.map((pic, i) => {
+                return (
+                  <div
+                    style={{
+                      display: "flex",
+                      justifyContent: "space-between",
+                      paddingTop: "2vh",
+                      height: "9vh",
+                      gap: "1vh",
+                    }}
+                    onClick={() => {
+                      setArticleSelected(pic);
+                      scrollToTop();
+                    }}
+                  >
+                    <div
+                      className="artist-pics"
+                      style={{
+                        height: "9vh",
+                        width: "9vh",
+                      }}
+                    >
+                      <a target="_blank">
+                        <img
+                          src={pic.src}
+                          className="selected-artist-image"
+                          style={{ width: "fit-content" }}
+                        />
+                      </a>
+                    </div>{" "}
+                    <div>
+                      <p className="slight-info" style={{ fontSize: "1.2vh" }}>
+                        <a
+                          style={{
+                            fontWeight: "100",
+                            fontSize: "1vh",
+                            textDecoration: "none",
+                            cursor: "pointer",
+                            color: "black",
+                          }}
+                          target="_blank"
+                        >
+                          <b>{pic.title2}</b>
+                        </a>
+
+                        <br />
+                        <a
+                          style={{
+                            fontWeight: "100",
+                            fontSize: "1.8vh",
+                            textDecoration: "none",
+                            cursor: "pointer",
+                            color: "black",
+                          }}
+                          target="_blank"
+                        >
+                          <b>{pic.title}</b>
+                        </a>
+                        <br />
+                        <span
+                          style={{
+                            fontWeight: "100",
+                          }}
+                        >
+                          {pic?.releaseDate}
+                        </span>
+                        <br />
+                        <span
+                          style={{
+                            fontWeight: "100",
+                            fontSize: "1vh",
+                          }}
+                        >
+                          <i>{pic?.length}</i>
+                        </span>
+                      </p>
+                    </div>
+                    <div
+                      style={{
+                        display: "flex",
+                        alignItems: "stretch", // Ensures child elements stretch to full height
+                        border: "1px solid black",
+                        paddingLeft: ".8vh",
+                        paddingRight: ".8vh",
+                        fontSize: ".7vh",
+                        width: "auto",
+                        margin: "auto",
+                        marginRight: "0",
+                      }}
+                    >
+                      <p style={{ textAlign: "center" }}>
+                        <b>{pic?.tag}</b>
+                      </p>
+                    </div>
+                  </div>
+                );
+              })}
+            </div>
           </div>
         </>
       )}
       {articleSelected != null && (
-        <div>
-          <p>{articleSelected.description}</p>
+        <div
+          className={` ${
+            isMobile
+              ? "selected-artist-container-mob-addon"
+              : "selected-artist-container"
+          }`}
+        >
+          <div
+            className="all-left-cont"
+            style={{
+              top: isMobile ? "7%" : "",
+            }}
+          >
+            <div className="description-container">
+              <p className="description-header" style={{ fontSize: "3.7vh" }}>
+                <span
+                  style={{
+                    fontFamily: "Helvetica",
+                    fontWeight: "100",
+                  }}
+                >
+                  {articleSelected?.rpCount}
+                </span>{" "}
+                <span
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "2px 5px", // Optional for better visibility
+                  }}
+                >
+                  <b>{articleSelected?.title2}</b>
+                </span>
+              </p>
+            </div>
+
+            <div className="artist-pics">
+              <a onClick={() => resetInfo()} target="_blank">
+                <img
+                  src={articleSelected?.src}
+                  className="selected-artist-image"
+                />
+              </a>
+            </div>
+
+            <div
+              style={{
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "2vh",
+              }}
+            >
+              {" "}
+              <div>
+                <p className="slight-info" style={{ fontSize: "1.2vh" }}>
+                  <a
+                    style={{
+                      fontWeight: "100",
+                      fontSize: "2vh",
+                      lineHeight: "1.5",
+                      textDecoration: "none",
+                      cursor: "pointer",
+                      color: "black",
+                    }}
+                    href={articleSelected?.igLink}
+                    target="_blank"
+                  >
+                    <b>{articleSelected.title}</b>
+                  </a>
+                  <br />
+                  <span
+                    style={{
+                      fontWeight: "100",
+                    }}
+                  >
+                    {articleSelected?.releaseDate}
+                  </span>
+                  <br />
+                  <span
+                    style={{
+                      fontWeight: "100",
+                    }}
+                  >
+                    {articleSelected?.length}
+                  </span>
+                </p>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  alignItems: "stretch", // Ensures child elements stretch to full height
+                  border: "1px solid black",
+                  paddingLeft: ".8vh",
+                  paddingRight: ".8vh",
+                  fontSize: "1.2vh",
+                  height: "100%", // Makes the div take full height of the parent
+                  margin: "auto",
+                  marginRight: "0",
+                }}
+              >
+                <p>
+                  <b>{articleSelected?.tag}</b>
+                </p>
+              </div>
+              <div
+                className="socials"
+                style={{
+                  display: "flex",
+                  margin: "auto",
+                  marginRight: "0",
+                }}
+              >
+                <a href={articleSelected?.igLink} target="_blank">
+                  <img src="/ig.jpg" className="sc-logo" />
+                </a>
+              </div>
+            </div>
+            <p
+              style={{
+                fontSize: "2.9vh",
+                fontWeight: "100",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: articleSelected?.description,
+              }}
+            />
+            {isMobile ? <div style={{ height: "100px" }} /> : <></>}
+          </div>
         </div>
       )}
     </>

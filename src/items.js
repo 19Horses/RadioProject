@@ -17,7 +17,7 @@ export const djs = [
     "scLink": "https://soundcloud.com/radio_project/rp1-ubiifuruuu",
     "npLink": "--",
     "broadcastDate": "5/4/25 15:00",
-    "length": "(1 Hour and 26 Minutes)",
+    "length": "(1 Hour 26 Minutes)",
     "genre": "ELECTRO-POP",
     "chapters": [
       { "startTime": 0, "title": "RADIO (a)" },

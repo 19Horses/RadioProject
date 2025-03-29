@@ -44,23 +44,23 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                     color: selected === "Radio" ? "red" : "black",
                   }}
                 >
-                  <b>Radio Archive</b>
+                  <b>Archive</b>
                 </a>
                 <a
                   className="header-item"
                   onClick={() => {
-                    // onArticleClick();
-                    // setSelected("Articles");
+                    onArticleClick();
+                    setSelected("Articles");
                     setMenuOpen(false);
                   }}
                   style={{
                     cursor: "pointer",
-                    color: "black",
-                    // color: selected === "Articles" ? "red" : "black",
+                    //color: "black",
+                    color: selected === "Articles" ? "red" : "black",
                   }}
                   target="_blank"
                 >
-                  <b>Library</b>
+                  <b>Radiograms</b>
                 </a>
                 <a
                   className="header-item"
@@ -113,22 +113,22 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                 color: selected === "Radio" ? "red" : "black",
               }}
             >
-              <b>Radio Archive</b>
+              <b>Archive</b>
             </a>
             <a
               className="header-item"
               onClick={() => {
-                // onArticleClick();
-                // setSelected("Articles");
+                onArticleClick();
+                setSelected("Articles");
               }}
               style={{
                 cursor: "pointer",
-                // color: selected === "Articles" ? "red" : "black",
-                color: "black",
+                color: selected === "Articles" ? "red" : "black",
+                //color: "black",
               }}
               target="_blank"
             >
-              <b>Library</b>
+              <b>Radiograms</b>
             </a>
             <a
               className="header-item"
