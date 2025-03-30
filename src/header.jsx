@@ -118,6 +118,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
             <a
               className="header-item"
               onClick={() => {
+                //
                 onArticleClick();
                 setSelected("Articles");
               }}

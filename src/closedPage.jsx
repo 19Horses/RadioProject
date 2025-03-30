@@ -30,8 +30,8 @@ const GridContainer = styled.div`
   display: flex;
   overflow: hidden;
   opacity: ${(props) => (props.$selectedIndex !== null ? 1 : 0)};
-  width: fit-content;
-  flex: ${(props) => (props.$selected ? "-1" : "1")};
+  max-width: 100%;
+  flex: ${(props) => (props.$selected ? "0" : "1")};
   transition: all 0.5s ease-in-out;
   &:hover {
     flex: ${(props) => props.$total};
@@ -49,17 +49,19 @@ const GridContainer = styled.div`
 const PhotoContainer = styled.div`
   display: flex;
   position: absolute;
-  width: 100%;
-  height: 100%;
+  min-width: 0; /* Ensures no Safari stretching */
+  min-height: 0;
+  width: ${(props) => (props.$isMobile ? "300px" : `650px`)};
+  height: ${(props) => (props.$isMobile ? "300px" : `650px`)};
   transition: all 0.5s ease-in-out;
   left: ${(props) =>
-    props.$isLeft ? `-${props.$contents * props.$parentWidth}px` : "unset;"};
-  right: ${(props) =>
-    props.$isLeft ? "unset" : `${props.$contents * props.$parentWidth}px`};
+    props.$isLeft
+      ? `-${props.$contents * props.$parentWidth}px`
+      : `-${props.$contents * props.$parentWidth}px`};
   &:hover {
     cursor: pointer;
     ${(props) =>
-      props.$isLeft ? "left: 0; right: unset;" : "right: 97%; left: unset;"};
+      props.$isLeft ? "left: 0; right: 0;" : "right:0; left: -92%;"};
   }
 `;
 
@@ -168,10 +170,14 @@ export default function ClosedPage() {
   const [articleHeaderSelected, setarticleHeaderSelected] = useState(false);
   const [articleSelected, setArticleSelected] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [shouldScroll, setShouldScroll] = useState(false);
+  const containerRef = useRef(null);
+  const titleRef = useRef(null);
 
   const resetInfo = () => {
     setSelectedTracklist(null);
     setSelectedIndex(null);
+    setArticleSelected(null);
     scrollToTop();
   };
 
@@ -211,6 +217,27 @@ export default function ClosedPage() {
       console.log("hi");
     }
   }, [location.pathname]); // Runs once when pathname changes
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("articleFadeIn");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = document.querySelectorAll("p:not(red)");
+    elements.forEach((element) => observer.observe(element));
+
+    return () => {
+      elements.forEach((element) => observer.unobserve(element));
+    };
+  });
 
   return (
     <>
@@ -275,15 +302,9 @@ export default function ClosedPage() {
           }}
         >
           <img
-            onMouseOver={`${
-              isMobile
-                ? () => {
-                    setHeaderHover(true);
-                  }
-                : () => {
-                    setHeaderHover(false);
-                  }
-            }`}
+            onMouseOver={() => {
+              setHeaderHover(true);
+            }}
             onMouseLeave={() => {
               setHeaderHover(false);
             }}
@@ -292,16 +313,20 @@ export default function ClosedPage() {
             alt="Logo"
           />
         </a>
-        <a>
-          <img
-            className="second"
-            style={{
-              opacity: headerHover === true ? "1" : "0",
-              transform: headerHover === true ? "translateX(10%)" : "",
-            }}
-            src="./transplogo2.png"
-          />
-        </a>
+        {isMobile ? (
+          <></>
+        ) : (
+          <a>
+            <img
+              className="second"
+              style={{
+                opacity: headerHover === true ? "1" : "0",
+                transform: headerHover === true ? "translateX(10%)" : "",
+              }}
+              src="./transplogo2.png"
+            />
+          </a>
+        )}
       </div>
 
       {!infoSelected && !articleHeaderSelected && (
@@ -335,6 +360,7 @@ export default function ClosedPage() {
                     $parentWidth={w}
                     $total={items.length}
                     $isLeft={isLeft}
+                    $isMobile={isMobile}
                   >
                     <img
                       src={pic.src}
@@ -579,7 +605,7 @@ export default function ClosedPage() {
               className="all-left-cont"
               style={{
                 top: isMobile ? "10%" : "",
-                width: "93%",
+                width: "96%",
                 height: "100%",
               }}
             >
@@ -591,7 +617,6 @@ export default function ClosedPage() {
                       justifyContent: "space-between",
                       paddingTop: "2vh",
                       height: "9vh",
-                      gap: "1vh",
                     }}
                     onClick={() => {
                       setArticleSelected(pic);
@@ -609,12 +634,12 @@ export default function ClosedPage() {
                         <img
                           src={pic.src}
                           className="selected-artist-image"
-                          style={{ width: "fit-content" }}
+                          style={{ width: "fit-content", flexShrink: "0" }}
                         />
                       </a>
-                    </div>{" "}
-                    <div>
-                      <p className="slight-info" style={{ fontSize: "1.2vh" }}>
+                    </div>
+                    <div style={{ width: "60%", paddingLeft: "1vh" }}>
+                      <div className="slight-info" style={{ fontSize: "1vh" }}>
                         <a
                           style={{
                             fontWeight: "100",
@@ -622,43 +647,31 @@ export default function ClosedPage() {
                             textDecoration: "none",
                             cursor: "pointer",
                             color: "black",
-                          }}
-                          target="_blank"
-                        >
-                          <b>{pic.title2}</b>
-                        </a>
-
-                        <br />
-                        <a
-                          style={{
-                            fontWeight: "100",
-                            fontSize: "1.8vh",
-                            textDecoration: "none",
-                            cursor: "pointer",
-                            color: "black",
+                            textTransform: "uppercase",
                           }}
                           target="_blank"
                         >
                           <b>{pic.title}</b>
                         </a>
-                        <br />
-                        <span
-                          style={{
-                            fontWeight: "100",
-                          }}
-                        >
-                          {pic?.releaseDate}
-                        </span>
-                        <br />
-                        <span
-                          style={{
-                            fontWeight: "100",
-                            fontSize: "1vh",
-                          }}
-                        >
-                          <i>{pic?.length}</i>
-                        </span>
-                      </p>
+                      </div>
+
+                      <div
+                        ref={containerRef}
+                        className={
+                          "scrolling-title-container-mob-article-addon"
+                        }
+                        style={{ width: "100%" }}
+                      >
+                        <p>{pic.title2}</p>
+                      </div>
+                      <div
+                        className={
+                          "scrolling-title-container-mob-article-addon"
+                        }
+                        style={{ width: "100%", bottom: 0 }}
+                      >
+                        <p style={{ fontSize: ".8vh" }}>{pic.releaseDate}</p>
+                      </div>
                     </div>
                     <div
                       style={{
@@ -667,13 +680,22 @@ export default function ClosedPage() {
                         border: "1px solid black",
                         paddingLeft: ".8vh",
                         paddingRight: ".8vh",
-                        fontSize: ".7vh",
-                        width: "auto",
+                        fontSize: ".8vh",
+                        height: "25%",
                         margin: "auto",
                         marginRight: "0",
+                        marginLeft: "0",
+                        width: "15%",
                       }}
                     >
-                      <p style={{ textAlign: "center" }}>
+                      <p
+                        style={{
+                          textAlign: "center",
+                          justifyContent: "center",
+                          display: "flex",
+                          alignItems: "center",
+                        }}
+                      >
                         <b>{pic?.tag}</b>
                       </p>
                     </div>
@@ -685,134 +707,154 @@ export default function ClosedPage() {
         </>
       )}
       {articleSelected != null && (
-        <div
-          className={` ${
-            isMobile
-              ? "selected-artist-container-mob-addon"
-              : "selected-artist-container"
-          }`}
-        >
+        <>
+          {!isMobile ? (
+            <div className="tracklist-addon">
+              <p
+                style={{
+                  fontSize: "3.1vh",
+                  fontWeight: "100",
+                  opacity: "0",
+                }}
+                dangerouslySetInnerHTML={{
+                  __html: articleSelected?.description,
+                }}
+              />
+            </div>
+          ) : null}
           <div
-            className="all-left-cont"
-            style={{
-              top: isMobile ? "7%" : "",
-            }}
+            className={` ${
+              isMobile
+                ? "selected-artist-container-mob-addon"
+                : "selected-article-container"
+            }`}
           >
-            <div className="description-container">
-              <p className="description-header" style={{ fontSize: "3.7vh" }}>
-                <span
-                  style={{
-                    fontFamily: "Helvetica",
-                    fontWeight: "100",
-                  }}
-                >
-                  {articleSelected?.rpCount}
-                </span>{" "}
-                <span
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    padding: "2px 5px", // Optional for better visibility
-                  }}
-                >
-                  <b>{articleSelected?.title2}</b>
-                </span>
-              </p>
-            </div>
-
-            <div className="artist-pics">
-              <a onClick={() => resetInfo()} target="_blank">
-                <img
-                  src={articleSelected?.src}
-                  className="selected-artist-image"
-                />
-              </a>
-            </div>
-
             <div
+              className="all-left-cont"
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingTop: "2vh",
+                top: isMobile ? "7%" : "",
               }}
             >
-              {" "}
-              <div>
-                <p className="slight-info" style={{ fontSize: "1.2vh" }}>
-                  <a
-                    style={{
-                      fontWeight: "100",
-                      fontSize: "2vh",
-                      lineHeight: "1.5",
-                      textDecoration: "none",
-                      cursor: "pointer",
-                      color: "black",
-                    }}
-                    href={articleSelected?.igLink}
-                    target="_blank"
-                  >
-                    <b>{articleSelected.title}</b>
-                  </a>
-                  <br />
+              <div className="description-container">
+                <p className="description-header" style={{ fontSize: "3.7vh" }}>
                   <span
                     style={{
+                      fontFamily: "Helvetica",
                       fontWeight: "100",
                     }}
                   >
-                    {articleSelected?.releaseDate}
-                  </span>
-                  <br />
+                    {articleSelected?.rpCount}
+                  </span>{" "}
                   <span
                     style={{
-                      fontWeight: "100",
+                      backgroundColor: "black",
+                      color: "white",
+                      padding: "2px 5px", // Optional for better visibility
                     }}
                   >
-                    {articleSelected?.length}
+                    <b>{articleSelected?.title2}</b>
                   </span>
                 </p>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  alignItems: "stretch", // Ensures child elements stretch to full height
-                  border: "1px solid black",
-                  paddingLeft: ".8vh",
-                  paddingRight: ".8vh",
-                  fontSize: "1.2vh",
-                  height: "100%", // Makes the div take full height of the parent
-                  margin: "auto",
-                  marginRight: "0",
-                }}
-              >
-                <p>
-                  <b>{articleSelected?.tag}</b>
-                </p>
-              </div>
-              <div
-                className="socials"
-                style={{
-                  display: "flex",
-                  margin: "auto",
-                  marginRight: "0",
-                }}
-              >
-                <a href={articleSelected?.igLink} target="_blank">
-                  <img src="/ig.jpg" className="sc-logo" />
+
+              <div className="artist-pics">
+                <a onClick={() => resetInfo()} target="_blank">
+                  <img
+                    src={articleSelected?.src}
+                    className="selected-artist-image"
+                  />
                 </a>
               </div>
+
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  paddingTop: "2vh",
+                }}
+              >
+                {" "}
+                <div>
+                  <p className="slight-info" style={{ fontSize: "1.2vh" }}>
+                    <a
+                      style={{
+                        fontWeight: "100",
+                        fontSize: "2vh",
+                        lineHeight: "1.5",
+                        textDecoration: "none",
+                        cursor: "pointer",
+                        color: "black",
+                      }}
+                      href={articleSelected?.igLink}
+                      target="_blank"
+                    >
+                      <b>{articleSelected.title}</b>
+                    </a>
+                    <br />
+                    <span
+                      style={{
+                        fontWeight: "100",
+                      }}
+                    >
+                      {articleSelected?.releaseDate}
+                    </span>
+                    <br />
+                    <span
+                      style={{
+                        fontWeight: "100",
+                      }}
+                    >
+                      {articleSelected?.length}
+                    </span>
+                  </p>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    alignItems: "stretch", // Ensures child elements stretch to full height
+                    border: "1px solid black",
+                    paddingLeft: ".8vh",
+                    paddingRight: ".8vh",
+                    fontSize: "1.2vh",
+                    height: "100%", // Makes the div take full height of the parent
+                    margin: "auto",
+                    marginRight: "0",
+                  }}
+                >
+                  <p>
+                    <b>{articleSelected?.tag}</b>
+                  </p>
+                </div>
+                <div
+                  className="socials"
+                  style={{
+                    display: "flex",
+                    margin: "auto",
+                    marginRight: "0",
+                  }}
+                >
+                  <a href={articleSelected?.igLink} target="_blank">
+                    <img src="/ig.jpg" className="sc-logo" />
+                  </a>
+                </div>
+              </div>
+              {isMobile ? (
+                <>
+                  <p
+                    style={{
+                      fontSize: "2.9vh",
+                      fontWeight: "100",
+                    }}
+                    dangerouslySetInnerHTML={{
+                      __html: articleSelected?.description,
+                    }}
+                  />
+                  <div style={{ height: "100px" }} />
+                </>
+              ) : null}
             </div>
-            <p
-              style={{
-                fontSize: "2.9vh",
-                fontWeight: "100",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: articleSelected?.description,
-              }}
-            />
-            {isMobile ? <div style={{ height: "100px" }} /> : <></>}
           </div>
-        </div>
+        </>
       )}
     </>
   );

@@ -14,6 +14,21 @@
   }
 }
 
+@keyframes articleFadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.articleFadeIn {
+  opacity: 0;
+  animation: articleFadeIn 1s ease-in-out forwards;
+}
+
+
 @keyframes spin {
   0% {
     transform: rotate(360deg);
@@ -122,6 +137,25 @@
   display: block;
   padding-top: 3vh;
   padding-left: 3vh;
+  bottom: 0;
+  left: 0;
+  animation: fadeIn .3s ease-in forwards;
+  animation-delay: .5s;
+  transition: all .3s;
+  width: 30vw;
+  font-family: Helvetica;
+  color: black;
+  font-size: 1.2vw;
+}
+
+.selected-article-container {
+  opacity: 0;
+  height: 100vh;
+  position: fixed; 
+  display: block;
+  padding-top: 3vh;
+  padding-left: 3vh;
+  margin-bottom: 3vh;
   bottom: 0;
   left: 0;
   animation: fadeIn .3s ease-in forwards;
@@ -369,6 +403,24 @@
   
 }
 
+.scrolling-title-container-mob-article-addon {
+  font-family: Helvetica;
+  font-size: 2vh;
+  position: relative;
+  background-color: rgb(247, 247, 247);
+  color: black;
+  width: 100%;
+  white-space: normal;  /* Ensures text wraps */
+  overflow: hidden; /* Prevents text from overflowing */
+  display: block; /* Ensures the container behaves properly */
+}
+
+.scrolling-title-container-mob-article-addon p{
+  font-size: 2vh;
+  color: black;
+  margin: 0;
+}
+
 .gradient-overlay-mob {
   position: absolute;
   top: 0;
@@ -434,6 +486,18 @@
   animation: scroll-left 10s linear infinite;
   font-size: 1.8vh;
 }
+
+.scrolling-title-mob-articles {
+  margin-top: 0;
+  background-color: rgb(247, 247, 247);
+  width: auto;
+  color: rgb(0, 0, 0);
+  display: inline-block;
+  white-space: nowrap;
+  animation: scroll-left 10s linear reverse infinite;
+  font-size: 1.8vh;
+}
+
 
 
 @keyframes scroll-left {
@@ -514,6 +578,19 @@ position: absolute;
   left: 33%;
   width: 40%;
   
+}
+
+.tracklist-addon{
+  opacity: 0;
+  animation: fadeIn .3s ease-in forwards;
+  font-family: Helvetica;
+  font-size: 1.77vh;
+  color: black;
+  position: absolute;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+  left: 33%;
+  width: 40%;
 }
 
 .tracklist-mobile{
@@ -598,6 +675,14 @@ table{
   font-size: 1.5vh;
 }
 
+.red{
+  opacity: 0;
+}
+
+.contentArticle{
+  opacity: 0;
+}
+
 .total-timeline-container{
   position: absolute;
 }
@@ -618,6 +703,11 @@ table{
   font-size: 31px ;
   bottom: 0;
   
+}
+
+.article-title{
+  word-break: break-word;
+max-height: 1000px;
 }
 
 .slight-info {
