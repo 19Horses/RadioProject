@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
+import "./player.css";
 
 export default function SoundCloudPlayer({
   pic,
@@ -13,12 +14,61 @@ export default function SoundCloudPlayer({
   const [currentTime, setCurrentTime] = useState("--:--");
   const [isPlaying, setIsPlaying] = useState(false);
   const audioRef = useRef(null);
+  const [currentlyPlayingSrc, setCurrentlyPlayingSrc] = useState(null);
+  const [currentlyPlayingTitle, setCurrentlyPlayingTitle] = useState("");
+  const [currentlyPlayingArtist, setCurrentlyPlayingArtist] = useState("");
   const [hoveredTitle, setHoveredTitle] = useState("");
   const [hoveredChapter, setHoveredChapter] = useState("");
   const [shouldScroll, setShouldScroll] = useState(false);
   const titleRef = useRef(null);
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+
+  useEffect(() => {
+    if (artist && track && title) {
+      setCurrentlyPlayingArtist(artist);
+      setCurrentlyPlayingSrc(track);
+      setCurrentlyPlayingTitle(title);
+      setProgress(0);
+      setCurrentTime("--:--");
+      setIsPlaying(true);
+
+      if (audioRef.current) {
+        const audio = audioRef.current;
+        audio.load();
+
+        const handleCanPlay = () => {
+          audio
+            .play()
+            .catch((error) => console.error("Playback failed:", error));
+        };
+
+        audio.addEventListener("canplaythrough", handleCanPlay);
+
+        return () => {
+          audio.removeEventListener("canplaythrough", handleCanPlay);
+        };
+      }
+    }
+  }, [artist, title, track]);
+
+  useEffect(() => {
+    const audio = audioRef.current;
+    if (!audio) return;
+
+    const handleCanPlayThrough = () => {
+      // Check if the duration is valid
+      if (audio.duration && !isNaN(audio.duration)) {
+        setProgress((audio.currentTime / audio.duration) * 100);
+      }
+    };
+
+    audio.addEventListener("canplaythrough", handleCanPlayThrough);
+
+    return () => {
+      audio.removeEventListener("canplaythrough", handleCanPlayThrough);
+    };
+  }, [artist, track, title]);
 
   const togglePlayPause = () => {
     if (!audioRef.current) return;
@@ -72,45 +122,49 @@ export default function SoundCloudPlayer({
         titleRef.current.scrollWidth > containerRef.current.clientWidth
       );
     }
-  }, [title]);
+  }, [currentlyPlayingTitle]);
+
+  const updatePlayState = () => {
+    setIsPlaying(!audioRef.current.paused);
+  };
 
   useEffect(() => {
     const audio = audioRef.current;
-    if (!audio) return;
-
-    const updatePlayState = () => setIsPlaying(!audio.paused);
-
-    audio.addEventListener("play", updatePlayState);
-    audio.addEventListener("pause", updatePlayState);
+    if (audio) {
+      audio.addEventListener("play", updatePlayState);
+      audio.addEventListener("pause", updatePlayState);
+    }
 
     return () => {
-      audio.removeEventListener("play", updatePlayState);
-      audio.removeEventListener("pause", updatePlayState);
+      if (audio) {
+        audio.removeEventListener("play", updatePlayState);
+        audio.removeEventListener("pause", updatePlayState);
+      }
     };
   }, []);
 
   useEffect(() => {
-    const updateProgress = () => {
-      if (audioRef.current) {
-        setIsPlaying(true);
-        const current = audioRef.current.currentTime;
-        setProgress(
-          (audioRef.current.currentTime / audioRef.current.duration) * 100
-        );
-        setCurrentTime(formatTime(current)); // Update the displayed time
-      }
-    };
-
-    if (audioRef.current) {
-      audioRef.current.addEventListener("timeupdate", updateProgress);
+    console.log(audioRef.current); // Check if the audio element is valid
+    console.log("YES"); // Check if the source is valid
+    const audio = audioRef.current;
+    if (!audio) {
+      console.log("Audio element not found");
+      return;
     }
 
-    return () => {
-      if (audioRef.current) {
-        audioRef.current.removeEventListener("timeupdate", updateProgress);
-      }
+    const updateProgress = () => {
+      const current = audio.currentTime;
+      const duration = audio.duration;
+      setProgress((current / duration) * 100);
+      setCurrentTime(formatTime(current)); // Update currentTime
     };
-  }, []);
+
+    audio.addEventListener("timeupdate", updateProgress);
+
+    return () => {
+      audio.removeEventListener("timeupdate", updateProgress);
+    };
+  }, [artist, track, title]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -137,6 +191,18 @@ export default function SoundCloudPlayer({
   };
 
   useEffect(() => {
+    document.body.addEventListener(
+      "touchstart",
+      () => {
+        if (audioRef.current) {
+          audioRef.current.play();
+        }
+      },
+      { once: true }
+    );
+  }, []);
+
+  useEffect(() => {
     const handleKeyDown = (e) => {
       if (e.key === " ") {
         e.preventDefault();
@@ -154,23 +220,33 @@ export default function SoundCloudPlayer({
     };
   }, []);
 
+  useEffect(() => {
+    document.body.addEventListener(
+      "touchstart",
+      () => {
+        if (audioRef.current) {
+          audioRef.current.play();
+        }
+      },
+      { once: true }
+    );
+  }, []);
+
   return (
     <>
       {tracklist != null && (
-        <div className={`tracklist `}>
-          {isMobile ? (
-            <></>
-          ) : (
-            <table>
+        <div className="tracklist-container__desktop">
+          {isMobile ? null : (
+            <table className="tracklist-table__desktop">
               {tracklist?.map((mixTrack, index) => (
                 <React.Fragment key={index}>
                   {mixTrack.title === "RADIO (a)" ||
                   mixTrack.title === "PROJECT" ||
                   mixTrack.title === "RADIO (b)" ? (
-                    <tr style={{ width: "100%", height: "1vh" }}></tr>
+                    <tr className="tracklist-header-spacer__desktop"></tr>
                   ) : null}
                   <tr
-                    className="mix-track"
+                    className="tracklist-item__desktop"
                     style={{
                       cursor:
                         mixTrack.title === "RADIO (a)" ||
@@ -178,7 +254,6 @@ export default function SoundCloudPlayer({
                         mixTrack.title === "RADIO (b)"
                           ? "pointer"
                           : "",
-                      width: "100%",
                       animationDelay: `${index * 0.0375}s`,
                     }}
                     onClick={(e) => {
@@ -196,25 +271,22 @@ export default function SoundCloudPlayer({
                     onMouseLeave={() => setHoveredTitle("")}
                   >
                     <td
-                      className="mix-track"
+                      className="tracklist-item-title__desktop"
                       style={{
+                        transition: "color 0.3s",
+
                         color:
                           hoveredTitle === mixTrack?.title &&
                           mixTrack?.title !== "UNRELEASED"
-                            ? "red"
+                            ? "rgb(255, 0, 90)"
                             : mixTrack.title === "RADIO (a)" ||
                               mixTrack.title === "PROJECT" ||
                               mixTrack.title === "RADIO (b)"
-                            ? "rgb(255, 0, 0)"
+                            ? "rgb(255, 0, 90)"
                             : "black",
-                        textAlign: "right",
-                        width: "30vw",
-                        paddingLeft: "1vw",
-                        paddingRight: "1vw",
                       }}
                     >
                       <b
-                        className="mix-track"
                         style={{
                           backgroundColor:
                             hoveredChapter === mixTrack?.title ||
@@ -244,155 +316,112 @@ export default function SoundCloudPlayer({
           )}
         </div>
       )}
-
-      <div
-        className={`total-timeline-container `}
-        style={{
-          pointerEvents: track == null ? "none" : "",
-          opacity: track == null ? "0" : "1",
-        }}
-      >
-        <audio ref={audioRef} src={track} />
+      {track != "" && (
         <div
-          className={`progress-bar-container ${
-            isMobile ? "progress-bar-container-mob" : ""
+          className={`timeline-progress-bar-container__desktop ${
+            isMobile ? "timeline-progress-bar-container__mobile" : null
           }`}
           onClick={handleProgressBarClick}
-          style={{ zIndex: "999" }}
+          style={{
+            pointerEvents: track == null ? "none" : "",
+            opacity: track == null ? "0" : "1",
+          }}
         >
-          {isMobile ? (
-            <div
-              className={` ${isMobile ? "track-info-addon" : "track-info"}`}
-              onClick={(e) => e.stopPropagation()}
-              style={{ cursor: "pointer", display: "flex" }}
-            >
-              <div>
-                <a href="https://instagram.com/ubiifuruuu" target="_blank">
-                  <img src={pic} />
-                </a>
-              </div>
-              <div className="controls-mob">
-                <a
-                  style={{
-                    fontSize: "3vh",
-                    paddingLeft: "15px",
-                    paddingRight: "30px",
-                  }}
-                  className="control-mob"
-                  onClick={(e) => togglePlayPause(e)}
-                >
-                  {isPlaying ? (
-                    <FaPause style={{ color: "rgb(202, 202, 202)" }} />
-                  ) : (
-                    <FaPlay style={{ color: "rgb(202, 202, 202)" }} />
-                  )}
-                </a>
-              </div>
-              <div className="mix-info">
+          <audio ref={audioRef} src={currentlyPlayingSrc} />
+          {isMobile
+            ? // MOBILE VERSION
+              track != "" && (
                 <div
-                  ref={containerRef}
-                  className={"scrolling-title-container-mob-addon"}
+                  className="control-module__mobile"
+                  onClick={(e) => e.stopPropagation()}
+                  style={{ display: "flex" }}
                 >
-                  <div className="gradient-overlay-mob" />
-                  <div
-                    ref={titleRef}
-                    className={`${
-                      isMobile ? "scrolling-title-mob" : "scrolling-title"
-                    } ${shouldScroll ? "scroll" : ""}`}
-                    style={{ fontSize: "1.6vh", paddingLeft: "1vw" }}
-                  >
-                    {title}
+                  <div>
+                    <a href="https://instagram.com/ubiifuruuu" target="_blank">
+                      <img src={pic} />
+                    </a>
+                  </div>
+                  <div className="time-controls__mobile">
+                    <a onClick={(e) => togglePlayPause(e)}>
+                      {isPlaying ? (
+                        <FaPause style={{ color: "rgb(202, 202, 202)" }} />
+                      ) : (
+                        <FaPlay style={{ color: "rgb(202, 202, 202)" }} />
+                      )}
+                    </a>
+                  </div>
+                  <div className="mix-info">
+                    <div
+                      ref={containerRef}
+                      className={"scrolling-title-container-mob-addon"}
+                    >
+                      <div className="gradient-overlay-mob" />
+                      <div
+                        className={`${
+                          isMobile ? "scrolling-title-mob" : "scrolling-title"
+                        } ${shouldScroll ? "scroll" : ""}`}
+                        style={{ fontSize: "1.6vh", paddingLeft: "1vw" }}
+                      >
+                        {currentlyPlayingTitle}
+                      </div>
+                    </div>
+                    <div style={{ height: "20px" }}>
+                      <p
+                        style={{
+                          fontSize: "1.6vh",
+                          fontFamily: "Helvetica",
+                          margin: "auto",
+                          fontWeight: "1000",
+                        }}
+                      >
+                        {currentlyPlayingArtist}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="timestamp">
+                    <p>
+                      {currentTime} /{" "}
+                      <b>
+                        {audioRef.current?.duration &&
+                        !isNaN(audioRef.current.duration)
+                          ? formatTime(audioRef.current.duration)
+                          : "--:--"}
+                      </b>
+                    </p>
                   </div>
                 </div>
-                <div style={{ height: "20px" }}>
-                  <p
-                    style={{
-                      fontSize: "1.6vh",
-                      fontFamily: "Helvetica",
-                      margin: "auto",
-                      fontWeight: "1000",
-                    }}
+              )
+            : // DESKTOP VERSION
+              track != "" && (
+                <div
+                  className="control-module__desktop"
+                  onClick={(e) => e.stopPropagation()}
+                >
+                  <div
+                    className="time-controls__desktop"
+                    onClick={(e) => e.stopPropagation()}
                   >
-                    {artist}
-                  </p>
-                </div>
-              </div>
-              <div className="timestamp">
-                <p>
-                  {currentTime} /{" "}
-                  <b>
-                    {audioRef.current
-                      ? formatTime(audioRef.current.duration)
-                      : "--:--"}
-                  </b>
-                </p>
-              </div>
-            </div>
-          ) : (
-            <div
-              className={`track-info ${isMobile ? "track-info-addon" : ""}`}
-              onClick={(e) => e.stopPropagation()}
-              style={{ cursor: "pointer" }}
-            >
-              <div className={`info-text `}>
-                <p>
-                  <div className="controls">
-                    <div
-                      className="control"
-                      onClick={skipBackward}
-                      style={{ fontSize: "2.8vh", color: "gray" }}
-                    >
-                      {" "}
-                      &#10226;
-                    </div>
+                    <div onClick={skipBackward}> &#10226;</div>
                     <a
-                      style={{ fontSize: "1.4vh", color: "gray" }}
-                      className="control"
-                      onClick={(e) => togglePlayPause(e)}
+                      style={{ fontSize: "1.4vh" }}
+                      onClick={(e) => {
+                        togglePlayPause(e);
+                      }}
                     >
                       {isPlaying ? <FaPause /> : <FaPlay />}
                     </a>
-                    <div
-                      className="control"
-                      onClick={skipForward}
-                      style={{ fontSize: "2.8vh", color: "gray" }}
-                    >
-                      &#10227;
-                    </div>
+                    <div onClick={skipForward}>&#10227;</div>
                   </div>
                   <div
                     ref={containerRef}
-                    className={`scrolling-title-container ${
-                      isMobile ? "scrolling-title-container-mob-addon" : ""
-                    }`}
+                    className="scrolling-title-container__desktop"
                   >
                     <div className="gradient-overlay" />
-                    <div
-                      ref={titleRef}
-                      className={`scrolling-title ${
-                        shouldScroll ? "scroll" : ""
-                      }`}
-                    >
-                      <b>{title}</b>
+                    <div ref={titleRef} className="scrolling-title__desktop">
+                      <b>{currentlyPlayingTitle}</b>
                     </div>
                   </div>
-                  <span>
-                    <b
-                      style={{
-                        textTransform: "uppercase",
-                        width: "auto",
-                        backgroundColor: "black",
-                        color: "white",
-                        paddingTop: ".25vh",
-                        paddingBottom: ".25vh",
-                        paddingLeft: ".25vw",
-                        paddingRight: ".25vw",
-                        fontSize: "1.745vh",
-                      }}
-                    >
-                      {artist}
-                    </b>
-                  </span>
+                  <span>{currentlyPlayingArtist}</span>
                   <br />
                   <br />
                   {currentTime} /{" "}
@@ -401,24 +430,23 @@ export default function SoundCloudPlayer({
                       ? formatTime(audioRef.current.duration)
                       : "--:--"}
                   </b>
-                </p>
-              </div>
-            </div>
-          )}
+                </div>
+              )}
 
+          {/* TIMELINE */}
           <div
-            className="progress-bar"
+            className="completed-progress__desktop"
             style={{ height: `${progress}%` }}
-          ></div>
+          />
+
           {chapters?.map((chapter, index) => (
             <React.Fragment key={index}>
               <div
                 onMouseEnter={() => {
                   setHoveredChapter(chapter?.title);
-                  console.log(chapter?.title);
                 }}
                 onMouseLeave={() => setHoveredChapter("")}
-                className="chapter-slit"
+                className="progress-bar-chapter-slit-hitbox__desktop"
                 style={{
                   top: `${
                     audioRef.current?.duration
@@ -428,10 +456,10 @@ export default function SoundCloudPlayer({
                   }%`,
                 }}
                 onClick={(e) => handleChapterClick(chapter.startTime, e)}
-              ></div>
+              />
 
               <div
-                className="icon"
+                className="progress-bar-chapter-slit__desktop"
                 style={{
                   height: hoveredChapter === chapter?.title ? "3px" : "1px",
                   top: `${
@@ -440,37 +468,20 @@ export default function SoundCloudPlayer({
                       : 0
                   }%`,
                   backgroundColor:
-                    hoveredChapter === chapter?.title ? "#7a0000" : "white",
+                    hoveredChapter === chapter?.title ? "#000000" : "white",
                 }}
                 onMouseEnter={() => setHoveredChapter(chapter?.title)}
                 onMouseLeave={() => setHoveredChapter("")}
-              >
-                {isMobile ? (
-                  <></>
-                ) : (
-                  <span
-                    className="tag"
-                    style={{
-                      backgroundColor: "black",
-                      color: "white",
-                      fontWeight: "bold",
-                      opacity: hoveredChapter === chapter?.title ? "1" : "0",
-                      transition: "opacity 0.3s ease-in-out", // Smooth fade effect
-                    }}
-                  >
-                    {chapter?.title}
-                  </span>
-                )}
-              </div>
+              />
             </React.Fragment>
           ))}
           <img
             src="/indicator.png"
-            className="progress-circle"
+            className="progress-bar-current-icon__desktop"
             alt="Indicator"
           />
         </div>
-      </div>
+      )}
     </>
   );
 }

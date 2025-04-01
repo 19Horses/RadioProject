@@ -14,9 +14,11 @@ p::selection,
 b::selection,
 br::selection,
 span::selection,
+img::selection,
+span::selection,
 sup::selection {
   color: white;
-  background-color: rgb(255, 0, 0);
+  background-color: rgb(255, 0, 90);
 }
 
 html, body {

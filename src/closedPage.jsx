@@ -5,6 +5,7 @@ import { writers as items2 } from "./articles.js";
 import SoundCloudPlayer from "./soundcloudPlayer";
 import Header from "./header";
 import { useLocation } from "react-router-dom"; // Import this hook
+import { FaPlay } from "react-icons/fa";
 
 const fadeIn = keyframes`
   from {
@@ -51,8 +52,8 @@ const PhotoContainer = styled.div`
   position: absolute;
   min-width: 0; /* Ensures no Safari stretching */
   min-height: 0;
-  width: ${(props) => (props.$isMobile ? "300px" : `650px`)};
-  height: ${(props) => (props.$isMobile ? "300px" : `650px`)};
+  width: ${(props) => (props.$isMobile ? "300px" : `500px`)};
+  height: ${(props) => (props.$isMobile ? "300px" : `500px`)};
   transition: all 0.5s ease-in-out;
   left: ${(props) =>
     props.$isLeft
@@ -74,9 +75,20 @@ const CursorTitle = styled.p`
     forwards;
   animation-delay: ${(props) => props.delay}s;
   opacity: 0;
+  transform: translateY(100px);
 `;
 
-export const CustomCursor = ({ rpc, t1, t2, t3, isLeft, hovered }) => {
+export const CustomCursor = ({
+  rpc,
+  t1,
+  t2,
+  t3,
+  t4,
+  t5,
+  t6,
+  isLeft,
+  hovered,
+}) => {
   const cursor = useRef(null);
 
   useEffect(() => {
@@ -135,14 +147,48 @@ export const CustomCursor = ({ rpc, t1, t2, t3, isLeft, hovered }) => {
       </CursorTitle>
       <br />
       <CursorTitle
-        className="cursor-title"
+        className="cursor-title "
         hovered={hovered}
         bgColor="black"
         color="white"
-        fontSize="1.9vh"
-        delay={0.25}
-        dangerouslySetInnerHTML={{ __html: t3 }}
-      />
+        fontSize="2vh"
+        delay={0.2}
+      >
+        <b>{t3}</b>
+      </CursorTitle>
+      <br />
+      <CursorTitle
+        className="cursor-title "
+        hovered={hovered}
+        bgColor="black"
+        color="white"
+        fontSize="2vh"
+        delay={0.2}
+      >
+        <b>{t4}</b>
+      </CursorTitle>
+      <br />
+      <CursorTitle
+        className="cursor-title "
+        hovered={hovered}
+        bgColor="black"
+        color="white"
+        fontSize="2vh"
+        delay={0.2}
+      >
+        <b>{t5}</b>
+      </CursorTitle>
+      <br />
+      <CursorTitle
+        className="cursor-title "
+        hovered={hovered}
+        bgColor="black"
+        color="white"
+        fontSize="2vh"
+        delay={0.2}
+      >
+        <b>{t6}</b>
+      </CursorTitle>
     </div>
   );
 };
@@ -152,6 +198,9 @@ export default function ClosedPage() {
   const [title, setTitle] = useState("");
   const [title2, setTitle2] = useState("");
   const [title3, setTitle3] = useState("");
+  const [title4, setTitle4] = useState("");
+  const [title5, setTitle5] = useState("");
+  const [title6, setTitle6] = useState("");
   const [hovered, setHovered] = useState(false);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [w, setW] = useState(null);
@@ -173,6 +222,7 @@ export default function ClosedPage() {
   const [shouldScroll, setShouldScroll] = useState(false);
   const containerRef = useRef(null);
   const titleRef = useRef(null);
+  const [mobileIndex, setMobileIndex] = useState(0);
 
   const resetInfo = () => {
     setSelectedTracklist(null);
@@ -242,7 +292,7 @@ export default function ClosedPage() {
   return (
     <>
       <div className={"gradient-overlay-tl"} />
-      {selectedTrack != "" && (
+      {selectedTracklist != "" && (
         <SoundCloudPlayer
           pic={selectedPic}
           track={selectedTrack}
@@ -260,11 +310,13 @@ export default function ClosedPage() {
             t1={title}
             t2={title2}
             t3={title3}
+            t4={title4}
+            t5={title5}
+            t6={title6}
             isLeft={isLeft}
             hovered={hovered}
           />
         )}
-
       <Header
         onInfoClick={() => {
           setInfoSelected(true);
@@ -293,7 +345,6 @@ export default function ClosedPage() {
         className={`header-logo ${
           isMobile ? "header-logo-mob" : "header-logo-norm"
         }`}
-        style={{ cursor: "pointer" }}
       >
         <a
           onClick={() => {
@@ -313,9 +364,7 @@ export default function ClosedPage() {
             alt="Logo"
           />
         </a>
-        {isMobile ? (
-          <></>
-        ) : (
+        {isMobile ? null : (
           <a>
             <img
               className="second"
@@ -328,92 +377,249 @@ export default function ClosedPage() {
           </a>
         )}
       </div>
-
       {!infoSelected && !articleHeaderSelected && (
         <div
-          className={"total-container "}
+          className="center-wrapper"
           style={{
             pointerEvents: selectedIndex === null ? "" : "none",
           }}
         >
-          <div
-            ref={flexContainer}
-            className={`${isMobile ? "flex-container-mob" : "flex-container"} ${
-              selectedIndex != null ? "fadeOutGrid" : ""
-            }`}
-          >
-            {items.map((pic, i) => {
-              const isLeft = i < items.length / 2;
-              return (
-                <GridContainer
-                  key={i}
-                  $total={items.length}
-                  $selectedIndex={selectedIndex}
-                  $contents={i}
-                  $isLeft={isLeft}
-                >
-                  <PhotoContainer
-                    className="pc"
-                    key={i}
-                    $contents={i}
-                    $selectedIndex={selectedIndex}
-                    $parentWidth={w}
-                    $total={items.length}
-                    $isLeft={isLeft}
-                    $isMobile={isMobile}
+          <div className={"total-container "}>
+            {isMobile ? (
+              <>
+                <div>
+                  <div
+                    ref={flexContainer}
+                    className={`${
+                      isMobile ? "flex-container-mob" : "flex-container"
+                    } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
                   >
-                    <img
-                      src={pic.src}
-                      alt={pic.title}
-                      className="image"
-                      onMouseEnter={() => {
-                        setHovered(true);
-                        setRpCount(pic.rpCount);
-                        setTitle(pic.title);
-                        setTitle2(pic.title2);
-                        setTitle3(pic.title3);
-                        setIsLeft(isLeft);
-                        setHoveredIndex(i);
-                      }}
-                      onMouseLeave={() => {
-                        setHoveredIndex(null);
-                        setHovered(false);
-                        setRpCount("");
-                        setTitle("");
-                        setTitle2("");
-                        setTitle3("");
-                      }}
-                      onClick={() => {
-                        setSelectedIndex(pic.id);
-                        setSelectedTrack(items[pic.id]?.mixId);
-                        setSelectedChapters(pic?.chapters || []);
-                        setSelectedTracklist(pic?.tracklist || []);
-                        setSelectedTitle([pic?.rpCount + pic?.title]);
-                        setSelectedArtist(pic?.title2);
-                        setSelectedPic(pic?.src);
-                        if ("mediaSession" in navigator) {
-                          navigator.mediaSession.metadata = new MediaMetadata({
-                            title: ["RADIO Project 1 ♪ " + pic?.title],
-                            artist: pic?.title2, // Adjust artist name
-                            album: "Radio Project", // Adjust album name
-                            artwork: [
-                              {
-                                src: pic?.ipSrc,
-                                sizes: "512x512",
-                                type: "image/png",
-                              },
-                            ],
-                          });
-                        }
-                      }}
-                      style={{
-                        transition: "filter 0.3s ease-in-out",
-                      }}
-                    />
-                  </PhotoContainer>
-                </GridContainer>
-              );
-            })}
+                    {items.map((pic, i) => {
+                      const isLeft = i < items.length / 2;
+                      return (
+                        <GridContainer
+                          key={i}
+                          $total={items.length}
+                          $selectedIndex={selectedIndex}
+                          $contents={i}
+                          $isLeft={isLeft}
+                        >
+                          <PhotoContainer
+                            className="pc"
+                            key={i}
+                            $contents={i}
+                            $selectedIndex={selectedIndex}
+                            $parentWidth={w}
+                            $total={items.length}
+                            $isLeft={isLeft}
+                            $isMobile={isMobile}
+                          >
+                            <img
+                              src={pic.src}
+                              alt={pic.title}
+                              className="image"
+                              onClick={() => {
+                                setSelectedIndex(pic.id);
+                                // setSelectedTrack(items[pic.id]?.mixId);
+                                setSelectedChapters(pic?.chapters || []);
+                                setSelectedTracklist(pic?.tracklist || []);
+                                console.log(pic?.tracklist);
+                                setSelectedPic(pic?.src);
+                                if ("mediaSession" in navigator) {
+                                  navigator.mediaSession.metadata =
+                                    new MediaMetadata({
+                                      title: [
+                                        "RADIO Project 1 ♪ " + pic?.title,
+                                      ],
+                                      artist: "RADIO Project • " + pic?.title2, // Adjust artist name
+                                      album: "RADIO Project", // Adjust album name
+                                      artwork: [
+                                        {
+                                          src: pic?.ipSrc,
+                                          sizes: "512x512",
+                                          type: "image/png",
+                                        },
+                                      ],
+                                    });
+                                }
+                              }}
+                              style={{
+                                transition: "filter 0.3s ease-in-out",
+                              }}
+                            />
+                          </PhotoContainer>
+                        </GridContainer>
+                      );
+                    })}
+                  </div>
+                </div>
+                <div
+                  className={`cursor-mobile ${
+                    selectedIndex != null ? "fadeOutGrid" : ""
+                  }`}
+                  style={{ left: 0 }}
+                  onClick={() => {
+                    setSelectedIndex(items[mobileIndex]?.id);
+                    setSelectedChapters(items[mobileIndex]?.chapters || []);
+                    setSelectedTracklist(items[mobileIndex]?.tracklist || []);
+                    //setSelectedTrack(items[mobileIndex]?.mixId);
+
+                    setSelectedTitle([
+                      items[mobileIndex]?.rpCount + items[mobileIndex]?.title,
+                    ]);
+                    setSelectedArtist(items[mobileIndex]?.title2);
+                    setSelectedPic(items[mobileIndex]?.src);
+                    if ("mediaSession" in navigator) {
+                      navigator.mediaSession.metadata = new MediaMetadata({
+                        title: [
+                          items[mobileIndex]?.rpCount +
+                            items[mobileIndex]?.title,
+                        ],
+                        artist: "RADIO Project • " + items[mobileIndex]?.title2, // Adjust artist name
+                        album: "RADIO Project", // Adjust album name
+                        artwork: [
+                          {
+                            src: items[mobileIndex]?.ipSrc,
+                            sizes: "512x512",
+                            type: "image/png",
+                          },
+                        ],
+                      });
+                    }
+                  }}
+                >
+                  <CursorTitle
+                    className="cursor-title"
+                    hovered={true}
+                    bgColor={"rgb(247, 247, 247);"}
+                    delay={0.1}
+                    fontSize="2.4vh"
+                  >
+                    {items[mobileIndex]?.rpCount}
+                  </CursorTitle>
+                  <CursorTitle
+                    className="cursor-title"
+                    hovered={true}
+                    bgColor="black"
+                    color="white"
+                    fontSize="2.4vh"
+                    delay={0.15}
+                  >
+                    <b>{items[mobileIndex]?.title}</b>
+                  </CursorTitle>
+                  <br />
+                  <CursorTitle
+                    className="cursor-title"
+                    hovered={true}
+                    bgColor="black"
+                    color="white"
+                    fontSize="4.9vh"
+                    delay={0.15}
+                  >
+                    <b>{items[mobileIndex]?.title2}</b>
+                  </CursorTitle>
+                  <br />
+                  <CursorTitle
+                    className="cursor-title"
+                    hovered={true}
+                    bgColor="black"
+                    color="white"
+                    fontSize="2vh"
+                    delay={0.15}
+                  >
+                    <b>{items[mobileIndex]?.broadcastDate}</b>
+                  </CursorTitle>
+                </div>
+              </>
+            ) : (
+              <div>
+                <div
+                  ref={flexContainer}
+                  className={`${
+                    isMobile ? "flex-container-mob" : "flex-container"
+                  } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
+                >
+                  {items.map((pic, i) => {
+                    const isLeft = i < items.length / 2;
+                    return (
+                      <GridContainer
+                        key={i}
+                        $total={items.length}
+                        $selectedIndex={selectedIndex}
+                        $contents={i}
+                        $isLeft={isLeft}
+                      >
+                        <PhotoContainer
+                          className="pc"
+                          key={i}
+                          $contents={i}
+                          $selectedIndex={selectedIndex}
+                          $parentWidth={w}
+                          $total={items.length}
+                          $isLeft={isLeft}
+                          $isMobile={isMobile}
+                        >
+                          <img
+                            src={pic.src}
+                            alt={pic.title}
+                            className="image"
+                            onMouseEnter={() => {
+                              setHovered(true);
+                              setRpCount(pic.rpCount);
+                              setTitle(pic.title);
+                              setTitle2(pic.title2);
+                              setTitle3(pic.title3);
+                              setTitle4(pic.title4);
+                              setTitle5(pic.title5);
+                              setTitle6(pic.title6);
+                              setIsLeft(isLeft);
+                              setHoveredIndex(i);
+                            }}
+                            onMouseLeave={() => {
+                              setHoveredIndex(null);
+                              setHovered(false);
+                              setRpCount("");
+                              setTitle("");
+                              setTitle2("");
+                              setTitle3("");
+                              setTitle4("");
+                              setTitle5("");
+                              setTitle6("");
+                            }}
+                            onClick={() => {
+                              setSelectedIndex(pic.id);
+                              // setSelectedTrack(items[pic.id]?.mixId);
+                              setSelectedChapters(pic?.chapters || []);
+                              setSelectedTracklist(pic?.tracklist || []);
+                              console.log(pic?.tracklist);
+                              setSelectedPic(pic?.src);
+                              if ("mediaSession" in navigator) {
+                                navigator.mediaSession.metadata =
+                                  new MediaMetadata({
+                                    title: ["RADIO Project 1 ♪ " + pic?.title],
+                                    artist: "RADIO Project • " + pic?.title2, // Adjust artist name
+                                    album: "RADIO Project", // Adjust album name
+                                    artwork: [
+                                      {
+                                        src: pic?.ipSrc,
+                                        sizes: "512x512",
+                                        type: "image/png",
+                                      },
+                                    ],
+                                  });
+                              }
+                            }}
+                            style={{
+                              transition: "filter 0.3s ease-in-out",
+                            }}
+                          />
+                        </PhotoContainer>
+                      </GridContainer>
+                    );
+                  })}
+                </div>
+              </div>
+            )}
           </div>
         </div>
       )}
@@ -493,12 +699,25 @@ export default function ClosedPage() {
               </div>
 
               <div className="artist-pics">
-                <a onClick={() => resetInfo()} target="_blank">
+                <a>
                   <img
                     src={items[selectedIndex]?.["2ppSrc"]}
                     className="selected-artist-image"
                   />
                 </a>
+                <div
+                  className="selectTrack"
+                  onClick={() => {
+                    setSelectedArtist(items[selectedIndex]?.title2);
+                    setSelectedTitle(
+                      items[selectedIndex]?.rpCount +
+                        items[selectedIndex]?.title
+                    );
+                    setSelectedTrack(items[selectedIndex]?.mixId);
+                  }}
+                >
+                  <FaPlay style={{ fontSize: "1.3vh" }} /> PLAY
+                </div>
               </div>
               <div
                 style={{
@@ -598,7 +817,7 @@ export default function ClosedPage() {
             className={` ${
               isMobile
                 ? "selected-artist-container-mob-addon"
-                : "selected-artist-container"
+                : "selected-article-container_desktop"
             }`}
           >
             <div
@@ -706,16 +925,13 @@ export default function ClosedPage() {
           </div>
         </>
       )}
+      {/* Selected Article */}
       {articleSelected != null && (
         <>
           {!isMobile ? (
-            <div className="tracklist-addon">
+            <div className="article-content__desktop">
               <p
-                style={{
-                  fontSize: "3.1vh",
-                  fontWeight: "100",
-                  opacity: "0",
-                }}
+                className="article-content-text__desktop"
                 dangerouslySetInnerHTML={{
                   __html: articleSelected?.description,
                 }}
@@ -725,134 +941,104 @@ export default function ClosedPage() {
           <div
             className={` ${
               isMobile
-                ? "selected-artist-container-mob-addon"
+                ? "mobile-article-container"
                 : "selected-article-container"
             }`}
           >
+            <div className="description-container">
+              <p className="description-header" style={{ fontSize: "3.7vh" }}>
+                <span
+                  style={{
+                    fontFamily: "Helvetica",
+                    fontWeight: "100",
+                  }}
+                >
+                  {articleSelected?.rpCount}
+                </span>{" "}
+                <span
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "2px 5px", // Optional for better visibility
+                  }}
+                >
+                  <b>{articleSelected?.title2}</b>
+                </span>
+              </p>
+            </div>
+
+            <div className="artist-pics">
+              <a onClick={() => resetInfo()} target="_blank">
+                <img
+                  src={articleSelected?.src}
+                  className="selected-artist-image"
+                />
+              </a>
+            </div>
+
             <div
-              className="all-left-cont"
               style={{
-                top: isMobile ? "7%" : "",
+                display: "flex",
+                justifyContent: "space-between",
+                paddingTop: "2vh",
               }}
             >
-              <div className="description-container">
-                <p className="description-header" style={{ fontSize: "3.7vh" }}>
+              {" "}
+              <div>
+                <p className="slight-info" style={{ fontSize: "1.2vh" }}>
+                  <a
+                    style={{
+                      fontWeight: "100",
+                      fontSize: "2vh",
+                      lineHeight: "1.5",
+                      textDecoration: "none",
+                      cursor: "pointer",
+                      color: "black",
+                    }}
+                    href={articleSelected?.igLink}
+                    target="_blank"
+                  >
+                    <b>{articleSelected.title}</b>
+                  </a>
+                  <br />
                   <span
                     style={{
-                      fontFamily: "Helvetica",
                       fontWeight: "100",
                     }}
                   >
-                    {articleSelected?.rpCount}
-                  </span>{" "}
+                    {articleSelected?.releaseDate}
+                  </span>
+                  <br />
                   <span
                     style={{
-                      backgroundColor: "black",
-                      color: "white",
-                      padding: "2px 5px", // Optional for better visibility
+                      fontWeight: "100",
                     }}
                   >
-                    <b>{articleSelected?.title2}</b>
+                    {articleSelected?.length}
                   </span>
                 </p>
               </div>
-
-              <div className="artist-pics">
-                <a onClick={() => resetInfo()} target="_blank">
-                  <img
-                    src={articleSelected?.src}
-                    className="selected-artist-image"
-                  />
+              <div className="article-tag__mobile">
+                <p className="article-tag-text__mobile">
+                  {articleSelected?.tag}
+                </p>
+              </div>
+              <div className="article-socials__desktop">
+                <a href={articleSelected?.igLink} target="_blank">
+                  <img src="/ig.jpg" className="sc-logo" />
                 </a>
               </div>
-
-              <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  paddingTop: "2vh",
-                }}
-              >
-                {" "}
-                <div>
-                  <p className="slight-info" style={{ fontSize: "1.2vh" }}>
-                    <a
-                      style={{
-                        fontWeight: "100",
-                        fontSize: "2vh",
-                        lineHeight: "1.5",
-                        textDecoration: "none",
-                        cursor: "pointer",
-                        color: "black",
-                      }}
-                      href={articleSelected?.igLink}
-                      target="_blank"
-                    >
-                      <b>{articleSelected.title}</b>
-                    </a>
-                    <br />
-                    <span
-                      style={{
-                        fontWeight: "100",
-                      }}
-                    >
-                      {articleSelected?.releaseDate}
-                    </span>
-                    <br />
-                    <span
-                      style={{
-                        fontWeight: "100",
-                      }}
-                    >
-                      {articleSelected?.length}
-                    </span>
-                  </p>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    alignItems: "stretch", // Ensures child elements stretch to full height
-                    border: "1px solid black",
-                    paddingLeft: ".8vh",
-                    paddingRight: ".8vh",
-                    fontSize: "1.2vh",
-                    height: "100%", // Makes the div take full height of the parent
-                    margin: "auto",
-                    marginRight: "0",
-                  }}
-                >
-                  <p>
-                    <b>{articleSelected?.tag}</b>
-                  </p>
-                </div>
-                <div
-                  className="socials"
-                  style={{
-                    display: "flex",
-                    margin: "auto",
-                    marginRight: "0",
-                  }}
-                >
-                  <a href={articleSelected?.igLink} target="_blank">
-                    <img src="/ig.jpg" className="sc-logo" />
-                  </a>
-                </div>
-              </div>
-              {isMobile ? (
-                <>
-                  <p
-                    style={{
-                      fontSize: "2.9vh",
-                      fontWeight: "100",
-                    }}
-                    dangerouslySetInnerHTML={{
-                      __html: articleSelected?.description,
-                    }}
-                  />
-                  <div style={{ height: "100px" }} />
-                </>
-              ) : null}
             </div>
+            {isMobile ? (
+              <>
+                <p
+                  className="article-content-text__mobile"
+                  dangerouslySetInnerHTML={{
+                    __html: articleSelected?.description,
+                  }}
+                />
+              </>
+            ) : null}
           </div>
         </>
       )}

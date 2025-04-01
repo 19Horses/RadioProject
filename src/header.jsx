@@ -27,26 +27,27 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
             </div>
             {menuOpen && (
               <div
-                className="dropdown-menu slide-in"
+                className={`dropdown-menu slide-in`}
                 onClick={() => {
                   setMenuOpen(false);
                 }}
               >
-                <a
-                  className="header-item"
-                  onClick={() => {
-                    onRadioClick();
-                    setSelected("Radio");
-                    setMenuOpen(false);
-                  }}
-                  style={{
-                    cursor: "pointer",
-                    color: selected === "Radio" ? "red" : "black",
-                  }}
-                >
-                  <b>Archive</b>
-                </a>
-                <a
+                <div className="dropdown-content">
+                  <a
+                    className="header-item"
+                    onClick={() => {
+                      onRadioClick();
+                      setSelected("Radio");
+                      setMenuOpen(false);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      color: selected === "Radio" ? "rgb(255, 0, 90)" : "black",
+                    }}
+                  >
+                    <b>Archive</b>
+                  </a>
+                  {/* <a
                   className="header-item"
                   onClick={() => {
                     onArticleClick();
@@ -61,42 +62,43 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                   target="_blank"
                 >
                   <b>Radiograms</b>
-                </a>
-                <a
-                  className="header-item"
-                  target="_blank"
-                  href="https://www.ninaprotocol.com/profiles/radio-project"
-                >
-                  Nina
-                </a>
-                <a
-                  className="header-item"
-                  target="_blank"
-                  href="https://soundcloud.com/radio_project"
-                >
-                  SoundCloud
-                </a>
-                <a
-                  className="header-item"
-                  target="_blank"
-                  href="https://www.instagram.com/radio__project/"
-                >
-                  Instagram
-                </a>
-                <a
-                  className="header-item"
-                  onClick={() => {
-                    onInfoClick();
-                    setSelected("Info");
-                    setMenuOpen(false);
-                  }}
-                  style={{
-                    cursor: "pointer",
-                    color: selected === "Info" ? "red" : "black",
-                  }}
-                >
-                  About
-                </a>
+                </a> */}
+                  <a
+                    className="header-item"
+                    target="_blank"
+                    href="https://www.ninaprotocol.com/profiles/radio-project"
+                  >
+                    Nina
+                  </a>
+                  <a
+                    className="header-item"
+                    target="_blank"
+                    href="https://soundcloud.com/radio_project"
+                  >
+                    SoundCloud
+                  </a>
+                  <a
+                    className="header-item"
+                    target="_blank"
+                    href="https://www.instagram.com/radio__project/"
+                  >
+                    Instagram
+                  </a>
+                  <a
+                    className="header-item"
+                    onClick={() => {
+                      onInfoClick();
+                      setSelected("Info");
+                      setMenuOpen(false);
+                    }}
+                    style={{
+                      cursor: "pointer",
+                      color: selected === "Info" ? "rgb(255, 0, 90)" : "black",
+                    }}
+                  >
+                    About
+                  </a>
+                </div>
               </div>
             )}
           </>
@@ -110,12 +112,12 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               }}
               style={{
                 cursor: "pointer",
-                color: selected === "Radio" ? "red" : "black",
+                color: selected === "Radio" ? "rgb(255, 0, 90)" : "black",
               }}
             >
               <b>Archive</b>
             </a>
-            <a
+            {/* <a
               className="header-item"
               onClick={() => {
                 //
@@ -124,13 +126,13 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               }}
               style={{
                 cursor: "pointer",
-                color: selected === "Articles" ? "red" : "black",
+                color: selected === "Articles" ? "rgb(255, 0, 90)" : "black",
                 //color: "black",
               }}
               target="_blank"
             >
               <b>Radiograms</b>
-            </a>
+            </a> */}
             <a
               className="header-item"
               target="_blank"
@@ -160,7 +162,7 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               }}
               style={{
                 cursor: "pointer",
-                color: selected === "Info" ? "red" : "black",
+                color: selected === "Info" ? "rgb(255, 0, 90)" : "black",
               }}
             >
               About
