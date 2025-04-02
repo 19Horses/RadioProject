@@ -374,6 +374,8 @@
 .header-logo-mob{
   width: 50px;
   height: 50px;
+  top: 1%;
+  left: 3%;
 }
 
 .header-logo img {
@@ -716,8 +718,8 @@ max-height: 1000px;
   position: absolute;
   background: none;
   border: none;
-  font-size: 2rem;
-  right: 2%;
+  font-size: 2.5rem;
+  right: 0%;
   cursor: pointer;
   color: black;
   
@@ -738,7 +740,8 @@ max-height: 1000px;
 
 
 .dropdown-content{
-  padding-top: 44px; /* Start at the top of the viewport */
+  padding-top: 60px; /* Start at the top of the viewport */
+  padding-right: 10px;
 }
 
 .dropdown-content .header-item{
@@ -749,6 +752,7 @@ max-height: 1000px;
   
   text-align: right;
   width: 90%;
+  
 }
 
 .dropdown-menu .header-item {
@@ -1099,7 +1103,7 @@ background-color: rgb(247, 247, 247);
   color: rgb(255, 255, 255);
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left 15s linear infinite;
+  animation: scroll-left-desk 15s linear infinite;
 }
 
 .control-module__desktop span{
