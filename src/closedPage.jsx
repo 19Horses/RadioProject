@@ -593,7 +593,7 @@ export default function ClosedPage() {
                               if ("mediaSession" in navigator) {
                                 navigator.mediaSession.metadata =
                                   new MediaMetadata({
-                                    title: ["RADIO Project 1 ♪ " + pic?.title],
+                                    title: pic?.title,
                                     artist: "RADIO Project • " + pic?.title2, // Adjust artist name
                                     album: "RADIO Project", // Adjust album name
                                     artwork: [
