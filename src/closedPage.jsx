@@ -471,10 +471,7 @@ export default function ClosedPage() {
                     setSelectedPic(items[mobileIndex]?.src);
                     if ("mediaSession" in navigator) {
                       navigator.mediaSession.metadata = new MediaMetadata({
-                        title: [
-                          items[mobileIndex]?.rpCount +
-                            items[mobileIndex]?.title,
-                        ],
+                        title: [items[mobileIndex]?.title],
                         artist: "RADIO Project • " + items[mobileIndex]?.title2, // Adjust artist name
                         album: "RADIO Project", // Adjust album name
                         artwork: [
