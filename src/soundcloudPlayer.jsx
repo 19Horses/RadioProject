@@ -1,19 +1,38 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import "./player.css";
+import { useAudio } from "./AudioContext"; // Import the audio context
 
 export default function SoundCloudPlayer({
-  pic,
-  track,
-  chapters,
-  title,
-  artist,
-  tracklist,
-}) {
-  const [progress, setProgress] = useState(0);
-  const [currentTime, setCurrentTime] = useState("--:--");
-  const [isPlaying, setIsPlaying] = useState(false);
-  const audioRef = useRef(null);
+  pic = "",
+  track = "",
+  chapters = [],
+  title = "",
+  artist = "",
+  tracklist = [],
+} = {}) {
+  //const [progress, setProgress] = useState(0);
+  //const [currentTime, setCurrentTime] = useState("--:--");
+  //const [isPlaying, setIsPlaying] = useState(false);
+  //const audioRef = useRef(null);
+  const audioContext = useAudio();
+
+  const {
+    audioRef,
+    isPlaying,
+    setIsPlaying,
+    progress,
+    setProgress,
+    currentTime,
+    setCurrentTime,
+  } = audioContext || {};
+
+  useEffect(() => {
+    if (!audioContext) {
+      console.error("Audio context is undefined");
+    }
+  }, [audioContext]);
+
   const [currentlyPlayingSrc, setCurrentlyPlayingSrc] = useState(null);
   const [currentlyPlayingTitle, setCurrentlyPlayingTitle] = useState("");
   const [currentlyPlayingArtist, setCurrentlyPlayingArtist] = useState("");
@@ -38,9 +57,10 @@ export default function SoundCloudPlayer({
         audio.load();
 
         const handleCanPlay = () => {
-          audio
-            .play()
-            .catch((error) => console.error("Playback failed:", error));
+          console.log("Audio is ready to play");
+          audio.play().catch((error) => {
+            console.error("iOS blocked playback:", error);
+          });
         };
 
         audio.addEventListener("canplaythrough", handleCanPlay);
@@ -51,6 +71,28 @@ export default function SoundCloudPlayer({
       }
     }
   }, [artist, title, track]);
+
+  useEffect(() => {
+    const enableAutoplay = () => {
+      if (audioRef.current) {
+        // Try playing the audio and catch any potential errors
+        audioRef.current.play().catch((error) => {
+          console.warn("Autoplay prevented:", error);
+        });
+      }
+    };
+
+    // This ensures that the autoplay is triggered by a touch or click event
+    document.body.addEventListener("touchstart", enableAutoplay, {
+      once: true,
+    });
+    document.body.addEventListener("click", enableAutoplay, { once: true });
+
+    return () => {
+      document.body.removeEventListener("touchstart", enableAutoplay);
+      document.body.removeEventListener("click", enableAutoplay);
+    };
+  }, []);
 
   useEffect(() => {
     const audio = audioRef.current;
@@ -74,12 +116,14 @@ export default function SoundCloudPlayer({
     if (!audioRef.current) return;
 
     if (audioRef.current.paused) {
-      audioRef.current.play();
+      audioRef.current.play().catch((error) => {
+        console.error("Playback failed:", error);
+      });
     } else {
       audioRef.current.pause();
     }
 
-    setIsPlaying(!audioRef.current.paused); // Update the state manually
+    setIsPlaying(!audioRef.current.paused);
   };
 
   const handleChapterClick = (chapterStartTime, event) => {

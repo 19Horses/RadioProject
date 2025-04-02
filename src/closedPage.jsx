@@ -6,6 +6,7 @@ import SoundCloudPlayer from "./soundcloudPlayer";
 import Header from "./header";
 import { useLocation } from "react-router-dom"; // Import this hook
 import { FaPlay } from "react-icons/fa";
+import { AudioProvider } from "./AudioContext.jsx";
 
 const fadeIn = keyframes`
   from {
@@ -223,6 +224,27 @@ export default function ClosedPage() {
   const containerRef = useRef(null);
   const titleRef = useRef(null);
   const [mobileIndex, setMobileIndex] = useState(0);
+  const audioRef = useRef(null);
+
+  const handleTrackSelection = (index) => {
+    setSelectedTrack(items[index]?.mixId); // Example of setting selected track
+    // Other state updates related to selected track
+  };
+
+  useEffect(() => {
+    if (selectedTrack && audioRef.current) {
+      const playAudio = async () => {
+        try {
+          await audioRef.current.play(); // Attempt to autoplay
+          console.log("Audio autoplay started");
+        } catch (error) {
+          console.error("Error starting autoplay:", error);
+        }
+      };
+
+      playAudio();
+    }
+  }, [selectedTrack]); // Runs when `selectedTrack` changes
 
   const resetInfo = () => {
     setSelectedTracklist(null);
@@ -293,14 +315,16 @@ export default function ClosedPage() {
     <>
       <div className={"gradient-overlay-tl"} />
       {selectedTracklist != "" && (
-        <SoundCloudPlayer
-          pic={selectedPic}
-          track={selectedTrack}
-          chapters={selectedChapters}
-          title={selectedTitle}
-          artist={selectedArtist}
-          tracklist={selectedTracklist}
-        />
+        <AudioProvider>
+          <SoundCloudPlayer
+            pic={selectedPic}
+            track={selectedTrack}
+            chapters={selectedChapters}
+            title={selectedTitle}
+            artist={selectedArtist}
+            tracklist={selectedTracklist}
+          />
+        </AudioProvider>
       )}
       {selectedIndex === null &&
         articleSelected === null &&
@@ -420,17 +444,16 @@ export default function ClosedPage() {
                               className="image"
                               onClick={() => {
                                 setSelectedIndex(pic.id);
+                                setSelectedTitle(pic.title);
+                                setSelectedArtist(pic.title2);
                                 // setSelectedTrack(items[pic.id]?.mixId);
                                 setSelectedChapters(pic?.chapters || []);
                                 setSelectedTracklist(pic?.tracklist || []);
-                                console.log(pic?.tracklist);
                                 setSelectedPic(pic?.src);
                                 if ("mediaSession" in navigator) {
                                   navigator.mediaSession.metadata =
                                     new MediaMetadata({
-                                      title: [
-                                        "RADIO Project 1 ♪ " + pic?.title,
-                                      ],
+                                      title: [pic?.title],
                                       artist: "RADIO Project • " + pic?.title2, // Adjust artist name
                                       album: "RADIO Project", // Adjust album name
                                       artwork: [
@@ -462,6 +485,9 @@ export default function ClosedPage() {
                     setSelectedIndex(items[mobileIndex]?.id);
                     setSelectedChapters(items[mobileIndex]?.chapters || []);
                     setSelectedTracklist(items[mobileIndex]?.tracklist || []);
+                    setSelectedTitle(items[mobileIndex]?.title);
+                    setSelectedArtist(items[mobileIndex]?.title2);
+
                     //setSelectedTrack(items[mobileIndex]?.mixId);
 
                     setSelectedTitle([
@@ -710,7 +736,7 @@ export default function ClosedPage() {
                       items[selectedIndex]?.rpCount +
                         items[selectedIndex]?.title
                     );
-                    setSelectedTrack(items[selectedIndex]?.mixId);
+                    handleTrackSelection(selectedIndex);
                   }}
                 >
                   <FaPlay style={{ fontSize: "1.3vh" }} /> PLAY

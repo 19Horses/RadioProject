@@ -1042,7 +1042,7 @@ background-color: rgb(247, 247, 247);
 /* PROGRESS BAR */
 .completed-progress__desktop {
   background-color: rgb(255, 0, 90);
-  transition: all 0.5s ease-out;
+  transition: all 1s ease-out;
 }
 
 .progress-bar-chapter-slit-hitbox__desktop{
@@ -1076,7 +1076,8 @@ background-color: rgb(247, 247, 247);
   bottom: initial;
   height: 90%;
   top: 1.5%;
-  right: 3%
+  right: 3%;
+  transition: all 1s;
 }
 
 /* SCROLLING TITLE */

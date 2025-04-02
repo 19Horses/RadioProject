@@ -1,4 +1,5 @@
 import "./App.css";
+import { AudioProvider } from "./AudioContext";
 import ClosedPage from "./closedPage";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
