@@ -740,8 +740,9 @@ max-height: 1000px;
 
 
 .dropdown-content{
-  padding-top: 60px; /* Start at the top of the viewport */
-  padding-right: 10px;
+  padding-top: 60px;
+  margin-right: 10%;
+   /* Start at the top of the viewport */
 }
 
 .dropdown-content .header-item{
@@ -751,7 +752,7 @@ max-height: 1000px;
   padding: 10px;
   
   text-align: right;
-  width: 90%;
+  width: 100%;
   
 }
 
