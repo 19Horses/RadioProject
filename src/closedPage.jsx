@@ -286,7 +286,22 @@ export default function ClosedPage() {
       setSelectedTitle(items[0]?.rpCount + items[0]?.title);
       setSelectedArtist(items[0]?.title2);
       setSelectedPic(items[0]?.src);
-      console.log("hi");
+      if (location.pathname === "/rp1-ubi") {
+        if ("mediaSession" in navigator) {
+          navigator.mediaSession.metadata = new MediaMetadata({
+            title: '"games that touch the arts"',
+            artist: "RADIO Project • ubi", // Adjust artist name
+            album: "RADIO Project", // Adjust album name
+            artwork: [
+              {
+                src: items[0]?.ipSrc,
+                sizes: "512x512",
+                type: "image/png",
+              },
+            ],
+          });
+        }
+      }
     }
   }, [location.pathname]); // Runs once when pathname changes
 
