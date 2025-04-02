@@ -1081,16 +1081,18 @@ background-color: rgb(247, 247, 247);
 /* SCROLLING TITLE */
 @keyframes scroll-left {
   from {
-    transform: translateX(-100vw);
+    transform: translateX(-150%);
   }
   to {
-    transform: translateX(50vw);
+    transform: translateX(100%);
   }
 }
 
 .scrolling-title-container__desktop {
-  width: 100%; 
-  height: 2.4vh;
+  width: 100%; /* Adjust based on your design */
+  /* 17.5 */
+  height: 2.1vh;
+  /* 14.7 */
   font-size: 1.745vh;
   overflow: hidden;
   white-space: nowrap;
@@ -1103,7 +1105,7 @@ background-color: rgb(247, 247, 247);
   color: rgb(255, 255, 255);
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left-desk 15s linear infinite;
+  animation: scroll-left 10s linear infinite;
 }
 
 .control-module__desktop span{

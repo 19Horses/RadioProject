@@ -1,7 +1,7 @@
 :root {
   color: rgb(0, 0, 0);
   background-color: #f7f7f7;
-  cursor: url('./assets/indic.svg') 8 8, auto;
+  cursor: url('./cursor.svg') 8 8, auto;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;

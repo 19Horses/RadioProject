@@ -144,6 +144,14 @@ export default function SoundCloudPlayer({
   }, []);
 
   useEffect(() => {
+    if (titleRef.current && containerRef.current) {
+      setShouldScroll(
+        titleRef.current.scrollWidth > containerRef.current.clientWidth
+      );
+    }
+  }, [title]);
+
+  useEffect(() => {
     console.log(audioRef.current); // Check if the audio element is valid
     console.log("YES"); // Check if the source is valid
     const audio = audioRef.current;
