@@ -518,7 +518,7 @@ export default function ClosedPage() {
                   __html: items[selectedIndex]?.description,
                 }}
               />
-              {isMobile ? <div style={{ height: "100px" }} /> : <></>}
+              {/* {isMobile ? <div style={{ height: "100px" }} /> : <></>} */}
             </div>
           </div>
           {selectedGuest && !isMobile && (
