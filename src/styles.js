@@ -63,8 +63,7 @@ export const CursorTitle = styled.p`
   color: ${(props) => (props.hovered ? props.color : "black")};
   display: inline;
   font-size: ${(props) => props.fontSize || "inherit"};
-  animation: ${(props) => (props.hovered ? fadeIn : "none")} 0.5s ease-out
-    forwards;
+  animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: ${(props) => props.delay}s;
   opacity: 0;
   transform: translateY(100px);

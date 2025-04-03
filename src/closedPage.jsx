@@ -65,7 +65,6 @@ export default function ClosedPage() {
   };
 
   useEffect(() => {
-    console.log({ isLeft });
     if (flexContainer.current) {
       setW(flexContainer.current.clientWidth / items.length);
     }
@@ -651,7 +650,7 @@ export default function ClosedPage() {
                 height: "100%",
               }}
             >
-              {items2.map((pic, i) => {
+              {items2.map((pic) => {
                 return (
                   <div
                     style={{
