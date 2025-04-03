@@ -399,7 +399,7 @@ export default function SoundCloudPlayer({ playingGuest }) {
                   <span>{currentlyPlayingArtist}</span>
                   <br />
                   <p style={{ fontSize: "2vh" }}>
-                    {currentTime} /{" "}
+                    {currentTime}/{" "}
                     <b>
                       {audioRef.current
                         ? formatTime(audioRef.current.duration)
