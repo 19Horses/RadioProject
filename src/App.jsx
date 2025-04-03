@@ -4,7 +4,6 @@ import ClosedPage from "./closedPage";
 import { HashRouter, Route, Routes } from "react-router-dom";
 
 function App() {
-  console.log("hey");
   return (
     <HashRouter>
       <Routes>
