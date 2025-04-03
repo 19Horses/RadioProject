@@ -152,6 +152,11 @@ export default function SoundCloudPlayer({ playingGuest }) {
     }
   };
 
+  const toSeconds = (time) => {
+    let [minutes, seconds] = time.split(":").map(Number);
+    return minutes * 60 + seconds;
+  };
+
   const formatTime = (seconds) => {
     const hours = Math.floor(seconds / 3600);
     const minutes = Math.floor((seconds % 3600) / 60);
@@ -355,7 +360,7 @@ export default function SoundCloudPlayer({ playingGuest }) {
                   </div>
                   <div className="timestamp">
                     <p>
-                      {currentTime} /{" "}
+                      {formatTime(toSeconds(currentTime))} /{" "}
                       <b>
                         {audioRef.current?.duration &&
                         !isNaN(audioRef.current.duration)
@@ -399,7 +404,7 @@ export default function SoundCloudPlayer({ playingGuest }) {
                   <span>{currentlyPlayingArtist}</span>
                   <br />
                   <p style={{ fontSize: "2vh" }}>
-                    {currentTime}/{" "}
+                    {formatTime(toSeconds(currentTime))}/{" "}
                     <b>
                       {audioRef.current
                         ? formatTime(audioRef.current.duration)
