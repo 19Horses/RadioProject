@@ -1,20 +1,17 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
 import "./player.css";
-import { useAudio } from "./AudioContext"; // Import the audio context
+import { useAudio } from "./AudioContext";
 
-export default function SoundCloudPlayer({
-  pic = "",
-  track = "",
-  chapters = [],
-  title = "",
-  artist = "",
-  tracklist = [],
-} = {}) {
-  //const [progress, setProgress] = useState(0);
-  //const [currentTime, setCurrentTime] = useState("--:--");
-  //const [isPlaying, setIsPlaying] = useState(false);
-  //const audioRef = useRef(null);
+export default function SoundCloudPlayer({ playingGuest }) {
+  const {
+    title2: artist,
+    title,
+    mixId: track,
+    src: pic,
+    chapters,
+  } = playingGuest;
+
   const audioContext = useAudio();
 
   const {
@@ -36,7 +33,7 @@ export default function SoundCloudPlayer({
   const [currentlyPlayingSrc, setCurrentlyPlayingSrc] = useState(null);
   const [currentlyPlayingTitle, setCurrentlyPlayingTitle] = useState("");
   const [currentlyPlayingArtist, setCurrentlyPlayingArtist] = useState("");
-  const [hoveredTitle, setHoveredTitle] = useState("");
+
   const [hoveredChapter, setHoveredChapter] = useState("");
   const [shouldScroll, setShouldScroll] = useState(false);
   const titleRef = useRef(null);
@@ -44,7 +41,7 @@ export default function SoundCloudPlayer({
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
-    if (artist && track && title) {
+    if (artist && track && title && playingGuest) {
       setCurrentlyPlayingArtist(artist);
       setCurrentlyPlayingSrc(track);
       setCurrentlyPlayingTitle(title);
@@ -57,7 +54,6 @@ export default function SoundCloudPlayer({
         audio.load();
 
         const handleCanPlay = () => {
-          console.log("Audio is ready to play");
           audio.play().catch((error) => {
             console.error("iOS blocked playback:", error);
           });
@@ -70,7 +66,16 @@ export default function SoundCloudPlayer({
         };
       }
     }
-  }, [artist, title, track]);
+  }, [
+    artist,
+    audioRef,
+    playingGuest,
+    setCurrentTime,
+    setIsPlaying,
+    setProgress,
+    title,
+    track,
+  ]);
 
   useEffect(() => {
     const enableAutoplay = () => {
@@ -110,7 +115,7 @@ export default function SoundCloudPlayer({
     return () => {
       audio.removeEventListener("canplaythrough", handleCanPlayThrough);
     };
-  }, [artist, track, title]);
+  }, [artist, track, title, audioRef, setProgress]);
 
   const togglePlayPause = () => {
     if (!audioRef.current) return;
@@ -143,8 +148,8 @@ export default function SoundCloudPlayer({
       const newTime = (newProgress / 100) * audioRef.current.duration;
       audioRef.current.currentTime = newTime;
       setProgress(newProgress);
+      audioRef.current.play();
     }
-    audioRef.current.play();
   };
 
   const formatTime = (seconds) => {
@@ -216,7 +221,7 @@ export default function SoundCloudPlayer({
     return () => {
       audio.removeEventListener("timeupdate", updateProgress);
     };
-  }, [artist, track, title]);
+  }, [artist, track, title, audioRef, setProgress, setCurrentTime]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -286,88 +291,6 @@ export default function SoundCloudPlayer({
 
   return (
     <>
-      {tracklist != null && (
-        <div className="tracklist-container__desktop">
-          {isMobile ? null : (
-            <table className="tracklist-table__desktop">
-              {tracklist?.map((mixTrack, index) => (
-                <React.Fragment key={index}>
-                  {mixTrack.title === "RADIO (a)" ||
-                  mixTrack.title === "PROJECT" ||
-                  mixTrack.title === "RADIO (b)" ? (
-                    <tr className="tracklist-header-spacer__desktop"></tr>
-                  ) : null}
-                  <tr
-                    className="tracklist-item__desktop"
-                    style={{
-                      cursor:
-                        mixTrack.title === "RADIO (a)" ||
-                        mixTrack.title === "PROJECT" ||
-                        mixTrack.title === "RADIO (b)"
-                          ? "pointer"
-                          : "",
-                      animationDelay: `${index * 0.0375}s`,
-                    }}
-                    onClick={(e) => {
-                      if (
-                        mixTrack.title === "RADIO (a)" ||
-                        mixTrack.title === "PROJECT" ||
-                        mixTrack.title === "RADIO (b)"
-                      ) {
-                        handleChapterClick(mixTrack.startTime, e);
-                      }
-                    }}
-                    onMouseEnter={() => {
-                      setHoveredTitle(mixTrack.title);
-                    }}
-                    onMouseLeave={() => setHoveredTitle("")}
-                  >
-                    <td
-                      className="tracklist-item-title__desktop"
-                      style={{
-                        transition: "color 0.3s",
-
-                        color:
-                          hoveredTitle === mixTrack?.title &&
-                          mixTrack?.title !== "UNRELEASED"
-                            ? "rgb(255, 0, 90)"
-                            : mixTrack.title === "RADIO (a)" ||
-                              mixTrack.title === "PROJECT" ||
-                              mixTrack.title === "RADIO (b)"
-                            ? "rgb(255, 0, 90)"
-                            : "black",
-                      }}
-                    >
-                      <b
-                        style={{
-                          backgroundColor:
-                            hoveredChapter === mixTrack?.title ||
-                            mixTrack?.title === "UNRELEASED"
-                              ? "black"
-                              : "",
-                          color:
-                            hoveredChapter === mixTrack?.title ? "white" : "",
-                          fontWeight: mixTrack?.artist === "" ? "100" : "",
-                        }}
-                      >
-                        {mixTrack.title}
-                      </b>
-                    </td>
-                    <td
-                      style={{
-                        color: "rgb(137, 137, 137)",
-                        fontWeight: "100",
-                      }}
-                    >
-                      {mixTrack.artist}
-                    </td>
-                  </tr>
-                </React.Fragment>
-              ))}
-            </table>
-          )}
-        </div>
-      )}
       {track != "" && (
         <div
           className={`timeline-progress-bar-container__desktop ${
@@ -492,7 +415,7 @@ export default function SoundCloudPlayer({
             style={{ height: `${progress}%` }}
           />
 
-          {chapters?.map((chapter, index) => (
+          {chapters.map((chapter, index) => (
             <React.Fragment key={index}>
               <div
                 onMouseEnter={() => {

@@ -1,253 +1,41 @@
-import React, { useEffect, useRef, useState } from "react";
-import { styled, keyframes } from "styled-components";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import { djs as items } from "./items.js";
 import { writers as items2 } from "./articles.js";
 import SoundCloudPlayer from "./soundcloudPlayer";
 import Header from "./header";
-import { useLocation } from "react-router-dom"; // Import this hook
 import { FaPlay } from "react-icons/fa";
 import { AudioProvider } from "./AudioContext.jsx";
-
-const fadeIn = keyframes`
-  from {
-    opacity: 0;
-  }
-
-  to {
-    opacity: 1;
-  }
-`;
-
-const fadeOut = keyframes`
-  from {
-    opacity: 1;
-  }
-  to {
-    opacity: 0;
-  }
-`;
-
-const GridContainer = styled.div`
-  position: relative;
-  display: flex;
-  overflow: hidden;
-  opacity: ${(props) => (props.$selectedIndex !== null ? 1 : 0)};
-  max-width: 100%;
-  flex: ${(props) => (props.$selected ? "0" : "1")};
-  transition: all 0.5s ease-in-out;
-  &:hover {
-    flex: ${(props) => props.$total};
-    z-index: 998;
-  }
-  margin-left: 0.05vw;
-  margin-right: 0.05vw;
-  transition: all 0.5s ease-in-out;
-  animation: ${(props) => (props.$selectedIndex !== null ? fadeOut : fadeIn)}
-    0.5s ease-out forwards;
-  animation-delay: ${(props) =>
-    Math.abs(props.$contents - props.$total / 2) * 100}ms;
-`;
-
-const PhotoContainer = styled.div`
-  display: flex;
-  position: absolute;
-  min-width: 0; /* Ensures no Safari stretching */
-  min-height: 0;
-  width: ${(props) => (props.$isMobile ? "300px" : `500px`)};
-  height: ${(props) => (props.$isMobile ? "300px" : `500px`)};
-  transition: all 0.5s ease-in-out;
-  left: ${(props) =>
-    props.$isLeft
-      ? `-${props.$contents * props.$parentWidth}px`
-      : `-${props.$contents * props.$parentWidth}px`};
-  &:hover {
-    cursor: pointer;
-    ${(props) =>
-      props.$isLeft ? "left: 0; right: 0;" : "right:0; left: -92%;"};
-  }
-`;
-
-const CursorTitle = styled.p`
-  background-color: ${(props) => (props.hovered ? props.bgColor : "")};
-  color: ${(props) => (props.hovered ? props.color : "black")};
-  display: inline;
-  font-size: ${(props) => props.fontSize || "inherit"};
-  animation: ${(props) => (props.hovered ? fadeIn : "none")} 0.5s ease-out
-    forwards;
-  animation-delay: ${(props) => props.delay}s;
-  opacity: 0;
-  transform: translateY(100px);
-`;
-
-export const CustomCursor = ({
-  rpc,
-  t1,
-  t2,
-  t3,
-  t4,
-  t5,
-  t6,
-  isLeft,
-  hovered,
-}) => {
-  const cursor = useRef(null);
-
-  useEffect(() => {
-    const moveCursor = (event) => {
-      if (!cursor.current) return;
-
-      const { clientX, clientY } = event;
-      const offsetX = isLeft ? -16 : 1; // Shift text left or right
-      const offsetY = -20; // Small offset to position text slightly below the cursor
-      const vw = window.innerWidth / 100;
-
-      cursor.current.style.transform = `translate3d(${
-        clientX / vw + offsetX
-      }vw, ${clientY + offsetY}px, 0)`;
-    };
-
-    document.addEventListener("mousemove", moveCursor);
-    return () => document.removeEventListener("mousemove", moveCursor);
-  }, [isLeft]); // Re-run effect when isLeft changes
-
-  return (
-    <div
-      className={"cursor"}
-      ref={cursor}
-      style={{ textAlign: isLeft ? "right" : "left" }}
-    >
-      <CursorTitle
-        className="cursor-title"
-        hovered={hovered}
-        bgColor={"rgb(247, 247, 247);"}
-        delay={0.1}
-        fontSize="1.9vh"
-      >
-        {rpc}
-      </CursorTitle>
-      <CursorTitle
-        className="cursor-title"
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="1.9vh"
-        delay={0.15}
-      >
-        <b>{t1}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2.6vh"
-        delay={0.2}
-      >
-        <b>{t2}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
-      >
-        <b>{t3}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
-      >
-        <b>{t4}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
-      >
-        <b>{t5}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
-      >
-        <b>{t6}</b>
-      </CursorTitle>
-    </div>
-  );
-};
+import { CursorTitle, GridContainer, PhotoContainer } from "./styles.js";
+import { CustomCursor } from "./CustomCursor.jsx";
+import { Tracklist } from "./Tracklist.jsx";
 
 export default function ClosedPage() {
-  const [rpCount, setRpCount] = useState("");
-  const [title, setTitle] = useState("");
-  const [title2, setTitle2] = useState("");
-  const [title3, setTitle3] = useState("");
-  const [title4, setTitle4] = useState("");
-  const [title5, setTitle5] = useState("");
-  const [title6, setTitle6] = useState("");
-  const [hovered, setHovered] = useState(false);
+  const [hoveredGuest, setHoveredGuest] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
+  const [playingGuest, setPlayingGuest] = useState(null);
+
+  const selectedGuest = useMemo(() => {
+    if (selectedIndex !== null) {
+      return items[selectedIndex];
+    } else {
+      return null;
+    }
+  }, [selectedIndex]);
+
+  const [hovered, setHovered] = useState(false);
+
   const [w, setW] = useState(null);
   const flexContainer = useRef(null);
   const [isLeft, setIsLeft] = useState(false);
-  const [hoveredIndex, setHoveredIndex] = useState(null);
-  const [selectedTrack, setSelectedTrack] = useState("");
-  const [selectedChapters, setSelectedChapters] = useState([]);
-  const [selectedTitle, setSelectedTitle] = useState("");
-  const [selectedArtist, setSelectedArtist] = useState("");
-  const [selectedTracklist, setSelectedTracklist] = useState([]);
-  const [selectedPic, setSelectedPic] = useState("");
-  const location = useLocation();
   const [headerHover, setHeaderHover] = useState(false);
   const [infoSelected, setInfoSelected] = useState(false);
   const [articleHeaderSelected, setarticleHeaderSelected] = useState(false);
   const [articleSelected, setArticleSelected] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const [shouldScroll, setShouldScroll] = useState(false);
   const containerRef = useRef(null);
-  const titleRef = useRef(null);
   const [mobileIndex, setMobileIndex] = useState(0);
-  const audioRef = useRef(null);
-
-  const handleTrackSelection = (index) => {
-    setSelectedTrack(items[index]?.mixId); // Example of setting selected track
-    // Other state updates related to selected track
-  };
-
-  useEffect(() => {
-    if (selectedTrack && audioRef.current) {
-      const playAudio = async () => {
-        try {
-          await audioRef.current.play(); // Attempt to autoplay
-          console.log("Audio autoplay started");
-        } catch (error) {
-          console.error("Error starting autoplay:", error);
-        }
-      };
-
-      playAudio();
-    }
-  }, [selectedTrack]); // Runs when `selectedTrack` changes
 
   const resetInfo = () => {
-    setSelectedTracklist(null);
     setSelectedIndex(null);
     setArticleSelected(null);
     scrollToTop();
@@ -258,7 +46,6 @@ export default function ClosedPage() {
   };
 
   useEffect(() => {
-    console.log({ isLeft });
     if (flexContainer.current) {
       setW(flexContainer.current.clientWidth / items.length);
     }
@@ -275,35 +62,6 @@ export default function ClosedPage() {
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
-
-  useEffect(() => {
-    if (location.pathname === "/rp1-ubi") {
-      // Set specific states for rp1
-      setSelectedIndex(0); // Example: Select the first DJ
-      setSelectedTrack(items[0]?.mixId); // Set the track to first DJ's mix
-      setSelectedChapters(items[0]?.chapters || []);
-      setSelectedTracklist(items[0]?.tracklist || []);
-      setSelectedTitle(items[0]?.rpCount + items[0]?.title);
-      setSelectedArtist(items[0]?.title2);
-      setSelectedPic(items[0]?.src);
-      if (location.pathname === "/rp1-ubi") {
-        if ("mediaSession" in navigator) {
-          navigator.mediaSession.metadata = new MediaMetadata({
-            title: '"games that touch the arts"',
-            artist: "RADIO Project • ubi", // Adjust artist name
-            album: "RADIO Project", // Adjust album name
-            artwork: [
-              {
-                src: items[0]?.ipSrc,
-                sizes: "512x512",
-                type: "image/png",
-              },
-            ],
-          });
-        }
-      }
-    }
-  }, [location.pathname]); // Runs once when pathname changes
 
   useEffect(() => {
     const observer = new IntersectionObserver(
@@ -326,36 +84,39 @@ export default function ClosedPage() {
     };
   });
 
+  function guestSelected(guest, i) {
+    setSelectedIndex(i);
+    if ("mediaSession" in navigator) {
+      navigator.mediaSession.metadata = new MediaMetadata({
+        title: guest?.title,
+        artist: "RADIO Project • " + guest?.title2, // Adjust artist name
+        album: "RADIO Project", // Adjust album name
+        artwork: [
+          {
+            src: guest?.ipSrc,
+            sizes: "512x512",
+            type: "image/png",
+          },
+        ],
+      });
+    }
+  }
+
   return (
     <>
       <div className={"gradient-overlay-tl"} />
-      {selectedTracklist != "" && (
+      {playingGuest && (
         <AudioProvider>
-          <SoundCloudPlayer
-            pic={selectedPic}
-            track={selectedTrack}
-            chapters={selectedChapters}
-            title={selectedTitle}
-            artist={selectedArtist}
-            tracklist={selectedTracklist}
-          />
+          <SoundCloudPlayer playingGuest={playingGuest} />
         </AudioProvider>
       )}
-      {selectedIndex === null &&
-        articleSelected === null &&
-        isMobile === false && (
-          <CustomCursor
-            rpc={rpCount}
-            t1={title}
-            t2={title2}
-            t3={title3}
-            t4={title4}
-            t5={title5}
-            t6={title6}
-            isLeft={isLeft}
-            hovered={hovered}
-          />
-        )}
+      {hoveredGuest && isMobile === false && (
+        <CustomCursor
+          hoveredGuest={hoveredGuest}
+          isLeft={isLeft}
+          hovered={hovered}
+        />
+      )}
       <Header
         onInfoClick={() => {
           setInfoSelected(true);
@@ -376,7 +137,6 @@ export default function ClosedPage() {
           setSelectedIndex(null);
           setarticleHeaderSelected(false);
           setArticleSelected(null);
-          setSelectedTracklist(null);
           scrollToTop();
         }}
       />
@@ -433,7 +193,7 @@ export default function ClosedPage() {
                       isMobile ? "flex-container-mob" : "flex-container"
                     } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
                   >
-                    {items.map((pic, i) => {
+                    {items.map((guest, i) => {
                       const isLeft = i < items.length / 2;
                       return (
                         <GridContainer
@@ -454,32 +214,11 @@ export default function ClosedPage() {
                             $isMobile={isMobile}
                           >
                             <img
-                              src={pic.src}
-                              alt={pic.title}
+                              src={guest.src}
+                              alt={guest.title}
                               className="image"
                               onClick={() => {
-                                setSelectedIndex(pic.id);
-                                setSelectedTitle(pic.title);
-                                setSelectedArtist(pic.title2);
-                                // setSelectedTrack(items[pic.id]?.mixId);
-                                setSelectedChapters(pic?.chapters || []);
-                                setSelectedTracklist(pic?.tracklist || []);
-                                setSelectedPic(pic?.src);
-                                if ("mediaSession" in navigator) {
-                                  navigator.mediaSession.metadata =
-                                    new MediaMetadata({
-                                      title: [pic?.title],
-                                      artist: "RADIO Project • " + pic?.title2, // Adjust artist name
-                                      album: "RADIO Project", // Adjust album name
-                                      artwork: [
-                                        {
-                                          src: pic?.ipSrc,
-                                          sizes: "512x512",
-                                          type: "image/png",
-                                        },
-                                      ],
-                                    });
-                                }
+                                guestSelected(guest, i);
                               }}
                               style={{
                                 transition: "filter 0.3s ease-in-out",
@@ -497,33 +236,7 @@ export default function ClosedPage() {
                   }`}
                   style={{ left: 0 }}
                   onClick={() => {
-                    setSelectedIndex(items[mobileIndex]?.id);
-                    setSelectedChapters(items[mobileIndex]?.chapters || []);
-                    setSelectedTracklist(items[mobileIndex]?.tracklist || []);
-                    setSelectedTitle(items[mobileIndex]?.title);
-                    setSelectedArtist(items[mobileIndex]?.title2);
-
-                    //setSelectedTrack(items[mobileIndex]?.mixId);
-
-                    setSelectedTitle([
-                      items[mobileIndex]?.rpCount + items[mobileIndex]?.title,
-                    ]);
-                    setSelectedArtist(items[mobileIndex]?.title2);
-                    setSelectedPic(items[mobileIndex]?.src);
-                    if ("mediaSession" in navigator) {
-                      navigator.mediaSession.metadata = new MediaMetadata({
-                        title: [items[mobileIndex]?.title],
-                        artist: "RADIO Project • " + items[mobileIndex]?.title2, // Adjust artist name
-                        album: "RADIO Project", // Adjust album name
-                        artwork: [
-                          {
-                            src: items[mobileIndex]?.ipSrc,
-                            sizes: "512x512",
-                            type: "image/png",
-                          },
-                        ],
-                      });
-                    }
+                    guestSelected(items[mobileIndex], mobileIndex);
                   }}
                 >
                   <CursorTitle
@@ -577,7 +290,7 @@ export default function ClosedPage() {
                     isMobile ? "flex-container-mob" : "flex-container"
                   } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
                 >
-                  {items.map((pic, i) => {
+                  {items.map((guest, i) => {
                     const isLeft = i < items.length / 2;
                     return (
                       <GridContainer
@@ -598,54 +311,20 @@ export default function ClosedPage() {
                           $isMobile={isMobile}
                         >
                           <img
-                            src={pic.src}
-                            alt={pic.title}
+                            src={guest.src}
+                            alt={guest.title}
                             className="image"
                             onMouseEnter={() => {
                               setHovered(true);
-                              setRpCount(pic.rpCount);
-                              setTitle(pic.title);
-                              setTitle2(pic.title2);
-                              setTitle3(pic.title3);
-                              setTitle4(pic.title4);
-                              setTitle5(pic.title5);
-                              setTitle6(pic.title6);
+                              setHoveredGuest(guest);
                               setIsLeft(isLeft);
-                              setHoveredIndex(i);
                             }}
                             onMouseLeave={() => {
-                              setHoveredIndex(null);
                               setHovered(false);
-                              setRpCount("");
-                              setTitle("");
-                              setTitle2("");
-                              setTitle3("");
-                              setTitle4("");
-                              setTitle5("");
-                              setTitle6("");
+                              setHoveredGuest(null);
                             }}
                             onClick={() => {
-                              setSelectedIndex(pic.id);
-                              // setSelectedTrack(items[pic.id]?.mixId);
-                              setSelectedChapters(pic?.chapters || []);
-                              setSelectedTracklist(pic?.tracklist || []);
-                              console.log(pic?.tracklist);
-                              setSelectedPic(pic?.src);
-                              if ("mediaSession" in navigator) {
-                                navigator.mediaSession.metadata =
-                                  new MediaMetadata({
-                                    title: pic?.title,
-                                    artist: "RADIO Project • " + pic?.title2, // Adjust artist name
-                                    album: "RADIO Project", // Adjust album name
-                                    artwork: [
-                                      {
-                                        src: pic?.ipSrc,
-                                        sizes: "512x512",
-                                        type: "image/png",
-                                      },
-                                    ],
-                                  });
-                              }
+                              guestSelected(guest, i);
                             }}
                             style={{
                               transition: "filter 0.3s ease-in-out",
@@ -700,7 +379,7 @@ export default function ClosedPage() {
         </div>
       )}
       {selectedIndex != null && (
-        <>
+        <div className="content">
           <div
             className={` ${
               isMobile
@@ -746,12 +425,7 @@ export default function ClosedPage() {
                 <div
                   className="selectTrack"
                   onClick={() => {
-                    setSelectedArtist(items[selectedIndex]?.title2);
-                    setSelectedTitle(
-                      items[selectedIndex]?.rpCount +
-                        items[selectedIndex]?.title
-                    );
-                    handleTrackSelection(selectedIndex);
+                    setPlayingGuest(selectedGuest);
                   }}
                 >
                   <FaPlay style={{ fontSize: "1.3vh" }} /> PLAY
@@ -847,7 +521,10 @@ export default function ClosedPage() {
               {isMobile ? <div style={{ height: "100px" }} /> : <></>}
             </div>
           </div>
-        </>
+          {selectedGuest && !isMobile && (
+            <Tracklist selectedGuest={selectedGuest} />
+          )}
+        </div>
       )}
       {articleHeaderSelected && articleSelected === null && (
         <>
@@ -866,7 +543,7 @@ export default function ClosedPage() {
                 height: "100%",
               }}
             >
-              {items2.map((pic, i) => {
+              {items2.map((pic) => {
                 return (
                   <div
                     style={{
