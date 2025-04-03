@@ -379,7 +379,7 @@ export default function ClosedPage() {
         </div>
       )}
       {selectedIndex != null && (
-        <div className="content">
+        <>
           <div
             className={` ${
               isMobile
@@ -524,7 +524,7 @@ export default function ClosedPage() {
           {selectedGuest && !isMobile && (
             <Tracklist selectedGuest={selectedGuest} />
           )}
-        </div>
+        </>
       )}
       {articleHeaderSelected && articleSelected === null && (
         <>
