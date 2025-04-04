@@ -97,7 +97,7 @@
 .flex-container {
   position: relative;
   display: flex;
-  width: 500px;
+  width:500px;
   height: 500px;
 }
 
@@ -836,17 +836,8 @@ table {
   width: 40%;
   position: absolute;
   padding-top: 10vh;
-  padding-bottom: 1.5em;
   left: 33%;
   top: 0%;
-  overflow-y: scroll;
-  max-height: 100vh;
-  box-sizing: border-box;
-  scrollbar-width: none;
-}
-
-.tracklist-container__desktop::-webkit-scrollbar {
-  display: none;
 }
 
 .tracklist-header-spacer__desktop {
