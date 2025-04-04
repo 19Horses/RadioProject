@@ -7,7 +7,7 @@ import { Info } from "./Info.jsx";
 import { djs as items } from "./items.js";
 import { Landing } from "./Landing.jsx";
 import { Logo } from "./Logo.jsx";
-import SoundCloudPlayer from "./soundcloudPlayer";
+import SoundCloudPlayer from "./SoundcloudPlayer.jsx";
 
 export default function ClosedPage() {
   const [selectedIndex, setSelectedIndex] = useState(null);

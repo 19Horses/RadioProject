@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
-export const Logo = ({ onClick, isMobile }) => {
+export const Logo = ({ isMobile }) => {
   const [headerHover, setHeaderHover] = useState(false);
+  const navigate = useNavigate();
   return (
     <div
       className={`header-logo ${
@@ -10,7 +12,7 @@ export const Logo = ({ onClick, isMobile }) => {
     >
       <a
         onClick={() => {
-          onClick();
+          navigate("/");
         }}
       >
         <img

@@ -206,11 +206,8 @@ export default function SoundCloudPlayer({ playingGuest }) {
   }, [title]);
 
   useEffect(() => {
-    console.log(audioRef.current); // Check if the audio element is valid
-    console.log("YES"); // Check if the source is valid
     const audio = audioRef.current;
     if (!audio) {
-      console.log("Audio element not found");
       return;
     }
 
