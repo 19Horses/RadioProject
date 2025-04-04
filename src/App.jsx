@@ -1,12 +1,11 @@
 import { useEffect, useState } from "react";
-import { HashRouter, Route, Routes, Navigate } from "react-router-dom";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { AudioProvider } from "./AudioContext";
 import { Guest } from "./Guest";
 import Header from "./header";
 import { Info } from "./Info";
 import { Landing } from "./Landing";
-import { Logo } from "./Logo";
 import SoundCloudPlayer from "./SoundcloudPlayer";
 
 function App() {
@@ -22,8 +21,7 @@ function App() {
 
   return (
     <HashRouter>
-      <Header />
-      <Logo isMobile={isMobile} />
+      <Header isMobile={isMobile} />
       {playingGuest && (
         <AudioProvider>
           <SoundCloudPlayer playingGuest={playingGuest} />
