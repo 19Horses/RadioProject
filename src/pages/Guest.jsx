@@ -1,6 +1,6 @@
 import React from "react";
 import { FaPlay } from "react-icons/fa";
-import { Tracklist } from "./Tracklist";
+import { Tracklist } from "../components/Tracklist";
 import { useParams } from "react-router-dom";
 import { djs } from "./items";
 
@@ -38,7 +38,7 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
                 style={{
                   backgroundColor: "black",
                   color: "white",
-                  padding: "2px 5px", // Optional for better visibility
+                  padding: "2px 5px",
                 }}
               >
                 <b>{selectedGuest.title}</b>

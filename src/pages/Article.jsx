@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { writers as items2 } from "./articles";
+import { writers as items2 } from "../articles";
 
 export const Article = ({ isMobile }) => {
   const [articleSelected, setArticleSelected] = useState(null);

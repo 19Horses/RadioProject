@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
-import "./player.css";
-import { useAudio } from "./AudioContext";
+import "../player.css";
+import { useAudio } from "../AudioContext";
 
 export default function SoundCloudPlayer({ playingGuest }) {
   const {

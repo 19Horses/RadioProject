@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { CursorTitle } from "./styles";
+import { CursorTitle } from "../styles";
 
 export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
   const { rpCount, title, title2, title3, title4, title5, title6 } =

@@ -1,7 +1,7 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import { djs as items } from "./items";
-import { GridContainer, PhotoContainer, CursorTitle } from "./styles";
-import { CustomCursor } from "./CustomCursor";
+import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
+import { CustomCursor } from "../components/CustomCursor";
 import { useNavigate } from "react-router-dom";
 
 export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
