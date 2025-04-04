@@ -33,18 +33,18 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
       <CursorTitle
         className="cursor-title"
         $hovered={hovered}
-        $bgColor="rgb(247, 247, 247)"
+        $bgcolor={"rgb(247, 247, 247);"}
         $delay={0.1}
-        $fontSize="1.9vh"
+        fontSize="1.9vh"
       >
         {rpCount}
       </CursorTitle>
       <CursorTitle
         className="cursor-title"
         $hovered={hovered}
-        $bgColor="black"
-        $color="white"
-        $fontSize="1.9vh"
+        $bgcolor="black"
+        color="white"
+        fontSize="1.9vh"
         $delay={0.15}
       >
         <b>{title}</b>
@@ -53,9 +53,9 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
       <CursorTitle
         className="cursor-title "
         $hovered={hovered}
-        $bgColor="black"
-        $color="white"
-        $fontSize="2.6vh"
+        $bgcolor="black"
+        color="white"
+        fontSize="2.6vh"
         $delay={0.2}
       >
         <b>{title2}</b>
@@ -64,9 +64,9 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
       <CursorTitle
         className="cursor-title "
         $hovered={hovered}
-        $bgColor="black"
-        $color="white"
-        $fontSize="2vh"
+        $bgcolor="black"
+        color="white"
+        fontSize="2vh"
         $delay={0.2}
       >
         <b>{title3}</b>
@@ -75,9 +75,9 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
       <CursorTitle
         className="cursor-title "
         $hovered={hovered}
-        $bgColor="black"
-        $color="white"
-        $fontSize="2vh"
+        $bgcolor="black"
+        color="white"
+        fontSize="2vh"
         $delay={0.2}
       >
         <b>{title4}</b>
@@ -86,9 +86,9 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
       <CursorTitle
         className="cursor-title "
         $hovered={hovered}
-        $bgColor="black"
-        $color="white"
-        $fontSize="2vh"
+        $bgcolor="black"
+        color="white"
+        fontSize="2vh"
         $delay={0.2}
       >
         <b>{title5}</b>
@@ -97,9 +97,9 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
       <CursorTitle
         className="cursor-title "
         $hovered={hovered}
-        $bgColor="black"
-        $color="white"
-        $fontSize="2vh"
+        $bgcolor="black"
+        color="white"
+        fontSize="2vh"
         $delay={0.2}
       >
         <b>{title6}</b>

@@ -52,7 +52,7 @@ export const Landing = ({
         <CustomCursor
           hoveredGuest={hoveredGuest}
           isLeft={isLeft}
-          $hovered={!!hoveredGuest}
+          hovered={!!hoveredGuest}
         />
       )}
       <div
@@ -120,18 +120,18 @@ export const Landing = ({
                 <CursorTitle
                   className="cursor-title"
                   $hovered={true}
-                  $bgColor="rgb(247, 247, 247)"
+                  $bgcolor={"rgb(247, 247, 247);"}
                   $delay={0.1}
-                  $fontSize="2.4vh"
+                  fontSize="2.4vh"
                 >
                   {items[mobileIndex]?.rpCount}
                 </CursorTitle>
                 <CursorTitle
                   className="cursor-title"
                   $hovered={true}
-                  $bgColor="black"
+                  $bgcolor="black"
                   color="white"
-                  $fontSize="2.4vh"
+                  fontSize="2.4vh"
                   $delay={0.15}
                 >
                   <b>{items[mobileIndex]?.title}</b>
@@ -140,9 +140,9 @@ export const Landing = ({
                 <CursorTitle
                   className="cursor-title"
                   $hovered={true}
-                  $bgColor="black"
+                  $bgcolor="black"
                   color="white"
-                  $fontSize="4.9vh"
+                  fontSize="4.9vh"
                   $delay={0.15}
                 >
                   <b>{items[mobileIndex]?.title2}</b>
@@ -151,9 +151,9 @@ export const Landing = ({
                 <CursorTitle
                   className="cursor-title"
                   $hovered={true}
-                  $bgColor="black"
+                  $bgcolor="black"
                   color="white"
-                  $fontSize="2vh"
+                  fontSize="2vh"
                   $delay={0.15}
                 >
                   <b>{items[mobileIndex]?.broadcastDate}</b>
