@@ -3,7 +3,7 @@ import { FaPlay } from "react-icons/fa";
 import { Tracklist } from "./Tracklist";
 
 export const Guest = ({ isMobile, selectedGuest, setPlayingGuest }) => (
-  <div className="content">
+  <>
     <div
       className={` ${
         isMobile
@@ -142,8 +142,9 @@ export const Guest = ({ isMobile, selectedGuest, setPlayingGuest }) => (
             __html: selectedGuest.description,
           }}
         />
+        {/* {isMobile ? <div style={{ height: "100px" }} /> : <></>} */}
       </div>
     </div>
     {selectedGuest && !isMobile && <Tracklist selectedGuest={selectedGuest} />}
-  </div>
+  </>
 );
