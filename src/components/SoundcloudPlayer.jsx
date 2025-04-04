@@ -70,6 +70,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
     artist,
     audioRef,
     playingGuest,
+    rpCount,
     setCurrentTime,
     setIsPlaying,
     setProgress,
