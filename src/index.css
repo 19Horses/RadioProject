@@ -1,7 +1,7 @@
 :root {
   color: rgb(0, 0, 0);
   background-color: #f7f7f7;
-  cursor: url("./cursor.svg") 8 8, auto;
+  cursor: url('./cursor.svg') 8 8, auto;
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
@@ -21,15 +21,7 @@ sup::selection {
   background-color: rgb(255, 0, 90);
 }
 
-html,
-body {
+html, body {
   max-width: 100%;
   overflow-x: hidden;
-  overflow-y: hidden;
-}
-
-@media (max-width: 768px) {
-  body {
-    overflow-y: auto;
-  }
 }
