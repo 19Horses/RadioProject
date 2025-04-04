@@ -21,10 +21,11 @@ function App() {
 
   return (
     <HashRouter>
+      <div className={"gradient-overlay-tl"} />
       <Header isMobile={isMobile} />
       {playingGuest && (
         <AudioProvider>
-          <SoundCloudPlayer playingGuest={playingGuest} />
+          <SoundCloudPlayer playingGuest={playingGuest} isMobile={isMobile} />
         </AudioProvider>
       )}
       <Routes>
