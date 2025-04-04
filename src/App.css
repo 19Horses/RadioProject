@@ -97,7 +97,7 @@
 .flex-container {
   position: relative;
   display: flex;
-  width:500px;
+  width: 500px;
   height: 500px;
 }
 
@@ -836,6 +836,7 @@ table {
   width: 40%;
   position: absolute;
   padding-top: 10vh;
+  padding-bottom: 1em;
   left: 33%;
   top: 0%;
 }
