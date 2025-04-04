@@ -1,13 +1,52 @@
-import { HashRouter, Route, Routes } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
-import ClosedPage from "./closedPage";
+import { AudioProvider } from "./AudioContext";
+import { Header } from "./components/Header";
+import SoundCloudPlayer from "./components/SoundcloudPlayer";
+import { Guest } from "./pages/Guest";
+import { Info } from "./pages/Info";
+import { Landing } from "./pages/Landing";
 
 function App() {
+  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [mobileIndex] = useState(0);
+  const [playingGuest, setPlayingGuest] = useState(null);
+
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth <= 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+
   return (
     <HashRouter>
+      <div className={"gradient-overlay-tl"} />
+      <Header isMobile={isMobile} />
+      {playingGuest && (
+        <AudioProvider>
+          <SoundCloudPlayer playingGuest={playingGuest} isMobile={isMobile} />
+        </AudioProvider>
+      )}
       <Routes>
-        <Route path="/" element={<ClosedPage />} />
-        <Route path="/rp1-ubi" element={<ClosedPage />} />
+        <Route
+          path="/"
+          element={
+            <Landing
+              selectedIndex={null}
+              isMobile={isMobile}
+              mobileIndex={mobileIndex}
+            />
+          }
+        />
+        <Route path="/about" element={<Info isMobile={isMobile} />} />
+        <Route
+          path="/:guestName"
+          element={
+            <Guest isMobile={isMobile} setPlayingGuest={setPlayingGuest} />
+          }
+        />
+        <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>
   );

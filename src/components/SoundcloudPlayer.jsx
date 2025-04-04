@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useRef } from "react";
 import { FaPlay, FaPause } from "react-icons/fa";
-import "./player.css";
-import { useAudio } from "./AudioContext";
+import "../player.css";
+import { useAudio } from "../AudioContext";
 
-export default function SoundCloudPlayer({ playingGuest }) {
+export default function SoundCloudPlayer({ playingGuest, isMobile }) {
   const {
     title2: artist,
     title,
+    rpCount,
     mixId: track,
     src: pic,
     chapters,
@@ -38,13 +39,12 @@ export default function SoundCloudPlayer({ playingGuest }) {
   const [shouldScroll, setShouldScroll] = useState(false);
   const titleRef = useRef(null);
   const containerRef = useRef(null);
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
 
   useEffect(() => {
     if (artist && track && title && playingGuest) {
       setCurrentlyPlayingArtist(artist);
       setCurrentlyPlayingSrc(track);
-      setCurrentlyPlayingTitle(title);
+      setCurrentlyPlayingTitle(rpCount + title);
       setProgress(0);
       setCurrentTime("--:--");
       setIsPlaying(true);
@@ -70,6 +70,7 @@ export default function SoundCloudPlayer({ playingGuest }) {
     artist,
     audioRef,
     playingGuest,
+    rpCount,
     setCurrentTime,
     setIsPlaying,
     setProgress,
@@ -206,11 +207,8 @@ export default function SoundCloudPlayer({ playingGuest }) {
   }, [title]);
 
   useEffect(() => {
-    console.log(audioRef.current); // Check if the audio element is valid
-    console.log("YES"); // Check if the source is valid
     const audio = audioRef.current;
     if (!audio) {
-      console.log("Audio element not found");
       return;
     }
 
@@ -227,12 +225,6 @@ export default function SoundCloudPlayer({ playingGuest }) {
       audio.removeEventListener("timeupdate", updateProgress);
     };
   }, [artist, track, title, audioRef, setProgress, setCurrentTime]);
-
-  useEffect(() => {
-    const handleResize = () => setIsMobile(window.innerWidth <= 768);
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
-  }, []);
 
   const skipForward = () => {
     if (audioRef.current) {
