@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 
 export const Tracklist = ({ selectedGuest }) => {
+  console.log(selectedGuest);
   const [hoveredTitle, setHoveredTitle] = useState("");
   return (
     <div className="tracklist-container__desktop">
-      <table>
+      <table className="tracklist-table__desktop">
         {selectedGuest.tracklist.map((mixTrack, index) => (
           <React.Fragment key={index}>
             {mixTrack.title === "RADIO (a)" ||
