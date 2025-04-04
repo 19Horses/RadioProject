@@ -1,13 +1,15 @@
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { djs as items } from "./items.js";
-import { writers as items2 } from "./articles.js";
-import SoundCloudPlayer from "./soundcloudPlayer";
-import Header from "./header";
-import { FaPlay } from "react-icons/fa";
 import { AudioProvider } from "./AudioContext.jsx";
-import { CursorTitle, GridContainer, PhotoContainer } from "./styles.js";
 import { CustomCursor } from "./CustomCursor.jsx";
-import { Tracklist } from "./Tracklist.jsx";
+import { Guest } from "./Guest.jsx";
+import Header from "./header";
+import { Info } from "./Info.jsx";
+import { writers as items2 } from "./articles.js";
+import { djs as items } from "./items.js";
+import { Landing } from "./Landing.jsx";
+import { Logo } from "./Logo.jsx";
+import SoundCloudPlayer from "./soundcloudPlayer";
+import { Article } from "./Article.jsx";
 
 export default function ClosedPage() {
   const [hoveredGuest, setHoveredGuest] = useState(null);
@@ -27,13 +29,12 @@ export default function ClosedPage() {
   const [w, setW] = useState(null);
   const flexContainer = useRef(null);
   const [isLeft, setIsLeft] = useState(false);
-  const [headerHover, setHeaderHover] = useState(false);
+
   const [infoSelected, setInfoSelected] = useState(false);
   const [articleHeaderSelected, setarticleHeaderSelected] = useState(false);
   const [articleSelected, setArticleSelected] = useState(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
-  const containerRef = useRef(null);
-  const [mobileIndex, setMobileIndex] = useState(0);
+  const [mobileIndex] = useState(0);
 
   const resetInfo = () => {
     setSelectedIndex(null);
@@ -84,24 +85,6 @@ export default function ClosedPage() {
     };
   });
 
-  function guestSelected(guest, i) {
-    setSelectedIndex(i);
-    if ("mediaSession" in navigator) {
-      navigator.mediaSession.metadata = new MediaMetadata({
-        title: guest?.title,
-        artist: "RADIO Project • " + guest?.title2, // Adjust artist name
-        album: "RADIO Project", // Adjust album name
-        artwork: [
-          {
-            src: guest?.ipSrc,
-            sizes: "512x512",
-            type: "image/png",
-          },
-        ],
-      });
-    }
-  }
-
   return (
     <>
       <div className={"gradient-overlay-tl"} />
@@ -140,244 +123,27 @@ export default function ClosedPage() {
           scrollToTop();
         }}
       />
-      <div
-        className={`header-logo ${
-          isMobile ? "header-logo-mob" : "header-logo-norm"
-        }`}
-      >
-        <a
-          onClick={() => {
-            resetInfo();
-            setInfoSelected(false);
-          }}
-        >
-          <img
-            onMouseOver={() => {
-              setHeaderHover(true);
-            }}
-            onMouseLeave={() => {
-              setHeaderHover(false);
-            }}
-            className="main"
-            src="./transplogo.png"
-            alt="Logo"
-          />
-        </a>
-        {isMobile ? null : (
-          <a>
-            <img
-              className="second"
-              style={{
-                opacity: headerHover === true ? "1" : "0",
-                transform: headerHover === true ? "translateX(10%)" : "",
-              }}
-              src="./transplogo2.png"
-            />
-          </a>
-        )}
-      </div>
+      <Logo
+        onClick={() => {
+          resetInfo();
+          setInfoSelected(false);
+        }}
+        isMobile={isMobile}
+      />
       {!infoSelected && !articleHeaderSelected && (
-        <div
-          className="center-wrapper"
-          style={{
-            pointerEvents: selectedIndex === null ? "" : "none",
-          }}
-        >
-          <div className={"total-container "}>
-            {isMobile ? (
-              <>
-                <div>
-                  <div
-                    ref={flexContainer}
-                    className={`${
-                      isMobile ? "flex-container-mob" : "flex-container"
-                    } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
-                  >
-                    {items.map((guest, i) => {
-                      const isLeft = i < items.length / 2;
-                      return (
-                        <GridContainer
-                          key={i}
-                          $total={items.length}
-                          $selectedIndex={selectedIndex}
-                          $contents={i}
-                          $isLeft={isLeft}
-                        >
-                          <PhotoContainer
-                            className="pc"
-                            key={i}
-                            $contents={i}
-                            $selectedIndex={selectedIndex}
-                            $parentWidth={w}
-                            $total={items.length}
-                            $isLeft={isLeft}
-                            $isMobile={isMobile}
-                          >
-                            <img
-                              src={guest.src}
-                              alt={guest.title}
-                              className="image"
-                              onClick={() => {
-                                guestSelected(guest, i);
-                              }}
-                              style={{
-                                transition: "filter 0.3s ease-in-out",
-                              }}
-                            />
-                          </PhotoContainer>
-                        </GridContainer>
-                      );
-                    })}
-                  </div>
-                </div>
-                <div
-                  className={`cursor-mobile ${
-                    selectedIndex != null ? "fadeOutGrid" : ""
-                  }`}
-                  style={{ left: 0 }}
-                  onClick={() => {
-                    guestSelected(items[mobileIndex], mobileIndex);
-                  }}
-                >
-                  <CursorTitle
-                    className="cursor-title"
-                    hovered={true}
-                    bgColor={"rgb(247, 247, 247);"}
-                    delay={0.1}
-                    fontSize="2.4vh"
-                  >
-                    {items[mobileIndex]?.rpCount}
-                  </CursorTitle>
-                  <CursorTitle
-                    className="cursor-title"
-                    hovered={true}
-                    bgColor="black"
-                    color="white"
-                    fontSize="2.4vh"
-                    delay={0.15}
-                  >
-                    <b>{items[mobileIndex]?.title}</b>
-                  </CursorTitle>
-                  <br />
-                  <CursorTitle
-                    className="cursor-title"
-                    hovered={true}
-                    bgColor="black"
-                    color="white"
-                    fontSize="4.9vh"
-                    delay={0.15}
-                  >
-                    <b>{items[mobileIndex]?.title2}</b>
-                  </CursorTitle>
-                  <br />
-                  <CursorTitle
-                    className="cursor-title"
-                    hovered={true}
-                    bgColor="black"
-                    color="white"
-                    fontSize="2vh"
-                    delay={0.15}
-                  >
-                    <b>{items[mobileIndex]?.broadcastDate}</b>
-                  </CursorTitle>
-                </div>
-              </>
-            ) : (
-              <div>
-                <div
-                  ref={flexContainer}
-                  className={`${
-                    isMobile ? "flex-container-mob" : "flex-container"
-                  } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
-                >
-                  {items.map((guest, i) => {
-                    const isLeft = i < items.length / 2;
-                    return (
-                      <GridContainer
-                        key={i}
-                        $total={items.length}
-                        $selectedIndex={selectedIndex}
-                        $contents={i}
-                        $isLeft={isLeft}
-                      >
-                        <PhotoContainer
-                          className="pc"
-                          key={i}
-                          $contents={i}
-                          $selectedIndex={selectedIndex}
-                          $parentWidth={w}
-                          $total={items.length}
-                          $isLeft={isLeft}
-                          $isMobile={isMobile}
-                        >
-                          <img
-                            src={guest.src}
-                            alt={guest.title}
-                            className="image"
-                            onMouseEnter={() => {
-                              setHovered(true);
-                              setHoveredGuest(guest);
-                              setIsLeft(isLeft);
-                            }}
-                            onMouseLeave={() => {
-                              setHovered(false);
-                              setHoveredGuest(null);
-                            }}
-                            onClick={() => {
-                              guestSelected(guest, i);
-                            }}
-                            style={{
-                              transition: "filter 0.3s ease-in-out",
-                            }}
-                          />
-                        </PhotoContainer>
-                      </GridContainer>
-                    );
-                  })}
-                </div>
-              </div>
-            )}
-          </div>
-        </div>
+        <Landing
+          selectedIndex={selectedIndex}
+          setSelectedIndex={setSelectedIndex}
+          flexContainer={flexContainer}
+          isMobile={isMobile}
+          mobileIndex={mobileIndex}
+          setHovered={setHovered}
+          setHoveredGuest={setHoveredGuest}
+          setIsLeft={setIsLeft}
+          w={w}
+        />
       )}
-      {infoSelected == true && (
-        <div className={`info-container ${isMobile ? "info-mob-addon" : ""}`}>
-          <p>
-            <b>RADIO PROJECT</b> is a space for auditory, verbal and written
-            agency.
-          </p>
-          <p>
-            <b>RADIO PROJECT</b> aims to spotlight individuals by broadcasting
-            mixes and conducting interviews, and to inform through written
-            articles.
-          </p>
-
-          <a
-            href="https://www.instagram.com/mkprote/"
-            style={{
-              color: "black",
-              textDecoration: "none",
-              fontSize: "2.2vh",
-            }}
-            target="_blank"
-          >
-            {" "}
-            by <b>Elisha Olunaike</b>
-          </a>
-          <br />
-          <br />
-          <br />
-
-          <a
-            href="mailto:contact@radioproject.live"
-            style={{ color: "black", textDecoration: "none" }}
-            target="_blank"
-          >
-            Contact
-          </a>
-          {isMobile ? <div style={{ height: "5vh" }} /> : <></>}
-        </div>
-      )}
+      {infoSelected == true && <Info isMobile={isMobile} />}
       {selectedIndex != null && (
         <>
           <div
@@ -590,7 +356,6 @@ export default function ClosedPage() {
                       </div>
 
                       <div
-                        ref={containerRef}
                         className={
                           "scrolling-title-container-mob-article-addon"
                         }
@@ -757,6 +522,14 @@ export default function ClosedPage() {
           </div>
         </>
       )}
+      <Article
+        articleHeaderSelected={articleHeaderSelected}
+        articleSelected={articleSelected}
+        isMobile={isMobile}
+        setArticleSelected={setArticleSelected}
+        scrollToTop={scrollToTop}
+        resetInfo={resetInfo}
+      />
     </>
   );
 }
