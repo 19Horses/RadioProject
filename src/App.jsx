@@ -2,11 +2,11 @@ import { useEffect, useState } from "react";
 import { HashRouter, Navigate, Route, Routes } from "react-router-dom";
 import "./App.css";
 import { AudioProvider } from "./AudioContext";
-import { Guest } from "./Guest";
-import Header from "./header";
-import { Info } from "./Info";
-import { Landing } from "./Landing";
-import SoundCloudPlayer from "./SoundcloudPlayer";
+import { Guest } from "./pages/Guest";
+import Header from "./components/Header";
+import { Info } from "./pages/Info";
+import { Landing } from "./pages/Landing";
+import SoundCloudPlayer from "./components/SoundcloudPlayer";
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);

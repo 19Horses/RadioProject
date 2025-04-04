@@ -1,4 +1,4 @@
-import { rp1 } from "./assets/rp1";
+import { rp1 } from "../assets/rp1";
 
 export const djs = [
   {
@@ -92,5 +92,4 @@ export const djs = [
       { title: "edenrepeat [u u u]", artist: "edenplus" },
     ],
   },
-  
 ];

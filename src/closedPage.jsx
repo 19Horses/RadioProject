@@ -2,11 +2,11 @@ import React, { useEffect, useMemo, useState } from "react";
 import { Article } from "./Article.jsx";
 import { AudioProvider } from "./AudioContext.jsx";
 import { Guest } from "./Guest.jsx";
-import Header from "./header";
-import { Info } from "./Info.jsx";
-import { djs as items } from "./items.js";
-import { Landing } from "./Landing.jsx";
-import { Logo } from "./Logo.jsx";
+import Header from "./components/Header.jsx";
+import { Info } from "./pages/Info.jsx";
+import { djs as items } from "./pages/items.js";
+import { Landing } from "./pages/Landing.jsx";
+import { Logo } from "./components/Logo.jsx";
 import SoundCloudPlayer from "./SoundcloudPlayer.jsx";
 
 export default function ClosedPage() {
