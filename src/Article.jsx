@@ -1,17 +1,16 @@
-import React from "react";
+import React, { useState } from "react";
 import { writers as items2 } from "./articles";
 
-export const Article = ({
-  articleHeaderSelected,
-  articleSelected,
-  isMobile,
-  setArticleSelected,
-  scrollToTop,
-  resetInfo,
-}) => {
+export const Article = ({ isMobile }) => {
+  const [articleSelected, setArticleSelected] = useState(null);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
   return (
     <>
-      {articleHeaderSelected && articleSelected === null && (
+      {articleSelected === null && (
         <div
           className={` ${
             isMobile
@@ -161,7 +160,7 @@ export const Article = ({
             </div>
 
             <div className="artist-pics">
-              <a onClick={() => resetInfo()} target="_blank">
+              <a target="_blank">
                 <img
                   src={articleSelected?.src}
                   className="selected-artist-image"

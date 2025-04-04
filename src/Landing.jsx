@@ -2,17 +2,16 @@ import React, { useCallback, useRef, useState, useEffect } from "react";
 import { djs as items } from "./items";
 import { GridContainer, PhotoContainer, CursorTitle } from "./styles";
 import { CustomCursor } from "./CustomCursor";
+import { useNavigate } from "react-router-dom";
 
-export const Landing = ({
-  selectedIndex,
-  setSelectedIndex,
-  isMobile,
-  mobileIndex,
-}) => {
+export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
   const flexContainer = useRef(null);
   const [w, setW] = useState(null);
   const [hoveredGuest, setHoveredGuest] = useState(null);
   const [isLeft, setIsLeft] = useState(false);
+  const [fadeOut, setFadeOut] = useState(false);
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (flexContainer.current) {
@@ -27,8 +26,11 @@ export const Landing = ({
   }, [flexContainer]);
 
   const guestSelected = useCallback(
-    (guest, i) => {
-      setSelectedIndex(i);
+    (guest) => {
+      setFadeOut(true);
+      setTimeout(() => {
+        navigate(`/${guest.title2}`);
+      }, 300);
       if ("mediaSession" in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
           title: guest?.title,
@@ -44,23 +46,18 @@ export const Landing = ({
         });
       }
     },
-    [setSelectedIndex]
+    [navigate]
   );
   return (
     <>
-      {hoveredGuest && isMobile === false && (
+      {hoveredGuest && isMobile === false && !fadeOut && (
         <CustomCursor
           hoveredGuest={hoveredGuest}
           isLeft={isLeft}
           hovered={!!hoveredGuest}
         />
       )}
-      <div
-        className="center-wrapper"
-        style={{
-          pointerEvents: selectedIndex === null ? "" : "none",
-        }}
-      >
+      <div className="center-wrapper">
         <div className={"total-container "}>
           {isMobile ? (
             <>
@@ -69,7 +66,7 @@ export const Landing = ({
                   ref={flexContainer}
                   className={`${
                     isMobile ? "flex-container-mob" : "flex-container"
-                  } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
+                  } ${fadeOut ? "fadeOutGrid" : ""}`}
                 >
                   {items.map((guest, i) => {
                     const isLeft = i < items.length / 2;
@@ -109,9 +106,7 @@ export const Landing = ({
                 </div>
               </div>
               <div
-                className={`cursor-mobile ${
-                  selectedIndex != null ? "fadeOutGrid" : ""
-                }`}
+                className={`cursor-mobile ${fadeOut ? "fadeOutGrid" : ""}`}
                 style={{ left: 0 }}
                 onClick={() => {
                   guestSelected(items[mobileIndex], mobileIndex);
@@ -166,7 +161,7 @@ export const Landing = ({
                 ref={flexContainer}
                 className={`${
                   isMobile ? "flex-container-mob" : "flex-container"
-                } ${selectedIndex != null ? "fadeOutGrid" : ""}`}
+                } ${fadeOut ? "fadeOutGrid" : ""}`}
               >
                 {items.map((guest, i) => {
                   const isLeft = i < items.length / 2;

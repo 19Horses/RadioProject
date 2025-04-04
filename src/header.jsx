@@ -1,16 +1,18 @@
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
+import { useLocation, useNavigate } from "react-router-dom";
 
-const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
-  const [selected, setSelected] = useState("Radio");
+const Header = () => {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [menuOpen, setMenuOpen] = useState(false);
 
-  // Handle screen resize
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  const navigate = useNavigate();
+  const { pathname } = useLocation();
 
   return (
     <header className="header-container">
@@ -36,13 +38,12 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                   <a
                     className="header-item"
                     onClick={() => {
-                      onRadioClick();
-                      setSelected("Radio");
+                      navigate("/");
                       setMenuOpen(false);
                     }}
                     style={{
                       cursor: "pointer",
-                      color: selected === "Radio" ? "rgb(255, 0, 90)" : "black",
+                      color: pathname === "/" ? "rgb(255, 0, 90)" : "black",
                     }}
                   >
                     <b>Archive</b>
@@ -50,14 +51,13 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                   {/* <a
                   className="header-item"
                   onClick={() => {
-                    onArticleClick();
-                    setSelected("Articles");
+                    navigate('/articles')
                     setMenuOpen(false);
                   }}
                   style={{
                     cursor: "pointer",
                     //color: "black",
-                    color: selected === "Articles" ? "red" : "black",
+                    color: pathname === '/articles' ? "red" : "black",
                   }}
                   target="_blank"
                 >
@@ -87,13 +87,13 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
                   <a
                     className="header-item"
                     onClick={() => {
-                      onInfoClick();
-                      setSelected("Info");
+                      navigate("/about");
                       setMenuOpen(false);
                     }}
                     style={{
                       cursor: "pointer",
-                      color: selected === "Info" ? "rgb(255, 0, 90)" : "black",
+                      color:
+                        pathname === "/about" ? "rgb(255, 0, 90)" : "black",
                     }}
                   >
                     About
@@ -107,12 +107,11 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
             <a
               className="header-item"
               onClick={() => {
-                onRadioClick();
-                setSelected("Radio");
+                navigate("/");
               }}
               style={{
                 cursor: "pointer",
-                color: selected === "Radio" ? "rgb(255, 0, 90)" : "black",
+                color: pathname === "/" ? "rgb(255, 0, 90)" : "black",
               }}
             >
               <b>Archive</b>
@@ -121,12 +120,11 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
               className="header-item"
               onClick={() => {
                 //
-                onArticleClick();
-                setSelected("Articles");
+                navigate("/articles");
               }}
               style={{
                 cursor: "pointer",
-                color: selected === "Articles" ? "rgb(255, 0, 90)" : "black",
+                color: pathname === "/articles" ? "rgb(255, 0, 90)" : "black",
                 //color: "black",
               }}
               target="_blank"
@@ -157,12 +155,11 @@ const Header = ({ onInfoClick, onArticleClick, onRadioClick }) => {
             <a
               className="header-item"
               onClick={() => {
-                onInfoClick();
-                setSelected("Info");
+                navigate("/about");
               }}
               style={{
                 cursor: "pointer",
-                color: selected === "Info" ? "rgb(255, 0, 90)" : "black",
+                color: pathname === "/about" ? "rgb(255, 0, 90)" : "black",
               }}
             >
               About
