@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useLocation, useNavigate } from "react-router-dom";
 import { Logo } from "./Logo";
 
-const Header = ({ isMobile }) => {
+export const Header = ({ isMobile }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   const navigate = useNavigate();
@@ -167,5 +167,3 @@ const Header = ({ isMobile }) => {
     </>
   );
 };
-
-export default Header;
