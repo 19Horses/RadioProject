@@ -59,12 +59,12 @@ export const PhotoContainer = styled.div`
 `;
 
 export const CursorTitle = styled.p`
-  background-color: ${(props) => (props.hovered ? props.bgColor : "")};
-  color: ${(props) => (props.hovered ? props.color : "black")};
+  background-color: ${(props) => (props.$hovered ? props.$bgcolor : "")};
+  color: ${(props) => (props.$hovered ? props.color : "black")};
   display: inline;
   font-size: ${(props) => props.fontSize || "inherit"};
   animation: ${fadeIn} 0.5s ease-out forwards;
-  animation-delay: ${(props) => props.delay}s;
+  animation-delay: ${(props) => props.$delay}s;
   opacity: 0;
   transform: translateY(100px);
 `;
