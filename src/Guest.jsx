@@ -142,7 +142,6 @@ export const Guest = ({ isMobile, selectedGuest, setPlayingGuest }) => (
             __html: selectedGuest.description,
           }}
         />
-        {/* {isMobile ? <div style={{ height: "100px" }} /> : <></>} */}
       </div>
     </div>
     {selectedGuest && !isMobile && <Tracklist selectedGuest={selectedGuest} />}

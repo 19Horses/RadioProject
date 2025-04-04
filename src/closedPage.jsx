@@ -142,7 +142,7 @@ export default function ClosedPage() {
           w={w}
         />
       )}
-      {infoSelected == true && <Info isMobile={isMobile} />}
+      {infoSelected && <Info isMobile={isMobile} />}
       {selectedIndex != null && (
         <Guest
           isMobile={isMobile}
