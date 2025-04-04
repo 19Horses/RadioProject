@@ -1,20 +1,8 @@
-import "./App.css";
-import { AudioProvider } from "./AudioContext";
-import ClosedPage from "./closedPage";
-import { useEffect } from "react";
 import { HashRouter, Route, Routes } from "react-router-dom";
+import "./App.css";
+import ClosedPage from "./closedPage";
 
 function App() {
-  useEffect(() => {
-    const updateBodyHeight = () => {
-      document.body.style.height = `${window.innerHeight}px`;
-    };
-
-    updateBodyHeight();
-    window.addEventListener("resize", updateBodyHeight);
-
-    return () => window.removeEventListener("resize", updateBodyHeight);
-  }, []);
   return (
     <HashRouter>
       <Routes>
