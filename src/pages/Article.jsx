@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { writers as items2 } from "../articles";
 
 export const Article = ({ isMobile }) => {
@@ -7,6 +7,27 @@ export const Article = ({ isMobile }) => {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("articleFadeIn");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = document.querySelectorAll("p:not(red)");
+    elements.forEach((element) => observer.observe(element));
+
+    return () => {
+      elements.forEach((element) => observer.unobserve(element));
+    };
+  });
 
   return (
     <>
