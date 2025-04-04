@@ -1,6 +1,6 @@
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useState } from "react";
+import { Article } from "./Article.jsx";
 import { AudioProvider } from "./AudioContext.jsx";
-import { CustomCursor } from "./CustomCursor.jsx";
 import { Guest } from "./Guest.jsx";
 import Header from "./header";
 import { Info } from "./Info.jsx";
@@ -8,10 +8,8 @@ import { djs as items } from "./items.js";
 import { Landing } from "./Landing.jsx";
 import { Logo } from "./Logo.jsx";
 import SoundCloudPlayer from "./soundcloudPlayer";
-import { Article } from "./Article.jsx";
 
 export default function ClosedPage() {
-  const [hoveredGuest, setHoveredGuest] = useState(null);
   const [selectedIndex, setSelectedIndex] = useState(null);
   const [playingGuest, setPlayingGuest] = useState(null);
 
@@ -22,12 +20,6 @@ export default function ClosedPage() {
       return null;
     }
   }, [selectedIndex]);
-
-  const [hovered, setHovered] = useState(false);
-
-  const [w, setW] = useState(null);
-  const flexContainer = useRef(null);
-  const [isLeft, setIsLeft] = useState(false);
 
   const [infoSelected, setInfoSelected] = useState(false);
   const [articleHeaderSelected, setarticleHeaderSelected] = useState(false);
@@ -44,18 +36,6 @@ export default function ClosedPage() {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   };
-
-  useEffect(() => {
-    if (flexContainer.current) {
-      setW(flexContainer.current.clientWidth / items.length);
-    }
-    const handleResize = () => {
-      setW(flexContainer.current.clientWidth / items.length);
-    };
-    window.addEventListener("resize", handleResize);
-    handleResize();
-    return () => window.removeEventListener("resize", handleResize);
-  }, [flexContainer]);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -92,13 +72,6 @@ export default function ClosedPage() {
           <SoundCloudPlayer playingGuest={playingGuest} />
         </AudioProvider>
       )}
-      {hoveredGuest && isMobile === false && (
-        <CustomCursor
-          hoveredGuest={hoveredGuest}
-          isLeft={isLeft}
-          hovered={hovered}
-        />
-      )}
       <Header
         onInfoClick={() => {
           setInfoSelected(true);
@@ -133,13 +106,8 @@ export default function ClosedPage() {
         <Landing
           selectedIndex={selectedIndex}
           setSelectedIndex={setSelectedIndex}
-          flexContainer={flexContainer}
           isMobile={isMobile}
           mobileIndex={mobileIndex}
-          setHovered={setHovered}
-          setHoveredGuest={setHoveredGuest}
-          setIsLeft={setIsLeft}
-          w={w}
         />
       )}
       {infoSelected && <Info isMobile={isMobile} />}

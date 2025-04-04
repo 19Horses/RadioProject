@@ -11,8 +11,8 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
       if (!cursor.current) return;
 
       const { clientX, clientY } = event;
-      const offsetX = isLeft ? -16 : 1; // Shift text left or right
-      const offsetY = -20; // Small offset to position text slightly below the cursor
+      const offsetX = isLeft ? -16 : 1;
+      const offsetY = -20;
       const vw = window.innerWidth / 100;
 
       cursor.current.style.transform = `translate3d(${
@@ -22,7 +22,7 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
 
     document.addEventListener("mousemove", moveCursor);
     return () => document.removeEventListener("mousemove", moveCursor);
-  }, [isLeft]); // Re-run effect when isLeft changes
+  }, [isLeft]);
 
   return (
     <div
@@ -32,75 +32,75 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
     >
       <CursorTitle
         className="cursor-title"
-        hovered={hovered}
-        bgColor={"rgb(247, 247, 247);"}
-        delay={0.1}
-        fontSize="1.9vh"
+        $hovered={hovered}
+        $bgColor="rgb(247, 247, 247)"
+        $delay={0.1}
+        $fontSize="1.9vh"
       >
         {rpCount}
       </CursorTitle>
       <CursorTitle
         className="cursor-title"
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="1.9vh"
-        delay={0.15}
+        $hovered={hovered}
+        $bgColor="black"
+        $color="white"
+        $fontSize="1.9vh"
+        $delay={0.15}
       >
         <b>{title}</b>
       </CursorTitle>
       <br />
       <CursorTitle
         className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2.6vh"
-        delay={0.2}
+        $hovered={hovered}
+        $bgColor="black"
+        $color="white"
+        $fontSize="2.6vh"
+        $delay={0.2}
       >
         <b>{title2}</b>
       </CursorTitle>
       <br />
       <CursorTitle
         className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
+        $hovered={hovered}
+        $bgColor="black"
+        $color="white"
+        $fontSize="2vh"
+        $delay={0.2}
       >
         <b>{title3}</b>
       </CursorTitle>
       <br />
       <CursorTitle
         className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
+        $hovered={hovered}
+        $bgColor="black"
+        $color="white"
+        $fontSize="2vh"
+        $delay={0.2}
       >
         <b>{title4}</b>
       </CursorTitle>
       <br />
       <CursorTitle
         className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
+        $hovered={hovered}
+        $bgColor="black"
+        $color="white"
+        $fontSize="2vh"
+        $delay={0.2}
       >
         <b>{title5}</b>
       </CursorTitle>
       <br />
       <CursorTitle
         className="cursor-title "
-        hovered={hovered}
-        bgColor="black"
-        color="white"
-        fontSize="2vh"
-        delay={0.2}
+        $hovered={hovered}
+        $bgColor="black"
+        $color="white"
+        $fontSize="2vh"
+        $delay={0.2}
       >
         <b>{title6}</b>
       </CursorTitle>
