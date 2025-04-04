@@ -1,17 +1,37 @@
-import React from "react";
-import { writers as items2 } from "./articles";
+import React, { useState, useEffect } from "react";
+import { writers as items2 } from "../articles";
 
-export const Article = ({
-  articleHeaderSelected,
-  articleSelected,
-  isMobile,
-  setArticleSelected,
-  scrollToTop,
-  resetInfo,
-}) => {
+export const Article = ({ isMobile }) => {
+  const [articleSelected, setArticleSelected] = useState(null);
+
+  const scrollToTop = () => {
+    window.scrollTo({ top: 0, behavior: "smooth" });
+  };
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            entry.target.classList.add("articleFadeIn");
+            observer.unobserve(entry.target);
+          }
+        });
+      },
+      { threshold: 0.1 }
+    );
+
+    const elements = document.querySelectorAll("p:not(red)");
+    elements.forEach((element) => observer.observe(element));
+
+    return () => {
+      elements.forEach((element) => observer.unobserve(element));
+    };
+  });
+
   return (
     <>
-      {articleHeaderSelected && articleSelected === null && (
+      {articleSelected === null && (
         <div
           className={` ${
             isMobile
@@ -161,7 +181,7 @@ export const Article = ({
             </div>
 
             <div className="artist-pics">
-              <a onClick={() => resetInfo()} target="_blank">
+              <a target="_blank">
                 <img
                   src={articleSelected?.src}
                   className="selected-artist-image"
