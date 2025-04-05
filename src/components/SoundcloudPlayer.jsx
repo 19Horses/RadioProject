@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { useAudio } from "../AudioContext";
 import "../player.css";
@@ -18,11 +18,13 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
   const audioContext = useAudio();
   const {
     audioRef,
-    setProgress,
+    formattedProgress,
+    formattedDuration,
     isPlaying,
     skipBackward,
     skipForward,
     togglePlayPause,
+    skipTo,
   } = audioContext;
 
   const handleProgressBarClick = (e) => {
@@ -32,42 +34,9 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
       const progressBarWidth = progressBar.clientHeight;
       const newProgress = (clickPosition / progressBarWidth) * 100;
       const newTime = (newProgress / 100) * audioRef.current.duration;
-      audioRef.current.currentTime = newTime;
-      setProgress(newProgress);
-      audioRef.current.play();
+      skipTo(newTime);
     }
   };
-
-  const formatTime = (seconds) => {
-    const hours = Math.floor(seconds / 3600);
-    const minutes = Math.floor((seconds % 3600) / 60);
-    const secs = Math.floor(seconds % 60);
-
-    if (hours > 0) {
-      return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${
-        secs < 10 ? "0" : ""
-      }${secs}`;
-    }
-    return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
-  };
-
-  useEffect(() => {
-    const handleKeyDown = (e) => {
-      if (e.key === " ") {
-        e.preventDefault();
-        togglePlayPause();
-      } else if (e.key === "ArrowRight") {
-        skipForward();
-      } else if (e.key === "ArrowLeft") {
-        skipBackward();
-      }
-    };
-    window.addEventListener("keydown", handleKeyDown);
-
-    return () => {
-      window.removeEventListener("keydown", handleKeyDown);
-    };
-  }, [skipBackward, skipForward, togglePlayPause]);
 
   return (
     <>
@@ -83,7 +52,6 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
       >
         <audio ref={audioRef} src={track} />
         {isMobile ? (
-          // MOBILE VERSION
           <div
             className="control-module__mobile"
             onClick={(e) => e.stopPropagation()}
@@ -131,13 +99,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
             </div>
             <div className="timestamp">
               <p>
-                {formatTime(audioRef.current.currentTime)} /{" "}
-                <b>
-                  {audioRef.current?.duration &&
-                  !isNaN(audioRef.current.duration)
-                    ? formatTime(audioRef.current.duration)
-                    : "--:--"}
-                </b>
+                {formattedProgress} / <b>{formattedDuration}</b>
               </p>
             </div>
           </div>
@@ -170,12 +132,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
             <span>{artist}</span>
             <br />
             <p style={{ fontSize: "2vh" }}>
-              {formatTime(audioRef.current.currentTime)}/{" "}
-              <b>
-                {audioRef.current
-                  ? formatTime(audioRef.current.duration)
-                  : "--:--"}
-              </b>
+              {formattedProgress} / <b>{formattedDuration}</b>
             </p>
           </div>
         )}

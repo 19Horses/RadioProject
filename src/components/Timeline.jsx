@@ -5,12 +5,12 @@ export const Timeline = ({ playingGuest }) => {
   const { chapters } = playingGuest;
   const [hoveredChapter, setHoveredChapter] = useState("");
   const audioContext = useAudio();
-  const { audioRef, progress, setProgress } = audioContext;
+  const { audioRef, progress, skipTo } = audioContext;
+
   const handleChapterClick = (chapterStartTime, event) => {
     event.stopPropagation();
     if (audioRef.current) {
-      audioRef.current.currentTime = chapterStartTime;
-      setProgress((chapterStartTime / audioRef.current.duration) * 100);
+      skipTo(chapterStartTime);
     }
   };
   return (
