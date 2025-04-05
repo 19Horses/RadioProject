@@ -7,6 +7,7 @@ import SoundCloudPlayer from "./components/SoundcloudPlayer";
 import { Guest } from "./pages/Guest";
 import { Info } from "./pages/Info";
 import { Landing } from "./pages/Landing";
+import { Article } from "./pages/Article";
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -45,6 +46,10 @@ function App() {
           element={
             <Guest isMobile={isMobile} setPlayingGuest={setPlayingGuest} />
           }
+        />
+        <Route
+          path="/rg/:guestName"
+          element={<Article isMobile={isMobile} />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

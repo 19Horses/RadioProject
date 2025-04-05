@@ -24,12 +24,12 @@ export const GridContainer = styled.div`
   overflow: hidden;
   opacity: ${(props) => (props.$selectedIndex !== null ? 1 : 0)};
   max-width: 100%;
-  flex: ${(props) => (props.$selected ? "0" : "1")};
+  flex: ${(props) => (props.$selected ? "" :( props.$total / 4))};
   transition: all 0.5s ease-in-out;
   &:hover {
-    flex: ${(props) => props.$total};
+    flex: ${(props) => props.$total/2};
     z-index: 998;
-  }
+  } 
   margin-left: 0.05vw;
   margin-right: 0.05vw;
   transition: all 0.5s ease-in-out;
@@ -48,11 +48,11 @@ export const PhotoContainer = styled.div`
   height: ${(props) => (props.$isMobile ? "300px" : `500px`)};
   transition: all 0.5s ease-in-out;
   left:0;
-  &:hover {
+  /* &:hover {
     cursor: pointer;
     left: 0;
     right: 0;
-  };
+  }; */
   
 `;
 
