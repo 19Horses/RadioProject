@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import { FaPause, FaPlay } from "react-icons/fa";
 import { useAudio } from "../AudioContext";
 import "../player.css";
@@ -15,44 +15,15 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
 
   const mixTitle = rpCount + title;
 
-  const [isPlaying, setIsPlaying] = useState(false);
-
   const audioContext = useAudio();
-  const { audioRef, setProgress } = audioContext;
-
-  useEffect(() => {
-    if (audioRef.current) {
-      const audio = audioRef.current;
-      audio.load();
-
-      const handleCanPlay = () => {
-        audio.play().catch((error) => {
-          console.error("iOS blocked playback:", error);
-        });
-        setIsPlaying(true);
-      };
-
-      audio.addEventListener("canplaythrough", handleCanPlay);
-
-      return () => {
-        audio.removeEventListener("canplaythrough", handleCanPlay);
-      };
-    }
-  }, [audioRef]);
-
-  const togglePlayPause = useCallback(() => {
-    if (!audioRef.current) return;
-
-    if (audioRef.current.paused) {
-      audioRef.current.play().catch((error) => {
-        console.error("Playback failed:", error);
-      });
-    } else {
-      audioRef.current.pause();
-    }
-
-    setIsPlaying(!audioRef.current.paused);
-  }, [audioRef, setIsPlaying]);
+  const {
+    audioRef,
+    setProgress,
+    isPlaying,
+    skipBackward,
+    skipForward,
+    togglePlayPause,
+  } = audioContext;
 
   const handleProgressBarClick = (e) => {
     if (audioRef.current) {
@@ -79,24 +50,6 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
     }
     return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
   };
-
-  const skipForward = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = Math.min(
-        audioRef.current.currentTime + 10,
-        audioRef.current.duration
-      );
-    }
-  }, [audioRef]);
-
-  const skipBackward = useCallback(() => {
-    if (audioRef.current) {
-      audioRef.current.currentTime = Math.max(
-        audioRef.current.currentTime - 10,
-        0
-      );
-    }
-  }, [audioRef]);
 
   useEffect(() => {
     const handleKeyDown = (e) => {
