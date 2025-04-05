@@ -159,7 +159,7 @@
   position: fixed;
   display: block;
   padding-top: 3vh;
-  padding-left: 3vh;
+  padding-left: 5vh;
   bottom: 0;
   left: 0;
   animation: fadeIn 0.3s ease-in forwards;
@@ -812,7 +812,7 @@ table {
   position: fixed;
   display: block;
   padding-top: 3vh;
-  padding-left: 3vh;
+  padding-left: 5vh;
   bottom: 0;
   left: 0;
   animation: fadeIn 0.3s ease-in forwards;
