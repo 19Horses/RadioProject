@@ -10,8 +10,11 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
   const [hoveredGuest, setHoveredGuest] = useState(null);
   const [isLeft, setIsLeft] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
-
   const navigate = useNavigate();
+
+  // new
+  const [showMixes, setShowMixes] = useState(true);
+  const [showArticles, setShowArticles] = useState(false);
 
   useEffect(() => {
     if (flexContainer.current) {
@@ -48,6 +51,17 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
     },
     [navigate]
   );
+
+  const articleSelected = useCallback(
+    (guest) => {
+      setFadeOut(true);
+      setTimeout(() => {
+        navigate(`/rg/${guest.url}`);
+      }, 300);
+    },
+    [navigate]
+  );
+
   return (
     <>
       {hoveredGuest && isMobile === false && !fadeOut && (
@@ -157,6 +171,24 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
             </>
           ) : (
             <div>
+              <div className="filter">
+                <a
+                  onClick={() => {
+                    setShowMixes(!showMixes);
+                    console.log("showMixes", showMixes);
+                  }}
+                >
+                  Mixes
+                </a>
+                <a
+                  onClick={() => {
+                    setShowArticles(!showArticles);
+                    console.log("showArticles", showArticles);
+                  }}
+                >
+                  Articles
+                </a>
+              </div>
               <div
                 ref={flexContainer}
                 className={`${
@@ -195,7 +227,12 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                             setHoveredGuest(null);
                           }}
                           onClick={() => {
-                            guestSelected(guest, i);
+                            if (guest.type === "mix") {
+                              guestSelected(guest, i);
+                            }
+                            if (guest.type === "article") {
+                              articleSelected(guest, i);
+                            }
                           }}
                           style={{
                             transition: "filter 0.3s ease-in-out",
