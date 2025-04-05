@@ -14,7 +14,13 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
 
   // new
   const [showMixes, setShowMixes] = useState(true);
-  const [showArticles, setShowArticles] = useState(false);
+  const [showArticles, setShowArticles] = useState(true);
+
+  const filteredItems = items.filter((item) => {
+    if (showMixes && item.type === "mix") return true;
+    if (showArticles && item.type === "article") return true;
+    return false;
+  });
 
   useEffect(() => {
     if (flexContainer.current) {
@@ -172,22 +178,28 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
           ) : (
             <div>
               <div className="filter">
-                <a
-                  onClick={() => {
-                    setShowMixes(!showMixes);
-                    console.log("showMixes", showMixes);
-                  }}
-                >
-                  Mixes
-                </a>
-                <a
-                  onClick={() => {
-                    setShowArticles(!showArticles);
-                    console.log("showArticles", showArticles);
-                  }}
-                >
-                  Articles
-                </a>
+                <p>
+                  <a
+                    onClick={() => {
+                      setShowMixes(!showMixes);
+                      console.log("showMixes", showMixes);
+                    }}
+                  >
+                    ♪ Mixes
+                  </a>{" "}
+                  {showMixes ? "ON" : "OFF"}
+                </p>
+                <p>
+                  <a
+                    onClick={() => {
+                      setShowArticles(!showArticles);
+                      console.log("showArticles", showArticles);
+                    }}
+                  >
+                    ☼ Articles
+                  </a>{" "}
+                  {showArticles ? "ON" : "OFF"}
+                </p>
               </div>
               <div
                 ref={flexContainer}
@@ -195,7 +207,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   isMobile ? "flex-container-mob" : "flex-container"
                 } ${fadeOut ? "fadeOutGrid" : ""}`}
               >
-                {items.map((guest, i) => {
+                {filteredItems.map((guest, i) => {
                   const isLeft = i < items.length / 2;
                   return (
                     <GridContainer
