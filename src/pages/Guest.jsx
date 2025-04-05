@@ -144,6 +144,7 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
             style={{
               fontSize: "2.9vh",
               fontWeight: "100",
+              paddingBottom: isMobile ? "10vh" : "",
             }}
             dangerouslySetInnerHTML={{
               __html: selectedGuest.description,
