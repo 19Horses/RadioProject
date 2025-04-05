@@ -9,22 +9,43 @@ import React, {
 
 const AudioContext = createContext();
 
+const formatTime = (seconds) => {
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  const secs = Math.floor(seconds % 60);
+
+  if (hours > 0) {
+    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}:${
+      secs < 10 ? "0" : ""
+    }${secs}`;
+  }
+  return `${minutes}:${secs < 10 ? "0" : ""}${secs}`;
+};
+
 export const AudioProvider = ({ children }) => {
   const audioRef = useRef(new Audio());
   const [progress, setProgress] = useState(0);
+  const [formattedProgress, setFormattedProgress] = useState("--:--");
+  const [formattedDuration, setFormattedDuration] = useState("--:--");
   const [isPlaying, setIsPlaying] = useState(false);
+  const rafRef = useRef(null);
 
   useEffect(() => {
-    const audio = audioRef.current;
-
-    const updateProgress = () => {
-      if (audio.duration) {
-        setProgress((audio.currentTime / audio.duration) * 100);
+    const updateTime = () => {
+      if (audioRef.current) {
+        setProgress(
+          Math.floor(
+            (audioRef.current.currentTime / audioRef.current.duration) * 100
+          )
+        );
+        setFormattedProgress(formatTime(audioRef.current.currentTime));
+        rafRef.current = requestAnimationFrame(updateTime);
       }
     };
 
-    audio.addEventListener("timeupdate", updateProgress);
-    return () => audio.removeEventListener("timeupdate", updateProgress);
+    rafRef.current = requestAnimationFrame(updateTime);
+
+    return () => cancelAnimationFrame(rafRef.current);
   }, []);
 
   const skipForward = useCallback(() => {
@@ -45,13 +66,21 @@ export const AudioProvider = ({ children }) => {
     }
   }, [audioRef]);
 
+  const skipTo = useCallback((time) => {
+    if (audioRef.current) {
+      audioRef.current.currentTime = time;
+      const current = audioRef.current.currentTime;
+      const duration = audioRef.current.duration;
+      setProgress(Math.floor((current / duration) * 100));
+      setFormattedProgress(formatTime(time));
+    }
+  }, []);
+
   const togglePlayPause = useCallback(() => {
     if (!audioRef.current) return;
 
     if (audioRef.current.paused) {
-      audioRef.current.play().catch((error) => {
-        console.error("Playback failed:", error);
-      });
+      audioRef.current.play();
     } else {
       audioRef.current.pause();
     }
@@ -62,33 +91,53 @@ export const AudioProvider = ({ children }) => {
   useEffect(() => {
     if (audioRef.current) {
       const audio = audioRef.current;
-      audio.load();
 
-      const handleCanPlay = () => {
-        audio.play().catch((error) => {
-          console.error("iOS blocked playback:", error);
-        });
-        setIsPlaying(true);
+      const handleCanPlayThrough = () => {
+        if (audio.duration && !isNaN(audio.duration)) {
+          setFormattedDuration(formatTime(audioRef.current.duration));
+          audio.play();
+          setIsPlaying(true);
+        }
       };
 
-      audio.addEventListener("canplaythrough", handleCanPlay);
+      audio.addEventListener("canplaythrough", handleCanPlayThrough);
 
       return () => {
-        audio.removeEventListener("canplaythrough", handleCanPlay);
+        audio.removeEventListener("canplaythrough", handleCanPlayThrough);
       };
     }
   }, [audioRef]);
+
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      if (e.key === " ") {
+        e.preventDefault();
+        togglePlayPause();
+      } else if (e.key === "ArrowRight") {
+        skipForward();
+      } else if (e.key === "ArrowLeft") {
+        skipBackward();
+      }
+    };
+    window.addEventListener("keydown", handleKeyDown);
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [skipBackward, skipForward, togglePlayPause]);
 
   return (
     <AudioContext.Provider
       value={{
         audioRef,
         progress,
-        setProgress,
+        formattedProgress,
+        formattedDuration,
         isPlaying,
         skipBackward,
         skipForward,
         togglePlayPause,
+        skipTo,
       }}
     >
       {children}
