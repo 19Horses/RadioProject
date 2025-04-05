@@ -97,7 +97,7 @@
 .flex-container {
   position: relative;
   display: flex;
-  width: 500px;
+  width: 70vw;
   height: 500px;
 }
 
