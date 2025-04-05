@@ -47,15 +47,13 @@ export const PhotoContainer = styled.div`
   width: ${(props) => (props.$isMobile ? "300px" : `500px`)};
   height: ${(props) => (props.$isMobile ? "300px" : `500px`)};
   transition: all 0.5s ease-in-out;
-  left: ${(props) =>
-    props.$isLeft
-      ? `-${props.$contents * props.$parentWidth}px`
-      : `-${props.$contents * props.$parentWidth}px`};
+  left:0;
   &:hover {
     cursor: pointer;
-    ${(props) =>
-      props.$isLeft ? "left: 0; right: 0;" : "right:0; left: -92%;"};
-  }
+    left: 0;
+    right: 0;
+  };
+  
 `;
 
 export const CursorTitle = styled.p`
