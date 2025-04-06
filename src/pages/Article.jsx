@@ -1,32 +1,12 @@
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 
-import { writers as items2 } from "./articles";
+import { djs } from "./items";
 
 export const Article = ({ isMobile }) => {
   const { articleName } = useParams();
 
-  const articleSelected = items2.find((article) => article.url === articleName);
-  useEffect(() => {
-    const observer = new IntersectionObserver(
-      (entries) => {
-        entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("articleFadeIn");
-            observer.unobserve(entry.target);
-          }
-        });
-      },
-      { threshold: 0.1 }
-    );
-
-    const elements = document.querySelectorAll("p:not(red)");
-    elements.forEach((element) => observer.observe(element));
-
-    return () => {
-      elements.forEach((element) => observer.unobserve(element));
-    };
-  });
+  const articleSelected = djs.find((article) => article.url === articleName);
 
   return (
     <>

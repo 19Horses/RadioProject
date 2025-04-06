@@ -178,7 +178,12 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                               src={guest.src}
                               alt={guest.title}
                               onClick={() => {
-                                guestSelected(guest, i);
+                                if (guest.type === "mix") {
+                                  guestSelected(guest, i);
+                                }
+                                if (guest.type === "article") {
+                                  articleSelected(guest, i);
+                                }
                               }}
                               style={{
                                 transition: "filter 0.3s ease-in-out",
@@ -195,7 +200,12 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                 className={`cursor-mobile ${fadeOut ? "fadeOutGrid" : ""}`}
                 style={{ left: 0 }}
                 onClick={() => {
-                  guestSelected(hoveredGuest);
+                  if (hoveredGuest?.type === "mix") {
+                    guestSelected(hoveredGuest);
+                  }
+                  if (hoveredGuest?.type === "article") {
+                    articleSelected(hoveredGuest);
+                  }
                 }}
               >
                 <CursorTitle

@@ -35,7 +35,7 @@
 }
 
 .shimmer-effect {
-  animation: shimmer 4s infinite ease-in-out ;
+  animation: shimmer 3s infinite ease-in-out ;
 }
 
 
@@ -693,7 +693,7 @@ table {
 }
 
 .red {
-  opacity: 0;
+  opacity: 1;
 }
 
 .contentArticle {
