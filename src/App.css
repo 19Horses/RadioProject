@@ -224,7 +224,7 @@
 .cursor-mobile {
   position: fixed;
   display: block;
-  bottom: 3vh;
+  bottom: 7vh;
   margin-left: 3vw;
   width: 50vw;
   margin-top: 20px; /* Adjust spacing below total-container */

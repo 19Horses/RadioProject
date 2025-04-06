@@ -68,7 +68,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
         }
       },
       {
-        threshold: 0.8, // granular visibility tracking
+        threshold: 0.9, // granular visibility tracking
       }
     );
 
