@@ -307,11 +307,9 @@
 /* Ensure header takes full width and aligns items */
 .header-container {
   position: fixed; /* Ensure the header is fixed to the viewport */
-  top: 2vh; /* Align to the top of the viewport */
-  right: 0vh;
-  width: 70%; /* Full width */
-  padding-top: 0.5vw; /* Adjust padding as needed */
-  height: 4vh; /* Adjust height as needed */
+  right: 0vw;
+  width: 100%; /* Full width */
+  height: 44px; /* Adjust height as needed */
   z-index: 990; /* Ensure it stays on top of other elements */
 }
 
@@ -472,7 +470,8 @@
 /* Navigation styling */
 .header-nav {
   position: absolute;
-  top: 1vh;
+
+  top: 2vh;
   right: 1vw;
   margin-right: 1vw; /* Spacing between items */
 }
@@ -645,7 +644,7 @@ table {
 }
 
 .menu-toggle-container {
-  width: 100%;
+  width: 100vw;
   height: 44px;
   position: fixed;
   top: 0vh;
@@ -657,10 +656,12 @@ table {
   position: absolute;
   background: none;
   border: none;
-  font-size: 2.5rem;
-  right: 7%;
+  font-size: 10vw;
+  right: 0;
+  margin-right: 8vw;
   cursor: pointer;
   color: black;
+  width: 10vw;
 }
 
 .dropdown-menu {
@@ -670,7 +671,6 @@ table {
   width: 100vw; /* Full width of the viewport */
   height: 100vh; /* Full height of the viewport */
   top: 0%;
-  padding-right: 2%;
 
   z-index: 990;
   background-color: rgba(
@@ -683,7 +683,7 @@ table {
 
 .dropdown-content {
   padding-top: 60px;
-  margin-right: 10%;
+  margin-right: 13vw;
   /* Start at the top of the viewport */
 }
 
@@ -691,13 +691,13 @@ table {
   display: flex;
   flex-direction: column;
   padding: 10px;
+  padding-right: 0;
 
   text-align: right;
   width: 100%;
 }
 
-.dropdown-menu .header-item {
-}
+
 
 @keyframes slideIn {
   from {
