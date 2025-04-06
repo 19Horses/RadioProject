@@ -4,7 +4,7 @@ import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
 import { CustomCursor } from "../components/CustomCursor";
 import { useNavigate } from "react-router-dom";
 
-export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
+export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
   const flexContainer = useRef(null);
   const [w, setW] = useState(null);
   const [hoveredGuest, setHoveredGuest] = useState(null);
@@ -15,12 +15,16 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
   // new
   const [showMixes, setShowMixes] = useState(true);
   const [showArticles, setShowArticles] = useState(true);
+  const [hoveredIndex, setHoveredIndex] = useState(null);
+  const [showFilters, setShowFilters] = useState(false);
 
   const filteredItems = items.filter((item) => {
     if (showMixes && item.type === "mix") return true;
     if (showArticles && item.type === "article") return true;
     return false;
   });
+
+  const highestId = 0; // Assuming highest ID is the last element in the array
 
   useEffect(() => {
     if (flexContainer.current) {
@@ -90,37 +94,49 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                 >
                   {items.map((guest, i) => {
                     const isLeft = i < items.length / 2;
+                    // Apply shimmer effect to the container with the highest ID
+
                     return (
-                      <GridContainer
-                        key={i}
-                        $total={items.length}
-                        $selectedIndex={selectedIndex}
-                        $contents={i}
-                        $isLeft={isLeft}
-                      >
-                        <PhotoContainer
-                          className="pc"
+                      <div className="shimmer-effect">
+                        <GridContainer
+                          className="shimmer-effect"
                           key={i}
-                          $contents={i}
-                          $selectedIndex={selectedIndex}
-                          $parentWidth={w}
                           $total={items.length}
+                          $selectedIndex={selectedIndex}
+                          $contents={i}
                           $isLeft={isLeft}
-                          $isMobile={isMobile}
+                          style={{
+                            transition: "filter 0.3s ease-in-out",
+                          }}
                         >
-                          <img
-                            src={guest.src}
-                            alt={guest.title}
-                            className="image"
-                            onClick={() => {
-                              guestSelected(guest, i);
-                            }}
+                          <PhotoContainer
+                            className={`pc shimmer-effect`}
+                            key={i}
+                            $contents={i}
+                            $selectedIndex={selectedIndex}
+                            $parentWidth={w}
+                            $total={items.length}
+                            $isLeft={isLeft}
+                            $isMobile={isMobile}
+                            $shimmer={guest.id === 1}
                             style={{
                               transition: "filter 0.3s ease-in-out",
                             }}
-                          />
-                        </PhotoContainer>
-                      </GridContainer>
+                          >
+                            <img
+                              src={guest.src}
+                              alt={guest.title}
+                              className={`image shimmer-effect`}
+                              onClick={() => {
+                                guestSelected(guest, i);
+                              }}
+                              style={{
+                                transition: "filter 0.3s ease-in-out",
+                              }}
+                            />
+                          </PhotoContainer>
+                        </GridContainer>
+                      </div>
                     );
                   })}
                 </div>
@@ -177,37 +193,102 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
             </>
           ) : (
             <div>
-              <div className="filter">
-                <p>
-                  <a
-                    onClick={() => {
-                      setShowMixes(!showMixes);
-                      console.log("showMixes", showMixes);
-                    }}
-                  >
-                    ♪ Mixes
+              <div
+                style={{
+                  display: "flex",
+                  justifyContent: "space-between",
+                  cursor: "pointer",
+                  width: "12vw",
+                }}
+                onClick={() => {
+                  setShowFilters(!showFilters);
+                  console.log("showFilters", showFilters);
+                }}
+              >
+                <a
+                  className="filter-text"
+                  style={{
+                    width: "1vw",
+                    color:
+                      showMixes && showArticles ? "black" : "rgb(255, 0 , 90)",
+                  }}
+                >
+                  ☼
+                </a>{" "}
+              </div>
+              <div
+                className="filter"
+                style={{
+                  opacity: showFilters ? 1 : 0,
+                  height: "50vh",
+                  justifyContent: "center",
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
+                  width: "12vw",
+                  transition: "opacity 0.5s ease-in-out",
+                }}
+              >
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    width: "12vw",
+                  }}
+                  onClick={() => {
+                    setShowMixes(!showMixes);
+                    console.log("showMixes", showMixes);
+                  }}
+                >
+                  <a className="filter-text" style={{ width: "1vw" }}>
+                    ♪
                   </a>{" "}
-                  {showMixes ? "ON" : "OFF"}
-                </p>
-                <p>
-                  <a
-                    onClick={() => {
-                      setShowArticles(!showArticles);
-                      console.log("showArticles", showArticles);
-                    }}
-                  >
-                    ☼ Articles
+                  <a className="filter-text" style={{ marginRight: "auto" }}>
+                    MIXES
                   </a>{" "}
-                  {showArticles ? "ON" : "OFF"}
-                </p>
+                  <b style={{ color: showMixes ? "rgb(255,0,90)" : "black" }}>
+                    {showMixes ? "ON" : "OFF"}
+                  </b>
+                </div>
+                <div
+                  style={{
+                    display: "flex",
+                    justifyContent: "space-between",
+                    cursor: "pointer",
+                    width: "12vw",
+                  }}
+                  onClick={() => {
+                    setShowArticles(!showArticles);
+                    console.log("showArticles", showArticles);
+                  }}
+                >
+                  <a className="filter-text" style={{ width: "1vw" }}>
+                    ☼
+                  </a>{" "}
+                  <a className="filter-text" style={{ marginRight: "auto" }}>
+                    ARTICLES
+                  </a>{" "}
+                  <b
+                    style={{ color: showArticles ? "rgb(255,0,90)" : "black" }}
+                  >
+                    {showArticles ? "ON" : "OFF"}
+                  </b>
+                </div>
               </div>
               <div
                 ref={flexContainer}
-                className={`${
-                  isMobile ? "flex-container-mob" : "flex-container"
-                } ${fadeOut ? "fadeOutGrid" : ""}`}
+                className={`${"flex-container"} ${
+                  fadeOut ? "fadeOutGrid" : ""
+                }`}
+                style={{
+                  left: showFilters ? "20vw" : "0vw",
+                  width: showFilters ? "80vw" : "",
+                  transition: "all 0.75s ease-in-out",
+                }}
               >
-                {filteredItems.map((guest, i) => {
+                <div className="gradient-overlay-select" />
+
+                {[...filteredItems].reverse().map((guest, i) => {
                   const isLeft = i < items.length / 2;
                   return (
                     <GridContainer
@@ -215,7 +296,11 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                       $total={items.length}
                       $selectedIndex={selectedIndex}
                       $contents={i}
-                      $isLeft={isLeft}
+                      $isLeft={false}
+                      $selected={selectedIndex === i}
+                      $hovered={hoveredIndex === i}
+                      onMouseEnter={() => setHoveredIndex(i)}
+                      onMouseLeave={() => setHoveredIndex(null)}
                     >
                       <PhotoContainer
                         className="pc"
@@ -224,16 +309,18 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                         $selectedIndex={selectedIndex}
                         $parentWidth={w}
                         $total={items.length}
-                        $isLeft={isLeft}
+                        $isLeft={false}
                         $isMobile={isMobile}
                       >
                         <img
                           src={guest.src}
                           alt={guest.title}
-                          className="image"
+                          className={`image ${
+                            guest.id === 1 ? "shimmer-effect" : ""
+                          }`}
                           onMouseEnter={() => {
                             setHoveredGuest(guest);
-                            setIsLeft(isLeft);
+                            setIsLeft(false);
                           }}
                           onMouseLeave={() => {
                             setHoveredGuest(null);

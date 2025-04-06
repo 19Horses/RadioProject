@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "VCR";
-  src: local("VCR"), url("./assets/VCR_OSD_MONO.ttf") format("opentype");
+  font-family: "London";
+  src: local("London"), url("./assets/London.ttf") format("opentype");
   font-style: normal;
 }
 
@@ -21,6 +21,23 @@
     opacity: 1;
   }
 }
+
+@keyframes shimmer {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.6;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+.shimmer-effect {
+  animation: shimmer 4s infinite ease-in-out ;
+}
+
 
 .articleFadeIn {
   opacity: 0;
@@ -97,32 +114,75 @@
 .flex-container {
   position: relative;
   display: flex;
-  right: 0;
-  width: 80vw;
-  height: 500px;
+  justify-content: flex-start; /* Key for left alignment */
+  align-items: flex-start;     /* Optional */
+  flex-wrap: wrap;             /* Important if you want items to wrap */
+  width: 100vw;
+  height: auto;     
+  margin: auto;           /* Let it grow with content if needed */
   margin-right: 3vw;
+  transition: all 0.4s ease-in-out;
+
+}
+
+.flex-container {
+  display: flex;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  justify-content: flex-start;
+  gap: 0.5vw;
+  height: 50vh;
+
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+
+  /* Optional smooth scrolling */
+  scroll-behavior: smooth;
+}
+
+.flex-container::-webkit-scrollbar {
+  display: none; /* Chrome, Safari, Opera */
 }
 
 .filter{
+  cursor: pointer;
   display: flex;
   flex-direction: column;
   position: absolute;
   left: 3vw;
+  font-family: London;
+  color: black;
+  gap: 1vh;
+  font-size: 1.5vh;
+  line-height: 1.75vh;
+  width: 12vw;
+}
+
+.filter-text{
   font-family: Helvetica;
   color: black;
-  font-size: 1.2vw;
+  font-size: 2vh;
 }
+
+/* .flex-container {
+  border: 1px solid red;
+}
+.flex-container > * {
+  border: 1px solid blue;
+} */
 
 .total-container {
   position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: end;
+  align-items: start;
   
   height: 100vh;
   width: 100vw;
 }
+
 
 .cursor {
   position: fixed;
@@ -423,6 +483,23 @@
     rgba(255, 255, 255, 0) 100%
   );
   pointer-events: none;
+  z-index: 1; /* Ensure the overlay is above the text */
+}
+
+.gradient-overlay-select {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0) 90%,
+    rgb(247, 247, 247) 97%
+  );
+  pointer-events: none; /* Ensure the overlay does not block interactions */
   z-index: 1; /* Ensure the overlay is above the text */
 }
 

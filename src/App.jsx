@@ -6,7 +6,7 @@ import { Header } from "./components/Header";
 import SoundCloudPlayer from "./components/SoundcloudPlayer";
 import { Guest } from "./pages/Guest";
 import { Info } from "./pages/Info";
-import { Landing } from "./pages/Landing";
+import { Archive } from "./pages/Archive";
 import { Article } from "./pages/Article";
 
 function App() {
@@ -31,9 +31,9 @@ function App() {
       )}
       <Routes>
         <Route
-          path="/"
+          path="/archive"
           element={
-            <Landing
+            <Archive
               selectedIndex={null}
               isMobile={isMobile}
               mobileIndex={mobileIndex}
