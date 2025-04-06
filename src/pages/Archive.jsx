@@ -7,7 +7,7 @@ import { useNavigate } from "react-router-dom";
 export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
   const flexContainer = useRef(null);
   const [w, setW] = useState(null);
-  const [hoveredGuest, setHoveredGuest] = useState(null);
+  const [hoveredGuest, setHoveredGuest] = useState();
   const [isLeft, setIsLeft] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
   const navigate = useNavigate();
@@ -15,6 +15,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
   // new
   const [showMixes, setShowMixes] = useState(true);
   const [showArticles, setShowArticles] = useState(true);
+  const itemRefs = useRef([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
 
@@ -37,6 +38,59 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
     handleResize();
     return () => window.removeEventListener("resize", handleResize);
   }, [flexContainer]);
+
+  useEffect(() => {
+    if (!isMobile) return; // Only apply on mobile
+
+    // Log the itemRefs array here to see if it's being populated correctly
+    console.log("itemRefs at the start:", itemRefs.current);
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        console.log("Entries:", entries);
+        let maxRatio = 0;
+        let mostVisibleIndex = null;
+
+        entries.forEach((entry) => {
+          console.log("Entry:", entry);
+          console.log("Intersection ratio:", entry.intersectionRatio);
+
+          if (entry.intersectionRatio > maxRatio) {
+            maxRatio = entry.intersectionRatio;
+            mostVisibleIndex = Number(entry.target.getAttribute("data-index"));
+          }
+        });
+
+        if (mostVisibleIndex !== null && items[mostVisibleIndex]) {
+          const mostVisibleItem = items[mostVisibleIndex];
+          console.log("Most visible item:", mostVisibleItem);
+          setHoveredGuest(mostVisibleItem);
+        }
+      },
+      {
+        threshold: 0.8, // granular visibility tracking
+      }
+    );
+
+    // Make sure refs are populated correctly
+    itemRefs.current.forEach((ref, index) => {
+      if (ref && ref instanceof HTMLElement) {
+        console.log(`Ref at index ${index} is a valid DOM element:`, ref);
+        observer.observe(ref);
+      } else {
+        console.log("Ref at index", index, "is null or undefined.");
+      }
+    });
+
+    return () => {
+      itemRefs.current.forEach((ref) => {
+        if (ref && ref instanceof HTMLElement) {
+          console.log("Unobserving element:", ref);
+          observer.unobserve(ref);
+        }
+      });
+    };
+  }, [isMobile]);
 
   const guestSelected = useCallback(
     (guest) => {
@@ -88,19 +142,17 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
               <div>
                 <div
                   ref={flexContainer}
-                  className={`${
-                    isMobile ? "flex-container-mob" : "flex-container"
+                  className={`flex-container-mob
                   } ${fadeOut ? "fadeOutGrid" : ""}`}
                 >
                   {items.map((guest, i) => {
                     const isLeft = i < items.length / 2;
-                    // Apply shimmer effect to the container with the highest ID
-
                     return (
-                      <div className="shimmer-effect">
+                      <div key={i}>
                         <GridContainer
-                          className="shimmer-effect"
-                          key={i}
+                          ref={(el) => (itemRefs.current[i] = el)} // Change: Properly assigning refs for each element
+                          data-index={i}
+                          className="gc"
                           $total={items.length}
                           $selectedIndex={selectedIndex}
                           $contents={i}
@@ -110,7 +162,6 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                           }}
                         >
                           <PhotoContainer
-                            className={`pc shimmer-effect`}
                             key={i}
                             $contents={i}
                             $selectedIndex={selectedIndex}
@@ -126,7 +177,6 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                             <img
                               src={guest.src}
                               alt={guest.title}
-                              className={`image shimmer-effect`}
                               onClick={() => {
                                 guestSelected(guest, i);
                               }}
@@ -145,7 +195,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                 className={`cursor-mobile ${fadeOut ? "fadeOutGrid" : ""}`}
                 style={{ left: 0 }}
                 onClick={() => {
-                  guestSelected(items[mobileIndex], mobileIndex);
+                  guestSelected(hoveredGuest);
                 }}
               >
                 <CursorTitle
@@ -155,7 +205,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   $delay={0.1}
                   fontSize="2.4vh"
                 >
-                  {items[mobileIndex]?.rpCount}
+                  {hoveredGuest?.rpCount}
                 </CursorTitle>
                 <CursorTitle
                   className="cursor-title"
@@ -165,7 +215,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   fontSize="2.4vh"
                   $delay={0.15}
                 >
-                  <b>{items[mobileIndex]?.title}</b>
+                  <b>{hoveredGuest?.title}</b>
                 </CursorTitle>
                 <br />
                 <CursorTitle
@@ -176,7 +226,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   fontSize="4.9vh"
                   $delay={0.15}
                 >
-                  <b>{items[mobileIndex]?.title2}</b>
+                  <b>{hoveredGuest?.title2}</b>
                 </CursorTitle>
                 <br />
                 <CursorTitle
@@ -187,7 +237,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   fontSize="2vh"
                   $delay={0.15}
                 >
-                  <b>{items[mobileIndex]?.broadcastDate}</b>
+                  <b>{hoveredGuest?.broadcastDate}</b>
                 </CursorTitle>
               </div>
             </>
