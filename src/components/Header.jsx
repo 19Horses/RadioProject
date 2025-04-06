@@ -34,12 +34,13 @@ export const Header = ({ isMobile }) => {
                     <a
                       className="header-item"
                       onClick={() => {
-                        navigate("/");
+                        navigate("/archive");
                         setMenuOpen(false);
                       }}
                       style={{
                         cursor: "pointer",
-                        color: pathname === "/" ? "rgb(255, 0, 90)" : "black",
+                        color:
+                          pathname === "/archive" ? "rgb(255, 0, 90)" : "black",
                       }}
                     >
                       <b>Archive</b>
@@ -103,11 +104,11 @@ export const Header = ({ isMobile }) => {
               <a
                 className="header-item"
                 onClick={() => {
-                  navigate("/");
+                  navigate("/archive");
                 }}
                 style={{
                   cursor: "pointer",
-                  color: pathname === "/" ? "rgb(255, 0, 90)" : "black",
+                  color: pathname === "/archive" ? "rgb(255, 0, 90)" : "black",
                 }}
               >
                 <b>Archive</b>
