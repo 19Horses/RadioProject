@@ -26,6 +26,11 @@ export const GridContainer = styled.div`
     props.$selected || props.$hovered ? "30%" : "15%"};
   transition: width .5s ease-in-out;
   box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
+  }
 `;
 
 
@@ -47,6 +52,14 @@ export const PhotoContainer = styled.div`
     transition: all 0.4s ease-in-out;
   }
 
+  @media (max-width: 768px) {
+    height: 40vh;
+    aspect-ratio: auto;
+    img {
+      object-position: center center;
+    }
+  }
+
 `;
 
 
@@ -60,4 +73,6 @@ export const CursorTitle = styled.p`
   animation-delay: ${(props) => props.$delay}s;
   opacity: 0;
   transform: translateY(100px);
+
+
 `;

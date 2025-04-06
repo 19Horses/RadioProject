@@ -30,6 +30,8 @@ function App() {
         </AudioProvider>
       )}
       <Routes>
+        <Route path="/" element={<Navigate to="/archive" replace />} />
+
         <Route
           path="/archive"
           element={
