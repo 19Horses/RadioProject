@@ -50,7 +50,7 @@ function App() {
           }
         />
         <Route
-          path="/rg/:guestName"
+          path="/rg/:articleName"
           element={<Article isMobile={isMobile} />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
