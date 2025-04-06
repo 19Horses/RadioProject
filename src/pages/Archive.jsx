@@ -145,7 +145,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   className={`flex-container-mob
                   } ${fadeOut ? "fadeOutGrid" : ""}`}
                 >
-                  {items.map((guest, i) => {
+                  {[...filteredItems].reverse().map((guest, i) => {
                     const isLeft = i < items.length / 2;
                     return (
                       <div key={i}>
@@ -188,6 +188,9 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                               style={{
                                 transition: "filter 0.3s ease-in-out",
                               }}
+                              className={`image ${
+                                guest.id === 1 ? "shimmer-effect" : ""
+                              }`}
                             />
                           </PhotoContainer>
                         </GridContainer>
