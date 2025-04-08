@@ -50,7 +50,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
           opacity: track == null ? "0" : "1",
         }}
       >
-        <audio ref={audioRef} src={track} />
+        <audio ref={audioRef} src={track} autoPlay />
         {isMobile ? (
           <div
             className="control-module__mobile"
