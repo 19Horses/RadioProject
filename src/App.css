@@ -683,28 +683,21 @@ table {
 
 .dropdown-content {
   padding-top: 60px;
-  margin-right: 13vw;
-  /* Start at the top of the viewport */
-}
-
-.dropdown-content .header-item {
+  margin-right: 7vw;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-  padding-right: 0;
-
-  text-align: right;
-  width: 100%;
+  gap: 10px;
+  align-items: flex-end;
 }
-
-
 
 @keyframes slideIn {
   from {
     opacity: 0;
+    transform: translateX(10px);
   }
   to {
     opacity: 1;
+    transform: translateX(0px);
   }
 }
 
