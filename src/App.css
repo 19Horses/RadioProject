@@ -112,9 +112,22 @@
   flex-wrap: wrap;             /* Important if you want items to wrap */
   width: 100vw;
   height: auto;   
+  left: 0;
   transition: all 0.4s ease-in-out;
 
 }
+
+.blog-container{
+  position: fixed;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  align-items: start;
+  
+  height: 100%;
+  width: 100vw;
+}
+
 
 .gc {
   scroll-snap-align: center;
@@ -181,15 +194,15 @@
   font-family: London;
   color: black;
   gap: 1vh;
-  font-size: 1.5vh;
+  font-size: 2vh;
   line-height: 1.75vh;
   width: 12vw;
 }
 
 .filter-text{
   font-family: Helvetica;
-  color: black;
   font-size: 2vh;
+  margin-bottom: 2vh;
 }
 
 /* .flex-container {
@@ -810,9 +823,6 @@ table {
   width: 100%;
 }
 
-.dropdown-menu .header-item {
-}
-
 @keyframes slideIn {
   from {
     opacity: 0;
@@ -868,7 +878,7 @@ table {
 
 /* MOBILE ARTICLE SELECTED */
 .article-content__desktop {
-  opacity: 0;
+  opacity: 1;
   animation: fadeIn 0.3s ease-in forwards;
   position: absolute;
   padding-top: 10vh;
@@ -880,7 +890,7 @@ table {
 .article-content-text__desktop {
   font-size: 3.1vh;
   font-weight: 100;
-  opacity: 0;
+  opacity: 1;
   font-family: Helvetica;
   color: black;
 }

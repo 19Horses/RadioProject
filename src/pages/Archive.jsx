@@ -3,6 +3,7 @@ import { djs as items } from "./items";
 import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
 import { CustomCursor } from "../components/CustomCursor";
 import { useNavigate } from "react-router-dom";
+import { FaFilter } from "react-icons/fa";
 
 export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
   const flexContainer = useRef(null);
@@ -68,7 +69,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
         }
       },
       {
-        threshold: 0.9, // granular visibility tracking
+        threshold: 0.8, // granular visibility tracking
       }
     );
 
@@ -135,7 +136,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
           hovered={!!hoveredGuest}
         />
       )}
-      <div className="center-wrapper">
+      <div className={`center-wrapper ${isMobile ? "center-mob-adapter" : ""}`}>
         <div className={"total-container "}>
           {isMobile ? (
             <>
@@ -153,11 +154,13 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                           ref={(el) => (itemRefs.current[i] = el)} // Change: Properly assigning refs for each element
                           data-index={i}
                           className="gc"
-                          $total={items.length}
+                          $total={filteredItems.length}
                           $selectedIndex={selectedIndex}
                           $contents={i}
                           $isLeft={isLeft}
                           style={{
+                            paddingLeft: "5vw",
+                            paddingRight: "5vw",
                             transition: "filter 0.3s ease-in-out",
                           }}
                         >
@@ -166,7 +169,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                             $contents={i}
                             $selectedIndex={selectedIndex}
                             $parentWidth={w}
-                            $total={items.length}
+                            $total={filteredItems.length}
                             $isLeft={isLeft}
                             $isMobile={isMobile}
                             $shimmer={guest.id === 1}
@@ -271,12 +274,13 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                 <a
                   className="filter-text"
                   style={{
+                    transition: "all .5s",
                     width: "1vw",
                     color:
                       showMixes && showArticles ? "black" : "rgb(255, 0 , 90)",
                   }}
                 >
-                  ☼
+                  <FaFilter />
                 </a>{" "}
               </div>
               <div

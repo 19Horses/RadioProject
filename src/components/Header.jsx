@@ -45,21 +45,22 @@ export const Header = ({ isMobile }) => {
                     >
                       <b>Archive</b>
                     </a>
-                    {/* <a
-                  className="header-item"
-                  onClick={() => {
-                    navigate('/articles')
-                    setMenuOpen(false);
-                  }}
-                  style={{
-                    cursor: "pointer",
-                    //color: "black",
-                    color: pathname === '/articles' ? "red" : "black",
-                  }}
-                  target="_blank"
-                >
-                  <b>Radiograms</b>
-                </a> */}
+                    <a
+                      className="header-item"
+                      onClick={() => {
+                        navigate("/blog");
+                        setMenuOpen(false);
+                      }}
+                      style={{
+                        cursor: "pointer",
+                        //color: "black",
+                        color:
+                          pathname === "/blog" ? "rgb(255, 0, 90)" : "black",
+                      }}
+                      target="_blank"
+                    >
+                      <b>Chatroom</b>
+                    </a>
                     <a
                       className="header-item"
                       target="_blank"
@@ -113,21 +114,21 @@ export const Header = ({ isMobile }) => {
               >
                 <b>Archive</b>
               </a>
-              {/* <a
-              className="header-item"
-              onClick={() => {
-                //
-                navigate("/articles");
-              }}
-              style={{
-                cursor: "pointer",
-                color: pathname === "/articles" ? "rgb(255, 0, 90)" : "black",
-                //color: "black",
-              }}
-              target="_blank"
-            >
-              <b>Radiograms</b>
-            </a> */}
+              <a
+                className="header-item"
+                onClick={() => {
+                  //
+                  navigate("/blog");
+                }}
+                style={{
+                  cursor: "pointer",
+                  color: pathname === "/blog" ? "rgb(255, 0, 90)" : "black",
+                  //color: "black",
+                }}
+                target="_blank"
+              >
+                <b>Chatroom</b>
+              </a>
               <a
                 className="header-item"
                 target="_blank"
