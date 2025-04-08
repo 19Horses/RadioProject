@@ -99,7 +99,7 @@ export const djs = [
     "src": rpa1.p,
     "rpCount": "RADIOGRAM 1 ☼ ",
     "broadcastDate": "12/4/25 15:00",
-    "url": "aml",
+    "url": "anouk-maj-losleben",
     "title2": "Anouk Maj Losleben",
     "title": "Clusters of Liberation + Illusions of Freedom",
     "title3": "Textile Designer",

@@ -47,7 +47,7 @@ export const Article = ({ isMobile }) => {
                     padding: "2px 5px", // Optional for better visibility
                   }}
                 >
-                  <b>{articleSelected?.title2}</b>
+                  <b>{articleSelected?.title}</b>
                 </span>
               </p>
             </div>
@@ -83,7 +83,7 @@ export const Article = ({ isMobile }) => {
                     href={articleSelected?.igLink}
                     target="_blank"
                   >
-                    <b>{articleSelected.title}</b>
+                    <b>{articleSelected.title2}</b>
                   </a>
                   <br />
                   <span
@@ -117,7 +117,7 @@ export const Article = ({ isMobile }) => {
             {isMobile ? (
               <>
                 <p
-                  className="article-content-text__mobile"
+                  className={`article-content-text__mobile`}
                   dangerouslySetInnerHTML={{
                     __html: articleSelected?.description,
                   }}

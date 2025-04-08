@@ -8,6 +8,7 @@ import { Guest } from "./pages/Guest";
 import { Info } from "./pages/Info";
 import { Archive } from "./pages/Archive";
 import { Article } from "./pages/Article";
+import { Blog } from "./pages/Blog.jsx";
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -42,6 +43,7 @@ function App() {
             />
           }
         />
+        <Route path="/blog" element={<Blog isMobile={isMobile} />} />
         <Route path="/about" element={<Info isMobile={isMobile} />} />
         <Route
           path="/:guestName"
