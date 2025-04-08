@@ -95,7 +95,6 @@ export const AudioProvider = ({ children }) => {
       const handleCanPlayThrough = () => {
         if (audio.duration && !isNaN(audio.duration)) {
           setFormattedDuration(formatTime(audioRef.current.duration));
-          audio.play();
           setIsPlaying(true);
         }
       };
