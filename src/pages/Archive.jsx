@@ -256,7 +256,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
             </>
           ) : (
             <div>
-              <div
+              {/* <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -337,7 +337,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                     {showArticles ? "ON" : "OFF"}
                   </b>
                 </div>
-              </div>
+              </div> */}
               <div
                 ref={flexContainer}
                 className={`${"flex-container"} ${

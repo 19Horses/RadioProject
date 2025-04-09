@@ -23,7 +23,7 @@ export const GridContainer = styled.div`
   display: flex;
   transition: all 0.4s ease-in-out;
   width: ${(props) =>
-    props.$selected || props.$hovered ? "30%" : "15%"};
+    props.$selected || props.$hovered ? "23%" : "12%"};
   transition: width .5s ease-in-out;
   box-sizing: border-box;
 
@@ -36,7 +36,7 @@ export const GridContainer = styled.div`
 
 
 export const PhotoContainer = styled.div`
-  height: 50vh;
+  height: 40vh;
   aspect-ratio: 1 / 1;
   overflow: hidden;
   position: relative;
