@@ -4,9 +4,6 @@ export const Blog = ({ isMobile }) => {
   return (
     <div className="blog-container">
       <Posts />
-      <div>
-        <></>
-      </div>
     </div>
   );
 };

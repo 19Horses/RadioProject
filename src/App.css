@@ -117,17 +117,34 @@
 
 }
 
-.blog-container{
+.blog-container {
+  position: fixed;
+  top: 0;
+  left: 0;
+  height: 100%;
+  width: 60%;
+  overflow-y: auto;    
+  overflow-x: none;        /* Enable vertical scrolling */
+  display: flex;
+  flex-direction: column;
+  align-items: center;         /* Center horizontally */
+  padding: 2rem 1rem;          /* Add spacing instead of vertical centering */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+
+  /* Optional smooth scrolling */
+}
+
+.input-container {
   position: fixed;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
+  justify-content: center;
   align-items: start;
-  
-  height: 100%;
-  width: 100vw;
+  left: 3vw;
+  bottom: 5vh;
+  z-index: 1000;
 }
-
 
 .gc {
   scroll-snap-align: center;
@@ -887,12 +904,19 @@ table {
   width: 40%;
 }
 
-.article-content-text__desktop {
-  font-size: 3.1vh;
+.blog-content-text__desktop {
+  
+  font-size: 3vh;
   font-weight: 100;
   opacity: 1;
   font-family: Helvetica;
   color: black;
+}
+
+.all-chats{
+  width: 100%;
+  height: 100%;
+  overflow-y: auto;
 }
 
 .article-content-text__mobile {
@@ -978,6 +1002,13 @@ table {
 .tracklist-item-title__desktop {
   text-align: right;
   width: 30vw;
+  padding-left: 1vw;
+  padding-right: 1vw;
+}
+
+.sender-item{
+  text-align: right;
+  width: auto;
   padding-left: 1vw;
   padding-right: 1vw;
 }
