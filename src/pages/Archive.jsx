@@ -188,9 +188,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                               style={{
                                 transition: "filter 0.3s ease-in-out",
                               }}
-                              className={`image ${
-                                guest.id === 1 ? "shimmer-effect" : ""
-                              }`}
+                              className={`image `}
                             />
                           </PhotoContainer>
                         </GridContainer>
@@ -378,9 +376,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                         <img
                           src={guest.src}
                           alt={guest.title}
-                          className={`image ${
-                            guest.id === 1 ? "shimmer-effect" : ""
-                          }`}
+                          className={`image `}
                           onMouseEnter={() => {
                             setHoveredGuest(guest);
                             setIsLeft(false);
