@@ -1200,6 +1200,7 @@ table {
   padding-top: 1vh;
   bottom: 0%;
   left: 3%;
+  font-family: Helvetica;
 }
 
 .input-container button{
@@ -1216,6 +1217,8 @@ table {
   border-radius: 0;
   border-bottom: .2vh solid black;
   background-color: transparent;
+  transition: all 0.2s;
+font-weight: 300;
 }
 
 
@@ -1232,3 +1235,14 @@ table {
 .input-container input:last-child {
   width: 20%;
 }
+
+.reply-button{
+  transition: all 0.2s;
+
+}
+
+.reply-button:hover {
+   color: rgb(255, 0, 90);
+  }
+
+
