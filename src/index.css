@@ -25,3 +25,11 @@ html, body {
   max-width: 100%;
   overflow-x: hidden;
 }
+
+strong{
+  color: white;
+  background-color: rgb(255, 0, 90);
+  font-size: 3.1vh;
+  display: inline;
+  font-weight: 100;
+}
