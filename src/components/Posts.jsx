@@ -15,6 +15,15 @@ export default function Posts({ isMobile, playingGuest }) {
   const [user, setUser] = useState("");
   const [reply, setReply] = useState("");
   const [replyPostId, setReplyPostId] = useState(null);
+  const [hasSetUser, setHasSetUser] = useState(false);
+
+  const handleSetUser = () => {
+    if (user.trim().length < 2) {
+      alert("Please enter a valid name (min 2 characters).");
+      return;
+    }
+    setHasSetUser(true);
+  };
 
   const postsEndRef = useRef(null); // Ref to scroll to the bottom
 
@@ -55,26 +64,6 @@ export default function Posts({ isMobile, playingGuest }) {
   const isAlphanumeric = (str) => /^[a-zA-Z0-9]+$/.test(str);
 
   const formatDateFancy = (date) => {
-    const day = date.getDate();
-    const month = date.toLocaleString("default", { month: "long" });
-    const year = date.getFullYear();
-
-    const getDaySuffix = (d) => {
-      if (d > 3 && d < 21) return "th";
-      switch (d % 10) {
-        case 1:
-          return "st";
-        case 2:
-          return "nd";
-        case 3:
-          return "rd";
-        default:
-          return "th";
-      }
-    };
-
-    const suffix = getDaySuffix(day);
-
     let hours = date.getHours();
     const minutes = date.getMinutes().toString().padStart(2, "0");
     const ampm = hours >= 12 ? "PM" : "AM";
@@ -148,13 +137,21 @@ export default function Posts({ isMobile, playingGuest }) {
           playingGuest && isMobile === true
             ? "11%"
             : playingGuest == null && isMobile === true
-            ? "3%"
-            : "3%",
+            ? "2%"
+            : "2%",
       }}
     >
       <div
         className="all-chats"
-        style={{ width: playingGuest ? "75%" : "90%", paddingTop: "10%" }}
+        style={{
+          width:
+            playingGuest && isMobile === true
+              ? ""
+              : playingGuest == null && isMobile === true
+              ? "90%"
+              : "75%",
+          paddingTop: isMobile ? "" : "10%",
+        }}
       >
         {/* Display all posts */}
         {posts.map((post) => (
@@ -162,13 +159,12 @@ export default function Posts({ isMobile, playingGuest }) {
             style={{
               height: "auto",
               width: "90%",
-              paddingBottom: "2vh",
+              paddingBottom: "1vh",
             }}
             key={post.id}
           >
             <p
               style={{
-                color: "rgb(255, 0, 90)",
                 lineHeight: "1vh",
                 marginBottom: "1vh",
               }}
@@ -187,42 +183,55 @@ export default function Posts({ isMobile, playingGuest }) {
                 style={{
                   color: "rgb(137, 137, 137)",
                   fontWeight: "100",
-                  fontSize: isMobile ? "1.3vh" : "2.5vh",
+                  fontSize: isMobile ? "1.4vh" : "2vh",
                   display: "inline", // Added inline style here
                   marginLeft: ".5vh", // Added margin for spacing between name and date
                 }}
               >
                 {post.timeofpost && formatDateFancy(post.timeofpost.toDate())}
               </p>
-
-              <p
-                style={{
-                  color: "rgb(0, 0, 0)",
-                  fontWeight: "100",
-                  fontSize: isMobile ? "1.3vh" : "2.5vh",
-                  display: "inline", // Added inline style here
-                  marginLeft: "1vh", // Added margin for spacing between name and date
-                  cursor: "pointer",
-                }}
-                onClick={() => {
-                  setReply(post);
-                  setReplyPostId(replyPostId === post.id ? null : post.id);
-                }}
-              >
-                {replyPostId === post.id ? "Cancel" : "REPLY"}
-              </p>
+              {hasSetUser && (
+                <p
+                  className="reply-button"
+                  style={{
+                    fontWeight: "100",
+                    fontSize: isMobile ? "1.4vh" : "2vh",
+                    display: "inline", // Added inline style here
+                    marginLeft: "1vh", // Added margin for spacing between name and date
+                    cursor: "pointer",
+                    color:
+                      replyPostId === post.id
+                        ? "rgb(255, 0, 90)"
+                        : "rgb(0, 0, 0)",
+                  }}
+                  onClick={() => {
+                    setReply(post);
+                    if (replyPostId === post.id) {
+                      setReplyPostId(null);
+                    }
+                    setReplyPostId(replyPostId === post.id ? null : post.id);
+                  }}
+                >
+                  {replyPostId === post.id ? "Cancel" : "Reply"}
+                </p>
+              )}
             </p>
             {post?.reply && (
               <p
                 style={{
-                  fontSize: isMobile ? "1vh" : "1.5vh",
+                  fontSize: isMobile ? "1.3vh" : "1.5vh",
                   fontStyle: "italic",
                   margin: "0",
                   marginBottom: ".5vh",
                   color: "rgb(255, 103, 156)",
                 }}
               >
-                {post?.reply?.name + ": '" + post?.reply?.content + "'"}
+                {post?.reply?.name +
+                  ' said... "' +
+                  (post?.reply?.content.length > 50
+                    ? post.reply.content.slice(0, 50) + "..."
+                    : post.reply.content) +
+                  '"'}
               </p>
             )}
             <p
@@ -233,11 +242,84 @@ export default function Posts({ isMobile, playingGuest }) {
                 marginLeft: post?.reply?.name ? "1vw" : "", // Added margin for spacing between name and date
               }}
             >
-              {post?.reply?.name && "↪ "}
+              {post?.reply?.name && " →  "}
               {post.content}
             </p>
           </div>
         ))}
+        <div
+          style={{
+            height: "auto",
+            width: "90%",
+            paddingBottom: "1vh",
+          }}
+        >
+          <p
+            style={{
+              lineHeight: "1vh",
+              marginBottom: "1vh",
+            }}
+          >
+            <b
+              style={{
+                fontWeight: "1000",
+                color: "rgb(247, 247, 247)",
+                backgroundColor: "rgb(247, 247, 247)",
+                fontSize: isMobile ? "2vh" : "2.5vh",
+              }}
+            >
+              hi
+            </b>
+            <p
+              style={{
+                color: "rgb(247, 247, 247)",
+                fontWeight: "100",
+                fontSize: isMobile ? "1.3vh" : "2.5vh",
+                display: "inline", // Added inline style here
+                marginLeft: ".5vh", // Added margin for spacing between name and date
+              }}
+            >
+              hi{" "}
+            </p>
+            {hasSetUser && (
+              <p
+                className="reply-button"
+                style={{
+                  fontWeight: "100",
+                  fontSize: isMobile ? "1.4vh" : "2vh",
+                  display: "inline", // Added inline style here
+                  marginLeft: "1vh", // Added margin for spacing between name and date
+                  cursor: "pointer",
+                  color: "rgb(247, 247, 247)",
+                  backgroundColor: "rgb(247, 247, 247)",
+                }}
+              >
+                hi
+              </p>
+            )}
+          </p>
+          <p
+            style={{
+              fontSize: isMobile ? "1.3vh" : "1.5vh",
+              fontStyle: "italic",
+              margin: "0",
+              marginBottom: ".5vh",
+              color: "rgb(255, 255, 255)",
+            }}
+          >
+            hi
+          </p>
+          <p
+            style={{
+              fontWeight: "100",
+              fontSize: isMobile ? "2vh" : "2.5vh",
+              display: "inline",
+              color: "rgb(247, 247, 247)",
+            }}
+          >
+            hi
+          </p>
+        </div>
       </div>
 
       <div ref={postsEndRef} />
@@ -248,32 +330,74 @@ export default function Posts({ isMobile, playingGuest }) {
           width: playingGuest && isMobile != null ? "90%" : "97%",
         }}
       >
-        <input
-          type="text"
-          value={user}
-          onChange={(e) => setUser(e.target.value)}
-          placeholder="Name"
-          style={{}}
-        />
-        <input
-          type="text"
-          value={newMessage}
-          onChange={(e) => setNewMessage(e.target.value)}
-          onKeyDown={handleKeyDown}
-          placeholder="Type a message"
-          style={{
-            display: "block",
-          }}
-        />
-        <button
-          onClick={handlePostSubmit}
-          style={{
-            fontSize: "2vh",
-            cursor: "pointer",
-          }}
-        >
-          {reply ? "Reply" : "Send"}
-        </button>
+        {!hasSetUser && (
+          <div style={{ marginBottom: "1vh", width: isMobile ? "70%" : "50%" }}>
+            <input
+              type="text"
+              value={user}
+              onChange={(e) => {
+                // Get the input value
+                const newValue = e.target.value;
+
+                // Only allow alphanumeric characters and limit the length to 12
+                if (/^[a-zA-Z0-9]*$/.test(newValue) && newValue.length <= 12) {
+                  setUser(newValue); // Set the new value if it's valid
+                }
+              }}
+              placeholder="WHO ARE YOU?"
+              style={{
+                width: "auto",
+                borderBottom: "0px solid black",
+                paddingTop: "1vh",
+              }}
+            />
+            <button
+              onClick={handleSetUser}
+              style={{
+                backgroundColor: "rgb(255, 0, 90)",
+                color: "white",
+                fontSize: "2vh",
+                fontFamily: "Helvetica",
+                cursor: "pointer",
+              }}
+            >
+              <b>ENTER</b>
+            </button>
+          </div>
+        )}
+        {hasSetUser && (
+          <>
+            <input
+              type="text"
+              value={user}
+              onChange={(e) => setUser(e.target.value)}
+              placeholder="Name"
+              style={{ userSelect: "none", pointerEvents: "none" }}
+            />
+            <input
+              type="text"
+              value={newMessage}
+              onChange={(e) => setNewMessage(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={
+                replyPostId ? "→ Respond to a message" : "Type a message"
+              }
+              style={{
+                display: "block",
+              }}
+            />
+            <button
+              onClick={handlePostSubmit}
+              style={{
+                fontSize: "2vh",
+                cursor: "pointer",
+                userSelect: "none",
+              }}
+            >
+              {replyPostId ? "Reply" : "Send"}
+            </button>
+          </>
+        )}
       </div>
     </div>
   );
