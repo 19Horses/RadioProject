@@ -117,34 +117,8 @@
 
 }
 
-.blog-container {
-  position: fixed;
-  top: 0;
-  left: 0;
-  height: 100%;
-  width: 60%;
-  overflow-y: auto;    
-  overflow-x: none;        /* Enable vertical scrolling */
-  display: flex;
-  flex-direction: column;
-  align-items: center;         /* Center horizontally */
-  padding: 2rem 1rem;          /* Add spacing instead of vertical centering */
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
 
-  /* Optional smooth scrolling */
-}
 
-.input-container {
-  position: fixed;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: start;
-  left: 3vw;
-  bottom: 5vh;
-  z-index: 1000;
-}
 
 .gc {
   scroll-snap-align: center;
@@ -894,30 +868,7 @@ table {
 }
 
 /* MOBILE ARTICLE SELECTED */
-.article-content__desktop {
-  opacity: 1;
-  animation: fadeIn 0.3s ease-in forwards;
-  position: absolute;
-  padding-top: 10vh;
-  padding-bottom: 10vh;
-  left: 33%;
-  width: 40%;
-}
 
-.blog-content-text__desktop {
-  
-  font-size: 3vh;
-  font-weight: 100;
-  opacity: 1;
-  font-family: Helvetica;
-  color: black;
-}
-
-.all-chats{
-  width: 100%;
-  height: 100%;
-  overflow-y: auto;
-}
 
 .article-content-text__mobile {
   font-size: 2.9vh;
@@ -1008,9 +959,6 @@ table {
 
 .sender-item{
   text-align: right;
-  width: auto;
-  padding-left: 1vw;
-  padding-right: 1vw;
 }
 
 .timeline-progress-bar-container__desktop {
@@ -1195,4 +1143,92 @@ table {
   padding-left: 0.25vw;
   padding-right: 0.25vw;
   font-size: 1.745vh;
+}
+
+
+
+.article-content__desktop {
+  opacity: 1;
+  animation: fadeIn 0.3s ease-in forwards;
+  position: relative;
+  padding-top: 10vh;
+  padding-bottom: 10vh;
+  left: 33%;
+  width: 40%;
+}
+
+
+
+
+
+/* CHATROOM */
+.blog-container {
+
+  position: fixed;
+  bottom: 0;
+  left: 5vw;
+  height: 100%; /* Take up full viewport height */
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse; /* This will place the new messages at the bottom */
+  overflow: hidden; /* Hide overflow for the parent container */
+}
+
+.all-chats {
+  width: 90%;
+  height: 50%;
+  overflow-y: auto; /* Allow scrolling when content exceeds the height */
+  box-sizing: border-box; /* Include padding in the height */
+  flex-grow: 1; /* Ensure this part expands to take up available space */
+  display: flex;
+  flex-direction: column-reverse; /* Ensure new messages are added at the bottom */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.blog-content-text__desktop {
+  font-weight: 100;
+  height: 100%;
+  font-family: Helvetica;
+  display: flex;
+  flex-direction: column; /* Ensures posts stack vertically */
+  align-items: flex-start; /* Align posts to the left */
+}
+
+.input-container {
+  display: flex;
+  padding-top: 1vh;
+  bottom: 0%;
+  left: 3%;
+}
+
+.input-container button{
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: black;
+}
+
+.input-container input {
+  font-size: 2vh;
+  padding: .7vh;
+  border: none;
+  border-radius: 0;
+  border-bottom: .2vh solid black;
+  background-color: transparent;
+}
+
+
+.input-container input:first-child {
+  margin-right: 1vw; /* Space between the username and message inputs */
+  width: 20%;
+}
+
+.input-container input:nth-child(2) {
+  margin-right: 1vw;
+  width: 50%; /* Adjust width for the message input */
+}
+
+.input-container input:last-child {
+  width: 20%;
 }

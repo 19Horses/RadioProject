@@ -43,7 +43,10 @@ function App() {
             />
           }
         />
-        <Route path="/blog" element={<Blog isMobile={isMobile} />} />
+        <Route
+          path="/blog"
+          element={<Blog isMobile={isMobile} playingGuest={playingGuest} />}
+        />
         <Route path="/about" element={<Info isMobile={isMobile} />} />
         <Route
           path="/:guestName"

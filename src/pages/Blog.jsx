@@ -1,9 +1,9 @@
 import Posts from "../components/Posts";
 
-export const Blog = ({ isMobile }) => {
+export const Blog = ({ isMobile, playingGuest }) => {
   return (
     <div className="blog-container">
-      <Posts />
+      <Posts isMobile={isMobile} playingGuest={playingGuest} />
     </div>
   );
 };
