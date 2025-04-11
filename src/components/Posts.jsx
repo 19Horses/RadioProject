@@ -67,6 +67,8 @@ export default function Posts({
     "cum",
     "spunk",
     "Elisha Olunaike",
+    "ElishaOlunaike",
+    "RadioProject",
   ]; // Replace with your own list
 
   const isClean = (text) => {
@@ -328,7 +330,7 @@ export default function Posts({
               fontStyle: "italic",
               margin: "0",
               marginBottom: ".5vh",
-              color: "rgb(255, 255, 255)",
+              color: "rgb(247, 247, 247)",
             }}
           >
             hi
