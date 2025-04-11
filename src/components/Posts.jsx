@@ -289,8 +289,8 @@ export default function Posts({
             <b
               style={{
                 fontWeight: "1000",
-                color: "rgb(247, 247, 247)",
-                backgroundColor: "rgb(247, 247, 247)",
+                color: "transparent",
+                backgroundColor: "transparent",
                 fontSize: isMobile ? "2vh" : "2.5vh",
               }}
             >
@@ -298,7 +298,7 @@ export default function Posts({
             </b>
             <p
               style={{
-                color: "rgb(247, 247, 247)",
+                color: "transparent",
                 fontWeight: "100",
                 fontSize: isMobile ? "1.3vh" : "2.5vh",
                 display: "inline", // Added inline style here
@@ -316,8 +316,8 @@ export default function Posts({
                   display: "inline", // Added inline style here
                   marginLeft: "1vh", // Added margin for spacing between name and date
                   cursor: "pointer",
-                  color: "rgb(247, 247, 247)",
-                  backgroundColor: "rgb(247, 247, 247)",
+                  color: "transparent",
+                  backgroundColor: "transparent",
                 }}
               >
                 hi
@@ -330,7 +330,7 @@ export default function Posts({
               fontStyle: "italic",
               margin: "0",
               marginBottom: ".5vh",
-              color: "rgb(247, 247, 247)",
+              color: "transparent",
             }}
           >
             hi
@@ -340,7 +340,7 @@ export default function Posts({
               fontWeight: "100",
               fontSize: isMobile ? "5vh" : "2.5vh",
               display: "inline",
-              color: "rgb(247, 247, 247)",
+              color: "transparent",
             }}
           >
             hi
