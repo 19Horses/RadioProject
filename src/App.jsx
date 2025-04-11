@@ -7,11 +7,13 @@ import SoundCloudPlayer from "./components/SoundcloudPlayer";
 import { Guest } from "./pages/Guest";
 import { Info } from "./pages/Info";
 import { Landing } from "./pages/Landing";
-
+import { Chat } from "./pages/chat";
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileIndex] = useState(0);
   const [playingGuest, setPlayingGuest] = useState(null);
+  const [chatUser, setChatUser] = useState(null);
+  const [hasSetUser, setHasSetUser] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -36,6 +38,19 @@ function App() {
               selectedIndex={null}
               isMobile={isMobile}
               mobileIndex={mobileIndex}
+            />
+          }
+        />
+        <Route
+          path="/chat"
+          element={
+            <Chat
+              isMobile={isMobile}
+              playingGuest={playingGuest}
+              setChatUser={setChatUser}
+              chatUser={chatUser}
+              hasSetUser={hasSetUser}
+              setHasSetUser={setHasSetUser}
             />
           }
         />

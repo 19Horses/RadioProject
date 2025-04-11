@@ -29,6 +29,7 @@ export const AudioProvider = ({ children }) => {
   const [formattedDuration, setFormattedDuration] = useState("--:--");
   const [isPlaying, setIsPlaying] = useState(false);
   const rafRef = useRef(null);
+  const isMobile = () => window.innerWidth <= 768;
 
   useEffect(() => {
     const updateTime = () => {
@@ -108,6 +109,7 @@ export const AudioProvider = ({ children }) => {
   }, [audioRef]);
 
   useEffect(() => {
+    if (isMobile()) return;
     const handleKeyDown = (e) => {
       if (e.key === " ") {
         e.preventDefault();
