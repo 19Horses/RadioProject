@@ -156,10 +156,12 @@ export default function Posts({ isMobile, playingGuest }) {
         {/* Display all posts */}
         {posts.map((post) => (
           <div
+            className="post"
             style={{
               height: "auto",
               width: "90%",
               paddingBottom: "1vh",
+              transition: "all 3s",
             }}
             key={post.id}
           >
@@ -219,11 +221,11 @@ export default function Posts({ isMobile, playingGuest }) {
             {post?.reply && (
               <p
                 style={{
-                  fontSize: isMobile ? "1.3vh" : "1.5vh",
-                  fontStyle: "italic",
+                  fontSize: isMobile ? "1.9vh" : "2.4vh",
                   margin: "0",
                   marginBottom: ".5vh",
                   color: "rgb(255, 103, 156)",
+                  fontWeight: "100",
                 }}
               >
                 {post?.reply?.name +
@@ -236,7 +238,7 @@ export default function Posts({ isMobile, playingGuest }) {
             )}
             <p
               style={{
-                fontWeight: "100",
+                fontWeight: "300",
                 fontSize: isMobile ? "2vh" : "2.5vh",
                 display: "inline",
                 marginLeft: post?.reply?.name ? "1vw" : "", // Added margin for spacing between name and date
@@ -344,11 +346,13 @@ export default function Posts({ isMobile, playingGuest }) {
                   setUser(newValue); // Set the new value if it's valid
                 }
               }}
+              className="who-are-you"
               placeholder="WHO ARE YOU?"
               style={{
                 width: "auto",
                 borderBottom: "0px solid black",
-                paddingTop: "1vh",
+                paddingLeft: "0",
+                fontWeight: "1000",
               }}
             />
             <button
@@ -367,23 +371,31 @@ export default function Posts({ isMobile, playingGuest }) {
         )}
         {hasSetUser && (
           <>
-            <input
-              type="text"
-              value={user}
-              onChange={(e) => setUser(e.target.value)}
-              placeholder="Name"
-              style={{ userSelect: "none", pointerEvents: "none" }}
-            />
+            <p
+              className="who-are-you-set"
+              style={{
+                fontWeight: "1000",
+                color: "rgb(255, 255, 255)",
+                backgroundColor: "rgb(0, 0, 0)",
+                fontSize: isMobile ? "2vh" : "2.5vh",
+                marginRight: "1vh",
+              }}
+            >
+              {user}
+            </p>
+
             <input
               type="text"
               value={newMessage}
               onChange={(e) => setNewMessage(e.target.value)}
               onKeyDown={handleKeyDown}
-              placeholder={
-                replyPostId ? "→ Respond to a message" : "Type a message"
-              }
+              placeholder={replyPostId ? "→ says" : "says..."}
               style={{
                 display: "block",
+                border: "1px solid black",
+                marginTop: "auto",
+                marginBottom: "auto",
+                height: isMobile ? "1.3vh" : "",
               }}
             />
             <button
@@ -392,9 +404,10 @@ export default function Posts({ isMobile, playingGuest }) {
                 fontSize: "2vh",
                 cursor: "pointer",
                 userSelect: "none",
+                fontWeight: "bold",
               }}
             >
-              {replyPostId ? "Reply" : "Send"}
+              {replyPostId ? "REPLY" : "SEND"}
             </button>
           </>
         )}
