@@ -57,6 +57,24 @@
   }
 }
 
+@keyframes glow{
+  0%{
+    opacity: 1;
+  }
+  25%{
+    opacity: 0.5;
+  }
+  50%{
+    opacity: 1;
+  }
+  75%{
+    opacity: 0.5;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 .fadeOutGrid {
   user-select: none;
   opacity: 0;
@@ -1113,13 +1131,18 @@ font-weight: 300;
 
 .who-are-you::placeholder{
   font-family: Helvetica;
-  background-color: black;
-  color: white;
+  background-color: transparent;
+  color: black;
   opacity: 1; /* Firefox */
   padding-bottom: .3vh;
   padding-left: .3vh;
   margin-right: 1vh;
   font-weight: bold;
+}
+
+.who-are-you{
+  animation: glow 4s infinite ;
+
 }
 
 .post{
