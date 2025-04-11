@@ -7,7 +7,7 @@ import SoundCloudPlayer from "./components/SoundcloudPlayer";
 import { Guest } from "./pages/Guest";
 import { Info } from "./pages/Info";
 import { Landing } from "./pages/Landing";
-import { Chat } from "./pages/chat";
+import { Chat } from "./pages/Chat";
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileIndex] = useState(0);
