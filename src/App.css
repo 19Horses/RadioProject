@@ -1163,7 +1163,6 @@ table {
 
 /* CHATROOM */
 .blog-container {
-
   position: fixed;
   bottom: 0;
   left: 5vw;
@@ -1197,10 +1196,11 @@ table {
 
 .input-container {
   display: flex;
-  padding-top: 1vh;
+  padding-top: 2vh;
   bottom: 0%;
-  left: 3%;
   font-family: Helvetica;
+  animation-delay: 100ms;
+  animation: fadeIn 1s  forwards ;
 }
 
 .input-container button{
@@ -1208,41 +1208,44 @@ table {
   border-radius: 0;
   background-color: transparent;
   color: black;
+
 }
 
 .input-container input {
   font-size: 2vh;
-  padding: .7vh;
   border: none;
   border-radius: 0;
-  border-bottom: .2vh solid black;
-  background-color: transparent;
   transition: all 0.2s;
 font-weight: 300;
 }
 
-
-.input-container input:first-child {
-  margin-right: 1vw; /* Space between the username and message inputs */
-  width: 20%;
-}
-
 .input-container input:nth-child(2) {
+  color: black;
   margin-right: 1vw;
   width: 50%; /* Adjust width for the message input */
-}
-
-.input-container input:last-child {
-  width: 20%;
+  font-weight: 300;
 }
 
 .reply-button{
   transition: all 0.2s;
-
 }
 
 .reply-button:hover {
    color: rgb(255, 0, 90);
   }
 
+.who-are-you::placeholder{
+  font-family: Helvetica;
+  background-color: black;
+  color: white;
+  opacity: 1; /* Firefox */
+  padding-bottom: .3vh;
+  padding-left: .3vh;
+  margin-right: 1vh;
+  font-weight: bold;
+}
 
+.post{
+  animation-delay: 100ms;
+  animation: fadeIn 1s  forwards ;
+}
