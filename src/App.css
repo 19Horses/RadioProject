@@ -683,10 +683,10 @@ table {
 
 .dropdown-content {
   padding-top: 60px;
-  margin-right: 7vw;
+  margin-right: 8vw;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
   align-items: flex-end;
 }
 
@@ -1033,4 +1033,96 @@ table {
   padding-left: 0.25vw;
   padding-right: 0.25vw;
   font-size: 1.745vh;
+}
+
+
+/* CHATROOM */
+.blog-container {
+  position: fixed;
+  bottom: 0;
+  left: 3vw;
+  height: 100%; /* Take up full viewport height */
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse; /* This will place the new messages at the bottom */
+  overflow: hidden; /* Hide overflow for the parent container */
+}
+
+.all-chats {
+  width: 90%;
+  height: 50%;
+  overflow-y: auto; /* Allow scrolling when content exceeds the height */
+  box-sizing: border-box; /* Include padding in the height */
+  flex-grow: 1; /* Ensure this part expands to take up available space */
+  display: flex;
+  flex-direction: column-reverse; /* Ensure new messages are added at the bottom */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.blog-content-text__desktop {
+  font-weight: 100;
+  height: 100%;
+  font-family: Helvetica;
+  display: flex;
+  flex-direction: column; /* Ensures posts stack vertically */
+  align-items: flex-start; /* Align posts to the left */
+}
+
+.input-container {
+  display: flex;
+  padding-top: 2vh;
+  bottom: 0%;
+  font-family: Helvetica;
+  animation-delay: 100ms;
+  animation: fadeIn 1s  forwards ;
+  z-index: 9999;
+}
+
+.input-container button{
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: black;
+
+}
+
+.input-container input {
+  font-size: 2vh;
+  border: none;
+  border-radius: 0;
+  transition: all 0.2s;
+font-weight: 300;
+
+}
+
+.input-container input:nth-child(2) {
+  color: black;
+  margin-right: 1vw;
+  width: 50%; /* Adjust width for the message input */
+  font-weight: 300;
+}
+
+.reply-button{
+  transition: all 0.2s;
+}
+
+.reply-button:hover {
+   color: rgb(255, 0, 90);
+  }
+
+.who-are-you::placeholder{
+  font-family: Helvetica;
+  background-color: black;
+  color: white;
+  opacity: 1; /* Firefox */
+  padding-bottom: .3vh;
+  padding-left: .3vh;
+  margin-right: 1vh;
+  font-weight: bold;
+}
+
+.post{
+  animation-delay: 100ms;
+  animation: fadeIn 1s  forwards ;
 }
