@@ -11,6 +11,7 @@
   },
   "dependencies": {
     "@types/react-icons": "^3.0.0",
+    "firebase": "^11.6.0",
     "plyr": "^3.7.8",
     "react": "^19.0.0",
     "react-audio-player": "^0.17.0",
