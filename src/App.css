@@ -1149,3 +1149,8 @@ font-weight: 300;
   animation-delay: 100ms;
   animation: fadeIn 1s  forwards ;
 }
+
+.who-are-you {
+  animation:none;
+  opacity: 0;
+}

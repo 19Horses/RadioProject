@@ -357,7 +357,10 @@ export default function Posts({
         }}
       >
         {!hasSetUser && (
-          <div style={{ marginBottom: "1vh", width: isMobile ? "70%" : "50%" }}>
+          <div
+            className="intro-field"
+            style={{ marginBottom: "1vh", width: isMobile ? "70%" : "50%" }}
+          >
             <input
               type="text"
               value={chatUser}
