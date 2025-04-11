@@ -370,13 +370,14 @@ export default function Posts({
                   setChatUser(newValue); // Set the new value if it's valid
                 }
               }}
-              className="who-are-you"
-              placeholder="WHO ARE YOU?"
+              className={hasSetUser ? "" : "who-are-you"}
+              placeholder="Enter name"
               style={{
                 width: "auto",
                 borderBottom: "0px solid black",
                 paddingLeft: "0",
                 fontWeight: "1000",
+                backgroundColor: "transparent",
               }}
             />
             <button
