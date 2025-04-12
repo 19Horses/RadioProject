@@ -729,6 +729,23 @@ table {
   z-index: 1; /* Ensure the overlay is above the text */
 }
 
+.gradient-overlay-select-mob {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgba(247, 247, 247, 0.5) 0%,
+    rgba(255, 255, 255, 0) 10%,
+    rgba(255, 255, 255, 0) 90%,
+    rgb(247, 247, 247, 0.5) 100%
+  );
+  pointer-events: none; /* Ensure the overlay does not block interactions */
+  z-index: 1; /* Ensure the overlay is above the text */
+}
+
 .menu-toggle {
   position: absolute;
   background: none;
