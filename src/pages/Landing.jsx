@@ -345,11 +345,10 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
               </div> */}
               <div
                 ref={flexContainer}
-                className={`${"flex-container"} ${
-                  fadeOut ? "fadeOutGrid" : ""
-                }`}
+                className={`${"flex-container"} ${fadeOut ? "fadeOutGrid" : ""}
+                `}
                 style={{
-                  left: showFilters ? "20vw" : "0vw",
+                  left: showFilters ? "20vw" : "3vw",
                   width: showFilters ? "80vw" : "",
                   transition: "all 0.75s ease-in-out",
                 }}

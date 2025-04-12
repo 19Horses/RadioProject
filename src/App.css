@@ -147,7 +147,7 @@
   overflow-x: auto;
   justify-content: flex-start;
   gap: 0.5vw;
-  height: 40vh;
+  height: 45vh;
 
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
