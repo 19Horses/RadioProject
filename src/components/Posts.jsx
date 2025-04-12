@@ -199,7 +199,10 @@ export default function Posts({
                 style={{
                   fontWeight: "1000",
                   color: "rgb(255, 255, 255)",
-                  backgroundColor: "rgb(0, 0, 0)",
+                  backgroundColor:
+                    post.name === "*RADIO PROJECT*"
+                      ? "rgb(255, 0, 90)"
+                      : "rgb(0, 0, 0)",
                   fontSize: isMobile ? "2vh" : "2.5vh",
                 }}
               >
@@ -370,6 +373,9 @@ export default function Posts({
 
                 // Only allow alphanumeric characters and limit the length to 12
                 if (/^[a-zA-Z0-9]*$/.test(newValue) && newValue.length <= 12) {
+                  if (newValue === "347673") {
+                    setChatUser("*RADIO PROJECT*");
+                  }
                   setChatUser(newValue); // Set the new value if it's valid
                 }
               }}
