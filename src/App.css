@@ -166,8 +166,9 @@
   flex-direction: column;
   justify-content: center;
    align-items: center; /*This one here!!!! */
-  height: 100vh;
+  height: 100%;
   width: 100vw;
+  overflow-y: hidden;
 }
 
 .cursor {
@@ -200,6 +201,7 @@
   justify-content: center; /* Vertically centers */
   height: 100vh; /* Full viewport height */
   position: relative;
+  overflow-y: hidden;
 }
 
 .cursor-title {
@@ -744,6 +746,8 @@ table {
   );
   pointer-events: none; /* Ensure the overlay does not block interactions */
   z-index: 1; /* Ensure the overlay is above the text */
+  overflow-y: hidden;
+
 }
 
 .menu-toggle {
