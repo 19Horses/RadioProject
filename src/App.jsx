@@ -8,6 +8,7 @@ import { Guest } from "./pages/Guest";
 import { Info } from "./pages/Info";
 import { Landing } from "./pages/Landing";
 import { Chat } from "./pages/Chat";
+import { Article } from "./pages/Article";
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileIndex] = useState(0);
@@ -60,6 +61,10 @@ function App() {
           element={
             <Guest isMobile={isMobile} setPlayingGuest={setPlayingGuest} />
           }
+        />
+        <Route
+          path="/radiogram/:articleName"
+          element={<Article isMobile={isMobile} playingGuest={playingGuest} />}
         />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>

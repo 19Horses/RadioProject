@@ -21,41 +21,47 @@ export const fadeOut = keyframes`
 export const GridContainer = styled.div`
   position: relative;
   display: flex;
-  overflow: hidden;
-  opacity: ${(props) => (props.$selectedIndex !== null ? 1 : 0)};
-  max-width: 100%;
-  flex: ${(props) => (props.$selected ? "0" : "1")};
-  transition: all 0.5s ease-in-out;
-  &:hover {
-    flex: ${(props) => props.$total};
-    z-index: 998;
+  transition: all 0.4s ease-in-out;
+  width: ${(props) =>
+    props.$selected || props.$hovered ? "23%" : "12%"};
+  transition: width .5s ease-in-out;
+  box-sizing: border-box;
+
+  @media (max-width: 768px) {
+    width: 100%;
+    justify-content: center;
   }
-  margin-left: 0.05vw;
-  margin-right: 0.05vw;
-  transition: all 0.5s ease-in-out;
-  animation: ${(props) => (props.$selectedIndex !== null ? fadeOut : fadeIn)}
-    0.5s ease-out forwards;
-  animation-delay: ${(props) =>
-    Math.abs(props.$contents - props.$total / 2) * 100}ms;
 `;
 
+
+
 export const PhotoContainer = styled.div`
-  display: flex;
-  position: absolute;
-  min-width: 0; /* Ensures no Safari stretching */
-  min-height: 0;
-  width: ${(props) => (props.$isMobile ? "300px" : `500px`)};
-  height: ${(props) => (props.$isMobile ? "300px" : `500px`)};
-  transition: all 0.5s ease-in-out;
-  left: ${(props) =>
-    props.$isLeft
-      ? `-${props.$contents * props.$parentWidth}px`
-      : `-${props.$contents * props.$parentWidth}px`};
-  &:hover {
-    cursor: pointer;
-    ${(props) =>
-      props.$isLeft ? "left: 0; right: 0;" : "right:0; left: -92%;"};
+  height: 40vh;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+
+  
+  img {
+    height: 100%;
+    object-fit: cover;
+    object-position: left center; /* key: anchor to the left */
+    transform: translateX(0%);  /* show left half only */
+    transition: all 0.4s ease-in-out;
   }
+
+  @media (max-width: 768px) {
+    width: 80vw;
+    height: 80vw;
+    aspect-ratio: auto;
+    
+    img {
+      object-position: center center;
+    }
+  }
+
 `;
 
 export const CursorTitle = styled.p`
