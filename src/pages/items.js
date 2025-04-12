@@ -98,7 +98,7 @@ export const djs = [
     "type": "article",
     "src": rpa1.p,
     "rpCount": "RADIOGRAM 1 ☼ ",
-    "broadcastDate": "12/4/25 15:00",
+    "broadcastDate": "15/4/25 15:00",
     "url": "anouk-maj-losleben-clusters-of-liberation-illusions-of-freedom",
     "title2": "Anouk Maj Losleben",
     "title": "Clusters of Liberation + Illusions of Freedom",

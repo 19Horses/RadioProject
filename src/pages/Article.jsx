@@ -16,7 +16,7 @@ export const Article = ({ isMobile, playingGuest }) => {
           {!isMobile ? (
             <div
               className="article-content__desktop"
-              style={{ width: playingGuest ? "40%" : "60%" }}
+              style={{ width: playingGuest ? "40%" : "53%" }}
             >
               <p
                 className="article-content-text__desktop"
