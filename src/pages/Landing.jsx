@@ -204,9 +204,10 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   })}
                 </div>
               </div>
+              <div className="gradient-overlay-select-mob" />
               <div
                 className={`cursor-mobile ${fadeOut ? "fadeOutGrid" : ""}`}
-                style={{ left: 0 }}
+                style={{ left: 0, zIndex: "99" }}
                 onClick={() => {
                   if (hoveredGuest?.type === "mix") {
                     guestSelected(hoveredGuest);
