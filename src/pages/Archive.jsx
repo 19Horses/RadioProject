@@ -19,20 +19,22 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
 
-  const filteredItems = items.filter((item) => {
-    if (showMixes && item.type === "mix") return true;
-    if (showArticles && item.type === "article") return true;
-    return false;
-  });
+  const filteredItems = items
+    .filter((item) => {
+      if (showMixes && item.type === "mix") return true;
+      if (showArticles && item.type === "article") return true;
+      return false;
+    })
+    .reverse();
 
   const highestId = 0; // Assuming highest ID is the last element in the array
 
   useEffect(() => {
     if (flexContainer.current) {
-      setW(flexContainer.current.clientWidth / items.length);
+      setW(flexContainer.current.clientWidth / filteredItems.length);
     }
     const handleResize = () => {
-      setW(flexContainer.current.clientWidth / items.length);
+      setW(flexContainer.current.clientWidth / filteredItems.length);
     };
     window.addEventListener("resize", handleResize);
     handleResize();
@@ -61,8 +63,8 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
           }
         });
 
-        if (mostVisibleIndex !== null && items[mostVisibleIndex]) {
-          const mostVisibleItem = items[mostVisibleIndex];
+        if (mostVisibleIndex !== null && filteredItems[mostVisibleIndex]) {
+          const mostVisibleItem = filteredItems[mostVisibleIndex];
           console.log("Most visible item:", mostVisibleItem);
           setHoveredGuest(mostVisibleItem);
         }
@@ -145,15 +147,15 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   className={`flex-container-mob
                   } ${fadeOut ? "fadeOutGrid" : ""}`}
                 >
-                  {[...filteredItems].reverse().map((guest, i) => {
-                    const isLeft = i < items.length / 2;
+                  {[...filteredItems].map((guest, i) => {
+                    const isLeft = i < filteredItems.length / 2;
                     return (
                       <div key={i}>
                         <GridContainer
                           ref={(el) => (itemRefs.current[i] = el)} // Change: Properly assigning refs for each element
                           data-index={i}
                           className="gc"
-                          $total={items.length}
+                          $total={filteredItems.length}
                           $selectedIndex={selectedIndex}
                           $contents={i}
                           $isLeft={isLeft}
@@ -166,12 +168,18 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                             $contents={i}
                             $selectedIndex={selectedIndex}
                             $parentWidth={w}
-                            $total={items.length}
+                            $total={filteredItems.length}
                             $isLeft={isLeft}
                             $isMobile={isMobile}
                             $shimmer={guest.id === 1}
                             style={{
                               transition: "filter 0.3s ease-in-out",
+                              width: "80vw",
+                              paddingLeft: i === 0 ? "10vw" : "2.5vw",
+                              paddingRight:
+                                i === filteredItems.length - 1
+                                  ? "10vw"
+                                  : "2.5vw",
                             }}
                           >
                             <img
@@ -349,12 +357,12 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
               >
                 <div className="gradient-overlay-select" />
 
-                {[...filteredItems].reverse().map((guest, i) => {
-                  const isLeft = i < items.length / 2;
+                {[...filteredItems].map((guest, i) => {
+                  const isLeft = i < filteredItems.length / 2;
                   return (
                     <GridContainer
                       key={i}
-                      $total={items.length}
+                      $total={filteredItems.length}
                       $selectedIndex={selectedIndex}
                       $contents={i}
                       $isLeft={false}
@@ -369,7 +377,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                         $contents={i}
                         $selectedIndex={selectedIndex}
                         $parentWidth={w}
-                        $total={items.length}
+                        $total={filteredItems.length}
                         $isLeft={false}
                         $isMobile={isMobile}
                       >
