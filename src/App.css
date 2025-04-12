@@ -106,36 +106,27 @@
 
 .flex-container-mob {
   position: relative;
-  display: flex;
-  justify-content: flex-start; /* Key for left alignment */
-  align-items: flex-start;     /* Optional */
-  flex-wrap: wrap;             /* Important if you want items to wrap */
-  width: 100vw;
-  height: auto;   
+  /* align-items: flex-start;     */
+  
+  width: 100.5vw;
   transition: all 0.4s ease-in-out;
+  display: flex;
+  left: -2%;
+  flex-wrap: nowrap;
+  overflow-y: hidden;
+  overflow-x: auto;
+  scroll-snap-type: x mandatory;
+  justify-content: flex-start;
+  gap:0vw;
+  height: 50vh;
+  scrollbar-width: none; 
+  -ms-overflow-style: none; 
+  scroll-behavior: smooth;
 
 }
 
 .gc {
   scroll-snap-align: center;
-}
-
-.flex-container-mob {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-y: hidden;
-  overflow-x: auto;
-  scroll-snap-type: x mandatory;
-
-  justify-content: flex-start;
-  gap:7vw;
-  height: 50vh;
-
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-
-  /* Optional smooth scrolling */
-  scroll-behavior: smooth;
 }
 
 .flex-container {

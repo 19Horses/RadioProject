@@ -109,6 +109,6 @@ export const djs = [
     "releaseDate": "14/4/25",
     "length": "4 minute read",
     "igLink": "https://www.instagram.com/anouk_maj/",
-  },
+  }
   
 ];
