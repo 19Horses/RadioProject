@@ -70,7 +70,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
         }
       },
       {
-        threshold: 0.9, // granular visibility tracking
+        threshold: 0.7, // granular visibility tracking
       }
     );
 
