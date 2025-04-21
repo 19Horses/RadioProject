@@ -104,10 +104,62 @@
   border-right: 1px solid lightgray;
 }
 
+
+
+.gc {
+  scroll-snap-align: center;
+}
+.scroll-wrapper {
+  position: relative;
+  width: 100vw;
+  
+}
+
+
+
+.flex-container {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 10vw;
+  height: 50vh;
+  padding-bottom: 20px;
+  scrollbar-width: thin; /* For Firefox */  
+  scrollbar-color: #c00000 #f0f0f0; /* Thumb color and track color */
+
+}
+
+.flex-container::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+  height: 10px; /* Set the height of the scrollbar */
+}
+
+.flex-container::-webkit-scrollbar-track {
+  background: #000000; /* Set the color of the scrollbar track */
+}
+
+.flex-container::-webkit-scrollbar-thumb {
+  background: #c00000; /* Set the color of the scrollbar thumb */
+  border-radius: 0px; /* Remove rounded corners to make it square */
+}
+
+.flex-container::-webkit-scrollbar-thumb:hover {
+  background: #ff0000; /* Change the thumb color on hover */
+}
+
+
+
+
+
+
+
+
+
+
 .flex-container-mob {
   position: relative;
-  /* align-items: flex-start;     */
-  
   width: 100.5vw;
   transition: all 0.4s ease-in-out;
   display: flex;
@@ -117,7 +169,7 @@
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   justify-content: flex-start;
-  gap:0vw;
+  gap: 0vw;
   height: 50vh;
   scrollbar-width: none; 
   -ms-overflow-style: none; 
@@ -125,43 +177,9 @@
 
 }
 
-.gc {
-  scroll-snap-align: center;
-}
 
-.flex-container {
-  position: relative;
-  display: flex;
-  justify-content: flex-start; /* Key for left alignment */
-  align-items: flex-start;     /* Optional */
-  flex-wrap: wrap;             /* Important if you want items to wrap */
-  width: 100vw;
-  height: auto;     
-  margin: auto;           /* Let it grow with content if needed */
-  margin-right: 3vw;
-  transition: all 0.4s ease-in-out;
 
-}
 
-.flex-container {
-  display: flex;
-  flex-wrap: nowrap;
-  overflow-y: hidden;
-  overflow-x: auto;
-  justify-content: flex-start;
-  gap: 0.5vw;
-  height: 40vh;
-
-  scrollbar-width: none; /* Firefox */
-  -ms-overflow-style: none; /* IE/Edge */
-
-  /* Optional smooth scrolling */
-  scroll-behavior: smooth;
-}
-
-.flex-container::-webkit-scrollbar {
-  display: none; /* Chrome, Safari, Opera */
-}
 
 .filter{
   cursor: pointer;
@@ -200,7 +218,6 @@
   height: 100vh;
   width: 100vw;
 }
-
 
 .cursor {
   position: fixed;
@@ -515,10 +532,12 @@
   height: 100%;
   background: linear-gradient(
     to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 0) 10%,
+    rgb(247, 247, 247) 0%,
+    rgba(247, 247, 247) 1.5%,
+    rgba(255, 255, 255, 0) 15%,
     rgba(255, 255, 255, 0) 90%,
-    rgb(247, 247, 247) 97%
+    rgb(247, 247, 247) 97%,
+    rgb(247, 247, 247) 100%
   );
   pointer-events: none; /* Ensure the overlay does not block interactions */
   z-index: 1; /* Ensure the overlay is above the text */

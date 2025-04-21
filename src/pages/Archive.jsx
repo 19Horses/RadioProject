@@ -18,6 +18,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
   const itemRefs = useRef([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [thumbPosition, setThumbPosition] = useState(0);
 
   const filteredItems = items
     .filter((item) => {
@@ -127,6 +128,15 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
     },
     [navigate]
   );
+
+  const handleScroll = (e) => {
+    const el = e.target;
+    const scrollRatio = el.scrollLeft / (el.scrollWidth - el.clientWidth);
+    const trackWidth = el.clientWidth * 0.5; // 50vw track
+    const thumbMaxOffset = trackWidth - 60; // track width - thumb width
+
+    setThumbPosition(scrollRatio * thumbMaxOffset);
+  };
 
   return (
     <>
@@ -261,8 +271,90 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
               </div>
             </>
           ) : (
-            <div>
-              {/* <div
+            <div className="scroll-wrapper">
+              <div
+                ref={flexContainer}
+                className={`${"flex-container"} ${
+                  fadeOut ? "fadeOutGrid" : ""
+                }`}
+                style={{
+                  left: showFilters ? "20vw" : "0vw",
+                  width: showFilters ? "80vw" : "",
+                  transition: "all 0.75s ease-in-out",
+                }}
+                onScroll={handleScroll}
+              >
+                <div className="gradient-overlay-select" />
+
+                {[...filteredItems].map((guest, i) => {
+                  const isLeft = i < filteredItems.length / 2;
+                  return (
+                    <GridContainer
+                      key={i}
+                      className="gc"
+                      $total={filteredItems.length}
+                      $selectedIndex={selectedIndex}
+                      $contents={i}
+                      $isLeft={false}
+                      $selected={selectedIndex === i}
+                      $hovered={hoveredIndex === i}
+                      onMouseEnter={() => setHoveredIndex(i)}
+                      onMouseLeave={() => setHoveredIndex(null)}
+                    >
+                      <PhotoContainer
+                        className="pc"
+                        key={i}
+                        $contents={i}
+                        $selectedIndex={selectedIndex}
+                        $parentWidth={w}
+                        $total={filteredItems.length}
+                        $isLeft={false}
+                        $isMobile={isMobile}
+                        style={{
+                          transition: "filter 0.3s ease-in-out",
+                          paddingLeft: i === 0 ? "35vw" : "",
+                          paddingRight:
+                            i === filteredItems.length - 1 ? "35vw" : "",
+                        }}
+                      >
+                        <img
+                          src={guest.src}
+                          alt={guest.title}
+                          className={`image `}
+                          onMouseEnter={() => {
+                            setHoveredGuest(guest);
+                            setIsLeft(false);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGuest(null);
+                          }}
+                          onClick={() => {
+                            if (guest.type === "mix") {
+                              guestSelected(guest, i);
+                            }
+                            if (guest.type === "article") {
+                              articleSelected(guest, i);
+                            }
+                          }}
+                          style={{
+                            transition: "filter 0.3s ease-in-out",
+                          }}
+                        />
+                      </PhotoContainer>
+                    </GridContainer>
+                  );
+                })}
+              </div>
+            </div>
+          )}
+        </div>
+      </div>
+    </>
+  );
+};
+
+{
+  /* <div
                 style={{
                   display: "flex",
                   justifyContent: "space-between",
@@ -343,76 +435,5 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                     {showArticles ? "ON" : "OFF"}
                   </b>
                 </div>
-              </div> */}
-              <div
-                ref={flexContainer}
-                className={`${"flex-container"} ${
-                  fadeOut ? "fadeOutGrid" : ""
-                }`}
-                style={{
-                  left: showFilters ? "20vw" : "0vw",
-                  width: showFilters ? "80vw" : "",
-                  transition: "all 0.75s ease-in-out",
-                }}
-              >
-                <div className="gradient-overlay-select" />
-
-                {[...filteredItems].map((guest, i) => {
-                  const isLeft = i < filteredItems.length / 2;
-                  return (
-                    <GridContainer
-                      key={i}
-                      $total={filteredItems.length}
-                      $selectedIndex={selectedIndex}
-                      $contents={i}
-                      $isLeft={false}
-                      $selected={selectedIndex === i}
-                      $hovered={hoveredIndex === i}
-                      onMouseEnter={() => setHoveredIndex(i)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                      <PhotoContainer
-                        className="pc"
-                        key={i}
-                        $contents={i}
-                        $selectedIndex={selectedIndex}
-                        $parentWidth={w}
-                        $total={filteredItems.length}
-                        $isLeft={false}
-                        $isMobile={isMobile}
-                      >
-                        <img
-                          src={guest.src}
-                          alt={guest.title}
-                          className={`image `}
-                          onMouseEnter={() => {
-                            setHoveredGuest(guest);
-                            setIsLeft(false);
-                          }}
-                          onMouseLeave={() => {
-                            setHoveredGuest(null);
-                          }}
-                          onClick={() => {
-                            if (guest.type === "mix") {
-                              guestSelected(guest, i);
-                            }
-                            if (guest.type === "article") {
-                              articleSelected(guest, i);
-                            }
-                          }}
-                          style={{
-                            transition: "filter 0.3s ease-in-out",
-                          }}
-                        />
-                      </PhotoContainer>
-                    </GridContainer>
-                  );
-                })}
-              </div>
-            </div>
-          )}
-        </div>
-      </div>
-    </>
-  );
-};
+              </div> */
+}
