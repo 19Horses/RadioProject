@@ -123,11 +123,11 @@
   overflow-x: auto;
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
-  gap: 10vw;
+  gap: 7vw;
   height: 50vh;
   padding-bottom: 20px;
-  scrollbar-width: thin; /* For Firefox */  
-  scrollbar-color: #c00000 #f0f0f0; /* Thumb color and track color */
+  scrollbar-width: none; /* For Firefox */  
+  scrollbar-color: #d1d1d1 #f7f7f7; /* Thumb color and track color */
 
 }
 
