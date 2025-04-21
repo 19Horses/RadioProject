@@ -103,8 +103,8 @@ export const djs = [
     ipSrc: rp1.ip,
     title: '"WHATS IT GOING TO BE?"',
     title2: "DVD",
-    title3: "",
-    title4: "",
+    title3: "Technologist",
+    title4: "DJ",
     title5: "",
     title6: "",
     description:
@@ -116,7 +116,7 @@ export const djs = [
     npLink: "--",
     broadcastDate: "25/4/25 15:00",
     length: "--",
-    genre: "HOUSE",
+    genre: "NEO JAZZ-FUNK REVIVAL",
     chapters: [
       
     ],
