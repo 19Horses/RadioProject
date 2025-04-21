@@ -2,8 +2,16 @@ import React, { useRef, useEffect } from "react";
 import { CursorTitle } from "../styles";
 
 export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
-  const { rpCount, title, title2, title3, title4, title5, title6 } =
-    hoveredGuest;
+  const {
+    rpCount,
+    title,
+    title2,
+    title3,
+    title4,
+    title5,
+    title6,
+    broadcastDate,
+  } = hoveredGuest;
   const cursor = useRef(null);
 
   useEffect(() => {
@@ -72,6 +80,7 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
         <b>{title3}</b>
       </CursorTitle>
       <br />
+
       <CursorTitle
         className="cursor-title "
         $hovered={hovered}
@@ -80,29 +89,7 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
         fontSize="2vh"
         $delay={0.2}
       >
-        <b>{title4}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        $hovered={hovered}
-        $bgcolor="black"
-        color="white"
-        fontSize="2vh"
-        $delay={0.2}
-      >
-        <b>{title5}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        $hovered={hovered}
-        $bgcolor="black"
-        color="white"
-        fontSize="2vh"
-        $delay={0.2}
-      >
-        <b>{title6}</b>
+        <b>{broadcastDate}</b>
       </CursorTitle>
     </div>
   );
