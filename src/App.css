@@ -112,7 +112,6 @@
 .scroll-wrapper {
   position: relative;
   width: 100vw;
-  
 }
 
 
@@ -124,7 +123,7 @@
   scroll-behavior: smooth;
   scroll-snap-type: x mandatory;
   gap: 7vw;
-  height: 50vh;
+  height: 52vh;
   padding-bottom: 20px;
   scrollbar-width: none; /* For Firefox */  
   scrollbar-color: #d1d1d1 #f7f7f7; /* Thumb color and track color */
@@ -1165,4 +1164,9 @@ table {
   padding-left: 0.25vw;
   padding-right: 0.25vw;
   font-size: 1.745vh;
+}
+
+.nav-text-type{
+  font-family: Helvetica;
+  color: black;
 }

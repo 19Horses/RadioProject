@@ -23,7 +23,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
   const filteredItems = items
     .filter((item) => {
       if (showMixes && item.type === "mix") return true;
-      if (showArticles && item.type === "article") return true;
+      if (showArticles && item.type === "radiogram") return true;
       return false;
     })
     .reverse();
@@ -281,6 +281,8 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   left: showFilters ? "20vw" : "0vw",
                   width: showFilters ? "80vw" : "",
                   transition: "all 0.75s ease-in-out",
+                  paddingLeft: "35vw",
+                  paddingRight: "35vw",
                 }}
                 onScroll={handleScroll}
               >
@@ -289,59 +291,71 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                 {[...filteredItems].map((guest, i) => {
                   const isLeft = i < filteredItems.length / 2;
                   return (
-                    <GridContainer
-                      key={i}
-                      className="gc"
-                      $total={filteredItems.length}
-                      $selectedIndex={selectedIndex}
-                      $contents={i}
-                      $isLeft={false}
-                      $selected={selectedIndex === i}
-                      $hovered={hoveredIndex === i}
-                      onMouseEnter={() => setHoveredIndex(i)}
-                      onMouseLeave={() => setHoveredIndex(null)}
-                    >
-                      <PhotoContainer
-                        className="pc"
+                    <div>
+                      <GridContainer
                         key={i}
-                        $contents={i}
-                        $selectedIndex={selectedIndex}
-                        $parentWidth={w}
+                        className="gc"
                         $total={filteredItems.length}
+                        $selectedIndex={selectedIndex}
+                        $contents={i}
                         $isLeft={false}
-                        $isMobile={isMobile}
-                        style={{
-                          transition: "filter 0.3s ease-in-out",
-                          paddingLeft: i === 0 ? "35vw" : "",
-                          paddingRight:
-                            i === filteredItems.length - 1 ? "35vw" : "",
-                        }}
+                        $selected={selectedIndex === i}
+                        $hovered={hoveredIndex === i}
+                        onMouseEnter={() => setHoveredIndex(i)}
+                        onMouseLeave={() => setHoveredIndex(null)}
                       >
-                        <img
-                          src={guest.src}
-                          alt={guest.title}
-                          className={`image `}
-                          onMouseEnter={() => {
-                            setHoveredGuest(guest);
-                            setIsLeft(false);
-                          }}
-                          onMouseLeave={() => {
-                            setHoveredGuest(null);
-                          }}
-                          onClick={() => {
-                            if (guest.type === "mix") {
-                              guestSelected(guest, i);
-                            }
-                            if (guest.type === "article") {
-                              articleSelected(guest, i);
-                            }
-                          }}
-                          style={{
-                            transition: "filter 0.3s ease-in-out",
-                          }}
-                        />
-                      </PhotoContainer>
-                    </GridContainer>
+                        <div>
+                          <p
+                            className="nav-text-type"
+                            style={{
+                              width: "50vh",
+                              textAlign: "left",
+                              textTransform: "uppercase",
+                              fontSize: "1.4vh",
+                            }}
+                          >
+                            {guest.type}
+                          </p>
+                          <PhotoContainer
+                            className="pc"
+                            key={i}
+                            $contents={i}
+                            $selectedIndex={selectedIndex}
+                            $parentWidth={w}
+                            $total={filteredItems.length}
+                            $isLeft={false}
+                            $isMobile={isMobile}
+                            style={{
+                              transition: "filter 0.3s ease-in-out",
+                            }}
+                          >
+                            <img
+                              src={guest.src}
+                              alt={guest.title}
+                              className={`image `}
+                              onMouseEnter={() => {
+                                setHoveredGuest(guest);
+                                setIsLeft(false);
+                              }}
+                              onMouseLeave={() => {
+                                setHoveredGuest(null);
+                              }}
+                              onClick={() => {
+                                if (guest.type === "mix") {
+                                  guestSelected(guest, i);
+                                }
+                                if (guest.type === "radiogram") {
+                                  articleSelected(guest, i);
+                                }
+                              }}
+                              style={{
+                                transition: "filter 0.3s ease-in-out",
+                              }}
+                            />
+                          </PhotoContainer>
+                        </div>
+                      </GridContainer>
+                    </div>
                   );
                 })}
               </div>
