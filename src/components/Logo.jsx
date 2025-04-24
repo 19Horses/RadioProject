@@ -12,7 +12,7 @@ export const Logo = ({ isMobile }) => {
     >
       <a
         onClick={() => {
-          navigate("/archive");
+          navigate("/");
         }}
       >
         <img
