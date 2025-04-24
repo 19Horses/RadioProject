@@ -1,6 +1,6 @@
 @font-face {
-  font-family: "London";
-  src: local("London"), url("./assets/London.ttf") format("opentype");
+  font-family: "VCR";
+  src: local("VCR"), url("./assets/VCR_OSD_MONO.ttf") format("opentype");
   font-style: normal;
 }
 
@@ -21,23 +21,6 @@
     opacity: 1;
   }
 }
-
-@keyframes shimmer {
-  0% {
-    opacity: 1;
-  }
-  50% {
-    opacity: 0.6;
-  }
-  100% {
-    opacity: 1;
-  }
-}
-
-.shimmer-effect {
-  animation: shimmer 3s infinite ease-in-out ;
-}
-
 
 .articleFadeIn {
   opacity: 0;
@@ -74,6 +57,24 @@
   }
 }
 
+@keyframes glow{
+  0%{
+    opacity: 1;
+  }
+  25%{
+    opacity: 0.5;
+  }
+  50%{
+    opacity: 1;
+  }
+  75%{
+    opacity: 0.5;
+  }
+  100%{
+    opacity: 1;
+  }
+}
+
 .fadeOutGrid {
   user-select: none;
   opacity: 0;
@@ -104,59 +105,6 @@
   border-right: 1px solid lightgray;
 }
 
-
-
-.gc {
-  scroll-snap-align: center;
-}
-.scroll-wrapper {
-  position: relative;
-  width: 100vw;
-}
-
-
-
-.flex-container {
-  position: relative;
-  display: flex;
-  overflow-x: auto;
-  scroll-behavior: smooth;
-  scroll-snap-type: x mandatory;
-  gap: 7vw;
-  height: 52vh;
-  padding-bottom: 20px;
-  scrollbar-width: none; /* For Firefox */  
-  scrollbar-color: #d1d1d1 #f7f7f7; /* Thumb color and track color */
-
-}
-
-.flex-container::-webkit-scrollbar {
-  width: 10px; /* Set the width of the scrollbar */
-  height: 10px; /* Set the height of the scrollbar */
-}
-
-.flex-container::-webkit-scrollbar-track {
-  background: #000000; /* Set the color of the scrollbar track */
-}
-
-.flex-container::-webkit-scrollbar-thumb {
-  background: #c00000; /* Set the color of the scrollbar thumb */
-  border-radius: 0px; /* Remove rounded corners to make it square */
-}
-
-.flex-container::-webkit-scrollbar-thumb:hover {
-  background: #ff0000; /* Change the thumb color on hover */
-}
-
-
-
-
-
-
-
-
-
-
 .flex-container-mob {
   position: relative;
   width: 100.5vw;
@@ -176,44 +124,19 @@
 
 }
 
-
-
-
-
-.filter{
-  cursor: pointer;
+.flex-container {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  position: absolute;
-  left: 3vw;
-  font-family: London;
-  color: black;
-  gap: 1vh;
-  font-size: 1.5vh;
-  line-height: 1.75vh;
-  width: 12vw;
+  width: 500px;
+  height: 500px;
 }
-
-.filter-text{
-  font-family: Helvetica;
-  color: black;
-  font-size: 2vh;
-}
-
-/* .flex-container {
-  border: 1px solid red;
-}
-.flex-container > * {
-  border: 1px solid blue;
-} */
 
 .total-container {
   position: fixed;
   display: flex;
   flex-direction: column;
   justify-content: center;
-  align-items: start;
-  
+  align-items: center;
   height: 100vh;
   width: 100vw;
 }
@@ -228,6 +151,7 @@
   transition: all cubic-bezier(0, 1, 1, 1) 1s;
   line-height: 2.1vh;
 }
+
 .cursor-mobile {
   position: fixed;
   display: block;
@@ -240,7 +164,7 @@
 .center-wrapper {
   display: flex;
   flex-direction: column;
-  right: 0;
+  align-items: center; /* Horizontally centers */
   justify-content: center; /* Vertically centers */
   height: 100vh; /* Full viewport height */
   position: relative;
@@ -282,13 +206,19 @@
 }
 
 .selected-article-container {
-  height: auto;
+  opacity: 0;
+  height: 100vh;
   position: fixed;
+  display: block;
+  padding-top: 3vh;
+  padding-left: 3vh;
+  margin-bottom: 3vh;
   bottom: 0;
-  
-  padding: 3vh;
-  padding-left: 5vh;
-  width: 25vw;
+  left: 0;
+  animation: fadeIn 0.3s ease-in forwards;
+  animation-delay: 0.5s;
+  transition: all 0.3s;
+  width: 30vw;
   font-family: Helvetica;
   color: black;
   font-size: 1.2vw;
@@ -411,11 +341,9 @@
 /* Ensure header takes full width and aligns items */
 .header-container {
   position: fixed; /* Ensure the header is fixed to the viewport */
-  top: 2vh; /* Align to the top of the viewport */
-  right: 0vh;
-  width: 70%; /* Full width */
-  padding-top: 0.5vw; /* Adjust padding as needed */
-  height: 4vh; /* Adjust height as needed */
+  right: 0vw;
+  width: 100%; /* Full width */
+  height: 44px; /* Adjust height as needed */
   z-index: 990; /* Ensure it stays on top of other elements */
 }
 
@@ -523,25 +451,6 @@
   z-index: 1; /* Ensure the overlay is above the text */
 }
 
-.gradient-overlay-select {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to right,
-    rgb(247, 247, 247) 0%,
-    rgba(247, 247, 247) 1.5%,
-    rgba(255, 255, 255, 0) 15%,
-    rgba(255, 255, 255, 0) 90%,
-    rgb(247, 247, 247) 97%,
-    rgb(247, 247, 247) 100%
-  );
-  pointer-events: none; /* Ensure the overlay does not block interactions */
-  z-index: 1; /* Ensure the overlay is above the text */
-}
-
 .gradient-overlay {
   position: absolute;
   top: 0;
@@ -595,8 +504,9 @@
 /* Navigation styling */
 .header-nav {
   position: absolute;
-  top: 1vh;
-  right: 1vh;
+
+  top: 2vh;
+  right: 1vw;
   margin-right: 1vw; /* Spacing between items */
 }
 
@@ -702,7 +612,7 @@ table {
 }
 
 .red {
-  opacity: 1;
+  opacity: 0;
 }
 
 .contentArticle {
@@ -768,7 +678,7 @@ table {
 }
 
 .menu-toggle-container {
-  width: 100%;
+  width: 100vw;
   height: 44px;
   position: fixed;
   top: 0vh;
@@ -780,10 +690,12 @@ table {
   position: absolute;
   background: none;
   border: none;
-  font-size: 2.5rem;
-  right: 0%;
+  font-size: 10vw;
+  right: 0;
+  margin-right: 8vw;
   cursor: pointer;
   color: black;
+  width: 10vw;
 }
 
 .dropdown-menu {
@@ -793,7 +705,6 @@ table {
   width: 100vw; /* Full width of the viewport */
   height: 100vh; /* Full height of the viewport */
   top: 0%;
-  padding-right: 2%;
 
   z-index: 990;
   background-color: rgba(
@@ -806,28 +717,21 @@ table {
 
 .dropdown-content {
   padding-top: 60px;
-  margin-right: 10%;
-  /* Start at the top of the viewport */
-}
-
-.dropdown-content .header-item {
+  margin-right: 8vw;
   display: flex;
   flex-direction: column;
-  padding: 10px;
-
-  text-align: right;
-  width: 100%;
-}
-
-.dropdown-menu .header-item {
+  gap: 20px;
+  align-items: flex-end;
 }
 
 @keyframes slideIn {
   from {
     opacity: 0;
+    transform: translateX(10px);
   }
   to {
     opacity: 1;
+    transform: translateX(0px);
   }
 }
 
@@ -863,7 +767,7 @@ table {
   position: fixed;
   display: block;
   padding-top: 3vh;
-  padding-left: 5vh;
+  padding-left: 3vh;
   bottom: 0;
   left: 0;
   animation: fadeIn 0.3s ease-in forwards;
@@ -883,16 +787,15 @@ table {
   padding-top: 10vh;
   padding-bottom: 10vh;
   left: 33%;
-  width: 43%;
+  width: 40%;
 }
 
 .article-content-text__desktop {
   font-size: 3.1vh;
   font-weight: 100;
-  opacity: 1;
+  opacity: 0;
   font-family: Helvetica;
   color: black;
-  display: inline;
 }
 
 .article-content-text__mobile {
@@ -1166,7 +1069,164 @@ table {
   font-size: 1.745vh;
 }
 
+
+/* CHATROOM */
+.blog-container {
+  position: fixed;
+  bottom: 0;
+  left: 3vw;
+  height: 100%; /* Take up full viewport height */
+  width: 100%;
+  display: flex;
+  flex-direction: column-reverse; /* This will place the new messages at the bottom */
+  overflow: hidden; /* Hide overflow for the parent container */
+}
+
+.all-chats {
+  width: 90%;
+  height: 50%;
+  overflow-y: auto; /* Allow scrolling when content exceeds the height */
+  box-sizing: border-box; /* Include padding in the height */
+  flex-grow: 1; /* Ensure this part expands to take up available space */
+  display: flex;
+  flex-direction: column-reverse; /* Ensure new messages are added at the bottom */
+  scrollbar-width: none; /* Firefox */
+  -ms-overflow-style: none; /* IE/Edge */
+}
+
+.blog-content-text__desktop {
+  font-weight: 100;
+  height: 100%;
+  font-family: Helvetica;
+  display: flex;
+  flex-direction: column; /* Ensures posts stack vertically */
+  align-items: flex-start; /* Align posts to the left */
+}
+
+.input-container {
+  display: flex;
+  padding-top: 2vh;
+  bottom: 0%;
+  font-family: Helvetica;
+  animation-delay: 100ms;
+  animation: fadeIn 1s  forwards ;
+  z-index: 9999;
+}
+
+.input-container button{
+  border: none;
+  border-radius: 0;
+  background-color: transparent;
+  color: black;
+
+}
+
+.input-container input {
+  font-size: 2vh;
+  border: none;
+  border-radius: 0;
+  transition: all 0.2s;
+font-weight: 300;
+}
+
+.input-container input:nth-child(2) {
+  color: black;
+  margin-right: 1vw;
+  width: 50%; /* Adjust width for the message input */
+  font-weight: 300;
+}
+
+.reply-button{
+  transition: all 0.2s;
+}
+
+.reply-button:hover {
+   color: rgb(255, 0, 90);
+  }
+
+.who-are-you::placeholder{
+  font-family: Helvetica;
+  background-color: transparent;
+  color: black;
+  opacity: 1; /* Firefox */
+  padding-bottom: .3vh;
+  padding-left: .3vh;
+  margin-right: 1vh;
+  font-weight: bold;
+}
+
+.who-are-you{
+  animation: glow 4s infinite ;
+
+}
+
+.post{
+  animation-delay: 100ms;
+  animation: fadeIn 1s  forwards ;
+}
+
+.scroll-wrapper {
+  position: relative;
+  width: 100vw;
+}
+
+
+.flex-container {
+  position: relative;
+  display: flex;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  scroll-snap-type: x mandatory;
+  gap: 7vw;
+  height: 52vh;
+  padding-bottom: 20px;
+  scrollbar-width: none; /* For Firefox */  
+  scrollbar-color: #d1d1d1 #f7f7f7; /* Thumb color and track color */
+}
+
+.flex-container::-webkit-scrollbar {
+  width: 10px; /* Set the width of the scrollbar */
+  height: 10px; /* Set the height of the scrollbar */
+}
+
+.flex-container::-webkit-scrollbar-track {
+  background: #000000; /* Set the color of the scrollbar track */
+}
+
+.flex-container::-webkit-scrollbar-thumb {
+  background: #c00000; /* Set the color of the scrollbar thumb */
+  border-radius: 0px; /* Remove rounded corners to make it square */
+}
+
+.flex-container::-webkit-scrollbar-thumb:hover {
+  background: #ff0000; /* Change the thumb color on hover */
+}
+
+.gradient-overlay-select {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(
+    to right,
+    rgb(247, 247, 247) 0%,
+    rgba(247, 247, 247) 1.5%,
+    rgba(255, 255, 255, 0) 15%,
+    rgba(255, 255, 255, 0) 90%,
+    rgb(247, 247, 247) 97%,
+    rgb(247, 247, 247) 100%
+  );
+  pointer-events: none; /* Ensure the overlay does not block interactions */
+  z-index: 1; /* Ensure the overlay is above the text */
+}
+
+.gc {
+  scroll-snap-align: center;
+}
+
 .nav-text-type{
   font-family: Helvetica;
   color: gray;
+  font-weight: bold;
 }

@@ -6,13 +6,16 @@ import { Header } from "./components/Header";
 import SoundCloudPlayer from "./components/SoundcloudPlayer";
 import { Guest } from "./pages/Guest";
 import { Info } from "./pages/Info";
-import { Archive } from "./pages/Archive";
+import { Landing } from "./pages/Landing";
+import { Chat } from "./pages/Chat";
 import { Article } from "./pages/Article";
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [mobileIndex] = useState(0);
   const [playingGuest, setPlayingGuest] = useState(null);
+  const [chatUser, setChatUser] = useState(null);
+  const [hasSetUser, setHasSetUser] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -30,29 +33,41 @@ function App() {
         </AudioProvider>
       )}
       <Routes>
-        <Route path="/" element={<Navigate to="/archive" replace />} />
-
         <Route
-          path="/archive"
+          path="/"
           element={
-            <Archive
+            <Landing
               selectedIndex={null}
               isMobile={isMobile}
               mobileIndex={mobileIndex}
             />
           }
         />
-        <Route path="/about" element={<Info isMobile={isMobile} />} />
         <Route
-          path="/:guestName"
+          path="/rp/:guestName"
           element={
             <Guest isMobile={isMobile} setPlayingGuest={setPlayingGuest} />
           }
         />
         <Route
+          path="/chat"
+          element={
+            <Chat
+              isMobile={isMobile}
+              playingGuest={playingGuest}
+              setChatUser={setChatUser}
+              chatUser={chatUser}
+              hasSetUser={hasSetUser}
+              setHasSetUser={setHasSetUser}
+            />
+          }
+        />
+        <Route path="/about" element={<Info isMobile={isMobile} />} />
+        <Route
           path="/rg/:articleName"
           element={<Article isMobile={isMobile} />}
         />
+
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

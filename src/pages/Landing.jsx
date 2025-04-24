@@ -4,7 +4,7 @@ import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
 import { CustomCursor } from "../components/CustomCursor";
 import { useNavigate } from "react-router-dom";
 
-export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
+export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
   const flexContainer = useRef(null);
   const [w, setW] = useState(null);
   const [hoveredGuest, setHoveredGuest] = useState();
@@ -99,7 +99,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
     (guest) => {
       setFadeOut(true);
       setTimeout(() => {
-        navigate(`/${guest.title2}`);
+        navigate(`/rp/${guest.url}`);
       }, 300);
       if ("mediaSession" in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
@@ -199,7 +199,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                                 if (guest.type === "mix") {
                                   guestSelected(guest, i);
                                 }
-                                if (guest.type === "article") {
+                                if (guest.type === "radiogram") {
                                   articleSelected(guest, i);
                                 }
                               }}
@@ -222,7 +222,7 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                   if (hoveredGuest?.type === "mix") {
                     guestSelected(hoveredGuest);
                   }
-                  if (hoveredGuest?.type === "article") {
+                  if (hoveredGuest?.type === "radiogram") {
                     articleSelected(hoveredGuest);
                   }
                 }}
@@ -289,7 +289,6 @@ export const Archive = ({ selectedIndex, isMobile, mobileIndex }) => {
                 <div className="gradient-overlay-select" />
 
                 {[...filteredItems].map((guest, i) => {
-                  const isLeft = i < filteredItems.length / 2;
                   return (
                     <div>
                       <GridContainer

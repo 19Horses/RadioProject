@@ -6,8 +6,7 @@ import { djs } from "./items";
 
 export const Guest = ({ isMobile, setPlayingGuest }) => {
   const { guestName } = useParams();
-
-  const selectedGuest = djs.find((dj) => dj.title2 === guestName);
+  const selectedGuest = djs.find((dj) => dj.url === guestName);
 
   return (
     <>
@@ -80,7 +79,7 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
                     cursor: "pointer",
                     color: "black",
                   }}
-                  href="https://www.instagram.com/ubiifuruuu/"
+                  href={selectedGuest.djLink}
                   target="_blank"
                 >
                   <b>{selectedGuest.title2}</b>
@@ -144,6 +143,7 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
             style={{
               fontSize: "2.9vh",
               fontWeight: "100",
+              paddingBottom: isMobile ? "10vh" : "",
             }}
             dangerouslySetInnerHTML={{
               __html: selectedGuest.description,
