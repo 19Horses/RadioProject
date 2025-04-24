@@ -22,6 +22,7 @@ export const GridContainer = styled.div`
   position: relative;
   display: flex;
   transition: all 0.4s ease-in-out;
+  width: fit-content;
   
   transition: width .5s ease-in-out;
   box-sizing: border-box;
