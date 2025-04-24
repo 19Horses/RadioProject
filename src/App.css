@@ -1127,6 +1127,7 @@ table {
   border-radius: 0;
   transition: all 0.2s;
 font-weight: 300;
+
 }
 
 .input-container input:nth-child(2) {
@@ -1144,21 +1145,22 @@ font-weight: 300;
    color: rgb(255, 0, 90);
   }
 
-.who-are-you::placeholder{
-  font-family: Helvetica;
-  background-color: transparent;
-  color: black;
-  opacity: 1; /* Firefox */
-  padding-bottom: .3vh;
-  padding-left: .3vh;
-  margin-right: 1vh;
-  font-weight: bold;
-}
-
-.who-are-you{
-  animation: glow 4s infinite ;
-
-}
+  .who-are-you::placeholder{
+    font-family: Helvetica;
+    background-color: transparent;
+    color: black;
+    opacity: 1; /* Firefox */
+    padding-bottom: .3vh;
+    padding-left: .3vh;
+    margin-right: 1vh;
+    font-weight: bold;
+  }
+  
+  .who-are-you{
+    animation: glow 4s infinite ;
+  
+  }
+  
 
 .post{
   animation-delay: 100ms;
