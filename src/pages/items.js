@@ -114,7 +114,7 @@ export const djs = [
     djLink: "https://www.instagram.com/david.chen02/",
     igLink: "https://www.instagram.com/p/DI_inZws2SI/?img_index=1",
     scLink: "https://soundcloud.com/radio_project/rp2-dvd-build",
-    npLink: "--",
+    npLink: "https://www.ninaprotocol.com/releases/rp2-dvd-build",
     broadcastDate: "28/4/25 15:00",
     length: "1 Hour 26 Minutes",
     genre: "NEO JAZZ-FUNK REVIVAL",
