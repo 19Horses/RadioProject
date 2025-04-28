@@ -309,7 +309,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                   style={{ display: "flex" }}
                 >
                   <div>
-                    <a href="https://instagram.com/ubiifuruuu" target="_blank">
+                    <a href={playingGuest.djLink} target="_blank">
                       <img src={pic} />
                     </a>
                   </div>

@@ -157,6 +157,8 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   className={`flex-container-mob
                   } ${fadeOut ? "fadeOutGrid" : ""}`}
                 >
+                  <div className="gradient-overlay-select" />
+
                   {[...filteredItems].map((guest, i) => {
                     const isLeft = i < filteredItems.length / 2;
                     return (
@@ -217,7 +219,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
               </div>
               <div
                 className={`cursor-mobile ${fadeOut ? "fadeOutGrid" : ""}`}
-                style={{ left: 0 }}
+                style={{ left: 0, zIndex: 999 }}
                 onClick={() => {
                   if (hoveredGuest?.type === "mix") {
                     guestSelected(hoveredGuest);
@@ -256,6 +258,17 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   $delay={0.15}
                 >
                   <b>{hoveredGuest?.title2}</b>
+                </CursorTitle>
+                <br />
+                <CursorTitle
+                  className="cursor-title"
+                  $hovered={true}
+                  $bgcolor="black"
+                  color="white"
+                  fontSize="2.3vh"
+                  $delay={0.15}
+                >
+                  <b>{hoveredGuest?.title3}</b>
                 </CursorTitle>
                 <br />
                 <CursorTitle
