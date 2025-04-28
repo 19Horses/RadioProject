@@ -10,6 +10,7 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@firebase/firestore": "^4.7.11",
     "@types/react-icons": "^3.0.0",
     "plyr": "^3.7.8",
     "react": "^19.0.0",
