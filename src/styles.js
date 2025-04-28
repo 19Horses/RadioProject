@@ -53,8 +53,8 @@ export const PhotoContainer = styled.div`
   }
 
   @media (max-width: 768px) {
-    width: 80vw;
-    height: 80vw;
+    width: 78vw;
+    height: 78vw;
     aspect-ratio: auto;
     
     img {
