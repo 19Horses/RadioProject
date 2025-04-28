@@ -186,7 +186,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                             $shimmer={guest.id === 1}
                             style={{
                               transition: "filter 0.3s ease-in-out",
-                              width: "75vw",
+                              width: "78vw",
                               paddingLeft: i === 0 ? "10vw" : "2.5vw",
                               paddingRight:
                                 i === filteredItems.length - 1
