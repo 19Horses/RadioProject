@@ -141,7 +141,7 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
           </div>
           <p
             style={{
-              fontSize: "2.9vh",
+              fontSize: "2.5vh",
               fontWeight: "100",
               paddingBottom: isMobile ? "10vh" : "",
             }}
