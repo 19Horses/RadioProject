@@ -5,18 +5,20 @@ import { Logo } from "./Logo";
 
 const StyledLink = styled(Link)`
   font-family: Helvetica;
-  font-size: 1.6vh;
+  font-size: ${(props) => (props.$isCurrentPath ? "2.5vh" : "1.6vh")};
   color: black;
   font-weight: ${(props) => (props.$isCurrentPath ? "1000" : "100")};
   text-decoration: none;
-  transition: opacity 0.3s ease-in-out;
-  padding-left: 2.5vw;
-  padding-right: 1.5vw;
+  transition: all 0.2s ease-in-out;
+  margin-left: 2.5vw;
+  margin-right: 1.5vw;
   text-align: center;
   cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
+    background-color: black;
+    color: white;
+    font-size: 2.5vh;
   }
 `;
 
