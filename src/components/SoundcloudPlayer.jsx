@@ -40,6 +40,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
   const titleRef = useRef(null);
   const containerRef = useRef(null);
   const [hoveredControls, setHoveredControls] = useState(false);
+  const [controlHover, setControlHover] = useState(false);
 
   useEffect(() => {
     if (artist && track && title && playingGuest) {
@@ -310,7 +311,11 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                   style={{ display: "flex" }}
                 >
                   <div>
-                    <a href={playingGuest.djLink} target="_blank">
+                    <a
+                      href={playingGuest.djLink}
+                      target="_blank"
+                      style={{ transition: "opacity 1s" }}
+                    >
                       <img src={pic} />
                     </a>
                   </div>
@@ -370,16 +375,20 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                   className="control-module__desktop"
                   style={{ display: "flex", flexDirection: "column" }}
                   onClick={(e) => e.stopPropagation()}
-                  onMouseEnter={() => setHoveredControls(true)}
-                  onMouseLeave={() => setHoveredControls(false)}
+                  onMouseEnter={() => setControlHover(true)}
+                  onMouseLeave={() => setControlHover(false)}
                 >
-                  <a href={playingGuest.djLink} target="_blank">
-                    <img
-                      style={{ paddingTop: "auto" }}
-                      className="mix-pic"
-                      src={pic}
-                    />
-                  </a>
+                  <img
+                    style={{
+                      paddingTop: "auto",
+                      opacity: controlHover == true ? "1" : "0",
+                      transition: "opacity 0.3s ease-in-out",
+                    }}
+                    className="mix-pic"
+                    src={pic}
+                    href={playingGuest.djLink}
+                    target="_blank"
+                  />
                   <div className="scrolling-info" style={{ width: "100%" }}>
                     <div
                       ref={containerRef}
@@ -391,27 +400,34 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                       </div>
                     </div>
                     <span>{currentlyPlayingArtist}</span>
-                    <p style={{ fontSize: "1.5vh", paddingTop: "0" }}>
+                    <div
+                      style={{
+                        width: "100%",
+                        fontSize: "1.5vh",
+                        backgroundColor: "black",
+                        color: "white",
+                      }}
+                    >
                       {formatTime(toSeconds(currentTime))}/{" "}
                       {audioRef.current
                         ? formatTime(audioRef.current.duration)
                         : "--:--"}
-                    </p>
+                    </div>
                   </div>
+
                   <div
                     className="time-controls__desktop"
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <div onClick={skipBackward}> &#10226;</div>
-                    <a
-                      style={{ fontSize: "1.4vh" }}
+                    <div onClick={skipBackward}> Backward</div>
+                    <div
                       onClick={(e) => {
                         togglePlayPause(e);
                       }}
                     >
-                      {isPlaying ? <FaPause /> : <FaPlay />}
-                    </a>
-                    <div onClick={skipForward}>&#10227;</div>
+                      {isPlaying ? <div>Pause</div> : <div>Play</div>}
+                    </div>
+                    <div onClick={skipForward}>Forward</div>
                   </div>
                 </div>
               )}
