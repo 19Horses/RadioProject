@@ -15,6 +15,26 @@ export const Article = ({ isMobile }) => {
         <>
           {!isMobile ? (
             <div className="article-content__desktop">
+              <p className="description-header" style={{ fontSize: "3.7vh" }}>
+                <span
+                  style={{
+                    fontFamily: "Helvetica",
+                    fontWeight: "100",
+                  }}
+                >
+                  {articleSelected?.rpCount}
+                </span>
+                <span
+                  style={{
+                    fontFamily: "Helvetica",
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "2px 5px", // Optional for better visibility
+                  }}
+                >
+                  <b>{articleSelected?.title}</b>
+                </span>
+              </p>
               <p
                 className="article-content-text__desktop"
                 dangerouslySetInnerHTML={{
@@ -23,7 +43,7 @@ export const Article = ({ isMobile }) => {
               />
             </div>
           ) : null}
-          <div
+          {/* <div
             className={` ${
               isMobile
                 ? "mobile-article-container"
@@ -124,7 +144,7 @@ export const Article = ({ isMobile }) => {
                 />
               </div>
             ) : null}
-          </div>
+          </div> */}
         </>
       )}
     </>

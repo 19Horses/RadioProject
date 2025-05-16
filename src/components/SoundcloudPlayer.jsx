@@ -39,6 +39,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
   const [shouldScroll, setShouldScroll] = useState(false);
   const titleRef = useRef(null);
   const containerRef = useRef(null);
+  const [hoveredControls, setHoveredControls] = useState(false);
 
   useEffect(() => {
     if (artist && track && title && playingGuest) {
@@ -367,8 +368,36 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
               track != "" && (
                 <div
                   className="control-module__desktop"
+                  style={{ display: "flex", flexDirection: "column" }}
                   onClick={(e) => e.stopPropagation()}
+                  onMouseEnter={() => setHoveredControls(true)}
+                  onMouseLeave={() => setHoveredControls(false)}
                 >
+                  <a href={playingGuest.djLink} target="_blank">
+                    <img
+                      style={{ paddingTop: "auto" }}
+                      className="mix-pic"
+                      src={pic}
+                    />
+                  </a>
+                  <div className="scrolling-info" style={{ width: "100%" }}>
+                    <div
+                      ref={containerRef}
+                      className="scrolling-title-container__desktop"
+                    >
+                      <div className="gradient-overlay" />
+                      <div ref={titleRef} className="scrolling-title__desktop">
+                        <b>{currentlyPlayingTitle}</b>
+                      </div>
+                    </div>
+                    <span>{currentlyPlayingArtist}</span>
+                    <p style={{ fontSize: "1.5vh", paddingTop: "0" }}>
+                      {formatTime(toSeconds(currentTime))}/{" "}
+                      {audioRef.current
+                        ? formatTime(audioRef.current.duration)
+                        : "--:--"}
+                    </p>
+                  </div>
                   <div
                     className="time-controls__desktop"
                     onClick={(e) => e.stopPropagation()}
@@ -384,25 +413,6 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                     </a>
                     <div onClick={skipForward}>&#10227;</div>
                   </div>
-                  <div
-                    ref={containerRef}
-                    className="scrolling-title-container__desktop"
-                  >
-                    <div className="gradient-overlay" />
-                    <div ref={titleRef} className="scrolling-title__desktop">
-                      <b>{currentlyPlayingTitle}</b>
-                    </div>
-                  </div>
-                  <span>{currentlyPlayingArtist}</span>
-                  <br />
-                  <p style={{ fontSize: "2vh" }}>
-                    {formatTime(toSeconds(currentTime))}/{" "}
-                    <b>
-                      {audioRef.current
-                        ? formatTime(audioRef.current.duration)
-                        : "--:--"}
-                    </b>
-                  </p>
                 </div>
               )}
 
