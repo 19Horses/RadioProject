@@ -23,19 +23,19 @@ export const Logo = ({ isMobile }) => {
             setHeaderHover(false);
           }}
           className="main"
-          src="./transplogo.png"
+          src="./transplogo2.png"
           alt="Logo"
         />
       </a>
       {!isMobile && (
         <a>
           <img
-            className="second"
+            className="second spin"
             style={{
               opacity: headerHover === true ? "1" : "0",
-              transform: headerHover === true ? "translateX(10%)" : "",
+              transform: headerHover === true ? "translateX(-6%)" : "",
             }}
-            src="./transplogo2.png"
+            src="./transplogo.png"
           />
         </a>
       )}

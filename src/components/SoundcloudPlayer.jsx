@@ -13,6 +13,23 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
     chapters,
   } = playingGuest;
 
+  const [volume, setVolume] = useState(0.75);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.volume = volume;
+    }
+  }, [volume]);
+
+  // Volume change handler
+  const handleVolumeChange = (e) => {
+    const newVolume = parseFloat(e.target.value);
+    setVolume(newVolume);
+    if (audioRef.current) {
+      audioRef.current.volume = newVolume;
+    }
+  };
+
   const audioContext = useAudio();
 
   const {
@@ -44,7 +61,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
     if (artist && track && title && playingGuest) {
       setCurrentlyPlayingArtist(artist);
       setCurrentlyPlayingSrc(track);
-      setCurrentlyPlayingTitle(rpCount + title);
+      setCurrentlyPlayingTitle(title);
       setProgress(0);
       setCurrentTime("--:--");
       setIsPlaying(true);
@@ -92,11 +109,9 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
     document.body.addEventListener("touchstart", enableAutoplay, {
       once: true,
     });
-    document.body.addEventListener("click", enableAutoplay, { once: true });
 
     return () => {
       document.body.removeEventListener("touchstart", enableAutoplay);
-      document.body.removeEventListener("click", enableAutoplay);
     };
   }, []);
 
@@ -119,6 +134,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
   }, [artist, track, title, audioRef, setProgress]);
 
   const togglePlayPause = () => {
+    console.log("TOGGLE");
     if (!audioRef.current) return;
 
     if (audioRef.current.paused) {
@@ -126,11 +142,37 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
         console.error("Playback failed:", error);
       });
     } else {
+      console.log("Pausing audio");
       audioRef.current.pause();
     }
 
     setIsPlaying(!audioRef.current.paused);
   };
+
+  const [fade, setFade] = useState("fade-in");
+  const prevTitleRef = useRef(currentlyPlayingTitle);
+  const prevArtistRef = useRef(currentlyPlayingArtist);
+  const [visibleTitle, setVisibleTitle] = useState(currentlyPlayingTitle);
+  const [visibleArtist, setVisibleArtist] = useState(currentlyPlayingArtist);
+
+  useEffect(() => {
+    if (prevTitleRef.current !== currentlyPlayingTitle) {
+      if (prevTitleRef.current != "") {
+        setFade("fade-out");
+      }
+
+      setTimeout(
+        () => {
+          setVisibleTitle(currentlyPlayingTitle);
+          setVisibleArtist(currentlyPlayingArtist);
+          prevTitleRef.current = currentlyPlayingTitle;
+          prevArtistRef.current = currentlyPlayingArtist;
+          setFade("fade-in");
+        },
+        prevTitleRef.current != "" ? 1000 : 0
+      ); // match CSS transition duration
+    }
+  }, [currentlyPlayingTitle, currentlyPlayingArtist]);
 
   const handleChapterClick = (chapterStartTime, event) => {
     event.stopPropagation();
@@ -287,19 +329,12 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
   }, []);
 
   return (
-    <>
+    <div>
       {track != "" && (
-        <div
-          className={`timeline-progress-bar-container__desktop ${
-            isMobile ? "timeline-progress-bar-container__mobile" : null
-          }`}
-          onClick={handleProgressBarClick}
-          style={{
-            pointerEvents: track == null ? "none" : "",
-            opacity: track == null ? "0" : "1",
-          }}
-        >
-          <audio ref={audioRef} src={currentlyPlayingSrc} />
+        <>
+          {timelineBar()}
+          <div className="player-background" />
+
           {isMobile
             ? // MOBILE VERSION
               track != "" && (
@@ -313,14 +348,28 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                       <img src={pic} />
                     </a>
                   </div>
-                  <div className="time-controls__mobile">
-                    <a onClick={(e) => togglePlayPause(e)}>
+                  <div
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      console.log("TOGGLE");
+                      togglePlayPause();
+                    }}
+                    className="time-controls__mobile"
+                  >
+                    <button
+                      style={{
+                        background: "none",
+                        border: "none",
+                        fontSize: "2vh",
+                        color: "black",
+                      }}
+                    >
                       {isPlaying ? (
-                        <FaPause style={{ color: "rgb(202, 202, 202)" }} />
+                        <p>◼️</p>
                       ) : (
-                        <FaPlay style={{ color: "rgb(202, 202, 202)" }} />
+                        <p style={{ fontSize: "2.7vh" }}>▶</p>
                       )}
-                    </a>
+                    </button>
                   </div>
                   <div className="mix-info">
                     <div
@@ -365,96 +414,185 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
               )
             : // DESKTOP VERSION
               track != "" && (
-                <div
-                  className="control-module__desktop"
-                  onClick={(e) => e.stopPropagation()}
-                >
+                <>
+                  <div className="player-background" />
                   <div
-                    className="time-controls__desktop"
+                    className={`control-module__desktop ${fade}`}
+                    style={{
+                      transition: "opacity 0.7s ease",
+                      opacity: fade === "fade-in" ? 1 : 0,
+                    }}
                     onClick={(e) => e.stopPropagation()}
                   >
-                    <div onClick={skipBackward}> &#10226;</div>
+                    {/* Play button */}
                     <a
-                      style={{ fontSize: "1.4vh" }}
+                      style={{
+                        position: "absolute",
+                        top: "0%",
+                        left: "50%",
+                        transform: "translateX(-50%)",
+                        whiteSpace: "nowrap",
+                        cursor: "pointer",
+                      }}
                       onClick={(e) => {
-                        togglePlayPause(e);
+                        e.stopPropagation();
+                        togglePlayPause();
                       }}
                     >
-                      {isPlaying ? <FaPause /> : <FaPlay />}
+                      {isPlaying ? "◼️" : "▶"}
                     </a>
-                    <div onClick={skipForward}>&#10227;</div>
-                  </div>
-                  <div
-                    ref={containerRef}
-                    className="scrolling-title-container__desktop"
-                  >
-                    <div className="gradient-overlay" />
-                    <div ref={titleRef} className="scrolling-title__desktop">
-                      <b>{currentlyPlayingTitle}</b>
+
+                    {/* Track info block directly under the play button */}
+                    <div
+                      style={{
+                        transform: "rotate(90deg)",
+                        display: "flex",
+                        flexDirection: "column",
+                        alignItems: "flex-start",
+                        whiteSpace: "nowrap",
+                        marginTop: "4vh",
+                        transition:
+                          visibleTitle != null ? "opacity 0.7s ease" : "",
+                        opacity: fade === "fade-in" ? 1 : 0,
+                      }}
+                    >
+                      <p style={{ margin: 0 }}>
+                        {visibleTitle}
+                        {"   "}
+                        <span
+                          style={{
+                            paddingLeft: "0.7vh",
+                            fontWeight: 200,
+                            backgroundColor: "transparent",
+                            color: "black",
+                          }}
+                        >
+                          {formatTime(toSeconds(currentTime))}
+                        </span>
+                      </p>
+                      <p
+                        style={{
+                          margin: 0,
+                          fontSize: "1.3vh",
+                          fontWeight: "200",
+                        }}
+                      >
+                        {visibleArtist}
+                      </p>
                     </div>
                   </div>
-                  <span>{currentlyPlayingArtist}</span>
-                  <br />
-                  <p style={{ fontSize: "2vh" }}>
-                    {formatTime(toSeconds(currentTime))}/{" "}
-                    <b>
-                      {audioRef.current
-                        ? formatTime(audioRef.current.duration)
-                        : "--:--"}
-                    </b>
-                  </p>
-                </div>
+                </>
               )}
-
-          {/* TIMELINE */}
-          <div
-            className="completed-progress__desktop"
-            style={{ height: `${progress}%` }}
-          />
-
-          {chapters.map((chapter, index) => (
-            <React.Fragment key={index}>
-              <div
-                onMouseEnter={() => {
-                  setHoveredChapter(chapter?.title);
-                }}
-                onMouseLeave={() => setHoveredChapter("")}
-                className="progress-bar-chapter-slit-hitbox__desktop"
-                style={{
-                  top: `${
-                    audioRef.current?.duration
-                      ? (chapter.startTime / audioRef.current.duration) * 100 -
-                        1
-                      : 0
-                  }%`,
-                }}
-                onClick={(e) => handleChapterClick(chapter.startTime, e)}
-              />
-
-              <div
-                className="progress-bar-chapter-slit__desktop"
-                style={{
-                  height: hoveredChapter === chapter?.title ? "3px" : "1px",
-                  top: `${
-                    audioRef.current?.duration
-                      ? (chapter.startTime / audioRef.current.duration) * 100
-                      : 0
-                  }%`,
-                  backgroundColor:
-                    hoveredChapter === chapter?.title ? "#000000" : "white",
-                }}
-                onMouseEnter={() => setHoveredChapter(chapter?.title)}
-                onMouseLeave={() => setHoveredChapter("")}
-              />
-            </React.Fragment>
-          ))}
-          <img
-            src="/indicator.png"
-            className="progress-bar-current-icon__desktop"
-            alt="Indicator"
-          />
-        </div>
+          {isMobile
+            ? // MOBILE VERSION
+              null
+            : VolumeSlider()}
+        </>
       )}
-    </>
+    </div>
   );
+
+  function VolumeSlider() {
+    return (
+      <div
+        style={{
+          position: "fixed",
+          bottom: "6.3%",
+          right: "2%",
+          width: isMobile ? "80%" : "5vh",
+          display: "flex",
+          flexDirection: isMobile ? "row" : "column",
+          gap: "0.5rem",
+          color: "white",
+          fontFamily: "Helvetica",
+          zIndex: "10000",
+        }}
+      >
+        <input
+          id="volume-slider"
+          type="range"
+          min="0"
+          max="1"
+          step="0.01"
+          value={volume}
+          onChange={handleVolumeChange}
+          style={{
+            width: isMobile ? "100%" : "10vh",
+            cursor: "pointer",
+            transform: isMobile ? "none" : "rotate(-90deg)",
+            WebkitAppearance: "none",
+            appearance: "none",
+            height: isMobile ? "8px" : "3vh",
+            background: `linear-gradient(to right, black ${
+              volume * 100
+            }%, #cacaca ${volume * 100}%)`,
+          }}
+          aria-label="Volume slider"
+        />
+      </div>
+    );
+  }
+
+  function timelineBar() {
+    return (
+      <div
+        className={`timeline-progress-bar-container__desktop ${
+          isMobile ? "timeline-progress-bar-container__mobile" : null
+        }`}
+        onClick={handleProgressBarClick}
+        style={{
+          pointerEvents: track == null ? "none" : "",
+          opacity: track == null ? "0" : "1",
+        }}
+      >
+        <audio ref={audioRef} src={currentlyPlayingSrc} />
+        {/* TIMELINE */}
+        <div
+          className="completed-progress__desktop"
+          style={{ height: `${progress}%` }}
+        />
+
+        {chapters.map((chapter, index) => (
+          <React.Fragment key={index}>
+            <div
+              onMouseEnter={() => {
+                setHoveredChapter(chapter?.title);
+              }}
+              onMouseLeave={() => setHoveredChapter("")}
+              className="progress-bar-chapter-slit-hitbox__desktop"
+              style={{
+                top: `${
+                  audioRef.current?.duration
+                    ? (chapter.startTime / audioRef.current.duration) * 100 - 1
+                    : 0
+                }%`,
+              }}
+              onClick={(e) => handleChapterClick(chapter.startTime, e)}
+            />
+
+            <div
+              className="progress-bar-chapter-slit__desktop"
+              style={{
+                height: hoveredChapter === chapter?.title ? "3px" : "1px",
+                top: `${
+                  audioRef.current?.duration
+                    ? (chapter.startTime / audioRef.current.duration) * 100
+                    : 0
+                }%`,
+                backgroundColor:
+                  hoveredChapter === chapter?.title ? "#000000" : "white",
+              }}
+              onMouseEnter={() => setHoveredChapter(chapter?.title)}
+              onMouseLeave={() => setHoveredChapter("")}
+            />
+          </React.Fragment>
+        ))}
+        <img
+          src="/indicator.png"
+          className="progress-bar-current-icon__desktop"
+          alt="Indicator"
+        />
+      </div>
+    );
+  }
 }

@@ -157,8 +157,6 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   className={`flex-container-mob
                   } ${fadeOut ? "fadeOutGrid" : ""}`}
                 >
-                  <div className="gradient-overlay-select" />
-
                   {[...filteredItems].map((guest, i) => {
                     const isLeft = i < filteredItems.length / 2;
                     return (
@@ -299,8 +297,6 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                 }}
                 onScroll={handleScroll}
               >
-                <div className="gradient-overlay-select" />
-
                 {[...filteredItems].map((guest, i) => {
                   return (
                     <div>
@@ -378,88 +374,3 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
     </>
   );
 };
-
-{
-  /* <div
-                style={{
-                  display: "flex",
-                  justifyContent: "space-between",
-                  cursor: "pointer",
-                  width: "12vw",
-                }}
-                onClick={() => {
-                  setShowFilters(!showFilters);
-                  console.log("showFilters", showFilters);
-                }}
-              >
-                <a
-                  className="filter-text"
-                  style={{
-                    width: "1vw",
-                    color:
-                      showMixes && showArticles ? "black" : "rgb(255, 0 , 90)",
-                  }}
-                >
-                  ☼
-                </a>{" "}
-              </div>
-              <div
-                className="filter"
-                style={{
-                  opacity: showFilters ? 1 : 0,
-                  height: "50vh",
-                  justifyContent: "center",
-                  display: "flex",
-                  flexDirection: "column",
-                  alignItems: "center",
-                  width: "12vw",
-                  transition: "opacity 0.5s ease-in-out",
-                }}
-              >
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    width: "12vw",
-                  }}
-                  onClick={() => {
-                    setShowMixes(!showMixes);
-                    console.log("showMixes", showMixes);
-                  }}
-                >
-                  <a className="filter-text" style={{ width: "1vw" }}>
-                    ♪
-                  </a>{" "}
-                  <a className="filter-text" style={{ marginRight: "auto" }}>
-                    MIXES
-                  </a>{" "}
-                  <b style={{ color: showMixes ? "rgb(255,0,90)" : "black" }}>
-                    {showMixes ? "ON" : "OFF"}
-                  </b>
-                </div>
-                <div
-                  style={{
-                    display: "flex",
-                    justifyContent: "space-between",
-                    cursor: "pointer",
-                    width: "12vw",
-                  }}
-                  onClick={() => {
-                    setShowArticles(!showArticles);
-                    console.log("showArticles", showArticles);
-                  }}
-                >
-                  <a className="filter-text" style={{ width: "1vw" }}>
-                    ☼
-                  </a>{" "}
-                  <a className="filter-text" style={{ marginRight: "auto" }}>
-                    ARTICLES
-                  </a>{" "}
-                  <b
-                    style={{ color: showArticles ? "rgb(255,0,90)" : "black" }}
-                  >
-                    {showArticles ? "ON" : "OFF"}
-                  </b>
-                </div>
-              </div> */
-}

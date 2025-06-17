@@ -15,12 +15,6 @@ export const Tracklist = ({ selectedGuest }) => {
             <tr
               className="tracklist-item__desktop"
               style={{
-                cursor:
-                  mixTrack.title === "RADIO (a)" ||
-                  mixTrack.title === "PROJECT" ||
-                  mixTrack.title === "RADIO (b)"
-                    ? "pointer"
-                    : "",
                 animationDelay: `${index * 0.0375}s`,
               }}
               onMouseEnter={() => {
@@ -36,11 +30,7 @@ export const Tracklist = ({ selectedGuest }) => {
                   color:
                     hoveredTitle === mixTrack?.title &&
                     mixTrack?.title !== "UNRELEASED"
-                      ? "rgb(255, 0, 90)"
-                      : mixTrack.title === "RADIO (a)" ||
-                        mixTrack.title === "PROJECT" ||
-                        mixTrack.title === "RADIO (b)"
-                      ? "rgb(255, 0, 90)"
+                      ? "rgb(88, 88, 88)"
                       : "black",
                 }}
               >
@@ -56,7 +46,12 @@ export const Tracklist = ({ selectedGuest }) => {
               </td>
               <td
                 style={{
-                  color: "rgb(137, 137, 137)",
+                  transition: "color 0.3s",
+                  color:
+                    hoveredTitle === mixTrack?.title &&
+                    mixTrack?.title !== "UNRELEASED"
+                      ? "rgb(88, 88, 88)"
+                      : "rgb(137, 137, 137)",
                   fontWeight: "100",
                 }}
               >

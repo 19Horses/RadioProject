@@ -184,7 +184,6 @@ export default function Posts({
             style={{
               height: "auto",
               width: "90%",
-              paddingBottom: "1vh",
               transition: "all 3s",
             }}
             key={post.id}
@@ -244,8 +243,19 @@ export default function Posts({
                   {replyPostId === post.id ? "Cancel" : "Reply"}
                 </p>
               )}
+              <p
+                style={{
+                  fontWeight: "300",
+                  fontSize: isMobile ? "2vh" : "2vh",
+                  display: "inline",
+                  marginLeft: post?.reply?.name ? "1vw" : "", // Added margin for spacing between name and date
+                }}
+              >
+                {post?.reply?.name && " →  "}
+                {post.content}
+              </p>
             </p>
-            {post?.reply && (
+            {/* {post?.reply && (
               <p
                 style={{
                   fontSize: isMobile ? "1.9vh" : "2.4vh",
@@ -262,18 +272,7 @@ export default function Posts({
                     : post.reply.content) +
                   '"'}
               </p>
-            )}
-            <p
-              style={{
-                fontWeight: "300",
-                fontSize: isMobile ? "2vh" : "2.5vh",
-                display: "inline",
-                marginLeft: post?.reply?.name ? "1vw" : "", // Added margin for spacing between name and date
-              }}
-            >
-              {post?.reply?.name && " →  "}
-              {post.content}
-            </p>
+            )} */}
           </div>
         ))}
         <div
@@ -353,7 +352,7 @@ export default function Posts({
 
       <div ref={postsEndRef} />
       {/* Input field for new message */}
-      <div
+      {/* <div
         className="input-container"
         style={{
           width: playingGuest && isMobile != null ? "90%" : "97%",
@@ -435,7 +434,7 @@ export default function Posts({
             </button>
           </>
         )}
-      </div>
+      </div> */}
     </div>
   );
 }

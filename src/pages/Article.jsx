@@ -3,130 +3,253 @@ import { useParams } from "react-router-dom";
 
 import { djs } from "./items";
 
-export const Article = ({ isMobile }) => {
+export const Article = ({ isMobile, isPlaying }) => {
   const { articleName } = useParams();
 
   const articleSelected = djs.find((article) => article.url === articleName);
 
+  const [atTop, setAtTop] = useState(true);
+
+  const [fadeIn, setFadeIn] = useState(false);
+  const [allowScrollFade, setAllowScrollFade] = useState(false);
+
+  useEffect(() => {
+    const fadeTimeout = setTimeout(() => {
+      setFadeIn(true);
+      // enable scroll-based fading after fade-in finishes (1s = transition duration)
+      setTimeout(() => setAllowScrollFade(true), 1000);
+    }, 50); // initial trigger delay to apply opacity: 0
+
+    return () => clearTimeout(fadeTimeout);
+  }, []);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setAtTop(window.scrollY < 100);
+    };
+
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
+
   return (
     <>
       {/* Selected Article */}
-      {articleSelected != null && (
+      {articleSelected != null && !isMobile && (
         <>
-          {!isMobile ? (
-            <div className="article-content__desktop">
-              <p
-                className="article-content-text__desktop"
-                dangerouslySetInnerHTML={{
-                  __html: articleSelected?.description,
-                }}
-              />
-            </div>
-          ) : null}
+          <div className="article-content__desktop">
+            <p
+              className="article-content-text__desktop"
+              dangerouslySetInnerHTML={{
+                __html: articleSelected?.description,
+              }}
+            />
+          </div>
           <div
-            className={` ${
-              isMobile
-                ? "mobile-article-container"
-                : "selected-article-container"
-            }`}
+            className="article-info-container"
+            style={{
+              transition: "opacity 1s ease-in-out",
+            }}
           >
-            <div className="description-container">
-              <p className="description-header" style={{ fontSize: "3.7vh" }}>
-                <span
-                  style={{
-                    fontFamily: "Helvetica",
-                    fontWeight: "100",
-                  }}
-                >
-                  {articleSelected?.rpCount}
-                </span>{" "}
-                <span
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    padding: "2px 5px", // Optional for better visibility
-                  }}
-                >
-                  <b>{articleSelected?.title}</b>
-                </span>
-              </p>
-            </div>
-
-            <div className="artist-pics">
-              <a target="_blank">
-                <img
-                  src={articleSelected?.src}
-                  className="selected-artist-image"
-                />
-              </a>
-            </div>
-
             <div
+              className="selected-article-container"
               style={{
-                display: "flex",
-                justifyContent: "space-between",
-                paddingTop: "2vh",
+                opacity: fadeIn ? 1 : 0,
+                bottom: atTop ? "68vh" : "3vh",
+                transition: "bottom 1.5s, opacity 0.5s",
+                transitionDelay: ".3s",
               }}
             >
-              {" "}
-              <div>
-                <p className="slight-info" style={{ fontSize: "1.2vh" }}>
-                  <a
-                    style={{
-                      fontWeight: "100",
-                      fontSize: "2vh",
-                      lineHeight: "1.5",
-                      textDecoration: "none",
-                      cursor: "pointer",
-                      color: "black",
-                    }}
-                    href={articleSelected?.igLink}
-                    target="_blank"
-                  >
-                    <b>{articleSelected.title2}</b>
-                  </a>
-                  <br />
+              <a
+                target="_blank"
+                href={articleSelected?.igLink}
+                style={{ bottom: "0" }}
+              >
+                <img
+                  src={articleSelected?.src2}
+                  style={{ height: "19vh", width: "19vh", objectFit: "cover" }}
+                />
+              </a>
+              <div className="">
+                <div style={{ fontSize: "2.7vh", lineHeight: "3vh" }}>
                   <span
                     style={{
+                      fontFamily: "Helvetica",
                       fontWeight: "100",
                     }}
                   >
-                    {articleSelected?.releaseDate}
-                  </span>
-                  <br />
+                    {articleSelected?.rpCount}
+                  </span>{" "}
                   <span
                     style={{
-                      fontWeight: "100",
+                      backgroundColor: "black",
+                      color: "white",
+                      padding: "2px 5px", // Optional for better visibility
                     }}
                   >
-                    {articleSelected?.length}
+                    <b>{articleSelected?.title}</b>
                   </span>
-                </p>
-              </div>
-              <div className="article-tag__mobile">
-                <p className="article-tag-text__mobile">
-                  {articleSelected?.tag}
-                </p>
-              </div>
-              <div className="article-socials__desktop">
-                <a href={articleSelected?.igLink} target="_blank">
-                  <img src="/ig.jpg" className="sc-logo" />
+                </div>
+                <a
+                  href={articleSelected?.igLink}
+                  target="_blank"
+                  style={{
+                    fontWeight: "1000",
+                    color: "black",
+                    textDecoration: "none",
+                    lineHeight: "4vh",
+                  }}
+                >
+                  {articleSelected?.title2}
                 </a>
+                <br />
+                <br />
+                <div
+                  style={{
+                    transition: "opacity 0.5s",
+                    fontSize: "1.7vh",
+                    lineHeight: "2vh",
+                    opacity: atTop ? 1 : 0,
+                  }}
+                >
+                  <p style={{ margin: "0" }}>{articleSelected?.tag}</p>
+
+                  <p style={{ margin: "0" }}>
+                    {articleSelected?.broadcastDate +
+                      " | " +
+                      articleSelected?.length}
+                  </p>
+                </div>
               </div>
             </div>
-            {isMobile ? (
-              <div>
-                <p
-                  className="article-content-text__mobile"
-                  dangerouslySetInnerHTML={{
-                    __html: articleSelected?.description,
-                  }}
-                />
-              </div>
-            ) : null}
+            <div
+              className="article-summary"
+              style={{
+                position: "fixed",
+                top: "32vh",
+                left: "3vw",
+                width: "28vw",
+                fontFamily: "Helvetica",
+                opacity: fadeIn ? (atTop ? 1 : 0) : 0,
+                transition: fadeIn
+                  ? atTop
+                    ? "opacity 0.7s"
+                    : "opacity 0.3s"
+                  : "opacity 0.3s",
+                fontSize: "2vh",
+                backgroundColor: atTop ? "rgb(247, 247, 247)" : "transparent",
+                transitionDelay: !fadeIn
+                  ? "0s"
+                  : allowScrollFade
+                  ? atTop
+                    ? "1.4s"
+                    : "0s"
+                  : ".3s", // default to visible until scroll fade kicks in
+              }}
+            >
+              <p>{articleSelected?.summary}</p>
+            </div>
           </div>
         </>
       )}
+      {articleSelected && isMobile ? (
+        <div>
+          <div className="article-content-text__mobile">
+            <div
+              className="selected-article-container-mob"
+              style={{
+                transition: "bottom 1.5s, opacity 0.5s",
+                transitionDelay: ".3s",
+              }}
+            >
+              <a
+                target="_blank"
+                href={articleSelected?.igLink}
+                style={{ bottom: "0" }}
+              >
+                <img
+                  src={articleSelected?.src2}
+                  style={{
+                    height: "17vh",
+                    width: "17vh",
+                    objectFit: "cover",
+                    paddingLeft: "2vw",
+                  }}
+                />
+              </a>
+              <div style={{ paddingLeft: "1vw" }}>
+                <div
+                  style={{
+                    fontSize: "2.7vh",
+                    lineHeight: "3.5vh",
+                    width: "100%",
+                  }}
+                >
+                  <span
+                    style={{
+                      fontFamily: "Helvetica",
+                      fontWeight: "100",
+                    }}
+                  >
+                    {articleSelected?.rpCount}
+                  </span>
+                  <br />
+                  <span
+                    style={{
+                      backgroundColor: "black",
+                      color: "white",
+                      padding: "2px 5px", // Optional for better visibility
+                    }}
+                  >
+                    <b>{articleSelected?.title}</b>
+                  </span>
+                </div>
+                <a
+                  href={articleSelected?.igLink}
+                  target="_blank"
+                  style={{
+                    fontWeight: "1000",
+                    color: "black",
+                    textDecoration: "none",
+                    lineHeight: "4vh",
+                    fontSize: "2.2vh",
+                  }}
+                >
+                  {articleSelected?.title2}
+                </a>
+                <br />
+                <br />
+                <div
+                  style={{
+                    fontSize: "1.7vh",
+                    lineHeight: "2vh",
+                  }}
+                >
+                  <p style={{ margin: "0" }}>{articleSelected?.tag}</p>
+
+                  <p style={{ margin: "0" }}>
+                    {articleSelected?.broadcastDate +
+                      " | " +
+                      articleSelected?.length}
+                  </p>
+                </div>
+              </div>
+            </div>
+            <p
+              style={{
+                fontFamily: "Helvetica",
+                fontSize: "2.5vh",
+                width: isPlaying != null ? "90%" : "92%",
+                marginLeft: "3vw",
+                paddingBottom: isPlaying != null ? "20px" : "10px",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: articleSelected?.description,
+              }}
+            />
+          </div>
+        </div>
+      ) : null}
     </>
   );
 };
