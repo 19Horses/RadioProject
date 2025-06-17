@@ -4,7 +4,7 @@ import { Tracklist } from "../components/Tracklist";
 import { useParams } from "react-router-dom";
 import { djs } from "./items";
 
-export const Guest = ({ isMobile, setPlayingGuest }) => {
+export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
   const { guestName } = useParams();
   const selectedGuest = djs.find((dj) => dj.url === guestName);
 
@@ -16,6 +16,7 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
             ? "selected-artist-container-mob-addon"
             : "selected-artist-container"
         }`}
+        style={{ width: isPlaying ? "85%" : "90%" }}
       >
         <div
           className="all-left-cont"

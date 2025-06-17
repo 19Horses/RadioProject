@@ -341,7 +341,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                 <div
                   className="control-module__mobile"
                   onClick={(e) => e.stopPropagation()}
-                  style={{ display: "flex" }}
+                  style={{ display: "flex", zIndex: "10000000" }}
                 >
                   <div>
                     <a href={playingGuest.djLink} target="_blank">

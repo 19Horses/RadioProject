@@ -114,7 +114,7 @@ export const djs = [
     title3: "Technologist",
     title4: "DJ",
     description:
-      "<i><b>DVD</b></i> touches on <b>listening experiences; his introductions into tech; music and DJing; and his many creative design projects.</b><br/><br/> <i><b>DVD</b></i> is a <b>creative technologist and DJ</b> as well as a <b>audiophile,</b> versatile in soundsystem creation.",
+      "<i><b>DVD</b></i> touches on listening experiences; his introductions into tech; music and DJing; and his many creative design projects.<br/><br/> David is a <b>creative technologist, DJ</b> and <b>audiophile,</b> versatile in soundsystem creation.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp2-dvd.wav",
     djLink: "https://www.instagram.com/david.chen02/",
     igLink: "https://www.instagram.com/p/DI_inZws2SI/?img_index=1",

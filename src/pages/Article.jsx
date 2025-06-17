@@ -170,18 +170,18 @@ export const Article = ({ isMobile, isPlaying }) => {
                 <img
                   src={articleSelected?.src2}
                   style={{
-                    height: "17vh",
-                    width: "17vh",
+                    height: "28vw",
+                    width: "28vw",
                     objectFit: "cover",
                     paddingLeft: "2vw",
                   }}
                 />
               </a>
-              <div style={{ paddingLeft: "1vw" }}>
+              <div style={{ paddingLeft: "3vw" }}>
                 <div
                   style={{
-                    fontSize: "2.7vh",
-                    lineHeight: "3.5vh",
+                    fontSize: "4.5vw",
+                    lineHeight: "6.2vw",
                     width: "100%",
                   }}
                 >
@@ -212,7 +212,7 @@ export const Article = ({ isMobile, isPlaying }) => {
                     color: "black",
                     textDecoration: "none",
                     lineHeight: "4vh",
-                    fontSize: "2.2vh",
+                    fontSize: "4vw",
                   }}
                 >
                   {articleSelected?.title2}
@@ -221,8 +221,8 @@ export const Article = ({ isMobile, isPlaying }) => {
                 <br />
                 <div
                   style={{
-                    fontSize: "1.7vh",
-                    lineHeight: "2vh",
+                    fontSize: "3vw",
+                    lineHeight: "4vw",
                   }}
                 >
                   <p style={{ margin: "0" }}>{articleSelected?.tag}</p>

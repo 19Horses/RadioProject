@@ -181,7 +181,7 @@
 }
 
 .selected-article-container-mob {
-  padding-top: 11vh;
+  padding-top: 20%;
   display: flex;
   gap: 1vw;
   left: 3vw;
@@ -189,7 +189,7 @@
   font-family: Helvetica;
   color: black;
   font-size: 1.1vw;
-  line-height: 2.5vh;
+  line-height: 2.5vw;
 }
 
 .selected-artist-container-mob-addon {
@@ -205,7 +205,7 @@
   animation: fadeIn 0.3s ease-in forwards;
   animation-delay: 0.5s;
   transition: all 0.3s;
-  width: 85%;
+  width: 90%;
   font-family: Helvetica;
   color: black;
   font-size: 1.2vw;
@@ -493,7 +493,7 @@ table {
   border: none;
   font-size: 10vw;
   right: 0;
-  margin-right: 8vw;
+  margin-right: 0vw;
   cursor: pointer;
   color: black;
   width: 10vw;

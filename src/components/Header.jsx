@@ -56,7 +56,7 @@ const Links = () => (
   </>
 );
 
-export const Header = ({ isMobile }) => {
+export const Header = ({ isMobile, isPlaying }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (isMobile) {
@@ -70,6 +70,10 @@ export const Header = ({ isMobile }) => {
                 <button
                   className="menu-toggle"
                   onClick={() => setMenuOpen(!menuOpen)}
+                  style={{
+                    transition: "margin-right 0.3s ease-in-out",
+                    marginRight: isPlaying ? "8vw" : "5vw",
+                  }}
                 >
                   ☰
                 </button>
