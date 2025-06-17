@@ -748,7 +748,7 @@ input[type="range"]::-moz-range-thumb {
 .timeline-progress-bar-container__mobile {
   bottom: initial;
   height: 90%;
-  top: 1.5%;
+  top: 2.4%;
   right: 3%;
   transition: all 1s;
 }
