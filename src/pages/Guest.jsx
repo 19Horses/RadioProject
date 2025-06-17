@@ -44,6 +44,14 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
               </span>
             </p>
           </div>
+          <div
+            className="selectTrack"
+            onClick={() => {
+              setPlayingGuest(selectedGuest);
+            }}
+          >
+            PLAY
+          </div>
 
           <div className="artist-pics">
             <a>
@@ -52,14 +60,6 @@ export const Guest = ({ isMobile, setPlayingGuest }) => {
                 className="selected-artist-image"
               />
             </a>
-            <div
-              className="selectTrack"
-              onClick={() => {
-                setPlayingGuest(selectedGuest);
-              }}
-            >
-              <FaPlay style={{ fontSize: "1.3vh" }} /> PLAY
-            </div>
           </div>
           <div
             style={{

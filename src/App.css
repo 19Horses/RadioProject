@@ -14,13 +14,12 @@
 }
 
 @keyframes articleFadeIn {
-  0% {
-    opacity: 0;
-  }
-  100% {
+  to {
     opacity: 1;
   }
 }
+
+
 
 .articleFadeIn {
   opacity: 0;
@@ -81,36 +80,12 @@
   animation: fadeOut 0.5s ease-in-out forwards;
 }
 
-.logo-header {
-  height: 20%;
-  width: 20%;
-}
-
-.archive-player {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 25%;
-  height: 60px;
-  z-index: 1000;
-}
-
-.archive-player iframe {
-  width: 100%;
-  height: 100%;
-  position: absolute;
-  top: 0;
-  left: 0;
-  z-index: 1; /* Ensures the iframe stays behind */
-  border-right: 1px solid lightgray;
-}
-
 .flex-container-mob {
   position: relative;
-  width: 100.5vw;
+  width: 100vw;
   transition: all 0.4s ease-in-out;
   display: flex;
-  left: -2%;
+  left: 0;
   flex-wrap: nowrap;
   overflow-y: hidden;
   overflow-x: auto;
@@ -148,7 +123,6 @@
   pointer-events: none;
   width: 14vw;
   padding: 0;
-  transition: all cubic-bezier(0, 1, 1, 1) 1s;
   line-height: 2.1vh;
 }
 
@@ -164,27 +138,16 @@
 .center-wrapper {
   display: flex;
   flex-direction: column;
-  align-items: center; /* Horizontally centers */
-  justify-content: center; /* Vertically centers */
+  left: 0;
   height: 100vh; /* Full viewport height */
-  position: relative;
+  position: absolute;
+  width: 100vw;
 }
 
 .cursor-title {
   font-family: Helvetica;
   color: black;
   margin: 0;
-}
-
-.cursor-title-mob-desc {
-  font-family: Helvetica;
-  color: black;
-  white-space: pre-line;
-  display: block;
-}
-
-.no-major-click {
-  pointer-events: none;
 }
 
 .selected-artist-container {
@@ -206,22 +169,27 @@
 }
 
 .selected-article-container {
-  opacity: 0;
-  height: 100vh;
   position: fixed;
-  display: block;
-  padding-top: 3vh;
-  padding-left: 3vh;
-  margin-bottom: 3vh;
-  bottom: 0;
-  left: 0;
-  animation: fadeIn 0.3s ease-in forwards;
-  animation-delay: 0.5s;
-  transition: all 0.3s;
+  display: flex;
+  gap: 1vw;
+  left: 3vw;
   width: 30vw;
   font-family: Helvetica;
   color: black;
   font-size: 1.2vw;
+  line-height: 2.5vh;
+}
+
+.selected-article-container-mob {
+  padding-top: 9vh;
+  display: flex;
+  gap: 1vw;
+  left: 3vw;
+  width: 95vw;
+  font-family: Helvetica;
+  color: black;
+  font-size: 1.1vw;
+  line-height: 2.5vh;
 }
 
 .selected-artist-container-mob-addon {
@@ -274,9 +242,8 @@
 
 .selectTrack {
   font-size: 1.8vh;
-  position: absolute; /* Absolutely position the p tag */
-  bottom: -3vh; /* Align the p tag to the bottom of the parent container */
-  left: 0; /* Align the p tag to the left (optional, based on your design) */
+  margin-bottom: 1vh;
+
   color: rgb(255, 0, 90); /* Optional: text color */
   transition: color 0.4s;
   cursor: pointer;
@@ -298,44 +265,10 @@
   text-decoration: none;
 }
 
-.progress-bar-container {
-  position: fixed;
-  top: auto;
-  bottom: 3vh;
-  height: 85vh;
-  width: 15px;
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in forwards;
-  background-color: rgb(202, 202, 202);
-  cursor: e-resize;
-  transition: all 1s;
-  right: 1%;
-}
-
-.progress-bar-container-mob {
-  bottom: initial;
-  height: 90%;
-  top: 1.5%;
-  right: 3%;
-}
-
 .sc-logo {
   display: flex;
   height: 12px;
   padding-left: 10px;
-}
-
-.track-info-addon {
-  position: fixed;
-  bottom: 0%;
-  left: 0;
-  height: 6vh;
-  width: 100vw;
-  background-color: rgb(247, 247, 247);
-}
-
-.track-info-addon img {
-  height: 6vh;
 }
 
 /* Ensure header takes full width and aligns items */
@@ -355,7 +288,7 @@
   cursor: pointer;
   position: fixed;
   top: 0;
-  max-width: 15vw; /* Makes the logo size responsive based on viewport width */
+  max-width: 10vw; /* Makes the logo size responsive based on viewport width */
   overflow: hidden;
   height: 20vh;
   z-index: 991;
@@ -366,7 +299,7 @@
   top: 0;
   opacity: 0;
   transform: translateX(-20%);
-  width: 11vh;
+  width: 10vh;
 }
 
 .header-logo-norm {
@@ -398,24 +331,6 @@
   position: relative;
   background-color: rgb(247, 247, 247);
   color: black;
-}
-
-.scrolling-title-container-mob-article-addon {
-  font-family: Helvetica;
-  font-size: 2vh;
-  position: relative;
-  background-color: rgb(247, 247, 247);
-  color: black;
-  width: 100%;
-  white-space: normal; /* Ensures text wraps */
-  overflow: hidden; /* Prevents text from overflowing */
-  display: block; /* Ensures the container behaves properly */
-}
-
-.scrolling-title-container-mob-article-addon p {
-  font-size: 2vh;
-  color: black;
-  margin: 0;
 }
 
 .gradient-overlay-mob {
@@ -451,23 +366,6 @@
   z-index: 1; /* Ensure the overlay is above the text */
 }
 
-.gradient-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background: linear-gradient(
-    to right,
-    rgb(0, 0, 0) 0%,
-    rgba(255, 255, 255, 0) 10%,
-    rgba(255, 255, 255, 0) 90%,
-    rgb(0, 0, 0) 100%
-  );
-  pointer-events: none; /* Ensure the overlay does not block interactions */
-  z-index: 1; /* Ensure the overlay is above the text */
-}
-
 .scrolling-title {
   background-color: rgb(0, 0, 0);
   color: rgb(255, 255, 255);
@@ -485,21 +383,9 @@
   font-size: 1.8vh;
 }
 
-.scrolling-title-mob-articles {
-  margin-top: 0;
-  background-color: rgb(247, 247, 247);
-  width: auto;
-  color: rgb(0, 0, 0);
-  display: inline-block;
-  white-space: nowrap;
-  animation: scroll-left 10s linear reverse infinite;
-  font-size: 1.8vh;
-}
 
 /* Ensure the image scales properly */
-.header-logo .main {
-  animation: spin 7s linear infinite; /* Corrected animation */
-}
+
 
 /* Navigation styling */
 .header-nav {
@@ -508,47 +394,6 @@
   top: 2vh;
   right: 1vw;
   margin-right: 1vw; /* Spacing between items */
-}
-
-.header-item {
-  font-family: Helvetica;
-  font-size: 1.6vh;
-  color: black;
-  text-decoration: none;
-  transition: opacity 0.3s ease-in-out;
-  padding-left: 2.5vw;
-  padding-right: 1.5vw;
-  text-align: center;
-}
-
-.header-item:hover {
-  opacity: 0.7;
-}
-
-.tracklist-addon {
-  opacity: 0;
-  animation: fadeIn 0.3s ease-in forwards;
-  font-family: Helvetica;
-  font-size: 1.77vh;
-  color: black;
-  position: absolute;
-  padding-top: 10vh;
-  padding-bottom: 10vh;
-  left: 33%;
-  width: 40%;
-}
-
-.tracklist-mobile {
-  opacity: 1;
-  animation-delay: 0.5s;
-  font-family: Helvetica;
-  font-size: 1.77vh;
-  color: black;
-  position: absolute;
-  width: 80%;
-  padding-bottom: 10vh;
-  padding-top: 5vh;
-  padding-left: 2vh;
 }
 
 .mix-info {
@@ -561,42 +406,8 @@
   height: 100%;
 }
 
-.mix-track {
-  animation: trackFadeIn 0.5s ease-in-out forwards;
-  transition: all 0.2s;
-  opacity: 0;
-}
-
-.tag {
-  font-family: Helvetica;
-  font-size: 1vw;
-  color: black;
-  position: absolute;
-  margin-right: 2vw;
-  right: 0;
-  pointer-events: none;
-  transition: all 1s;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.5vw;
-  white-space: nowrap;
-}
-
 table {
   width: 100%;
-}
-.back-button {
-  cursor: pointer;
-  position: absolute;
-  top: 0;
-}
-
-.max-button {
-  position: fixed;
-  top: 8vh;
-  right: 1%;
-  padding-bottom: 3vh;
 }
 
 .timestamp {
@@ -611,16 +422,15 @@ table {
   font-size: 1.5vh;
 }
 
-.red {
-  opacity: 0;
-}
-
-.contentArticle {
-  opacity: 0;
-}
-
-.total-timeline-container {
-  position: absolute;
+.player-background{
+  position: fixed;
+  display: flex;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(248, 248, 248);
+  height: 90%;
+  width: 5%;
+  z-index: 997;
 }
 
 .description-container {
@@ -637,11 +447,7 @@ table {
   user-select: none;
   margin-right: 0.5rem; /* Add some space between the paragraphs */
   bottom: 0;
-}
-
-.article-title {
-  word-break: break-word;
-  max-height: 1000px;
+  margin-bottom: 1vh;
 }
 
 .slight-info {
@@ -650,32 +456,6 @@ table {
   bottom: 0;
 }
 
-.article-grid {
-  display: grid;
-  grid-template-columns: repeat(1, 1fr); /* 5 columns */
-  gap: 10px; /* Adjust gap size */
-  width: 80vw;
-  overflow: hidden;
-  justify-items: start; /* Align items to the left */
-  align-items: start; /* Align items to the top */
-  padding-left: 3vh;
-  padding-top: 15vh;
-}
-
-.article-grid-item {
-  width: 100%; /* Ensure squares */
-  padding-top: 100%; /* Maintain square aspect ratio */
-  position: relative;
-}
-
-.article-grid-item img {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  object-fit: scale-down; /* Ensure images fill the squares */
-}
 
 .menu-toggle-container {
   width: 100vw;
@@ -739,61 +519,21 @@ table {
   animation: slideIn 0.5s forwards;
 }
 
-/*MOBILE ARTICLE SELECTED*/
-
-.mobile-article-container {
-  opacity: 0;
-  height: auto;
-  position: absolute;
-  display: block;
-  padding-top: 3vh;
-  padding-left: 3vh;
-  top: 7%;
-  bottom: 0;
-  left: 0;
-  animation: fadeIn 0.3s ease-in forwards;
-  animation-delay: 0.5s;
-  transition: all 0.3s;
-  width: 85%;
-  font-family: Helvetica;
-  color: black;
-  font-size: 1.2vw;
-  margin-bottom: 10vh;
-}
-
-.selected-article-container_desktop {
-  opacity: 0;
-  height: 100vh;
-  position: fixed;
-  display: block;
-  padding-top: 3vh;
-  padding-left: 3vh;
-  bottom: 0;
-  left: 0;
-  animation: fadeIn 0.3s ease-in forwards;
-  animation-delay: 0.5s;
-  transition: all 0.3s;
-  width: 30vw;
-  font-family: Helvetica;
-  color: black;
-  font-size: 1.2vw;
-}
 
 /* MOBILE ARTICLE SELECTED */
 .article-content__desktop {
   opacity: 0;
   animation: fadeIn 0.3s ease-in forwards;
+  animation-delay: 0.4s;
   position: absolute;
-  padding-top: 10vh;
-  padding-bottom: 10vh;
-  left: 33%;
-  width: 40%;
+  padding-top: 8vh;
+  left: 34%;
+  width: 52%;
 }
 
 .article-content-text__desktop {
-  font-size: 3.1vh;
+  font-size: 2.7vh;
   font-weight: 100;
-  opacity: 0;
   font-family: Helvetica;
   color: black;
 }
@@ -801,37 +541,8 @@ table {
 .article-content-text__mobile {
   font-size: 2.9vh;
   font-weight: 100;
-  padding-bottom: 100px;
 }
 
-.article-tag__mobile {
-  display: flex;
-  align-items: stretch;
-  border: 1px solid black;
-  padding-left: 0.8vh;
-  padding-right: 0.8vh;
-  height: 100%;
-  margin: auto;
-  margin-right: 0;
-}
-
-.article-tag-text__mobile {
-  font-size: 1.2vh;
-  font-weight: bold;
-  color: black;
-}
-
-.article-socials__desktop {
-  display: flex;
-  margin: auto;
-  margin-right: 0;
-}
-
-.social-image__ {
-  display: flex;
-  height: 12px;
-  padding-left: 10px;
-}
 
 .selected-artist-container {
   opacity: 0;
@@ -858,14 +569,13 @@ table {
   animation: fadeIn 0.3s ease-in forwards;
   animation-delay: 0.5s;
   font-family: Helvetica;
-  font-size: 1.77vh;
+  font-size: 1.5vh;
   color: black;
   width: 40%;
   position: absolute;
-  padding-top: 10vh;
   padding-bottom: 1em;
-  left: 33%;
-  top: 0%;
+  left: 35%;
+  top: 10%;
 }
 
 .tracklist-header-spacer__desktop {
@@ -879,9 +589,9 @@ table {
 }
 
 .tracklist-item-title__desktop {
-  text-align: right;
-  width: 30vw;
-  padding-left: 1vw;
+  text-align: left;
+  width: 17vw;
+  padding-left: 2vw;
   padding-right: 1vw;
 }
 
@@ -896,22 +606,12 @@ table {
   background-color: rgb(202, 202, 202);
   cursor: e-resize;
   transition: all 1s;
-  right: 1%;
+  right: 3.5%;
   z-index: 999;
 }
 
-.track-info__desktop {
-  cursor: pointer;
-}
 
-.track-info {
-  text-align: right;
-  position: fixed;
-  width: 19.5vw;
-  bottom: 0;
-  right: 5vh;
-  bottom: 2vh;
-}
+
 
 .track-info p {
   font-family: Helvetica;
@@ -922,35 +622,41 @@ table {
 /* CONTROL {DESKTOP} */
 
 .control-module__desktop {
+  z-index: 9999;
   font-family: Helvetica;
-  text-align: right;
-  position: fixed;
-  width: 19.5vw;
-  bottom: 0;
-  right: 5vh;
-  bottom: 2vh;
-}
-
-.time-controls__desktop {
   display: flex;
-  align-items: center;
-  justify-content: space-between;
-  gap: 1rem;
-  line-height: "5vh";
+  flex-direction: column;
+  position: fixed;
+  height: 85%;
+  width: 3vh;
+  right: 1%;
+  top: 12%;
 }
 
-.time-controls__desktop > * {
-  user-select: none;
+.control-module__desktop p{
+    font-family: Helvetica;
+    font-size: 1.5vh;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+/* Chrome, Safari, Edge, Opera */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 12px;
+  height: 12px;
+  background: transparent; /* or semi-transparent */
+  border: none;
   cursor: pointer;
-  color: gray;
 }
 
-.time-controls__desktop > * :hover {
-  color: black;
-}
-
-.time-controls__desktop div {
-  font-size: 2.8vh;
+input[type="range"]::-moz-range-thumb {
+  width: 12px;
+  height: 12px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
 }
 
 .control__desktop a {
@@ -1036,25 +742,7 @@ table {
   }
 }
 
-.scrolling-title-container__desktop {
-  width: 100%; /* Adjust based on your design */
-  /* 17.5 */
-  height: 2.1vh;
-  /* 14.7 */
-  font-size: 1.745vh;
-  overflow: hidden;
-  white-space: nowrap;
-  position: relative;
-  background-color: black;
-}
 
-.scrolling-title__desktop {
-  background-color: rgb(0, 0, 0);
-  color: rgb(255, 255, 255);
-  display: inline-block;
-  white-space: nowrap;
-  animation: scroll-left 10s linear infinite;
-}
 
 .control-module__desktop span {
   font-weight: bold;
@@ -1062,11 +750,7 @@ table {
   width: auto;
   background-color: black;
   color: white;
-  padding-top: 0.25vh;
-  padding-bottom: 0.25vh;
-  padding-left: 0.25vw;
-  padding-right: 0.25vw;
-  font-size: 1.745vh;
+  
 }
 
 
@@ -1084,7 +768,6 @@ table {
 
 .all-chats {
   width: 90%;
-  height: 50%;
   overflow-y: auto; /* Allow scrolling when content exceeds the height */
   box-sizing: border-box; /* Include padding in the height */
   flex-grow: 1; /* Ensure this part expands to take up available space */

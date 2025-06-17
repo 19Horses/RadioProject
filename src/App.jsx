@@ -65,7 +65,7 @@ function App() {
         <Route path="/about" element={<Info isMobile={isMobile} />} />
         <Route
           path="/rg/:articleName"
-          element={<Article isMobile={isMobile} />}
+          element={<Article isMobile={isMobile} isPlaying={playingGuest} />}
         />
 
         <Route path="*" element={<Navigate to="/" replace />} />

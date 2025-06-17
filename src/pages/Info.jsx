@@ -6,8 +6,8 @@ export const Info = ({ isMobile }) => (
       <b>RADIO PROJECT</b> is a space for auditory, verbal and written agency.
     </p>
     <p>
-      <b>RADIO PROJECT</b> aims to spotlight individuals by broadcasting mixes
-      and conducting interviews, and to inform through written articles.
+      We aims to spotlight individuals by broadcasting mixes and conducting
+      interviews; and to inform through written articles.
     </p>
 
     <a
