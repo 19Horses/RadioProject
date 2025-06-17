@@ -6,8 +6,10 @@ export const Logo = ({ isMobile }) => {
   const navigate = useNavigate();
   return (
     <div
-      className={`header-logo ${
-        isMobile ? "header-logo-mob" : "header-logo-norm"
+      className={` ${
+        isMobile
+          ? "header-logo-b header-logo-mob"
+          : "header-logo header-logo-norm"
       }`}
     >
       <a
