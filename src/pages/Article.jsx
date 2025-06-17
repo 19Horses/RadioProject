@@ -55,7 +55,7 @@ export const Article = ({ isMobile, isPlaying }) => {
               className="selected-article-container"
               style={{
                 opacity: fadeIn ? 1 : 0,
-                bottom: atTop ? "65.5vh" : "0vh",
+                bottom: atTop ? "65.5vh" : "1vh",
                 transition: "bottom 1.5s, opacity 0.5s",
                 transitionDelay: ".3s",
               }}
