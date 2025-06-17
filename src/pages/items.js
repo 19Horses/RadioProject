@@ -173,7 +173,7 @@ export const djs = [
     "src": rpa1.p,
     "src2": rpa1.pm,
     "rpCount": "RADIOGRAM 1 ☼ ",
-    "broadcastDate": "18/6/25 15:00",
+    "broadcastDate": "18/6/25 17:00",
     "url": "rg1-anouk-maj-losleben-clusters-of-liberation-illusions-of-freedom",
     "title2": "Anouk Losleben",
     "title": "The Promise of Freedom in the Western Sphere",
