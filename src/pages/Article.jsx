@@ -161,6 +161,7 @@ export const Article = ({ isMobile, isPlaying }) => {
               style={{
                 transition: "bottom 1.5s, opacity 0.5s",
                 transitionDelay: ".3s",
+                width: isPlaying != null ? "90%" : "",
               }}
             >
               <a
