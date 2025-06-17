@@ -320,6 +320,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                               textAlign: "left",
                               textTransform: "uppercase",
                               fontSize: "1.4vh",
+                              fontWeight: "550",
                             }}
                           >
                             {guest.type}
