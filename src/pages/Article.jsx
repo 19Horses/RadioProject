@@ -238,7 +238,7 @@ export const Article = ({ isMobile, isPlaying }) => {
             <p
               style={{
                 fontFamily: "Helvetica",
-                fontSize: "2.5vh",
+                fontSize: "5vw",
                 width: isPlaying != null ? "90%" : "92%",
                 marginLeft: "3vw",
                 paddingBottom: isPlaying != null ? "20px" : "10px",
