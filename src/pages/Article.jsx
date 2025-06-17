@@ -55,7 +55,7 @@ export const Article = ({ isMobile, isPlaying }) => {
               className="selected-article-container"
               style={{
                 opacity: fadeIn ? 1 : 0,
-                bottom: atTop ? "68vh" : "3vh",
+                bottom: atTop ? "65.5vh" : "0vh",
                 transition: "bottom 1.5s, opacity 0.5s",
                 transitionDelay: ".3s",
               }}
@@ -79,7 +79,8 @@ export const Article = ({ isMobile, isPlaying }) => {
                     }}
                   >
                     {articleSelected?.rpCount}
-                  </span>{" "}
+                  </span>
+                  {<br />}
                   <span
                     style={{
                       backgroundColor: "black",
@@ -126,7 +127,7 @@ export const Article = ({ isMobile, isPlaying }) => {
               className="article-summary"
               style={{
                 position: "fixed",
-                top: "32vh",
+                top: "35vh",
                 left: "3vw",
                 width: "28vw",
                 fontFamily: "Helvetica",
