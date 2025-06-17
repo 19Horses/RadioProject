@@ -50,7 +50,7 @@ export const Tracklist = ({ selectedGuest }) => {
                   color:
                     hoveredTitle === mixTrack?.title &&
                     mixTrack?.title !== "UNRELEASED"
-                      ? "rgb(88, 88, 88)"
+                      ? "rgb(255, 0, 90)"
                       : "rgb(137, 137, 137)",
                   fontWeight: "100",
                 }}
