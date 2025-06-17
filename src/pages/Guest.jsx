@@ -16,7 +16,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             ? "selected-artist-container-mob-addon"
             : "selected-artist-container"
         }`}
-        style={{ width: isPlaying ? "85%" : "90%" }}
+        style={{ width: isMobile ? (isPlaying ? "85%" : "90%") : undefined }}
       >
         <div
           className="all-left-cont"
