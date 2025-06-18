@@ -238,6 +238,7 @@ export const Article = ({ isMobile, isPlaying }) => {
               </div>
             </div>
             <p
+              className="article-content-description__mobile"
               style={{
                 fontFamily: "Helvetica",
                 fontSize: "5vw",
