@@ -36,7 +36,7 @@ const NavItem = ({ text, to, external }) => {
 const Links = () => (
   <>
     <NavItem text="Archive" to="/" external={false} />
-    {/* <NavItem text="Chat" to="/chat" external={false} /> */}
+    <NavItem text="Chat" to="/chat" external={false} />
     <NavItem
       text="Nina"
       to="https://www.ninaprotocol.com/profiles/radio-project"
