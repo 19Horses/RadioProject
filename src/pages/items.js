@@ -26,7 +26,7 @@ export const djs = [
     broadcastDate: "5/4/25 15:00",
     length: "(1 Hour 26 Minutes)",
     genre: "DIGITAL PUNK",
-    url: "rp1-ubi",
+    url: "ubi",
     chapters: [
       { startTime: 0, title: "RADIO (a)" },
       { startTime: 1954, title: "PROJECT" },
@@ -110,7 +110,7 @@ export const djs = [
     ipSrc: rp2.ip,
     title: 'BUILD!',
     title2: "DVD",
-    url: "rp2-dvd",
+    url: "dvd",
     title3: "Technologist",
     title4: "DJ",
     description:
@@ -174,7 +174,7 @@ export const djs = [
     "src2": rpa1.pm,
     "rpCount": "RADIOGRAM 1 ☼ ",
     "broadcastDate": "18/6/25 17:00",
-    "url": "rg1-anouk-maj-losleben-clusters-of-liberation-illusions-of-freedom",
+    "url": "anouk",
     "title2": "Anouk Losleben",
     "title": "The Promise of Freedom in the Western Sphere",
     "title3": "Textile Designer",
