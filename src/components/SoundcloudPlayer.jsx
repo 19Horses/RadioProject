@@ -300,10 +300,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
 
   useEffect(() => {
     const handleKeyDown = (e) => {
-      if (e.key === " ") {
-        e.preventDefault();
-        togglePlayPause();
-      } else if (e.key === "ArrowRight") {
+      if (e.key === "ArrowRight") {
         skipForward();
       } else if (e.key === "ArrowLeft") {
         skipBackward();
