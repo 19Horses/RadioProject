@@ -40,7 +40,14 @@ export default function RPHead() {
   };
   const questions = [
     "How was your day today?",
-    "What is one thing that you're proud of?",
+    "If you replace all the parts of a boat, is it still the same boat?",
+    "Do we have free will?",
+    "What book had the most significant impact on your life?",
+    "What is the lie you tell yourself most often?",
+    "If you could tell your younger self any one thing, what would it be?",
+    "What do you think the world will look like in 300 years?",
+    "What is the most life-changing decision you’ve ever made on a whim?",
+    "If you were a ghost, what location do you think you would haunt?",
   ];
 
   const navigate = useNavigate();
@@ -780,7 +787,12 @@ export function RPGrid({ isPlaying, isMobile }) {
         <CustomCursor hoveredForm={hoveredForm} hovered={!!hoveredForm} />
       )}
       <div
-        style={{ width: "100vw", height: "100vh", position: "fixed" }}
+        style={{
+          width: "100vw",
+          height: "100vh",
+          position: "fixed",
+          pointerEvents: "none",
+        }}
         onClick={() => {
           if (clickedImage) {
             setClickedImage(null);
@@ -817,6 +829,8 @@ export function RPGrid({ isPlaying, isMobile }) {
               cursor: "pointer",
               fontSize: "10vh",
               border: "1px solid #ccc",
+              pointerEvents: "auto",
+              zIndex: "9999",
             }}
             onClick={() => {
               navigate("/visitorlog");
@@ -903,6 +917,7 @@ export function RPGrid({ isPlaying, isMobile }) {
             boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
             zIndex: 1000,
             animation: "fadeIn 1s forwards",
+            pointerEvents: "auto",
           }}
         >
           {/* Left: Dithered Image */}
