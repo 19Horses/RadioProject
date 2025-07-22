@@ -718,8 +718,46 @@ export function RPGrid({ isPlaying, isMobile }) {
     loadData();
   }, []);
 
-  if (loading) return <p>Loading...</p>;
-  if (error) return <p style={{ color: "red" }}>{error}</p>;
+  if (loading)
+    return (
+      <div
+        style={{
+          height: "100vh",
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          fontFamily: "Helvetica",
+        }}
+      >
+        <p
+          style={{
+            animation: "glow 1.5s ease-in-out infinite",
+            fontSize: "2rem",
+            color: "#000",
+          }}
+        >
+          Loading...
+        </p>
+        <style>
+          {`
+          @keyframes glow {
+            0% {
+              opacity: 0.3;
+              text-shadow: 0 0 5px rgba(0,0,0,0.2);
+            }
+            50% {
+              opacity: 1;
+              text-shadow: 0 0 20px rgba(0,0,0,0.4);
+            }
+            100% {
+              opacity: 0.3;
+              text-shadow: 0 0 5px rgba(0,0,0,0.2);
+            }
+          }
+        `}
+        </style>
+      </div>
+    );
 
   const starSignIcons = {
     Aries: AriesIcon,
