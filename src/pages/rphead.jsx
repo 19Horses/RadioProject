@@ -601,7 +601,7 @@ export default function RPHead() {
                   </div>
                   <label
                     htmlFor="username"
-                    style={{ textTransform: "uppercase" }}
+                    style={{ textTransform: "uppercase", width: "90%" }}
                   >
                     {randomQuestion}
                   </label>
