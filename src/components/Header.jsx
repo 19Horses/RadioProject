@@ -185,7 +185,7 @@ export const Header = ({ isMobile, isPlaying, headerOpen }) => {
     return (
       <>
         <Logo isMobile />
-        <header className="header-container">
+        <header className="header-container" style={{}}>
           <nav className="header-nav">
             <div
               className={`dropdown-menu slide-in`}
@@ -193,6 +193,7 @@ export const Header = ({ isMobile, isPlaying, headerOpen }) => {
                 backgroundColor: !menuOpen ? "transparent" : "#f7f7f7f2",
                 transition: "all .3s ease-in-out",
                 pointerEvents: menuOpen ? "auto" : "none",
+                right: isPlaying ? "6vw" : "",
               }}
             >
               <div
