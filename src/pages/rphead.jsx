@@ -15,7 +15,7 @@ import CapricornIcon from "../assets/starsigns/capricorn.svg"; // Adjust the imp
 import AquariusIcon from "../assets/starsigns/aquarius.svg"; // Adjust the import path as necessary
 import PiscesIcon from "../assets/starsigns/pisces.svg"; // Adjust the import path as necessary
 import chevron from "../assets/chevron.png"; // Adjust the import path as necessary
-import { uploadToS3 } from "../utils/s3Upload";
+import { uploadToBackend, uploadToS3 } from "../utils/s3Upload";
 import { CustomCursor } from "../components/CustomCursor";
 import DitheredImageCanvas from "../components/DitheredImageCanvas"; // import your new component
 
@@ -309,9 +309,9 @@ export default function RPHead() {
 
     try {
       await Promise.all([
-        uploadToS3(ditheredBlob, ditheredKey, "image/png"),
-        uploadToS3(unditheredBlob, unditheredKey, "image/png"),
-        uploadToS3(formBlob, formKey, "application/json"),
+        uploadToBackend(ditheredBlob, ditheredKey, "image/png"),
+        uploadToBackend(unditheredBlob, unditheredKey, "image/png"),
+        uploadToBackend(formBlob, formKey, "application/json"),
       ]);
       navigate("/visitorcheck");
     } catch (err) {
