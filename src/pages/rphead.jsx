@@ -15,7 +15,7 @@ import CapricornIcon from "../assets/starsigns/capricorn.svg"; // Adjust the imp
 import AquariusIcon from "../assets/starsigns/aquarius.svg"; // Adjust the import path as necessary
 import PiscesIcon from "../assets/starsigns/pisces.svg"; // Adjust the import path as necessary
 import chevron from "../assets/chevron.png"; // Adjust the import path as necessary
-import { uploadToBackend, uploadToS3 } from "../utils/s3Upload";
+import { uploadToBackend } from "../utils/s3Upload";
 import { CustomCursor } from "../components/CustomCursor";
 import DitheredImageCanvas from "../components/DitheredImageCanvas"; // import your new component
 
@@ -655,6 +655,24 @@ export function RPGrid({ isPlaying, isMobile }) {
   const [clickedImage, setClickedImage] = useState(null);
   const [clickedFormData, setClickedFormData] = useState(null);
 
+  const containerRef = useRef(null);
+
+  useEffect(() => {
+    const handleClickOutside = (event) => {
+      if (
+        containerRef.current &&
+        !containerRef.current.contains(event.target)
+      ) {
+        setClickedImage(false); // update this line to use your actual state updater
+      }
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
+
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -1065,6 +1083,7 @@ export function RPGrid({ isPlaying, isMobile }) {
       )}
       {clickedImage && isMobile && (
         <div
+          ref={containerRef}
           style={{
             display: "flex",
             position: "fixed",
@@ -1072,14 +1091,15 @@ export function RPGrid({ isPlaying, isMobile }) {
             left: isPlaying ? "47%" : "50%",
             transform: isPlaying
               ? "translate(-50%, -50%) scale(0.36)"
-              : "translate(-50%, -50%) scale(0.38)",
+              : "translate(-50%, -50%) scale(0.35)",
             gap: "2rem",
             padding: "1rem",
+            paddingBottom: "4vh",
             alignItems: "flex-start",
             background: "white",
             borderRadius: "8px",
             boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
-            zIndex: 1000,
+            zIndex: 980,
             animation: "fadeIn 1s forwards",
           }}
         >

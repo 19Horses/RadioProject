@@ -116,6 +116,7 @@ const MobileLinks = ({ menuOpen, setMenuOpen, isMobile }) => {
           setMenuOpen((prev) => !prev);
         }}
         isMobile={isMobile}
+        style={{ zIndex: 9999 }}
       />
       <NavItem
         text="+ Archive"
