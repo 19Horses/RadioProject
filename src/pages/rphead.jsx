@@ -910,6 +910,7 @@ export function RPGrid({ isPlaying, isMobile }) {
       </div>
       {clickedImage && !isMobile && (
         <div
+          ref={containerRef}
           style={{
             display: "flex",
             position: "fixed",
