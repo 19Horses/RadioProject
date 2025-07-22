@@ -811,13 +811,15 @@ export function RPGrid({ isPlaying, isMobile }) {
           gridTemplateColumns: isMobile
             ? "repeat(2,1fr)"
             : "repeat(auto-fill,minmax(260px,1fr))",
-          gap: "2vw",
+          gap: isMobile ? "1vw" : ".1vw",
+          columnGap: isMobile ? "2vh" : "",
+          rowGap: isMobile ? "1vh" : "",
           padding: "1vw",
           paddingTop: "11vh",
 
           filter: clickedImage ? "blur(5px)" : "none",
           transition: "filter 0.7s ease-out",
-          width: isMobile ? (isPlaying ? "93%" : "") : isPlaying ? "95%" : "",
+          width: isMobile ? (isPlaying ? "91%" : "") : isPlaying ? "95%" : "",
           pointerEvents: clickedImage ? "none" : "auto",
         }}
       >
@@ -851,6 +853,7 @@ export function RPGrid({ isPlaying, isMobile }) {
               style={{
                 paddingBottom: isPlaying ? " " : "1vh",
                 width: isMobile ? "100%" : "",
+                height: isMobile ? "auto" : "",
               }}
             >
               {images
