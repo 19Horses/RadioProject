@@ -4,7 +4,7 @@ export const uploadToBackend = async (fileBlob, key, contentType) => {
   formData.append("key", key);
   formData.append("contentType", contentType);
 
-  const response = await fetch("https://your-backend.onrender.com/api/upload", {
+  const response = await fetch("https://visitor-backlog-new.onrender.com/api/upload", {
     method: "POST",
     body: formData,
   });
