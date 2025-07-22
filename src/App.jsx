@@ -9,6 +9,7 @@ import { Info } from "./pages/Info";
 import { Landing } from "./pages/Landing";
 import { Chat } from "./pages/Chat";
 import { Article } from "./pages/Article";
+import RPHead, { RPGrid } from "./pages/rphead";
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -16,6 +17,7 @@ function App() {
   const [playingGuest, setPlayingGuest] = useState(null);
   const [chatUser, setChatUser] = useState(null);
   const [hasSetUser, setHasSetUser] = useState(false);
+  const [headerOpen, setHeaderOpen] = useState(false);
 
   useEffect(() => {
     const handleResize = () => setIsMobile(window.innerWidth <= 768);
@@ -26,7 +28,11 @@ function App() {
   return (
     <HashRouter>
       <div className={"gradient-overlay-tl"} />
-      <Header isMobile={isMobile} isPlaying={playingGuest} />
+      <Header
+        isMobile={isMobile}
+        isPlaying={playingGuest}
+        headerOpen={headerOpen}
+      />
       {playingGuest && (
         <AudioProvider>
           <SoundCloudPlayer playingGuest={playingGuest} isMobile={isMobile} />
@@ -71,7 +77,11 @@ function App() {
           path="/rg/:articleName"
           element={<Article isMobile={isMobile} isPlaying={playingGuest} />}
         />
-
+        <Route path="/visitorlog" element={<RPHead />} />
+        <Route
+          path="/visitorcheck"
+          element={<RPGrid isPlaying={playingGuest} isMobile={isMobile} />}
+        />
         <Route path="*" element={<Navigate to="/" replace />} />
       </Routes>
     </HashRouter>

@@ -517,7 +517,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
           value={volume}
           onChange={handleVolumeChange}
           style={{
-            width: isMobile ? "100%" : "10vh",
+            width: "10vh",
             cursor: "pointer",
             transform: isMobile ? "none" : "rotate(-90deg)",
             WebkitAppearance: "none",
@@ -526,6 +526,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
             background: `linear-gradient(to right, black ${
               volume * 100
             }%, #cacaca ${volume * 100}%)`,
+            borderBottom: "transparent",
           }}
           aria-label="Volume slider"
         />

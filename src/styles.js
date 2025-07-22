@@ -64,17 +64,47 @@ export const PhotoContainer = styled.div`
 
 `;
 
+export const PhotoContainerAll = styled.div`
+  height: 22vh;
+  aspect-ratio: 1 / 1;
+  overflow: hidden;
+  position: relative;
+  cursor: pointer;
+  transition: all 0.4s ease-in-out;
+
+  
+  img {
+    height: 100%;
+    object-fit: cover;
+    object-position: left center; /* key: anchor to the left */
+    transform: translateX(0%);  /* show left half only */
+    transition: all 0.4s ease-in-out;
+  }
+
+  @media (max-width: 768px) {
+    width: 78vw;
+    height: 78vw;
+    aspect-ratio: auto;
+    
+    img {
+      object-position: center center;
+    }
+  }
+
+`;
+
 
 
 export const CursorTitle = styled.p`
   background-color: ${(props) => (props.$hovered ? props.$bgcolor : "")};
   color: ${(props) => (props.$hovered ? props.color : "black")};
-  display: inline;
+  display: ${(props) => (props.isMobile ? "inline" : "inline-block")};
   font-size: ${(props) => props.fontSize || "inherit"};
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: ${(props) => props.$delay}s;
   opacity: 0;
-  transform: translateY(100px);
+  padding-bottom: .1vh;
+  margin: 0vh;
 
 
 `;

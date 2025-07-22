@@ -183,7 +183,7 @@ export default function Posts({
             className="post"
             style={{
               height: "auto",
-              width: "90%",
+              width: "100%",
               transition: "all 3s",
             }}
             key={post.id}
@@ -194,19 +194,18 @@ export default function Posts({
                 marginBottom: "1vh",
               }}
             >
-              <b
-                style={{
-                  fontWeight: "1000",
-                  color: "rgb(255, 255, 255)",
-                  backgroundColor:
-                    post.name === "*RADIO PROJECT*"
-                      ? "rgb(255, 0, 90)"
-                      : "rgb(0, 0, 0)",
-                  fontSize: isMobile ? "2vh" : "2.5vh",
-                }}
-              >
-                {post.name} {post?.reply?.name && " → " + post.reply.name}
-              </b>
+              <div style={{ display: "inline-block", width: "10vw" }}>
+                <b
+                  style={{
+                    fontWeight: "1000",
+                    color: "rgb(0, 0, 0)",
+                    fontSize: isMobile ? "2vh" : "2vh",
+                    width: "auto",
+                  }}
+                >
+                  {post.name} {post?.reply?.name && " → " + post.reply.name}
+                </b>
+              </div>
               <p
                 style={{
                   color: "rgb(137, 137, 137)",

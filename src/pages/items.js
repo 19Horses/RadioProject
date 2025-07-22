@@ -1,5 +1,6 @@
 import { rp1 } from "../assets/rp1";
 import { rp2 } from "../assets/rp2";
+import { rp3 } from "../assets/rp3";
 import {rpa1} from '../assets/rpa1'
 
 export const djs = [
@@ -17,7 +18,7 @@ export const djs = [
     title5: "exxtralife Founder",
     title6: "Developer ",
     description:
-      "<b><i>ubi</i></b> sits and talks with us about his <b>inspirations, video game soundtracks and gives insight into his event organisation, EXXTRALIFE.</b> <br /><b><i>ubi</i></b> is a <b>musician and DJ</b>, as well as a <b>web developer</b> with strong design sensibilities, hailing from Ireland, now based in North London.",
+      "<b><i>Ubi</i></b> sits and talks with us about his <b>inspirations, video game soundtracks and gives insight into his event organisation, EXXTRALIFE. </b><b><i>Ubi</i></b> is a <b>musician and DJ</b>, as well as a <b>web developer</b> with strong design sensibilities, hailing from Ireland, now based in North London.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP1-ubi.wav",
     djLink: "https://www.instagram.com/ubiifuruuu/",
     igLink: "https://www.instagram.com/p/DIEUV-QMOVw/?img_index=1",
@@ -114,7 +115,7 @@ export const djs = [
     title3: "Technologist",
     title4: "DJ",
     description:
-      "<i><b>DVD</b></i> touches on listening experiences; his introductions into tech; music and DJing; and his many creative design projects.<br/><br/> David is a <b>creative technologist, DJ</b> and <b>audiophile,</b> versatile in soundsystem creation.",
+      "<i><b>DVD</b></i> touches on <b>listening experiences; his introductions into tech; music and DJing; and his many creative design projects.</b> <b><i>David</i></b> is a <b>creative technologist, DJ</b> and <b>audiophile,</b> versatile in soundsystem creation.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp2-dvd.wav",
     djLink: "https://www.instagram.com/david.chen02/",
     igLink: "https://www.instagram.com/p/DI_inZws2SI/?img_index=1",
@@ -186,6 +187,77 @@ export const djs = [
     "length": "7 minute read",
     "igLink": "https://www.instagram.com/anouk_maj/",
   }
+  // {
+  //   id: 3,
+  //   type: "mix",
+  //   src: rp3.p,
+  //   rpCount: "RP3 ♪ ",
+  //   "2ppSrc": rp3.pp,
+  //   ipSrc: rp3.ip,
+  //   title: 'Ghost in the Shell',
+  //   title2: "BEBELUNA",
+  //   url: "bebeluna",
+  //   title3: "Musician",
+  //   title4: "DJ",
+  //   description:
+  //     "<b><i>BEBELUNA</i></b>, also known as <b><i>XYRAK47</i></b>, speaks about <b>her experience as a refugee in London and her love for composition in film and media.</b> Oroko Radio Resident, <b>BEBELUNA</b> is a musician and DJ hailing from Somalia, now based in the UK.",
+  //   mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp3.wav",
+  //   djLink: "https://www.instagram.com/itsbebeluna/",
+  //   igLink: "https://www.instagram.com/p/DI_inZws2SI/?img_index=1",
+  //   scLink: "https://soundcloud.com/radio_project/rp3-bebeluna-gits",
+  //   npLink: "https://www.ninaprotocol.com/releases/rp3-bebeluna-gits",
+  //   broadcastDate: "2/7/25 15:00",
+  //   length: "1 Hour 26 Minutes",
+  //   genre: "DIASPORIC BASS",
+  //   chapters: [
+  //     { startTime: 0, title: "RADIO (a)" },
+  //     { startTime: 1837, title: "PROJECT" },
+  //     { startTime: 3334, title: "RADIO (b)" },
+  //   ],
+  //   tracklist: [
+  //     { startTime: "0", title: "RADIO (a)" },
+  //     { title: "Hasta Santiago A Pie (Congas Orientales)", artist: "Los Hermanos Bravo" },
+  //     { title: "Part Two (Release of the Moon)", artist: "Kit Gordon, Isaac Robertson" },
+  //     { title: "Kulu", artist: "N'Gou Bagayoko" },
+  //     { title: "Sunset Key Melt", artist: "Tim Hecker" },
+  //     { title: "Both Sides Now", artist: "Joni Mitchell" },
+  //     { title: "Su Pelo", artist: "Ray Heredia" },
+  //     { title: "TDAGB", artist: "Duval Timothy" },
+  //     { title: "Esperança", artist: "Munir Hossn, Ganavya" },
+      
+
+  //     { startTime: "1954", title: "PROJECT" },
+  //     { title: "Life as a Refugee", artist: "" },
+  //     { title: "Acoustic Tendencies", artist: "" },
+  //     { title: "Life w/ a Vespa", artist: "" },
+  //     { title: "Bebe's Experience Producing for Other Media Forms", artist: "" },
+  //     { title: "Favourite Film Comps!?", artist: "" },
+  //     { title: "The Cat Is In The Bag", artist: "" },
+
+  //     { startTime: "3276", title: "RADIO (b)" },
+  //     { title: "No Speaking (Breaka Remix)", artist: "Juice Menace" },
+  //     { title: "Burn", artist: "REA" },
+  //     { title: "Percussive Brain Cleanse", artist: "JOETI" },
+  //     { title: "Butterfly (Kimboclat & Swerv Jersey Edit)", artist: "Crazy Town" },
+  //     { title: "Night (Lucent Edit)", artist: "Benga & Coki" },
+  //     { title: "Check Up On It (Edit)", artist: "Lo5ive" },
+  //     {
+  //       title: "1 Sec (Ali McK & IYZ Hard Re-Drum)",
+  //       artist: "Novelist, Mumdance",
+  //     },
+  //     { title: "Lean Up", artist: "Sam Intereface" },
+  //     { title: "Conga Drive", artist: "Dilater" },
+  //     { title: "Changes (MOOD$ Flip)", artist: "MOOD$" },
+  //     { title: "Monica Belluci", artist: "Tom Manzarek" },
+  //     { title: "fatfast", artist: "sanmallxxs" },
+  //     { title: "Candy Drop", artist: "Disco Samir" },
+  //     { title: "Grace (A.Fruit Remix)", artist: "Anna Morgan" },
+  //     { title: "Juke It", artist: "Constantine, Sauadooble" },
+  //     { title: "C-Slug", artist: "Muskila, HEDO HYDR8" },
+  //     { title: "BANKHEAD (1-800-RAZ Remix)", artist: "KELELA" },
+  //   ],
+  // },
+  
 
 
   

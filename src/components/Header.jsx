@@ -5,58 +5,180 @@ import { Logo } from "./Logo";
 
 const StyledLink = styled(Link)`
   font-family: Helvetica;
-  font-size: 1.6vh;
+  font-size: 1.8vh;
   color: black;
   font-weight: ${(props) => (props.$isCurrentPath ? "1000" : "100")};
+  font-size: ${(props) => (props.$isMobile ? "2.3vh" : "1.8vh")};
   text-decoration: none;
   transition: opacity 0.3s ease-in-out;
-  padding-left: 2.5vw;
-  padding-right: 1.5vw;
-  text-align: center;
+  padding-bottom: 0.5vh;
+  text-align: ${(props) => (props.$isMobile ? "right" : "left")};
+  background-color: ${(props) => (props.$isMobile ? "#f7f7f72" : "")};
+  background-color: ${(props) => (props.$isMobile ? "#f7f7f72" : "#f7f7f7")};
+  padding-left: 0.5vw;
+  padding-right: 0.5vw;
   cursor: pointer;
 
   &:hover {
-    opacity: 0.7;
+    opacity: 0.3;
   }
 `;
 
-const NavItem = ({ text, to, external }) => {
+const NavItem = ({
+  text,
+  to,
+  external,
+  menuOpen,
+  onMouseEnter,
+  onClick,
+  isMobile,
+}) => {
   const { pathname } = useLocation();
   return (
     <StyledLink
       target={external ? "_blank" : ""}
       to={to}
       $isCurrentPath={pathname === to}
+      style={{
+        opacity: text === "+ Menu" ? 1 : menuOpen ? 1 : 0,
+        pointerEvents: text === "+ Menu" ? "Auto" : menuOpen ? "auto" : "none",
+      }}
+      onMouseEnter={onMouseEnter} // ← pass it here
+      $menuOpen={menuOpen}
+      onClick={onClick}
+      $isMobile={isMobile}
     >
       {text}
     </StyledLink>
   );
 };
 
-const Links = () => (
-  <>
-    <NavItem text="Archive" to="/" external={false} />
-    {/* <NavItem text="Chat" to="/chat" external={false} /> */}
-    <NavItem
-      text="Nina"
-      to="https://www.ninaprotocol.com/profiles/radio-project"
-      external
-    />
-    <NavItem
-      text="SoundCloud"
-      to="https://soundcloud.com/radio_project"
-      external
-    />
-    <NavItem
-      text="Instagram"
-      to="https://www.instagram.com/radio__project/"
-      external
-    />
-    <NavItem text="About" to="/about" external={false} />
-  </>
-);
+const Links = () => {
+  const [menuOpen, setMenuOpen] = useState(false);
 
-export const Header = ({ isMobile, isPlaying }) => {
+  return (
+    <div
+      style={{ display: "flex", flexDirection: "column" }}
+      onMouseLeave={() => {
+        setMenuOpen(false);
+      }}
+    >
+      <NavItem text="+ Archive" to="/" external={false} menuOpen={menuOpen} />
+      {/* <NavItem text="Chat" to="/chat" external={false} /> */}
+
+      <NavItem
+        text="+ Visitor Log"
+        to="/visitorcheck"
+        external={false}
+        menuOpen={menuOpen}
+      />
+      <NavItem
+        text="+ Nina"
+        to="https://www.ninaprotocol.com/profiles/radio-project"
+        external
+        menuOpen={menuOpen}
+      />
+      <NavItem
+        text="+ SoundCloud"
+        to="https://soundcloud.com/radio_project"
+        external
+        menuOpen={menuOpen}
+      />
+      <NavItem
+        text="+ Instagram"
+        to="https://www.instagram.com/radio__project/"
+        external
+        menuOpen={menuOpen}
+      />
+
+      <NavItem
+        text="+ Menu"
+        external={false}
+        menuOpen={menuOpen}
+        onMouseEnter={() => {
+          setMenuOpen(true);
+          console.log("Menu opened");
+        }}
+      />
+    </div>
+  );
+};
+
+const MobileLinks = ({ menuOpen, setMenuOpen, isMobile }) => {
+  return (
+    <div style={{ display: "flex", flexDirection: "column" }}>
+      <NavItem
+        text={`${menuOpen ? "- Menu" : "+ Menu"}`}
+        external={false}
+        menuOpen={menuOpen}
+        onClick={() => {
+          console.log("toggling menu");
+          setMenuOpen((prev) => !prev);
+        }}
+        isMobile={isMobile}
+      />
+      <NavItem
+        text="+ Archive"
+        to="/"
+        external={false}
+        menuOpen={menuOpen}
+        isMobile={isMobile}
+        onClick={() => {
+          console.log("toggling menu");
+          setMenuOpen((prev) => !prev);
+        }}
+      />
+      {/* <NavItem text="Chat" to="/chat" external={false} /> */}
+
+      <NavItem
+        text="+ Visitor Log"
+        to="/visitorcheck"
+        external={false}
+        menuOpen={menuOpen}
+        isMobile={isMobile}
+        onClick={() => {
+          console.log("toggling menu");
+          setMenuOpen((prev) => !prev);
+        }}
+      />
+      <NavItem
+        text="+ Nina"
+        to="https://www.ninaprotocol.com/profiles/radio-project"
+        external
+        menuOpen={menuOpen}
+        isMobile={isMobile}
+        onClick={() => {
+          console.log("toggling menu");
+          setMenuOpen((prev) => !prev);
+        }}
+      />
+      <NavItem
+        text="+ SoundCloud"
+        to="https://soundcloud.com/radio_project"
+        external
+        menuOpen={menuOpen}
+        isMobile={isMobile}
+        onClick={() => {
+          console.log("toggling menu");
+          setMenuOpen((prev) => !prev);
+        }}
+      />
+      <NavItem
+        text="+ Instagram"
+        to="https://www.instagram.com/radio__project/"
+        external
+        menuOpen={menuOpen}
+        isMobile={isMobile}
+        onClick={() => {
+          console.log("toggling menu");
+          setMenuOpen((prev) => !prev);
+        }}
+      />
+    </div>
+  );
+};
+
+export const Header = ({ isMobile, isPlaying, headerOpen }) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (isMobile) {
@@ -65,34 +187,25 @@ export const Header = ({ isMobile, isPlaying }) => {
         <Logo isMobile />
         <header className="header-container">
           <nav className="header-nav">
-            <>
-              <div className="menu-toggle-container">
-                <button
-                  className="menu-toggle"
-                  onClick={() => setMenuOpen(!menuOpen)}
-                  style={{
-                    transition: "margin-right 0.3s ease-in-out",
-                    marginRight: isPlaying ? "8vw" : "5vw",
-                  }}
-                >
-                  ☰
-                </button>
+            <div
+              className={`dropdown-menu slide-in`}
+              style={{
+                backgroundColor: !menuOpen ? "transparent" : "#f7f7f7f2",
+                transition: "all .3s ease-in-out",
+                pointerEvents: menuOpen ? "auto" : "none",
+              }}
+            >
+              <div
+                className="dropdown-content"
+                style={{ paddingTop: "3vh", marginRight: "4vw" }}
+              >
+                <MobileLinks
+                  menuOpen={menuOpen}
+                  setMenuOpen={setMenuOpen}
+                  isMobile={isMobile}
+                />
               </div>
-              {menuOpen && (
-                <div
-                  className={`dropdown-menu slide-in`}
-                  onClick={() => {
-                    setTimeout(() => {
-                      setMenuOpen(false);
-                    }, 50);
-                  }}
-                >
-                  <div className="dropdown-content">
-                    <Links />
-                  </div>
-                </div>
-              )}
-            </>
+            </div>
           </nav>
         </header>
       </>
@@ -102,8 +215,13 @@ export const Header = ({ isMobile, isPlaying }) => {
   return (
     <>
       <Logo isMobile={isMobile} />
-      <header className="header-container">
-        <nav className="header-nav">
+      <header
+        className="header-container"
+        style={{
+          transition: "transform 0.3s ease-in-out",
+        }}
+      >
+        <nav className="header-nav" style={{}}>
           <Links />
         </nav>
       </header>

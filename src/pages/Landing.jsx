@@ -1,8 +1,14 @@
 import React, { useCallback, useRef, useState, useEffect } from "react";
 import { djs as items } from "./items";
-import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
+import {
+  GridContainer,
+  PhotoContainer,
+  PhotoContainerAll,
+  CursorTitle,
+} from "../styles";
 import { CustomCursor } from "../components/CustomCursor";
 import { useNavigate } from "react-router-dom";
+import RPHead from "./rphead";
 
 export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
   const flexContainer = useRef(null);
@@ -10,7 +16,9 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
   const [hoveredGuest, setHoveredGuest] = useState();
   const [isLeft, setIsLeft] = useState(false);
   const [fadeOut, setFadeOut] = useState(false);
+  const [fadeIn, setFadeIn] = useState(false);
   const navigate = useNavigate();
+  const [visitorLog, setShowVisitorLog] = useState(false);
 
   // new
   const [showMixes, setShowMixes] = useState(true);
@@ -18,6 +26,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
   const itemRefs = useRef([]);
   const [hoveredIndex, setHoveredIndex] = useState(null);
   const [showFilters, setShowFilters] = useState(false);
+  const [showAll, setShowAll] = useState(false);
   const [thumbPosition, setThumbPosition] = useState(0);
 
   const filteredItems = items
@@ -148,14 +157,18 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
         />
       )}
       <div className="center-wrapper">
-        <div className={"total-container "}>
+        <div
+          className={`${showAll ? "total-container-all" : "total-container"} `}
+        >
           {isMobile ? (
             <>
               <div>
                 <div
                   ref={flexContainer}
                   className={`flex-container-mob
-                  } ${fadeOut ? "fadeOutGrid" : ""}`}
+                  } ${fadeOut ? "fadeOutGrid" : ""} ${
+                    fadeIn ? "fadeInGrid" : ""
+                  }`}
                 >
                   {[...filteredItems].map((guest, i) => {
                     const isLeft = i < filteredItems.length / 2;
@@ -216,7 +229,9 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                 </div>
               </div>
               <div
-                className={`cursor-mobile ${fadeOut ? "fadeOutGrid" : ""}`}
+                className={`cursor-mobile ${fadeOut ? "fadeOutGrid" : ""} ${
+                  fadeIn ? "fadeInGrid" : ""
+                }`}
                 style={{ left: 0, zIndex: 999 }}
                 onClick={() => {
                   if (hoveredGuest?.type === "mix") {
@@ -233,6 +248,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   $bgcolor={"rgb(247, 247, 247);"}
                   $delay={0.1}
                   fontSize="2.4vh"
+                  isMobile={isMobile}
                 >
                   {hoveredGuest?.rpCount}
                 </CursorTitle>
@@ -243,6 +259,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   color="white"
                   fontSize="2.4vh"
                   $delay={0.15}
+                  isMobile={isMobile}
                 >
                   <b>{hoveredGuest?.title}</b>
                 </CursorTitle>
@@ -254,6 +271,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   color="white"
                   fontSize="4.9vh"
                   $delay={0.15}
+                  isMobile={isMobile}
                 >
                   <b>{hoveredGuest?.title2}</b>
                 </CursorTitle>
@@ -265,6 +283,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   color="white"
                   fontSize="2.3vh"
                   $delay={0.15}
+                  isMobile={isMobile}
                 >
                   <b>{hoveredGuest?.title3}</b>
                 </CursorTitle>
@@ -276,99 +295,166 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
                   color="white"
                   fontSize="2vh"
                   $delay={0.15}
+                  isMobile={isMobile}
                 >
                   <b>{hoveredGuest?.broadcastDate}</b>
                 </CursorTitle>
               </div>
             </>
           ) : (
-            <div className="scroll-wrapper">
-              <div
-                ref={flexContainer}
-                className={`${"flex-container"} ${
-                  fadeOut ? "fadeOutGrid" : ""
-                }`}
-                style={{
-                  left: showFilters ? "20vw" : "0vw",
-                  width: showFilters ? "80vw" : "",
-                  transition: "all 0.75s ease-in-out",
-                  paddingLeft: "35vw",
-                  paddingRight: "35vw",
-                }}
-                onScroll={handleScroll}
-              >
-                {[...filteredItems].map((guest, i) => {
-                  return (
-                    <div>
-                      <GridContainer
-                        key={i}
-                        className="gc"
-                        $total={filteredItems.length}
-                        $selectedIndex={selectedIndex}
-                        $contents={i}
-                        $isLeft={false}
-                        $selected={selectedIndex === i}
-                        $hovered={hoveredIndex === i}
-                        onMouseEnter={() => setHoveredIndex(i)}
-                        onMouseLeave={() => setHoveredIndex(null)}
-                      >
+            <>
+              {!showAll ? (
+                <div
+                  style={{
+                    bottom: visitorLog ? "100vh" : "0vh",
+                    opacity: visitorLog ? "0" : "1",
+                    transition: "all 1s ease-in-out",
+                  }}
+                  className="scroll-wrapper"
+                >
+                  <div
+                    ref={flexContainer}
+                    className={`${"flex-container"} ${
+                      fadeOut ? "fadeOutGrid" : ""
+                    } ${fadeIn ? "fadeInGrid" : ""}`}
+                    style={{
+                      left: showFilters ? "20vw" : "0vw",
+                      width: showFilters ? "80vw" : "",
+                      transition: "all 0.75s ease-in-out",
+                      paddingLeft: "35vw",
+                      paddingRight: "35vw",
+                    }}
+                    onScroll={handleScroll}
+                  >
+                    {[...filteredItems].map((guest, i) => {
+                      return (
                         <div>
-                          <p
-                            className="nav-text-type"
-                            style={{
-                              width: "50vh",
-                              textAlign: "left",
-                              textTransform: "uppercase",
-                              fontSize: "1.4vh",
-                              fontWeight: "550",
-                            }}
-                          >
-                            {guest.type}
-                          </p>
-                          <PhotoContainer
-                            className="pc"
+                          <GridContainer
                             key={i}
-                            $contents={i}
-                            $selectedIndex={selectedIndex}
-                            $parentWidth={w}
+                            className="gc"
                             $total={filteredItems.length}
+                            $selectedIndex={selectedIndex}
+                            $contents={i}
                             $isLeft={false}
-                            $isMobile={isMobile}
-                            style={{
-                              transition: "filter 0.3s ease-in-out",
-                            }}
+                            $selected={selectedIndex === i}
+                            $hovered={hoveredIndex === i}
+                            onMouseEnter={() => setHoveredIndex(i)}
+                            onMouseLeave={() => setHoveredIndex(null)}
                           >
-                            <img
-                              src={guest.src}
-                              alt={guest.title}
-                              className={`image `}
-                              onMouseEnter={() => {
-                                setHoveredGuest(guest);
-                                setIsLeft(false);
-                              }}
-                              onMouseLeave={() => {
-                                setHoveredGuest(null);
-                              }}
-                              onClick={() => {
-                                if (guest.type === "mix") {
-                                  guestSelected(guest, i);
-                                }
-                                if (guest.type === "radiogram") {
-                                  articleSelected(guest, i);
-                                }
-                              }}
-                              style={{
-                                transition: "filter 0.3s ease-in-out",
-                              }}
-                            />
-                          </PhotoContainer>
+                            <div>
+                              <p
+                                className="nav-text-type"
+                                style={{
+                                  width: "50vh",
+                                  textAlign: "left",
+                                  textTransform: "uppercase",
+                                  fontSize: "1.4vh",
+                                  fontWeight: "550",
+                                }}
+                              >
+                                {guest.type}
+                              </p>
+                              <PhotoContainer
+                                className="pc"
+                                key={i}
+                                $contents={i}
+                                $selectedIndex={selectedIndex}
+                                $parentWidth={w}
+                                $total={filteredItems.length}
+                                $isLeft={false}
+                                $isMobile={isMobile}
+                                style={{
+                                  transition: "filter 0.3s ease-in-out",
+                                }}
+                              >
+                                <img
+                                  src={guest.src}
+                                  alt={guest.title}
+                                  className={`image `}
+                                  onMouseEnter={() => {
+                                    setHoveredGuest(guest);
+                                    setIsLeft(false);
+                                  }}
+                                  onMouseLeave={() => {
+                                    setHoveredGuest(null);
+                                  }}
+                                  onClick={() => {
+                                    if (guest.type === "mix") {
+                                      guestSelected(guest, i);
+                                    }
+                                    if (guest.type === "radiogram") {
+                                      articleSelected(guest, i);
+                                    }
+                                  }}
+                                  style={{
+                                    transition: "filter 0.3s ease-in-out",
+                                  }}
+                                />
+                              </PhotoContainer>
+                            </div>
+                          </GridContainer>
                         </div>
-                      </GridContainer>
-                    </div>
-                  );
-                })}
-              </div>
-            </div>
+                      );
+                    })}
+                  </div>
+                </div>
+              ) : (
+                <div
+                  ref={flexContainer}
+                  className={`${"flex-container-all"} ${
+                    fadeOut ? "fadeOutGrid" : ""
+                  } ${fadeIn ? "fadeInGrid" : ""}`}
+                  style={{
+                    left: showFilters ? "20vw" : "0vw",
+                    width: showFilters ? "80vw" : "",
+                    transition: "all 0.75s ease-in-out",
+                  }}
+                  onScroll={handleScroll}
+                >
+                  {[...filteredItems].map((guest, i) => {
+                    return (
+                      <PhotoContainerAll
+                        className="pc"
+                        key={i}
+                        $contents={i}
+                        $selectedIndex={selectedIndex}
+                        $parentWidth={w}
+                        $total={filteredItems.length}
+                        $isLeft={false}
+                        $isMobile={isMobile}
+                        style={{
+                          transition: "filter 0.3s ease-in-out",
+                        }}
+                      >
+                        <img
+                          src={guest.src}
+                          alt={guest.title}
+                          className={`image `}
+                          onMouseEnter={() => {
+                            setHoveredGuest(guest);
+                            setIsLeft(false);
+                          }}
+                          onMouseLeave={() => {
+                            setHoveredGuest(null);
+                          }}
+                          onClick={() => {
+                            if (guest.type === "mix") {
+                              guestSelected(guest, i);
+                            }
+                            if (guest.type === "radiogram") {
+                              articleSelected(guest, i);
+                            }
+                          }}
+                          style={{
+                            transition: "filter 0.3s ease-in-out",
+                          }}
+                        />
+                      </PhotoContainerAll>
+                    );
+                  })}
+                </div>
+              )}
+            </>
           )}
         </div>
       </div>

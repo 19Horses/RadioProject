@@ -105,23 +105,6 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             </div>
 
             <div
-              style={{
-                display: "flex",
-                alignItems: "stretch",
-                border: "1px solid black",
-                paddingLeft: ".8vh",
-                paddingRight: ".8vh",
-                fontSize: "1.2vh",
-                height: "100%",
-                margin: "auto",
-                marginRight: "0",
-              }}
-            >
-              <p>
-                <b>{selectedGuest.genre}</b>
-              </p>
-            </div>
-            <div
               className="socials"
               style={{
                 display: "flex",
@@ -140,16 +123,39 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
               </a>
             </div>
           </div>
-          <p
-            style={{
-              fontSize: "2.5vh",
-              fontWeight: "100",
-              paddingBottom: isMobile ? "10vh" : "",
-            }}
-            dangerouslySetInnerHTML={{
-              __html: selectedGuest.description,
-            }}
-          />
+          <div style={{ flexDirection: "row", display: "flex" }}>
+            <p
+              style={{
+                fontSize: "2.2vh",
+                fontWeight: "100",
+                width: "80%",
+                paddingBottom: isMobile ? "10vh" : "",
+                lineHeight: "2.7vh",
+                paddingRight: "1.5vw",
+              }}
+              dangerouslySetInnerHTML={{
+                __html: selectedGuest.description,
+              }}
+            />
+            <div
+              style={{
+                display: "flex",
+                alignItems: "stretch",
+                border: "1px solid black",
+                paddingLeft: ".8vh",
+                paddingRight: ".8vh",
+                fontSize: "1vh",
+                margin: "auto",
+                marginTop: "3vh",
+                marginRight: "0",
+                textAlign: "center",
+              }}
+            >
+              <p>
+                <b>{selectedGuest.genre}</b>
+              </p>
+            </div>
+          </div>
         </div>
       </div>
       {selectedGuest && !isMobile && (

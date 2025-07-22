@@ -1,17 +1,13 @@
 import React, { useRef, useEffect } from "react";
 import { CursorTitle } from "../styles";
 
-export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
-  const {
-    rpCount,
-    title,
-    title2,
-    title3,
-    title4,
-    title5,
-    title6,
-    broadcastDate,
-  } = hoveredGuest;
+export const CustomCursor = ({
+  hoveredGuest,
+  hoveredForm,
+  isLeft,
+  hovered,
+  isMobile,
+}) => {
   const cursor = useRef(null);
 
   useEffect(() => {
@@ -32,21 +28,46 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
     return () => document.removeEventListener("mousemove", moveCursor);
   }, [isLeft]);
 
+  const isGuest = !!hoveredGuest;
+  const data = isGuest ? hoveredGuest : hoveredForm || {};
+
+  const {
+    rpCount,
+    title,
+    title2,
+    title3,
+    broadcastDate,
+    username,
+    profession,
+    starsign,
+    answer,
+  } = data;
+
   return (
     <div
-      className={"cursor"}
+      className="cursor"
       ref={cursor}
       style={{ textAlign: isLeft ? "right" : "left" }}
     >
+      {/* Line 1 */}
       <CursorTitle
         className="cursor-title"
         $hovered={hovered}
-        $bgcolor={"rgb(247, 247, 247);"}
+        $bgcolor={"rgb(247, 247, 247)"}
         $delay={0.1}
         fontSize="1.9vh"
+        style={{
+          paddingRight: ".3vw",
+          paddingLeft: ".2vw",
+          textTransform: isGuest ? "" : "lowercase",
+        }}
+        $isMobile={isMobile}
       >
-        {rpCount}
+        {isGuest ? rpCount : username}
       </CursorTitle>
+      {!isGuest && <br />}
+
+      {/* Line 2 */}
       <CursorTitle
         className="cursor-title"
         $hovered={hovered}
@@ -54,43 +75,66 @@ export const CustomCursor = ({ hoveredGuest, isLeft, hovered }) => {
         color="white"
         fontSize="1.9vh"
         $delay={0.15}
+        style={{
+          textTransform: isGuest ? "" : "lowercase",
+          paddingLeft: isGuest ? "" : ".2vw",
+          paddingRight: isGuest ? "" : ".3vw",
+        }}
+        $isMobile={isMobile}
       >
-        <b>{title}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        $hovered={hovered}
-        $bgcolor="black"
-        color="white"
-        fontSize="2.6vh"
-        $delay={0.2}
-      >
-        <b>{title2}</b>
-      </CursorTitle>
-      <br />
-      <CursorTitle
-        className="cursor-title "
-        $hovered={hovered}
-        $bgcolor="black"
-        color="white"
-        fontSize="2vh"
-        $delay={0.2}
-      >
-        <b>{title3}</b>
+        <b>{isGuest ? title : profession}</b>
       </CursorTitle>
       <br />
 
-      <CursorTitle
-        className="cursor-title "
-        $hovered={hovered}
-        $bgcolor="black"
-        color="white"
-        fontSize="2vh"
-        $delay={0.2}
-      >
-        <b>{broadcastDate}</b>
-      </CursorTitle>
+      {/* Line 3 */}
+      {isGuest && (
+        <CursorTitle
+          className="cursor-title"
+          $hovered={hovered}
+          $bgcolor="black"
+          color="white"
+          fontSize="2.6vh"
+          $delay={0.2}
+          style={{ paddingBottom: ".3vh" }}
+          $isMobile={isMobile}
+        >
+          <b>{title2}</b>
+        </CursorTitle>
+      )}
+      <br />
+
+      {/* Line 4 */}
+      {isGuest && (
+        <CursorTitle
+          className="cursor-title"
+          $hovered={hovered}
+          $bgcolor="black"
+          color="white"
+          fontSize="2vh"
+          $delay={0.2}
+          $isMobile={isMobile}
+        >
+          <b>{title3}</b>
+        </CursorTitle>
+      )}
+
+      {/* Line 5 (only for guests) */}
+      {isGuest && (
+        <>
+          <br />
+          <CursorTitle
+            className="cursor-title"
+            $hovered={hovered}
+            $bgcolor="black"
+            color="white"
+            fontSize="2vh"
+            $delay={0.2}
+            $isMobile={isMobile}
+          >
+            <b>{broadcastDate}</b>
+          </CursorTitle>
+        </>
+      )}
     </div>
   );
 };
