@@ -18,7 +18,7 @@ export const djs = [
     title5: "exxtralife Founder",
     title6: "Developer ",
     description:
-      "<b><i>Ubi</i></b> sits and talks with us about his <b>inspirations, video game soundtracks and gives insight into his event organisation, EXXTRALIFE. </b><b><i>Ubi</i></b> is a <b>musician and DJ</b>, as well as a <b>web developer</b> with strong design sensibilities, hailing from Ireland, now based in North London.",
+      "<b><i>ubi</i></b> sits and talks with us about his <b>inspirations, video game soundtracks and gives insight into his event organisation, EXXTRALIFE. </b><b><i>Edwin</i></b> is a <b>musician and DJ</b>, as well as a <b>web developer</b> with strong design sensibilities, hailing from Ireland, now based in North London.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP1-ubi.wav",
     djLink: "https://www.instagram.com/ubiifuruuu/",
     igLink: "https://www.instagram.com/p/DIEUV-QMOVw/?img_index=1",
