@@ -804,33 +804,20 @@ export function RPGrid({ isPlaying, isMobile }) {
       {hoveredForm && !isMobile && (
         <CustomCursor hoveredForm={hoveredForm} hovered={!!hoveredForm} />
       )}
-      <div
-        style={{
-          width: "100vw",
-          height: "100vh",
-          position: "fixed",
-          pointerEvents: "none",
-        }}
-        onClick={() => {
-          if (clickedImage) {
-            setClickedImage(null);
-            setClickedFormData(null);
-            setHoveredForm(null);
-          }
-        }}
-      ></div>
+
       <div
         style={{
           display: "grid",
           gridTemplateColumns: isMobile
-            ? "repeat(auto-fill,minmax(100vw,1fr))"
+            ? "repeat(2,1fr)"
             : "repeat(auto-fill,minmax(260px,1fr))",
-          gap: ".1vw",
+          gap: "2vw",
           padding: "1vw",
           paddingTop: "11vh",
+
           filter: clickedImage ? "blur(5px)" : "none",
           transition: "filter 0.7s ease-out",
-          width: isPlaying != null ? "95%" : "",
+          width: isMobile ? (isPlaying ? "93%" : "") : isPlaying ? "95%" : "",
           pointerEvents: clickedImage ? "none" : "auto",
         }}
       >
@@ -863,8 +850,7 @@ export function RPGrid({ isPlaying, isMobile }) {
               key={baseName}
               style={{
                 paddingBottom: isPlaying ? " " : "1vh",
-                paddingLeft: isMobile ? (isPlaying ? "11vw" : "13vw") : "",
-                width: isMobile ? "70vw" : "",
+                width: isMobile ? "100%" : "",
               }}
             >
               {images
@@ -885,7 +871,7 @@ export function RPGrid({ isPlaying, isMobile }) {
                       alt={key}
                       className={`${isMobile ? "" : "hover-zoom"}`}
                       style={{
-                        width: isMobile ? "70vw" : 267,
+                        width: isMobile ? "100%" : 267,
                         height: "auto",
                         objectFit: "contain",
                         border: "1px solid #ccc",
