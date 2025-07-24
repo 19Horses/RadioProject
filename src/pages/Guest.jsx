@@ -24,9 +24,15 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             top: isMobile ? "7%" : "",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "row", width: "30vw" }}>
+          <div style={{ display: "flex", flexDirection: "row" }}>
             <div className="description-container">
-              <p className="description-header" style={{ fontSize: "3.7vh" }}>
+              <p
+                className="description-header"
+                style={{
+                  paddingLeft: isMobile ? "3vw" : "",
+                  fontSize: isMobile ? "3.5vh" : "3.7vh",
+                }}
+              >
                 <span
                   style={{
                     fontFamily: "Helvetica",
@@ -48,6 +54,10 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             </div>
             <div
               className="selectTrack"
+              style={{
+                paddingRight: isMobile ? "5vw" : "",
+                fontSize: isMobile ? "3.5vh" : "",
+              }}
               onClick={() => {
                 setPlayingGuest(selectedGuest);
               }}
