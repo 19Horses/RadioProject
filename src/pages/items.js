@@ -186,7 +186,7 @@ export const djs = [
     "releaseDate": "18/6/25",
     "length": "7 minute read",
     "igLink": "https://www.instagram.com/anouk_maj/",
-  }
+  },
   // {
   //   id: 3,
   //   type: "mix",

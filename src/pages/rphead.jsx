@@ -819,7 +819,7 @@ export function RPGrid({ isPlaying, isMobile }) {
 
           filter: clickedImage ? "blur(5px)" : "none",
           transition: "filter 0.7s ease-out",
-          width: isMobile ? (isPlaying ? "91%" : "") : isPlaying ? "95%" : "",
+          width: isMobile ? (isPlaying ? "91%" : "") : isPlaying ? "94%" : "",
           pointerEvents: clickedImage ? "none" : "auto",
         }}
       >
