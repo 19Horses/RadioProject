@@ -24,34 +24,36 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             top: isMobile ? "7%" : "",
           }}
         >
-          <div className="description-container">
-            <p className="description-header" style={{ fontSize: "3.7vh" }}>
-              <span
-                style={{
-                  fontFamily: "Helvetica",
-                  fontWeight: "100",
-                }}
-              >
-                {selectedGuest.rpCount}
-              </span>{" "}
-              <span
-                style={{
-                  backgroundColor: "black",
-                  color: "white",
-                  padding: "2px 5px",
-                }}
-              >
-                <b>{selectedGuest.title}</b>
-              </span>
-            </p>
-          </div>
-          <div
-            className="selectTrack"
-            onClick={() => {
-              setPlayingGuest(selectedGuest);
-            }}
-          >
-            PLAY
+          <div style={{ display: "flex", flexDirection: "row" }}>
+            <div className="description-container">
+              <p className="description-header" style={{ fontSize: "3.7vh" }}>
+                <span
+                  style={{
+                    fontFamily: "Helvetica",
+                    fontWeight: "100",
+                  }}
+                >
+                  {selectedGuest.rpCount}
+                </span>{" "}
+                <span
+                  style={{
+                    backgroundColor: "black",
+                    color: "white",
+                    padding: "2px 5px",
+                  }}
+                >
+                  <b>{selectedGuest.title}</b>
+                </span>
+              </p>
+            </div>
+            <div
+              className="selectTrack"
+              onClick={() => {
+                setPlayingGuest(selectedGuest);
+              }}
+            >
+              PLAY
+            </div>
           </div>
 
           <div className="artist-pics">
