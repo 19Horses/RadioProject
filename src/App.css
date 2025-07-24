@@ -1038,20 +1038,21 @@ font-weight: 300;
 
 }
 
-
-.camerafeed {
-  width: 50vw;
-  height: 100vh;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.p5Container{
+  width: 43vw;
+  aspect-ratio: 4 / 3;
+  display: inline-block;
+  overflow: hidden;
 }
+
+
+
 
 
 .buttons{
   position: fixed;
-  bottom: 17vh;
-  left: 5.5vh;
+  bottom: .8vh;
+  left: 0vh;
   width: 100vw;
   height: auto;
   display: flex;

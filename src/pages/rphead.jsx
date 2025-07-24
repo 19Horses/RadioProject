@@ -386,18 +386,27 @@ export default function RPHead() {
 
   return (
     <div className="rphead-container">
-      <div className="visitor-log-form">
+      <div
+        className="visitor-log-form"
+        style={{
+          display: "flex",
+          justifyContent: "center", // 👈 center horizontally
+          alignItems: "center", // 👈 optional: center vertically
+          height: "100vh", // 👈 optional: full-height vertical centering
+        }}
+      >
         <div
-          className="camerafeed"
           style={{
+            width: "43vw",
+            aspectRatio: "4 / 3", // ✅ auto-calculate height
             transform: snapped ? "translateX(-20vw)" : "translateX(0)",
             transitionDelay: snapped ? "0.5s" : "0s",
             transition: "all 1.3s ease-in-out",
           }}
         >
           <div ref={canvasContainerRef} className="p5Container">
-            <Sketch className="camerafeed" setup={setup} draw={draw} />
-            <div className="buttons" style={{ marginTop: "10px" }}>
+            <Sketch setup={setup} draw={draw} />
+            <div className="buttons">
               {!snapped && (
                 <button
                   onClick={handleSnap}
