@@ -1096,13 +1096,15 @@ export function RPGrid({ isPlaying, isMobile }) {
           ref={containerRef}
           style={{
             display: "flex",
+            flexDirection: "column",
             position: "fixed",
+            width: "80vw",
             top: "50%",
             left: isPlaying ? "47%" : "50%",
             transform: isPlaying
-              ? "translate(-50%, -50%) scale(0.36)"
-              : "translate(-50%, -50%) scale(0.35)",
-            gap: "2rem",
+              ? "translate(-50%, -50%) "
+              : "translate(-50%, -50%) ",
+            gap: "1rem",
             padding: "1rem",
             paddingBottom: "4vh",
             alignItems: "flex-start",
@@ -1113,8 +1115,13 @@ export function RPGrid({ isPlaying, isMobile }) {
             animation: "fadeIn 1s forwards",
           }}
         >
-          {/* Left: Dithered Image */}
-          <div style={{ flex: 1 }}>
+          <div
+            style={{
+              width: "100%",
+              height: "auto",
+              overflow: "hidden",
+            }}
+          >
             <DitheredImageCanvas
               imageUrl={clickedImage}
               width={640}
@@ -1122,7 +1129,6 @@ export function RPGrid({ isPlaying, isMobile }) {
             />
           </div>
 
-          {/* Right: Form Data */}
           <div>
             <div
               style={{
@@ -1133,7 +1139,7 @@ export function RPGrid({ isPlaying, isMobile }) {
                 fontSize: "14px",
                 maxHeight: 480,
                 overflow: "auto",
-                width: 300,
+                width: "19.5rem",
               }}
             >
               {clickedFormData ? (
@@ -1164,7 +1170,7 @@ export function RPGrid({ isPlaying, isMobile }) {
                       >
                         <div
                           style={{
-                            fontSize: "8vh",
+                            fontSize: "3vh",
                             fontWeight: "900",
                             textTransform: "uppercase",
                           }}
@@ -1173,13 +1179,23 @@ export function RPGrid({ isPlaying, isMobile }) {
                         </div>
                         <div
                           style={{
-                            fontSize: "2vh",
+                            fontSize: "1.7vh",
                             fontWeight: "900",
                             textTransform: "uppercase",
                           }}
                         >
                           {clickedFormData.profession}
                         </div>
+                      </div>
+                      <div>
+                        <img
+                          src={starSignIcons[clickedFormData.starsign]}
+                          width="50vh"
+                          height="50vh"
+                          style={{
+                            right: "0",
+                          }}
+                        />
                       </div>
                     </div>
                   </div>
@@ -1193,9 +1209,8 @@ export function RPGrid({ isPlaying, isMobile }) {
               style={{
                 paddingLeft: ".85vw",
                 paddingTop: "1vh",
-                paddingBottom: "0",
                 color: "gray",
-                fontSize: "3vh",
+                fontSize: "2vh",
                 fontFamily: "Helvetica",
                 fontStyle: "italic",
               }}
@@ -1208,7 +1223,7 @@ export function RPGrid({ isPlaying, isMobile }) {
                 paddingLeft: ".85vw",
                 paddingTop: "1vh",
                 fontFamily: "Helvetica",
-                fontSize: "4vh",
+                fontSize: "2vh",
               }}
             >
               {clickedFormData.answer}

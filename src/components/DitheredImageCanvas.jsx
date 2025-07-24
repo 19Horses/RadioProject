@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import Sketch from "react-p5";
 
 const bayerMatrix = [
@@ -8,7 +8,6 @@ const bayerMatrix = [
   [0, 8, 2, 10],
 ];
 
-// Easing function
 const easeOutCubic = (t) => 1 - Math.pow(1 - t, 3);
 
 function applyBayerDither(p5, img, scaleFactor) {
@@ -36,21 +35,36 @@ function applyBayerDither(p5, img, scaleFactor) {
   img.updatePixels();
 }
 
-export default function DitheredImageCanvas({
-  imageUrl,
-  width = 640,
-  height = 480,
-}) {
+export default function DitheredImageCanvas({ imageUrl }) {
   const [p5Image, setP5Image] = useState(null);
-  const currentScaleRef = useRef(15); // Start midpoint
+  const currentScaleRef = useRef(15);
   const animationStartTime = useRef(Date.now());
+  const containerRef = useRef(null);
+  const [dimensions, setDimensions] = useState({ width: 640, height: 480 });
+
+  // Observe container size
+  useEffect(() => {
+    const observer = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width } = entry.contentRect;
+        const height = width * (3 / 4); // 4:3 aspect ratio
+        setDimensions({ width, height });
+      }
+    });
+
+    if (containerRef.current) observer.observe(containerRef.current);
+
+    return () => observer.disconnect();
+  }, []);
 
   const setup = (p5, canvasParentRef) => {
-    p5.createCanvas(width, height).parent(canvasParentRef);
+    p5.createCanvas(dimensions.width, dimensions.height).parent(
+      canvasParentRef
+    );
     p5.background(0);
 
     p5.loadImage(imageUrl, (img) => {
-      img.resize(width, height);
+      img.resize(dimensions.width, dimensions.height);
       setP5Image(img);
     });
   };
@@ -58,6 +72,7 @@ export default function DitheredImageCanvas({
   const draw = (p5) => {
     if (!p5Image) return;
 
+    p5.resizeCanvas(dimensions.width, dimensions.height); // in case container resizes
     p5.background(0);
 
     const duration = 2000;
@@ -68,13 +83,11 @@ export default function DitheredImageCanvas({
     const minScale = 10;
     const maxScale = 15;
 
-    // Calculate mouseX relative to the window (as you had)
     const mouseX = p5.mouseX + p5.canvas.getBoundingClientRect().left;
     const clampedMouseX = Math.max(0, Math.min(mouseX, window.innerWidth));
     const targetScale =
       minScale + ((maxScale - minScale) * clampedMouseX) / window.innerWidth;
 
-    // Ease between current scale and target scale
     currentScaleRef.current += (targetScale - currentScaleRef.current) * 0.1;
 
     const imgCopy = p5Image.get();
@@ -82,5 +95,16 @@ export default function DitheredImageCanvas({
     p5.image(imgCopy, 0, 0, p5.width, p5.height);
   };
 
-  return <Sketch setup={setup} draw={draw} />;
+  return (
+    <div
+      ref={containerRef}
+      style={{
+        width: "100%",
+        aspectRatio: "4 / 3",
+        position: "relative",
+      }}
+    >
+      <Sketch setup={setup} draw={draw} />
+    </div>
+  );
 }
