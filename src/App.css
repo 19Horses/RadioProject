@@ -287,12 +287,16 @@ padding-left: 5vw;
 }
 
 .selectTrack {
-  font-size: 1.8vh;
-  margin-bottom: 1vh;
-
+  display: flex;
+  align-self: flex-end;
+  margin-left: auto;
+  font-size: 3.7vh;
+  font-weight: 1000;
   color: rgb(255, 0, 90); /* Optional: text color */
   transition: color 0.4s;
   cursor: pointer;
+    margin-bottom: 1vh;
+
 }
 
 .selectTrack:hover {

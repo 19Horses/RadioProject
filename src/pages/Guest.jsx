@@ -24,7 +24,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             top: isMobile ? "7%" : "",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div style={{ display: "flex", flexDirection: "row", width: "30vw" }}>
             <div className="description-container">
               <p className="description-header" style={{ fontSize: "3.7vh" }}>
                 <span
