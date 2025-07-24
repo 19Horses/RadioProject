@@ -4,6 +4,13 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "dot";
+  src: local("VCR"), url("./assets/dotmatrix.woff") format("opentype");
+  font-style: normal;
+}
+
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

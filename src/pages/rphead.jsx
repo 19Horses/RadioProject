@@ -951,12 +951,6 @@ export function RPGrid({ isPlaying, isMobile }) {
           {/* Left: Dithered Image */}
 
           <div style={{ flex: 1 }}>
-            <button
-              style={{ paddingBottom: "1vh" }}
-              onClick={() => setClickedImage(null)}
-            >
-              X Close
-            </button>
             <DitheredImageCanvas
               imageUrl={clickedImage}
               width={640}
@@ -1042,12 +1036,12 @@ export function RPGrid({ isPlaying, isMobile }) {
             </div>
             <div
               style={{
-                paddingLeft: "1vw",
+                paddingLeft: ".8vw",
                 paddingTop: "1vh",
                 paddingBottom: "0",
-                color: "black",
+                color: "gray",
                 fontSize: "1.3vh",
-                fontFamily: "Helvetica",
+                fontFamily: "dot",
               }}
             >
               {clickedFormData.timestamp
@@ -1070,10 +1064,10 @@ export function RPGrid({ isPlaying, isMobile }) {
                 paddingLeft: ".85vw",
                 paddingTop: "1vh",
                 paddingBottom: "0",
-                color: "gray",
-                fontSize: "1.5vh",
-                fontFamily: "Helvetica",
+                fontSize: "1.6vh",
+                fontFamily: "dot",
                 fontStyle: "italic",
+                color: "gray",
               }}
             >
               {clickedFormData.question ||
@@ -1083,10 +1077,11 @@ export function RPGrid({ isPlaying, isMobile }) {
               style={{
                 paddingLeft: ".85vw",
                 paddingTop: "1vh",
-                fontFamily: "Helvetica",
+                fontFamily: "dot",
+                fontSize: "1.6vh",
               }}
             >
-              {clickedFormData.answer}
+              {"“" + clickedFormData.answer + "”"}
             </div>
           </div>
         </div>
@@ -1211,7 +1206,7 @@ export function RPGrid({ isPlaying, isMobile }) {
                 paddingTop: "1vh",
                 color: "gray",
                 fontSize: "2vh",
-                fontFamily: "Helvetica",
+                fontFamily: "dot",
                 fontStyle: "italic",
               }}
             >
@@ -1222,11 +1217,11 @@ export function RPGrid({ isPlaying, isMobile }) {
               style={{
                 paddingLeft: ".85vw",
                 paddingTop: "1vh",
-                fontFamily: "Helvetica",
+                fontFamily: "dot",
                 fontSize: "2vh",
               }}
             >
-              {clickedFormData.answer}
+              {"“" + clickedFormData.answer + "”"}
             </div>
           </div>
         </div>
