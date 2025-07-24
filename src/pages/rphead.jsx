@@ -24,6 +24,16 @@ import { useNavigate } from "react-router-dom";
 export default function RPHead() {
   const [canvasSize, setCanvasSize] = useState({ width: 640, height: 480 });
 
+  const canvasContainerRef = useRef(null);
+
+  useEffect(() => {
+    const canvasEl = canvasContainerRef.current?.querySelector("canvas");
+    if (canvasEl) {
+      canvasEl.style.width = "43vw";
+      canvasEl.style.height = "32vw"; // 4:3 aspect ratio based on width
+    }
+  }, [canvasSize]);
+
   const starSignIcons = {
     Aries: AriesIcon,
     Taurus: TaurusIcon,
@@ -345,12 +355,12 @@ export default function RPHead() {
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth * 0.8; // Adjust scale as needed
-      const height = width * (3 / 4); // Maintain 4:3 aspect ratio
+      const width = window.innerWidth * 0.1; // 10vw
+      const height = (width * 3) / 4; // 4:3 aspect ratio
       setCanvasSize({ width, height });
     };
 
-    handleResize(); // Initial set
+    handleResize(); // Run on mount
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
   }, []);
@@ -385,35 +395,36 @@ export default function RPHead() {
             transition: "all 1.3s ease-in-out",
           }}
         >
-          <Sketch setup={setup} draw={draw} />
-
-          <div className="buttons" style={{ marginTop: "10px" }}>
-            {!snapped && (
-              <button
-                onClick={handleSnap}
-                style={{
-                  fontSize: "3vh",
-                  fontWeight: "900",
-                  backgroundColor: "black",
-                  color: "white",
-                }}
-              >
-                Shoot!
-              </button>
-            )}
-            {snapped && (
-              <button
-                onClick={handleReset}
-                style={{
-                  fontSize: "3vh",
-                  fontWeight: "900",
-                  backgroundColor: "black",
-                  color: "white",
-                }}
-              >
-                Retake
-              </button>
-            )}
+          <div ref={canvasContainerRef} className="p5Container">
+            <Sketch className="camerafeed" setup={setup} draw={draw} />
+            <div className="buttons" style={{ marginTop: "10px" }}>
+              {!snapped && (
+                <button
+                  onClick={handleSnap}
+                  style={{
+                    fontSize: "3vh",
+                    fontWeight: "900",
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                >
+                  Shoot!
+                </button>
+              )}
+              {snapped && (
+                <button
+                  onClick={handleReset}
+                  style={{
+                    fontSize: "3vh",
+                    fontWeight: "900",
+                    backgroundColor: "black",
+                    color: "white",
+                  }}
+                >
+                  Retake
+                </button>
+              )}
+            </div>
           </div>
         </div>
       </div>
