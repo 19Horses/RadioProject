@@ -29,8 +29,8 @@ export default function RPHead() {
   useEffect(() => {
     const canvasEl = canvasContainerRef.current?.querySelector("canvas");
     if (canvasEl) {
-      canvasEl.style.width = "43vw";
-      canvasEl.style.height = "32vw"; // 4:3 aspect ratio based on width
+      canvasEl.style.width = `${canvasSize.width}px`;
+      canvasEl.style.height = `${canvasSize.height}px`;
     }
   }, [canvasSize]);
 
@@ -355,7 +355,7 @@ export default function RPHead() {
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth * 0.1; // 10vw
+      const width = window.innerWidth * 0.43; // 10vw
       const height = (width * 3) / 4; // 4:3 aspect ratio
       setCanvasSize({ width, height });
     };
@@ -397,7 +397,7 @@ export default function RPHead() {
       >
         <div
           style={{
-            width: "43vw",
+            width: "min(90vw, 640px)", // Responsive up to 640px
             aspectRatio: "4 / 3", // ✅ auto-calculate height
             transform: snapped ? "translateX(-20vw)" : "translateX(0)",
             transitionDelay: snapped ? "0.5s" : "0s",
