@@ -26,14 +26,6 @@ export default function RPHead({ isMobile }) {
 
   const canvasContainerRef = useRef(null);
 
-  useEffect(() => {
-    const canvasEl = canvasContainerRef.current?.querySelector("canvas");
-    if (canvasEl) {
-      canvasEl.style.width = `${canvasSize.width}px`;
-      canvasEl.style.height = `${canvasSize.height}px`;
-    }
-  }, [canvasSize]);
-
   const starSignIcons = {
     Aries: AriesIcon,
     Taurus: TaurusIcon,
@@ -109,9 +101,8 @@ export default function RPHead({ isMobile }) {
   };
 
   const setup = (p5, canvasParentRef) => {
-    p5.createCanvas(canvasSize.width, canvasSize.height).parent(
-      canvasParentRef
-    );
+    const canvas = p5.createCanvas(canvasSize.width, canvasSize.height);
+    canvas.parent(canvasParentRef);
     p5.background(0);
 
     if (!videoRef.current) {
@@ -127,7 +118,6 @@ export default function RPHead({ isMobile }) {
           videoRef.current.hide();
         }
       );
-
       videoRef.current.size(canvasSize.width, canvasSize.height);
     }
   };
@@ -365,21 +355,34 @@ export default function RPHead({ isMobile }) {
   }, []);
 
   useEffect(() => {
-    const handleResize = () => {
-      const isMobile = window.innerWidth <= 768;
+    const container = canvasContainerRef.current;
 
-      const width = isMobile
-        ? window.innerWidth * 0.9
-        : window.innerWidth * 0.43;
-      const height = isMobile ? window.innerHeight * 0.5 : (width * 3) / 4;
+    if (!container) return;
 
-      setCanvasSize({ width, height });
+    const resizeObserver = new ResizeObserver((entries) => {
+      for (let entry of entries) {
+        const { width, height } = entry.contentRect;
+
+        // Ensure we use integer values for canvas pixels
+        setCanvasSize({
+          width: Math.floor(width),
+          height: Math.floor(height),
+        });
+      }
+    });
+
+    resizeObserver.observe(container);
+
+    return () => {
+      resizeObserver.disconnect();
     };
-
-    handleResize(); // Run on mount
-    window.addEventListener("resize", handleResize);
-    return () => window.removeEventListener("resize", handleResize);
   }, []);
+
+  useEffect(() => {
+    if (p5InstanceRef.current) {
+      p5InstanceRef.current.resizeCanvas(canvasSize.width, canvasSize.height);
+    }
+  }, [canvasSize]);
 
   useEffect(() => {
     let animationFrameId;
