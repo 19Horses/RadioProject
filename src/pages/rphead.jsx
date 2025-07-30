@@ -26,14 +26,6 @@ export default function RPHead({ isMobile }) {
 
   const canvasContainerRef = useRef(null);
 
-  useEffect(() => {
-    const canvasEl = canvasContainerRef.current?.querySelector("canvas");
-    if (canvasEl) {
-      canvasEl.style.width = `${canvasSize.width}px`;
-      canvasEl.style.height = `${canvasSize.height}px`;
-    }
-  }, [canvasSize]);
-
   const starSignIcons = {
     Aries: AriesIcon,
     Taurus: TaurusIcon,
@@ -109,9 +101,12 @@ export default function RPHead({ isMobile }) {
   };
 
   const setup = (p5, canvasParentRef) => {
-    p5.createCanvas(canvasSize.width, canvasSize.height).parent(
-      canvasParentRef
-    );
+    const w = canvasParentRef.offsetWidth;
+    const h = w * 0.75; // 4:3
+    p5.createCanvas(w, h).parent(canvasParentRef);
+    // p5.createCanvas(canvasSize.width, canvasSize.height).parent(
+    //   canvasParentRef
+    // );
     p5.background(0);
 
     if (!videoRef.current) {
@@ -459,7 +454,19 @@ export default function RPHead({ isMobile }) {
           }}
         >
           <div ref={canvasContainerRef} className="p5Container">
-            <Sketch setup={setup} draw={draw} />
+            <div
+              style={{
+                width: "min(90vw, 640px)",
+                aspectRatio: "4 / 3",
+                display: "flex",
+                justifyContent: "center",
+                alignItems: "center",
+              }}
+            >
+              <div ref={canvasContainerRef} className="p5Container">
+                <Sketch setup={setup} draw={draw} />
+              </div>
+            </div>
             <div className="buttons">
               {!snapped && (
                 <button

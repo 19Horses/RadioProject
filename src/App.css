@@ -1127,6 +1127,7 @@ button{
 
 @media (max-width: 768px) {
   .p5Container {
+    position: relative;
     width: 90vw;
     aspect-ratio: 4 / 3;
   }
