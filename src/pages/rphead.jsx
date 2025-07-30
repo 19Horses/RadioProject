@@ -128,7 +128,14 @@ export default function RPHead({ isMobile }) {
         }
       );
 
-      videoRef.current.size(canvasSize.width, canvasSize.height);
+      // ✅ Wait for real dimensions before setting size
+      videoRef.current.elt.addEventListener("loadedmetadata", () => {
+        const vw = videoRef.current.elt.videoWidth;
+        const vh = videoRef.current.elt.videoHeight;
+
+        // Set the p5 video size to its real aspect ratio
+        videoRef.current.size(vw, vh);
+      });
     }
   };
 
@@ -189,7 +196,6 @@ export default function RPHead({ isMobile }) {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
       drawVideoCropped(p5, frame);
-      p5.image(frame, 0, 0, p5.width, p5.height);
     }
   };
 
