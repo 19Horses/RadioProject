@@ -569,6 +569,8 @@ table {
 }
 
 .rphead-container {
+  top: 0;
+  left: 0;
   position: fixed;
   user-select: none;
 }
@@ -1060,6 +1062,8 @@ font-weight: 300;
 
 
 
+
+
 .buttons{
   position: fixed;
   bottom: .8vh;
@@ -1078,7 +1082,6 @@ font-weight: 300;
   height: auto;
   width: 100vw;
   box-sizing: border-box;
-  gap: 2rem;
 }
 
 
@@ -1120,4 +1123,28 @@ button{
   background-color: transparent;
   border: none;
   cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .p5Container {
+    width: 90vw;
+    aspect-ratio: 4 / 3;
+  }
+
+
+
+  .visitor-log-textform {
+  display: flex;
+position: fixed;
+  top: 50vh;
+  left: 7vw;
+  flex-direction: row;
+  height: auto;
+  width: 100vw;
+  box-sizing: border-box;
+  gap: 2rem;
+  z-index: 9999;
+}
+
+
 }

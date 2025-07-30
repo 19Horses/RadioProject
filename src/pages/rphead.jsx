@@ -21,7 +21,7 @@ import DitheredImageCanvas from "../components/DitheredImageCanvas"; // import y
 
 import { useNavigate } from "react-router-dom";
 
-export default function RPHead() {
+export default function RPHead({ isMobile }) {
   const [canvasSize, setCanvasSize] = useState({ width: 640, height: 480 });
 
   const canvasContainerRef = useRef(null);
@@ -115,9 +115,19 @@ export default function RPHead() {
     p5.background(0);
 
     if (!videoRef.current) {
-      videoRef.current = p5.createCapture(p5.VIDEO, () => {
-        videoRef.current.hide();
-      });
+      videoRef.current = p5.createCapture(
+        {
+          video: {
+            facingMode: "user",
+            width: { ideal: canvasSize.width },
+            height: { ideal: canvasSize.height },
+          },
+        },
+        () => {
+          videoRef.current.hide();
+        }
+      );
+
       videoRef.current.size(canvasSize.width, canvasSize.height);
     }
   };
@@ -355,8 +365,13 @@ export default function RPHead() {
 
   useEffect(() => {
     const handleResize = () => {
-      const width = window.innerWidth * 0.43; // 10vw
-      const height = (width * 3) / 4; // 4:3 aspect ratio
+      const isMobile = window.innerWidth <= 768;
+
+      const width = isMobile
+        ? window.innerWidth * 0.9
+        : window.innerWidth * 0.43;
+      const height = isMobile ? window.innerHeight * 0.5 : (width * 3) / 4;
+
       setCanvasSize({ width, height });
     };
 
@@ -399,9 +414,18 @@ export default function RPHead() {
           style={{
             width: "min(90vw, 640px)", // Responsive up to 640px
             aspectRatio: "4 / 3", // ✅ auto-calculate height
-            transform: snapped ? "translateX(-20vw)" : "translateX(0)",
+            transform: isMobile
+              ? snapped
+                ? "translateY(-22vh)"
+                : "translateY(0)"
+              : snapped
+              ? "translateX(-20vw)"
+              : "translateX(0)",
             transitionDelay: snapped ? "0.5s" : "0s",
             transition: "all 1.3s ease-in-out",
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
           }}
         >
           <div ref={canvasContainerRef} className="p5Container">
@@ -440,7 +464,6 @@ export default function RPHead() {
       {snapped && (
         <div className="visitor-log-textform">
           <form
-            ons
             onSubmit={handleSubmit}
             autoComplete="off"
             style={{ display: "flex", flexDirection: "column" }}

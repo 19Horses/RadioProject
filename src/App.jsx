@@ -77,7 +77,7 @@ function App() {
           path="/rg/:articleName"
           element={<Article isMobile={isMobile} isPlaying={playingGuest} />}
         />
-        <Route path="/visitorlog" element={<RPHead />} />
+        <Route path="/visitorlog" element={<RPHead isMobile={isMobile} />} />
         <Route
           path="/visitorcheck"
           element={<RPGrid isPlaying={playingGuest} isMobile={isMobile} />}
