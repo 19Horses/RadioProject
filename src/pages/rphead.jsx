@@ -379,12 +379,6 @@ export default function RPHead({ isMobile }) {
   }, []);
 
   useEffect(() => {
-    if (p5InstanceRef.current) {
-      p5InstanceRef.current.resizeCanvas(canvasSize.width, canvasSize.height);
-    }
-  }, [canvasSize]);
-
-  useEffect(() => {
     let animationFrameId;
 
     const smoothMouseX = () => {
