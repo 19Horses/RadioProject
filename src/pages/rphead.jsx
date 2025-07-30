@@ -139,6 +139,29 @@ export default function RPHead({ isMobile }) {
 
     let scaleFactor = 13;
 
+    const drawVideoCropped = (p5, src) => {
+      const vidAspect = src.width / src.height;
+      const canvasAspect = p5.width / p5.height;
+
+      let sx, sy, sw, sh;
+
+      if (vidAspect > canvasAspect) {
+        // Video is wider than canvas: crop sides
+        sh = src.height;
+        sw = sh * canvasAspect;
+        sx = (src.width - sw) / 2;
+        sy = 0;
+      } else {
+        // Video is taller than canvas: crop top/bottom
+        sw = src.width;
+        sh = sw / canvasAspect;
+        sx = 0;
+        sy = (src.height - sh) / 2;
+      }
+
+      p5.image(src, 0, 0, p5.width, p5.height, sx, sy, sw, sh);
+    };
+
     if (snapped) {
       const duration = 2000;
       const now = Date.now();
@@ -148,6 +171,7 @@ export default function RPHead({ isMobile }) {
 
       const minScale = 8;
       const maxScale = 15;
+
       const clampedMouseX = Math.max(
         0,
         Math.min(smoothedMouseX, window.innerWidth)
@@ -160,11 +184,11 @@ export default function RPHead({ isMobile }) {
       if (snapshotRef.current) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
-        p5.image(img, 0, 0, p5.width, p5.height);
       }
     } else {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
+      drawVideoCropped(p5, frame);
       p5.image(frame, 0, 0, p5.width, p5.height);
     }
   };
