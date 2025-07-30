@@ -291,9 +291,20 @@ export default function RPHead({ isMobile }) {
 
     // Create offscreen canvas for the undithered image
     const unditheredCanvas = document.createElement("canvas");
-    unditheredCanvas.width = snapshotRef.current.width;
-    unditheredCanvas.height = snapshotRef.current.height;
+    unditheredCanvas.width = canvasSize.width;
+    unditheredCanvas.height = canvasSize.height;
+
     const ctx = unditheredCanvas.getContext("2d");
+
+    // Draw the snapshot image onto the unditheredCanvas
+    ctx.drawImage(
+      snapshotRef.current.canvas,
+      0,
+      0,
+      canvasSize.width,
+      canvasSize.height
+    );
+
     console.log(ditheredBlob); // Should show Blob with type "image/png"
 
     if (snapshotRef.current.canvas) {
