@@ -26,6 +26,14 @@ export default function RPHead({ isMobile }) {
 
   const canvasContainerRef = useRef(null);
 
+  useEffect(() => {
+    const canvasEl = canvasContainerRef.current?.querySelector("canvas");
+    if (canvasEl) {
+      canvasEl.style.width = `${canvasSize.width}px`;
+      canvasEl.style.height = `${canvasSize.height}px`;
+    }
+  }, [canvasSize]);
+
   const starSignIcons = {
     Aries: AriesIcon,
     Taurus: TaurusIcon,
@@ -101,12 +109,9 @@ export default function RPHead({ isMobile }) {
   };
 
   const setup = (p5, canvasParentRef) => {
-    const w = canvasParentRef.offsetWidth;
-    const h = w * 0.75; // 4:3
-    p5.createCanvas(w, h).parent(canvasParentRef);
-    // p5.createCanvas(canvasSize.width, canvasSize.height).parent(
-    //   canvasParentRef
-    // );
+    p5.createCanvas(canvasSize.width, canvasSize.height).parent(
+      canvasParentRef
+    );
     p5.background(0);
 
     if (!videoRef.current) {
@@ -123,14 +128,7 @@ export default function RPHead({ isMobile }) {
         }
       );
 
-      // ✅ Wait for real dimensions before setting size
-      videoRef.current.elt.addEventListener("loadedmetadata", () => {
-        const vw = videoRef.current.elt.videoWidth;
-        const vh = videoRef.current.elt.videoHeight;
-
-        // Set the p5 video size to its real aspect ratio
-        videoRef.current.size(vw, vh);
-      });
+      videoRef.current.size(canvasSize.width, canvasSize.height);
     }
   };
 
@@ -141,29 +139,6 @@ export default function RPHead({ isMobile }) {
 
     let scaleFactor = 13;
 
-    const drawVideoCropped = (p5, src) => {
-      const vidAspect = src.width / src.height;
-      const canvasAspect = p5.width / p5.height;
-
-      let sx, sy, sw, sh;
-
-      if (vidAspect > canvasAspect) {
-        // Video is wider than canvas: crop sides
-        sh = src.height;
-        sw = sh * canvasAspect;
-        sx = (src.width - sw) / 2;
-        sy = 0;
-      } else {
-        // Video is taller than canvas: crop top/bottom
-        sw = src.width;
-        sh = sw / canvasAspect;
-        sx = 0;
-        sy = (src.height - sh) / 2;
-      }
-
-      p5.image(src, 0, 0, p5.width, p5.height, sx, sy, sw, sh);
-    };
-
     if (snapped) {
       const duration = 2000;
       const now = Date.now();
@@ -173,7 +148,6 @@ export default function RPHead({ isMobile }) {
 
       const minScale = 8;
       const maxScale = 15;
-
       const clampedMouseX = Math.max(
         0,
         Math.min(smoothedMouseX, window.innerWidth)
@@ -186,11 +160,13 @@ export default function RPHead({ isMobile }) {
       if (snapshotRef.current) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
+
+        p5.image(img, 0, 0, p5.width, p5.height);
       }
     } else {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
-      drawVideoCropped(p5, frame);
+      p5.image(frame, 0, 0, p5.width, p5.height);
     }
   };
 
@@ -454,19 +430,7 @@ export default function RPHead({ isMobile }) {
           }}
         >
           <div ref={canvasContainerRef} className="p5Container">
-            <div
-              style={{
-                width: "min(90vw, 640px)",
-                aspectRatio: "4 / 3",
-                display: "flex",
-                justifyContent: "center",
-                alignItems: "center",
-              }}
-            >
-              <div ref={canvasContainerRef} className="p5Container">
-                <Sketch setup={setup} draw={draw} />
-              </div>
-            </div>
+            <Sketch setup={setup} draw={draw} />
             <div className="buttons">
               {!snapped && (
                 <button
