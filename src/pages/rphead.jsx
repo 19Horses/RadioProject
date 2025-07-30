@@ -995,6 +995,7 @@ export function RPGrid({ isPlaying, isMobile }) {
 
           <div style={{ flex: 1 }}>
             <DitheredImageCanvas
+              isMobile={isMobile}
               imageUrl={clickedImage}
               width={640}
               height={480}
@@ -1161,6 +1162,7 @@ export function RPGrid({ isPlaying, isMobile }) {
             }}
           >
             <DitheredImageCanvas
+              isMobile={isMobile}
               imageUrl={clickedImage}
               width={640}
               height={480}

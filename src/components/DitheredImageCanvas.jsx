@@ -35,7 +35,7 @@ function applyBayerDither(p5, img, scaleFactor) {
   img.updatePixels();
 }
 
-export default function DitheredImageCanvas({ imageUrl }) {
+export default function DitheredImageCanvas({ imageUrl, isMobile }) {
   const [p5Image, setP5Image] = useState(null);
   const currentScaleRef = useRef(15);
   const animationStartTime = useRef(Date.now());
@@ -99,7 +99,7 @@ export default function DitheredImageCanvas({ imageUrl }) {
     <div
       ref={containerRef}
       style={{
-        width: "100%",
+        width: isMobile ? "100%" : "50vw",
         aspectRatio: "4 / 3",
         position: "relative",
       }}
