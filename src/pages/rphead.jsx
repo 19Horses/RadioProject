@@ -297,8 +297,36 @@ export default function RPHead({ isMobile }) {
     const ctx = unditheredCanvas.getContext("2d");
 
     // Draw the snapshot image onto the unditheredCanvas
+    // Original snapshot size
+    const originalCanvas = snapshotRef.current.canvas;
+    const originalWidth = originalCanvas.width;
+    const originalHeight = originalCanvas.height;
+
+    // Target aspect ratio: 4:3
+    const targetAspect = 4 / 3;
+    let cropWidth = originalWidth;
+    let cropHeight = cropWidth / targetAspect;
+
+    if (cropHeight > originalHeight) {
+      cropHeight = originalHeight;
+      cropWidth = cropHeight * targetAspect;
+    }
+
+    // Calculate center crop origin
+    const offsetX = (originalWidth - cropWidth) / 2;
+    const offsetY = (originalHeight - cropHeight) / 2;
+
+    // Set final cropped dimensions
+    unditheredCanvas.width = canvasSize.width;
+    unditheredCanvas.height = canvasSize.height;
+
+    // Draw cropped section to new canvas
     ctx.drawImage(
-      snapshotRef.current.canvas,
+      originalCanvas,
+      offsetX,
+      offsetY,
+      cropWidth,
+      cropHeight,
       0,
       0,
       canvasSize.width,
