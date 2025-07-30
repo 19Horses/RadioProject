@@ -101,6 +101,8 @@ export default function RPHead({ isMobile }) {
   };
 
   const setup = (p5, canvasParentRef) => {
+    window.p5Instance = p5; // 👈 expose globally for snapshot access
+
     const canvas = p5.createCanvas(canvasSize.width, canvasSize.height);
     canvas.parent(canvasParentRef);
     p5.background(0);
@@ -129,6 +131,15 @@ export default function RPHead({ isMobile }) {
 
     let scaleFactor = 13;
 
+    // Save the current transform
+    p5.push();
+
+    // Flip horizontally on mobile
+    if (isMobile) {
+      p5.translate(p5.width, 0);
+      p5.scale(-1, 1);
+    }
+
     if (snapped) {
       const duration = 2000;
       const now = Date.now();
@@ -150,7 +161,6 @@ export default function RPHead({ isMobile }) {
       if (snapshotRef.current) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
-
         p5.image(img, 0, 0, p5.width, p5.height);
       }
     } else {
@@ -158,14 +168,50 @@ export default function RPHead({ isMobile }) {
       applyBayerDither(p5, frame, scaleFactor);
       p5.image(frame, 0, 0, p5.width, p5.height);
     }
+
+    // Restore transform
+    p5.pop();
   };
 
   const handleSnap = () => {
-    if (videoRef.current) {
-      snapshotRef.current = videoRef.current.get();
-      animationStartTime.current = Date.now();
-      setSnapped(true);
+    if (!videoRef.current || !canvasSize.width || !canvasSize.height) return;
+
+    const p5 = window.p5Instance; // We'll set this in setup below
+
+    // Create offscreen graphics
+    const flippedBuffer = p5.createGraphics(
+      canvasSize.width,
+      canvasSize.height
+    );
+
+    if (isMobile) {
+      // Mirror horizontally
+      flippedBuffer.push();
+      flippedBuffer.translate(flippedBuffer.width, 0);
+      flippedBuffer.scale(-1, 1);
+      flippedBuffer.image(
+        videoRef.current,
+        0,
+        0,
+        flippedBuffer.width,
+        flippedBuffer.height
+      );
+      flippedBuffer.pop();
+    } else {
+      flippedBuffer.image(
+        videoRef.current,
+        0,
+        0,
+        flippedBuffer.width,
+        flippedBuffer.height
+      );
     }
+
+    // Store the flipped image
+    snapshotRef.current = flippedBuffer.get();
+
+    animationStartTime.current = Date.now();
+    setSnapped(true);
   };
 
   const handleReset = () => {
