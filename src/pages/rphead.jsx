@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 export default function RPHead({ isMobile }) {
   const [canvasSize, setCanvasSize] = useState({
     width: isMobile ? 480 : 640,
-    height: isMobile ? 640 : 480, // Will be corrected by resize observer to proper aspect ratios
+    height: isMobile ? 640 : 480, // Will be set to actual camera dimensions
   });
 
   const canvasContainerRef = useRef(null);
@@ -119,6 +119,17 @@ export default function RPHead({ isMobile }) {
         },
         () => {
           videoRef.current.hide();
+          // Update canvas size to match actual video dimensions
+          const actualWidth = videoRef.current.width;
+          const actualHeight = videoRef.current.height;
+          if (actualWidth && actualHeight) {
+            setCanvasSize({
+              width: actualWidth,
+              height: actualHeight,
+            });
+            // Resize canvas to match video dimensions
+            p5.resizeCanvas(actualWidth, actualHeight);
+          }
         }
       );
       videoRef.current.size(canvasSize.width, canvasSize.height);
@@ -374,15 +385,19 @@ export default function RPHead({ isMobile }) {
 
         const isMobile = window.innerWidth <= 768;
 
-        const calculatedWidth = Math.floor(width);
-        const calculatedHeight = isMobile
-          ? Math.floor((calculatedWidth * 4) / 3) // ✅ 3:4 portrait on mobile (taller)
-          : Math.floor((calculatedWidth * 3) / 4); // ✅ 4:3 landscape on desktop (wider)
+        // Only update canvas size if video hasn't been initialized yet
+        // Once video is initialized, it will set its own dimensions
+        if (!videoRef.current || !videoRef.current.width) {
+          const calculatedWidth = Math.floor(width);
+          const calculatedHeight = isMobile
+            ? Math.floor((calculatedWidth * 4) / 3) // ✅ 3:4 portrait on mobile (taller)
+            : Math.floor((calculatedWidth * 3) / 4); // ✅ 4:3 landscape on desktop (wider)
 
-        setCanvasSize({
-          width: calculatedWidth,
-          height: calculatedHeight,
-        });
+          setCanvasSize({
+            width: calculatedWidth,
+            height: calculatedHeight,
+          });
+        }
       }
     });
 
@@ -426,7 +441,8 @@ export default function RPHead({ isMobile }) {
         <div
           style={{
             width: "min(90vw, 640px)", // Responsive up to 640px
-            aspectRatio: isMobile ? "3 / 4" : "4 / 3", // ✅ 3:4 portrait on mobile, 4:3 landscape on desktop
+            // Let the canvas determine its own aspect ratio based on device camera
+            aspectRatio: "auto",
             transform: isMobile
               ? snapped
                 ? "translateY(-22vh)"
@@ -441,7 +457,15 @@ export default function RPHead({ isMobile }) {
             alignItems: "center",
           }}
         >
-          <div ref={canvasContainerRef} className="p5Container">
+          <div
+            ref={canvasContainerRef}
+            className="p5Container"
+            style={{
+              width: "100%",
+              height: "auto",
+              aspectRatio: `${canvasSize.width} / ${canvasSize.height}`,
+            }}
+          >
             <Sketch setup={setup} draw={draw} />
             <div className="buttons">
               {!snapped && (
