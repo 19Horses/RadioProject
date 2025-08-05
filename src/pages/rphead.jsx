@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 export default function RPHead({ isMobile }) {
   const [canvasSize, setCanvasSize] = useState({
     width: isMobile ? 480 : 640,
-    height: isMobile ? 640 : 480, // Will be set to actual camera dimensions
+    height: isMobile ? 640 : 480,
   });
 
   const canvasContainerRef = useRef(null);
@@ -113,27 +113,15 @@ export default function RPHead({ isMobile }) {
         {
           video: {
             facingMode: "user",
-            // Let the device choose its native resolution
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
+            width: { ideal: canvasSize.width },
+            height: { ideal: canvasSize.height },
           },
         },
         () => {
           videoRef.current.hide();
-          // Update canvas size to match actual video dimensions
-          const actualWidth = videoRef.current.width;
-          const actualHeight = videoRef.current.height;
-          if (actualWidth && actualHeight) {
-            setCanvasSize({
-              width: actualWidth,
-              height: actualHeight,
-            });
-            // Resize canvas to match video dimensions
-            p5.resizeCanvas(actualWidth, actualHeight);
-          }
         }
       );
-      // Don't force resize the video - let it use native dimensions
+      videoRef.current.size(canvasSize.width, canvasSize.height);
     }
   };
 
@@ -188,9 +176,7 @@ export default function RPHead({ isMobile }) {
 
   const handleSnap = () => {
     if (videoRef.current) {
-      // Capture the video frame at the current canvas dimensions
-      const videoFrame = videoRef.current.get();
-      snapshotRef.current = videoFrame;
+      snapshotRef.current = videoRef.current.get();
       animationStartTime.current = Date.now();
       setSnapped(true);
     }
@@ -308,15 +294,14 @@ export default function RPHead({ isMobile }) {
     const ditheredBlob = await canvasToBlob(p5canvas);
 
     // Create an offscreen canvas for the undithered image
-    const snapshot = snapshotRef.current;
-    if (!snapshot) {
+    const originalCanvas = snapshotRef.current?.canvas;
+    if (!originalCanvas) {
       alert("No valid image data found in snapshotRef");
       return;
     }
 
-    // Get the actual dimensions from the snapshot
-    const originalWidth = snapshot.width;
-    const originalHeight = snapshot.height;
+    const originalWidth = originalCanvas.width;
+    const originalHeight = originalCanvas.height;
 
     const unditheredCanvas = document.createElement("canvas");
     unditheredCanvas.width = originalWidth;
@@ -324,8 +309,8 @@ export default function RPHead({ isMobile }) {
 
     const ctx = unditheredCanvas.getContext("2d");
 
-    // Draw the snapshot image at its original dimensions
-    ctx.drawImage(snapshot, 0, 0);
+    // Draw the full image (no cropping or aspect ratio adjustments)
+    ctx.drawImage(originalCanvas, 0, 0);
 
     const unditheredBlob = await canvasToBlob(unditheredCanvas);
 
@@ -387,18 +372,17 @@ export default function RPHead({ isMobile }) {
       for (let entry of entries) {
         const { width } = entry.contentRect;
 
-        // Only set initial canvas size if video hasn't been initialized yet
-        // Once video is initialized, it will set its own dimensions based on device camera
-        if (!videoRef.current || !videoRef.current.width) {
-          const calculatedWidth = Math.floor(width);
-          // Use a reasonable default aspect ratio until video loads
-          const calculatedHeight = Math.floor((calculatedWidth * 3) / 4);
+        const isMobile = window.innerWidth <= 768;
 
-          setCanvasSize({
-            width: calculatedWidth,
-            height: calculatedHeight,
-          });
-        }
+        const calculatedWidth = Math.floor(width);
+        const calculatedHeight = isMobile
+          ? Math.floor((calculatedWidth * 4) / 3) // ✅ 3:4 portrait on mobile
+          : Math.floor((calculatedWidth * 3) / 4); // ✅ 4:3 landscape on desktop
+
+        setCanvasSize({
+          width: calculatedWidth,
+          height: calculatedHeight,
+        });
       }
     });
 
@@ -442,8 +426,7 @@ export default function RPHead({ isMobile }) {
         <div
           style={{
             width: "min(90vw, 640px)", // Responsive up to 640px
-            // Let the canvas determine its own aspect ratio based on device camera
-            aspectRatio: "auto",
+            aspectRatio: "4 / 3", // ✅ auto-calculate height
             transform: isMobile
               ? snapped
                 ? "translateY(-22vh)"
@@ -458,19 +441,7 @@ export default function RPHead({ isMobile }) {
             alignItems: "center",
           }}
         >
-          <div
-            ref={canvasContainerRef}
-            className="p5Container"
-            style={{
-              width: "100%",
-              height: "auto",
-              // Use dynamic aspect ratio based on actual canvas dimensions
-              aspectRatio:
-                canvasSize.width && canvasSize.height
-                  ? `${canvasSize.width} / ${canvasSize.height}`
-                  : "4 / 3",
-            }}
-          >
+          <div ref={canvasContainerRef} className="p5Container">
             <Sketch setup={setup} draw={draw} />
             <div className="buttons">
               {!snapped && (
