@@ -162,12 +162,16 @@ export default function RPHead({ isMobile }) {
       if (snapshotRef.current) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
-        p5.image(img, 0, 0, p5.width, p5.height);
+
+        // Use image's actual dimensions - no stretching
+        p5.image(img, 0, 0, img.width, img.height);
       }
     } else {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
-      p5.image(frame, 0, 0, p5.width, p5.height);
+
+      // Use video's actual dimensions - no stretching
+      p5.image(frame, 0, 0, frame.width, frame.height);
     }
 
     // Restore transform
@@ -370,19 +374,18 @@ export default function RPHead({ isMobile }) {
 
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
-        const { width } = entry.contentRect;
+        // Only set initial canvas size if video hasn't been initialized yet
+        // Once video is initialized, it will set its own dimensions based on camera
+        if (!videoRef.current || !videoRef.current.width) {
+          const { width } = entry.contentRect;
+          const calculatedWidth = Math.floor(width);
+          const calculatedHeight = Math.floor((calculatedWidth * 3) / 4); // Default aspect ratio
 
-        const isMobile = window.innerWidth <= 768;
-
-        const calculatedWidth = Math.floor(width);
-        const calculatedHeight = isMobile
-          ? Math.floor((calculatedWidth * 4) / 3) // ✅ 3:4 portrait on mobile
-          : Math.floor((calculatedWidth * 3) / 4); // ✅ 4:3 landscape on desktop
-
-        setCanvasSize({
-          width: calculatedWidth,
-          height: calculatedHeight,
-        });
+          setCanvasSize({
+            width: calculatedWidth,
+            height: calculatedHeight,
+          });
+        }
       }
     });
 
@@ -426,7 +429,8 @@ export default function RPHead({ isMobile }) {
         <div
           style={{
             width: "min(90vw, 640px)", // Responsive up to 640px
-            aspectRatio: "4 / 3", // ✅ auto-calculate height
+            // Let the canvas determine its own aspect ratio based on camera
+            aspectRatio: "auto",
             transform: isMobile
               ? snapped
                 ? "translateY(-22vh)"
@@ -441,7 +445,18 @@ export default function RPHead({ isMobile }) {
             alignItems: "center",
           }}
         >
-          <div ref={canvasContainerRef} className="p5Container">
+          <div
+            ref={canvasContainerRef}
+            className="p5Container"
+            style={{
+              width: "100%",
+              height: "auto",
+              aspectRatio:
+                canvasSize.width && canvasSize.height
+                  ? `${canvasSize.width} / ${canvasSize.height}`
+                  : "4 / 3",
+            }}
+          >
             <Sketch setup={setup} draw={draw} />
             <div className="buttons">
               {!snapped && (
