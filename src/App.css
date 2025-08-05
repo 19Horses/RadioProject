@@ -97,6 +97,8 @@ canvas {
   display: block;
   max-width: 100%;
   height: auto;
+  /* Let canvas maintain its natural aspect ratio */
+  object-fit: contain;
 }
 
 .fadeOutGrid {
@@ -1058,8 +1060,8 @@ font-weight: 300;
 }
 
 .p5Container{
-  width: 43vw;
-  aspect-ratio: 4 / 3;
+  width: 100%;
+  /* Let the container adapt to canvas natural aspect ratio */
   display: inline-block;
   overflow: hidden;
 }
@@ -1134,8 +1136,8 @@ button{
 @media (max-width: 768px) {
   .p5Container {
     position: relative;
-    width: 90vw;
-    aspect-ratio: 3 / 4;
+    width: 100%;
+    /* Let mobile container adapt to canvas natural aspect ratio */
   }
 
 
