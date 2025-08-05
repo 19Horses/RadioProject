@@ -22,7 +22,10 @@ import DitheredImageCanvas from "../components/DitheredImageCanvas"; // import y
 import { useNavigate } from "react-router-dom";
 
 export default function RPHead({ isMobile }) {
-  const [canvasSize, setCanvasSize] = useState({ width: 640, height: 480 });
+  const [canvasSize, setCanvasSize] = useState({
+    width: isMobile ? 480 : 640,
+    height: isMobile ? 640 : 480,
+  });
 
   const canvasContainerRef = useRef(null);
 
