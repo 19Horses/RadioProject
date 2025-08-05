@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 export default function RPHead({ isMobile }) {
   const [canvasSize, setCanvasSize] = useState({
     width: isMobile ? 480 : 640,
-    height: isMobile ? 640 : 480,
+    height: isMobile ? 700 : 480,
   });
 
   const canvasContainerRef = useRef(null);
