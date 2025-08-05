@@ -196,6 +196,7 @@ export default function RPHead({ isMobile }) {
     starsign: "",
     question: "",
     answer: "",
+    deviceType: isMobile ? "mobile" : "desktop",
   });
   const [showNameLabel, setShowNameLabel] = useState(true);
   const [showProfessionLabel, setShowProfessionLabel] = useState(true);
@@ -411,12 +412,18 @@ export default function RPHead({ isMobile }) {
 
     const resizeObserver = new ResizeObserver((entries) => {
       for (let entry of entries) {
-        const { width, height } = entry.contentRect;
+        const { width } = entry.contentRect;
 
-        // Ensure we use integer values for canvas pixels
+        const isMobile = window.innerWidth <= 768;
+
+        const calculatedWidth = Math.floor(width);
+        const calculatedHeight = isMobile
+          ? Math.floor((calculatedWidth * 4) / 3) // 3:4 portrait on mobile
+          : Math.floor((calculatedWidth * 3) / 4); // 4:3 landscape on desktop
+
         setCanvasSize({
-          width: Math.floor(width),
-          height: Math.floor(height),
+          width: calculatedWidth,
+          height: calculatedHeight,
         });
       }
     });
@@ -919,7 +926,7 @@ export function RPGrid({ isPlaying, isMobile }) {
             className="new-visitor"
             style={{
               width: 267,
-              height: 200,
+              height: 267,
               color: "white",
               display: "flex",
               alignItems: "center",
@@ -967,7 +974,8 @@ export function RPGrid({ isPlaying, isMobile }) {
                       style={{
                         width: isMobile ? "100%" : 267,
                         height: "auto",
-                        objectFit: "contain",
+                        aspectRatio: "1 / 1",
+                        objectFit: "cover",
                         border: "1px solid #ccc",
                         cursor: "pointer",
                         alignItems: "center",
