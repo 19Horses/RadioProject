@@ -24,7 +24,7 @@ import { useNavigate } from "react-router-dom";
 export default function RPHead({ isMobile }) {
   const [canvasSize, setCanvasSize] = useState({
     width: isMobile ? 480 : 640,
-    height: isMobile ? 640 : 480,
+    height: isMobile ? 640 : 480, // Will be corrected by resize observer to proper aspect ratios
   });
 
   const canvasContainerRef = useRef(null);
@@ -376,8 +376,8 @@ export default function RPHead({ isMobile }) {
 
         const calculatedWidth = Math.floor(width);
         const calculatedHeight = isMobile
-          ? Math.floor((calculatedWidth * 4) / 3) // ✅ 3:4 portrait on mobile
-          : Math.floor((calculatedWidth * 3) / 4); // ✅ 4:3 landscape on desktop
+          ? Math.floor((calculatedWidth * 4) / 3) // ✅ 3:4 portrait on mobile (taller)
+          : Math.floor((calculatedWidth * 3) / 4); // ✅ 4:3 landscape on desktop (wider)
 
         setCanvasSize({
           width: calculatedWidth,
@@ -426,7 +426,7 @@ export default function RPHead({ isMobile }) {
         <div
           style={{
             width: "min(90vw, 640px)", // Responsive up to 640px
-            aspectRatio: "4 / 3", // ✅ auto-calculate height
+            aspectRatio: isMobile ? "3 / 4" : "4 / 3", // ✅ 3:4 portrait on mobile, 4:3 landscape on desktop
             transform: isMobile
               ? snapped
                 ? "translateY(-22vh)"
