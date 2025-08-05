@@ -290,66 +290,24 @@ export default function RPHead({ isMobile }) {
     // Convert the dithered canvas to a blob
     const ditheredBlob = await canvasToBlob(p5canvas);
 
-    // Create offscreen canvas for the undithered image
-    const unditheredCanvas = document.createElement("canvas");
-    unditheredCanvas.width = canvasSize.width;
-    unditheredCanvas.height = canvasSize.height;
-
-    const ctx = unditheredCanvas.getContext("2d");
-
-    // Draw the snapshot image onto the unditheredCanvas
-    // Original snapshot size
-    const originalCanvas = snapshotRef.current.canvas;
-    const originalWidth = originalCanvas.width;
-    const originalHeight = originalCanvas.height;
-
-    // Target aspect ratio: 4:3
-    const targetAspect = 4 / 3;
-    let cropWidth = originalWidth;
-    let cropHeight = cropWidth / targetAspect;
-
-    if (cropHeight > originalHeight) {
-      cropHeight = originalHeight;
-      cropWidth = cropHeight * targetAspect;
-    }
-
-    // Calculate center crop origin
-    const offsetX = (originalWidth - cropWidth) / 2;
-    const offsetY = (originalHeight - cropHeight) / 2;
-
-    // Set final cropped dimensions
-    unditheredCanvas.width = canvasSize.width;
-    unditheredCanvas.height = canvasSize.height;
-
-    // Draw cropped section to new canvas
-    ctx.drawImage(
-      originalCanvas,
-      offsetX,
-      offsetY,
-      cropWidth,
-      cropHeight,
-      0,
-      0,
-      canvasSize.width,
-      canvasSize.height
-    );
-
-    console.log(ditheredBlob); // Should show Blob with type "image/png"
-
-    if (snapshotRef.current.canvas) {
-      const imgData = snapshotRef.current.canvas
-        .getContext("2d")
-        .getImageData(
-          0,
-          0,
-          snapshotRef.current.width,
-          snapshotRef.current.height
-        );
-      ctx.putImageData(imgData, 0, 0);
-    } else {
+    // Create an offscreen canvas for the undithered image
+    const originalCanvas = snapshotRef.current?.canvas;
+    if (!originalCanvas) {
       alert("No valid image data found in snapshotRef");
       return;
     }
+
+    const originalWidth = originalCanvas.width;
+    const originalHeight = originalCanvas.height;
+
+    const unditheredCanvas = document.createElement("canvas");
+    unditheredCanvas.width = originalWidth;
+    unditheredCanvas.height = originalHeight;
+
+    const ctx = unditheredCanvas.getContext("2d");
+
+    // Draw the full image (no cropping or aspect ratio adjustments)
+    ctx.drawImage(originalCanvas, 0, 0);
 
     const unditheredBlob = await canvasToBlob(unditheredCanvas);
 
@@ -360,14 +318,11 @@ export default function RPHead({ isMobile }) {
 
     const ditheredKey = `images/${name}-${timestamp}-dithered.png`;
     const unditheredKey = `images/${name}-${timestamp}-undithered.png`;
-    console.log(unditheredBlob); // Same
-
     const formKey = `data/${name}-${timestamp}.json`;
 
     const formBlob = new Blob([JSON.stringify(inputs)], {
       type: "application/json",
     });
-    console.log(formBlob); // Should show type "application/json"
 
     try {
       await Promise.all([
