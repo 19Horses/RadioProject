@@ -418,8 +418,8 @@ export default function RPHead({ isMobile }) {
 
         const calculatedWidth = Math.floor(width);
         const calculatedHeight = isMobile
-          ? Math.floor((calculatedWidth * 4) / 3) // 3:4 portrait on mobile
-          : Math.floor((calculatedWidth * 3) / 4); // 4:3 landscape on desktop
+          ? Math.floor((calculatedWidth * 4) / 3) // ✅ 3:4 portrait on mobile
+          : Math.floor((calculatedWidth * 3) / 4); // ✅ 4:3 landscape on desktop
 
         setCanvasSize({
           width: calculatedWidth,
