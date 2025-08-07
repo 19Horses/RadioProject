@@ -442,7 +442,7 @@ export default function RPHead({ isMobile }) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: "100%",
+                width: isMobile ? "200%" : "100%",
                 height: "auto",
               }}
             >
@@ -451,8 +451,8 @@ export default function RPHead({ isMobile }) {
                   width: `${canvasSize.width}px`,
                   height: `${canvasSize.height}px`,
                   // aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
-                  maxWidth: "100%", // Optional for responsiveness
-                  maxHeight: "200%",
+                  maxWidth: "500%", // Optional for responsiveness
+                  maxHeight: "100%",
                   overflow: "hidden", // Optional if you want cropping behavior
                   cursor: snapped ? "default" : "pointer",
                   pointerEvents: snapped ? "none" : "auto",
