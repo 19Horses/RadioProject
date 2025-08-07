@@ -201,13 +201,7 @@ export default function RPHead({ isMobile }) {
 
   const handleReset = () => {
     setSnapped(false);
-    setShowNameLabel(true);
-    setShowProfessionLabel(true);
-
-    setStep(0); // Reset step to 0
     setInputs({});
-
-    snapshotRef.current = null;
   };
 
   const [inputs, setInputs] = useState({
@@ -412,7 +406,7 @@ export default function RPHead({ isMobile }) {
       <div
         style={{
           display: "flex",
-          gap: "1rem",
+          gap: ".5rem",
           padding: "1rem",
           paddingRight: ".9rem",
 
@@ -460,6 +454,8 @@ export default function RPHead({ isMobile }) {
                   maxWidth: "100%", // Optional for responsiveness
                   maxHeight: "200%",
                   overflow: "hidden", // Optional if you want cropping behavior
+                  cursor: snapped ? "default" : "pointer",
+                  pointerEvents: snapped ? "none" : "auto",
                 }}
                 onClick={handleSnap}
               >
@@ -509,18 +505,21 @@ export default function RPHead({ isMobile }) {
           style={{
             display: "flex",
             justifyContent: "center", // 👈 always center, use transform for movement
+            height: "auto",
             width: snapped ? "320px" : "0",
             opacity: snapped ? "1" : "0",
             pointerEvents: snapped ? "auto" : "none",
-            transition: "width 1.3s ease-in-out, opacity 1.3s ease-in-out 1s",
+            transition: snapped
+              ? "width 1.3s ease-in-out, opacity 1.3s ease-in-out .7s"
+              : "width 1.3s ease-in-out, opacity .5s ease-in-out ",
           }}
         >
           <form
             onSubmit={handleSubmit}
             autoComplete="off"
-            style={{ display: "flex", flexDirection: "column" }}
+            style={{ display: "flex", flexDirection: "column", height: "100%" }}
           >
-            <div>
+            <div style={{ flexGrow: 1, overflowY: "auto" }}>
               <div
                 style={{
                   flex: 1,
@@ -636,7 +635,7 @@ export default function RPHead({ isMobile }) {
                             width="40vh"
                             height="40vh"
                             style={{
-                              paddingRight: "1vw",
+                              justifyContent: "flex-end",
                               animation: "fadeIn 1s forwards",
                             }}
                           />
@@ -762,19 +761,35 @@ export default function RPHead({ isMobile }) {
                 </div>
               </div>
             </div>
-            <button
-              type="submit"
-              disabled={
-                !inputs.answer ||
-                !inputs.profession ||
-                !inputs.username ||
-                !inputs.answer ||
-                !inputs.starsign
-              }
-              style={{ fontSize: "2vh" }}
+            <div
+              style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-between",
+                alignItems: "flex-end",
+              }}
             >
-              ⏎
-            </button>
+              <button
+                type="button"
+                style={{ fontSize: "2vh", fontFamily: "dot", color: "black" }}
+                onClick={handleReset}
+              >
+                RETAKE
+              </button>
+              <button
+                type="submit"
+                disabled={
+                  !inputs.answer ||
+                  !inputs.profession ||
+                  !inputs.username ||
+                  !inputs.answer ||
+                  !inputs.starsign
+                }
+                style={{ fontSize: "2vh", fontFamily: "dot", color: "black" }}
+              >
+                POST
+              </button>
+            </div>
           </form>
 
           {/* <form
