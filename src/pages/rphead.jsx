@@ -451,7 +451,7 @@ export default function RPHead({ isMobile }) {
                   width: `${canvasSize.width}px`,
                   height: `${canvasSize.height}px`,
                   // aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
-                  maxWidth: "500%", // Optional for responsiveness
+                  maxWidth: "100%", // Optional for responsiveness
                   maxHeight: "100%",
                   overflow: "hidden", // Optional if you want cropping behavior
                   cursor: snapped ? "default" : "pointer",
