@@ -20,6 +20,7 @@ import { CustomCursor } from "../components/CustomCursor";
 import DitheredImageCanvas from "../components/DitheredImageCanvas"; // import your new component
 
 import { useNavigate } from "react-router-dom";
+import { $Command } from "@aws-sdk/client-s3";
 
 export default function RPHead({ isMobile }) {
   const [canvasSize, setCanvasSize] = useState({
@@ -44,15 +45,7 @@ export default function RPHead({ isMobile }) {
     Pisces: PiscesIcon,
   };
   const questions = [
-    "How was your day today?",
-    "If you replace all the parts of a boat, is it still the same boat?",
-    "Do we have free will?",
-    "What book had the most significant impact on your life?",
-    "What is the lie you tell yourself most often?",
-    "If you could tell your younger self any one thing, what would it be?",
-    "What do you think the world will look like in 300 years?",
     "What is the most life-changing decision you’ve ever made on a whim?",
-    "If you were a ghost, what location do you think you would haunt?",
   ];
 
   const navigate = useNavigate();
@@ -61,9 +54,7 @@ export default function RPHead({ isMobile }) {
   const videoRef = useRef(null);
   const animationStartTime = useRef(null);
   const snapshotRef = useRef(null);
-  const [rand, setRand] = useState(
-    Math.floor(Math.random() * questions.length)
-  );
+  const currentTime = new Date().toLocaleDateString();
   const [step, setStep] = useState(0); // Tracks which question we're on
   const textareaRef = useRef();
   const [randomQuestion, setRandomQuestion] = useState("");
@@ -114,8 +105,8 @@ export default function RPHead({ isMobile }) {
           video: {
             facingMode: "user",
             // Let the device choose its native resolution
-            width: { ideal: 1280 },
-            height: { ideal: 720 },
+            width: { ideal: 640 },
+            height: { ideal: 480 },
           },
         },
         () => {
@@ -123,15 +114,6 @@ export default function RPHead({ isMobile }) {
           // Update canvas to match camera's native resolution
           const actualWidth = videoRef.current.width;
           const actualHeight = videoRef.current.height;
-          console.log(
-            `Camera native resolution: ${actualWidth}x${actualHeight}`
-          );
-          console.log(`Is mobile: ${isMobile}`);
-          console.log(
-            `Video orientation: ${
-              actualWidth > actualHeight ? "landscape" : "portrait"
-            }`
-          );
 
           setCanvasSize({
             width: actualWidth,
@@ -280,7 +262,7 @@ export default function RPHead({ isMobile }) {
     const el = textareaRef.current;
     if (el) {
       el.style.height = "auto"; // Reset height
-      el.style.height = `${el.scrollHeight}px`; // Set to content height
+      el.style.height = $`{el.scrollHeight}px`; // Set to content height
     }
   }
 
@@ -428,56 +410,69 @@ export default function RPHead({ isMobile }) {
   return (
     <div className="rphead-container">
       <div
-        className="visitor-log-form"
         style={{
           display: "flex",
-          justifyContent: "center", // 👈 center horizontally
-          alignItems: "center", // 👈 optional: center vertically
-          height: "100vh", // 👈 optional: full-height vertical centering
+          gap: "1rem",
+          padding: "1rem",
+          paddingRight: ".9rem",
+
+          background: snapped ? "white" : "unset",
+          borderRadius: "8px",
+          boxShadow: snapped ? "0 4px 20px rgba(0,0,0,0.2)" : "unset",
+          transition: "all 1.3s ease-in-out",
         }}
       >
         <div
+          className="visitor-log-form"
           style={{
-            width: "min(90vw, 50vw)", // Responsive up to 640px
-            height: "auto",
-            // Let the canvas determine its own aspect ratio based on camera
-            transform: isMobile
-              ? snapped
-                ? "translateY(-22vh)"
-                : "translateY(0)"
-              : snapped
-              ? "translateX(-20vw)"
-              : "translateX(0)",
-            transitionDelay: snapped ? "0.5s" : "0s",
-            transition: "all 1.3s ease-in-out",
             display: "flex",
+            justifyContent: "center", // 👈 always center, use transform for movement
+            alignItems: "center", // 👈 optional: center vertically
+            transition: "width 1.3s ease-in-out",
           }}
         >
           <div
-            ref={canvasContainerRef}
-            className="p5Container"
             style={{
-              display: "flex",
-              flexDirection: "column",
-              width: "100%",
+              width: "min(90vw, 45vw)", // Responsive up to 640px
               height: "auto",
+              // Let the canvas determine its own aspect ratio based on camera
+              position: "relative",
+              transitionDelay: snapped ? "0.5s" : "0s",
+              transition: "all 1.3s ease-in-out",
+              display: "flex",
             }}
           >
             <div
+              ref={canvasContainerRef}
+              className="p5Container"
               style={{
+                display: "flex",
+                flexDirection: "column",
                 width: "100%",
                 height: "auto",
-                aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
               }}
-              onClick={handleSnap}
             >
-              <Sketch
-                setup={setup}
-                draw={draw}
-                style={{ width: "100%", height: "100%" }}
-              />
-            </div>
-            {/* <div className="buttons">
+              <div
+                style={{
+                  width: `${canvasSize.width}px`,
+                  height: `${canvasSize.height}px`,
+                  // aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
+                  maxWidth: "100%", // Optional for responsiveness
+                  maxHeight: "200%",
+                  overflow: "hidden", // Optional if you want cropping behavior
+                }}
+                onClick={handleSnap}
+              >
+                <Sketch
+                  setup={setup}
+                  draw={draw}
+                  style={{
+                    width: "100%",
+                    height: "100%",
+                  }}
+                />
+              </div>
+              {/* <div className="buttons">
               {!snapped && (
                 <button
                   onClick={handleSnap}
@@ -505,12 +500,284 @@ export default function RPHead({ isMobile }) {
                 </button>
               )}
             </div> */}
+            </div>
           </div>
         </div>
-      </div>
-      {snapped && (
-        <div className="visitor-log-textform">
+
+        <div
+          className="visitor-log-textform"
+          style={{
+            display: "flex",
+            justifyContent: "center", // 👈 always center, use transform for movement
+            width: snapped ? "320px" : "0",
+            opacity: snapped ? "1" : "0",
+            pointerEvents: snapped ? "auto" : "none",
+            transition: "width 1.3s ease-in-out, opacity 1.3s ease-in-out 1s",
+          }}
+        >
           <form
+            onSubmit={handleSubmit}
+            autoComplete="off"
+            style={{ display: "flex", flexDirection: "column" }}
+          >
+            <div>
+              <div
+                style={{
+                  flex: 1,
+                  background: "#f7f7f7",
+                  borderRadius: "8px",
+                  padding: "1rem",
+                  fontSize: "14px",
+                  maxHeight: 480,
+                  overflow: "auto",
+                  width: 300,
+                }}
+              >
+                <>
+                  <div
+                    style={{
+                      fontFamily: "Helvetica, Arial, sans-serif",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: "0.5rem",
+                    }}
+                  >
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        justifyContent: "space-between", // add this line
+                        alignItems: "flex-start", // aligns items at the top
+                      }}
+                    >
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: "0.5vh",
+                          position: "relative", // Make sure it's not statically positioned
+                          overflow: "visible", // ✅ allow children to overflow
+                          zIndex: 1, // This can stay, but child must be higher
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            width: "100%",
+                          }}
+                        >
+                          <input
+                            id="username"
+                            type="text"
+                            name="username"
+                            pattern="[A-Za-z0-9]*"
+                            value={inputs.username || ""}
+                            onChange={handleChange}
+                            readOnly={step > 0}
+                            placeholder="enter name"
+                            style={{
+                              fontSize: "4vh",
+                              fontWeight: "900",
+                              textTransform: "uppercase",
+                              width: "100%",
+                              // borderBottom: "1px solid",
+                              // borderColor: step > 0 ? "transparent" : "#000",
+                              marginBottom: step > 0 ? "0vh" : "",
+                              transition: " border-color .2s ease-in-out",
+                            }}
+                          />
+                        </div>
+                        <div
+                          style={{
+                            fontSize: "1.4vh",
+                            fontWeight: "900",
+                            textTransform: "uppercase",
+                            display: "flex",
+                            flexDirection: "row",
+                          }}
+                        >
+                          <input
+                            id="profession"
+                            type="text"
+                            name="profession"
+                            value={inputs.profession || ""}
+                            onChange={handleTAChange}
+                            readOnly={step > 1}
+                            placeholder="enter profession"
+                            style={{
+                              fontSize: "1.4vh",
+                              fontWeight: "900",
+                              textTransform: "uppercase",
+                              width: "75%",
+                              // borderBottom: "1px solid",
+                              // borderColor: step > 0 ? "transparent" : "#000",
+                              marginBottom: step > 0 ? "0vh" : "",
+                              transition: " border-color .2s ease-in-out",
+                            }}
+                          />
+                        </div>
+                      </div>
+                      <div
+                        style={{
+                          display: "flex",
+                          flexDirection: "column",
+                          gap: ".3rem",
+                        }}
+                      >
+                        <div
+                          style={{
+                            display: "flex",
+                            justifyContent: "flex-end",
+                          }}
+                        >
+                          <img
+                            src={currentIcon}
+                            width="40vh"
+                            height="40vh"
+                            style={{
+                              paddingRight: "1vw",
+                              animation: "fadeIn 1s forwards",
+                            }}
+                          />
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </>
+              </div>
+              <div
+                style={{
+                  display: "flex",
+                  flexDirection: "row",
+                  justifyContent: "space-between",
+                }}
+              >
+                <div
+                  style={{
+                    paddingLeft: "1vw",
+                    paddingTop: "1vh",
+                    color: "gray",
+                    fontSize: "1.3vh",
+                    fontFamily: "dot",
+                  }}
+                >
+                  {currentTime}
+                </div>
+                <div
+                  style={{
+                    paddingLeft: "1vw",
+                    paddingTop: ".5vh",
+                    paddingRight: "1vw",
+                  }}
+                >
+                  <StarSignStep
+                    inputs={inputs}
+                    setInputs={setInputs}
+                    step={2}
+                    handleNext={handleNext}
+                    setStep={setStep}
+                    style={{ left: "20vw" }}
+                  />
+                </div>
+              </div>
+              <div
+                style={{
+                  paddingLeft: ".85vw",
+                  paddingTop: "1vh",
+                  paddingBottom: "0",
+                  fontSize: "1.6vh",
+                  fontFamily: "dot",
+                  color: "gray",
+                }}
+              >
+                <div
+                  style={{
+                    marginBottom: "1rem",
+                    display: "flex",
+                    flexDirection: "row",
+                    opacity: 0,
+                    animation: "fadeIn 1s ease-in-out forwards",
+                    animationDelay: "0.1s",
+                  }}
+                >
+                  <div>
+                    <div
+                      style={{
+                        display: "flex",
+                        flexDirection: "column-reverse",
+                      }}
+                    >
+                      <textarea
+                        id="answer"
+                        name="answer"
+                        value={inputs.answer || ""}
+                        onChange={(e) => {
+                          handleTAChange(e);
+
+                          const el = textareaRef.current;
+                          if (el) {
+                            el.style.height = "auto"; // Reset height to shrink if needed
+                            el.style.height = `${el.scrollHeight}px`; // Set to scroll height
+                          }
+                        }}
+                        placeholder="ENTER ANSWER"
+                        onKeyDown={(e) => {
+                          if (e.key === "Enter" && !e.shiftKey) {
+                            e.preventDefault(); // prevent newline
+                            handleSubmit(e); // manually trigger submit
+                          }
+                        }}
+                        rows={3}
+                        style={{
+                          paddingBottom: ".5vh",
+                          marginBottom: ".5vh",
+                          resize: "none",
+                          overflow: "hidden",
+                          fontFamily: "dot",
+                          border: "none",
+                          backgroundColor: "transparent",
+                          fontSize: "1.6vh",
+                          width: "95%",
+                          borderBottom: "1px solid #000000",
+                          minHeight: "1vh", // 👈 prevents the jumpiness
+                          lineHeight: "1", // 👈 makes growth more consistent
+                        }}
+                        maxLength={150}
+                        ref={textareaRef}
+                      />
+                    </div>
+                    <label
+                      htmlFor="question"
+                      style={{
+                        paddingTop: "1vh",
+                        width: "100%",
+                        fontFamily: "dot",
+                        fontSize: "1.6vh",
+                      }}
+                    >
+                      {randomQuestion}
+                    </label>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <button
+              type="submit"
+              disabled={
+                !inputs.answer ||
+                !inputs.profession ||
+                !inputs.username ||
+                !inputs.answer ||
+                !inputs.starsign
+              }
+              style={{ fontSize: "2vh" }}
+            >
+              ⏎
+            </button>
+          </form>
+
+          {/* <form
             onSubmit={handleSubmit}
             autoComplete="off"
             style={{ display: "flex", flexDirection: "column" }}
@@ -707,9 +974,9 @@ export default function RPHead({ isMobile }) {
                 )}
               </div>
             )}
-          </form>
+          </form> */}
         </div>
-      )}
+      </div>
     </div>
   );
 }

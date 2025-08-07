@@ -577,9 +577,14 @@ table {
 }
 
 .rphead-container {
+  position: fixed;
   top: 0;
   left: 0;
-  position: fixed;
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
   user-select: none;
 }
 
@@ -1072,22 +1077,15 @@ font-weight: 300;
   flex-direction: row;
   align-items: center;     /* vertical centering */
   justify-content: center; /* horizontal centering */
-  height: auto;
-  width: 100vw;
   box-sizing: border-box;
 }
 
 
 .visitor-log-textform {
-  display: flex;
-position: fixed;
-  top: 13.5vw;
-  left: 60vw;
+  width: 350px;
   flex-direction: row;
-  height: auto;
-  width: 100vw;
+  height: 50vh;
   box-sizing: border-box;
-  gap: 2rem;
   z-index: 9999;
 }
 
@@ -1104,11 +1102,7 @@ input{
   font-family: Helvetica;
   border: none;
   background-color: transparent;
-  font-size: 4vh;
-  width: 20vw;
-  border-bottom: 1px solid #000000;
   text-transform: uppercase; /* 👈 forces uppercase display */
-  margin-right: 10px;
   font-weight: 900;
 }
 

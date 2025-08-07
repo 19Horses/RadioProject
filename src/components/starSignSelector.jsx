@@ -63,53 +63,40 @@ const StarSignStep = ({ inputs, setInputs, step, setStep, handleNext }) => {
         transition: "opacity 0.2s ease-in-out",
       }}
     >
-      <div>
+      <div style={{ display: "flex", flexDirection: "row" }}>
         <button
           type="button"
           onClick={handleLeft}
           aria-label="Previous Star Sign"
-          style={{ paddingLeft: "0" }}
+          style={{ paddingLeft: "0", width: "1.4vh" }}
         >
-          <img src={leftchevron} />
+          <img style={{ width: "1.4vh" }} src={leftchevron} />
         </button>
-        <button type="button" onClick={handleRight} aria-label="Next Star Sign">
-          <img src={chevron} />
-        </button>
-      </div>
-
-      <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}>
         <div
           style={{
-            fontFamily: "Helvetica",
-            fontSize: "4vh",
-            width: "20vw",
-            textAlign: "left",
-            borderBottom: "1px solid #000",
+            fontFamily: "dot",
+            textTransform: "uppercase",
+            fontSize: "1.4vh",
+            overflow: "hidden",
+            width: "auto",
+            textAlign: "center",
+            paddingTop: ".2vh",
             fontWeight: "1000",
           }}
         >
-          {starSigns[index]}
+          <span>&nbsp;{starSigns[index]}&nbsp;</span>
         </div>
+        <button
+          type="button"
+          onClick={handleRight}
+          aria-label="Nexr Star Sign"
+          style={{ paddingLeft: "0", width: "1.4vh" }}
+        >
+          <img style={{ width: "1.4vh" }} src={chevron} />
+        </button>
       </div>
 
-      <label
-        htmlFor="starsign"
-        style={{
-          textTransform: "uppercase",
-          display: "block",
-          marginTop: "1rem",
-        }}
-      >
-        what is your star sign?
-      </label>
-
-      <button
-        onClick={handleClickNext}
-        disabled={!inputs.starsign}
-        style={{ marginTop: "1rem" }}
-      >
-        Next
-      </button>
+      <div style={{ display: "flex", gap: "1rem", alignItems: "center" }}></div>
     </div>
   );
 };
