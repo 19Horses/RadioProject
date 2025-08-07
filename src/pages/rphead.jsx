@@ -427,7 +427,7 @@ export default function RPHead({ isMobile }) {
         >
           <div
             style={{
-              width: "min(90vw, 45vw)", // Responsive up to 640px
+              width: isMobile ? "80vw" : "min(90vw, 45vw)",
               height: "auto",
               // Let the canvas determine its own aspect ratio based on camera
               position: "relative",
@@ -442,7 +442,7 @@ export default function RPHead({ isMobile }) {
               style={{
                 display: "flex",
                 flexDirection: "column",
-                width: isMobile ? "200%" : "100%",
+                width: "100%",
                 height: "auto",
               }}
             >
