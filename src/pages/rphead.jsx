@@ -506,7 +506,7 @@ export default function RPHead({ isMobile }) {
             display: "flex",
             justifyContent: "center", // 👈 always center, use transform for movement
             height: "auto",
-            width: snapped ? "320px" : "0",
+            width: isMobile ? "0" : snapped ? "320px" : "0",
             opacity: snapped ? "1" : "0",
             pointerEvents: snapped ? "auto" : "none",
             transition: snapped
