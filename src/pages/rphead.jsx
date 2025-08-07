@@ -23,8 +23,8 @@ import { useNavigate } from "react-router-dom";
 
 export default function RPHead({ isMobile }) {
   const [canvasSize, setCanvasSize] = useState({
-    width: isMobile ? 640 : 640,
-    height: isMobile ? 640 : 480,
+    width: 640, // Will be updated by camera
+    height: 480, // Will be updated by camera
   });
 
   const canvasContainerRef = useRef(null);
@@ -113,15 +113,35 @@ export default function RPHead({ isMobile }) {
         {
           video: {
             facingMode: "user",
-            width: { ideal: canvasSize.width },
-            height: { ideal: canvasSize.height },
+            // Let the device choose its native resolution
+            width: { ideal: 1280 },
+            height: { ideal: 720 },
           },
         },
         () => {
           videoRef.current.hide();
+          // Update canvas to match camera's native resolution
+          const actualWidth = videoRef.current.width;
+          const actualHeight = videoRef.current.height;
+          console.log(
+            `Camera native resolution: ${actualWidth}x${actualHeight}`
+          );
+          console.log(`Is mobile: ${isMobile}`);
+          console.log(
+            `Video orientation: ${
+              actualWidth > actualHeight ? "landscape" : "portrait"
+            }`
+          );
+
+          setCanvasSize({
+            width: actualWidth,
+            height: actualHeight,
+          });
+          // Resize canvas to match camera resolution
+          p5.resizeCanvas(actualWidth, actualHeight);
         }
       );
-      videoRef.current.size(canvasSize.width, canvasSize.height);
+      // Don't force resize the video - let it use native dimensions
     }
   };
 
@@ -135,10 +155,21 @@ export default function RPHead({ isMobile }) {
     // Save the current transform
     p5.push();
 
-    // Flip horizontally on mobile
+    // Handle mobile camera orientation
     if (isMobile) {
-      p5.translate(p5.width, 0);
-      p5.scale(-1, 1);
+      // Check if video is in portrait orientation
+      const isPortrait = video.width < video.height;
+
+      if (isPortrait) {
+        // For portrait video, we might need to rotate or adjust
+        // For now, just flip horizontally like before
+        p5.translate(p5.width, 0);
+        p5.scale(-1, 1);
+      } else {
+        // For landscape video, just flip horizontally
+        p5.translate(p5.width, 0);
+        p5.scale(-1, 1);
+      }
     }
 
     if (snapped) {
@@ -372,28 +403,7 @@ export default function RPHead({ isMobile }) {
 
     if (!container) return;
 
-    const resizeObserver = new ResizeObserver((entries) => {
-      for (let entry of entries) {
-        // Only set initial canvas size if video hasn't been initialized yet
-        // Once video is initialized, it will set its own dimensions based on camera
-        if (!videoRef.current || !videoRef.current.width) {
-          const { width } = entry.contentRect;
-          const calculatedWidth = Math.floor(width);
-          const calculatedHeight = Math.floor((calculatedWidth * 3) / 4); // Default aspect ratio
-
-          setCanvasSize({
-            width: calculatedWidth,
-            height: calculatedHeight,
-          });
-        }
-      }
-    });
-
-    resizeObserver.observe(container);
-
-    return () => {
-      resizeObserver.disconnect();
-    };
+    // Camera will set its own dimensions - no resize observer needed
   }, []);
 
   useEffect(() => {
@@ -458,7 +468,7 @@ export default function RPHead({ isMobile }) {
             }}
           >
             <Sketch setup={setup} draw={draw} />
-            <div className="buttons">
+            {/* <div className="buttons">
               {!snapped && (
                 <button
                   onClick={handleSnap}
@@ -485,7 +495,7 @@ export default function RPHead({ isMobile }) {
                   Retake
                 </button>
               )}
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

@@ -1059,12 +1059,7 @@ font-weight: 300;
 
 }
 
-.p5Container{
-  width: 100%;
-  /* Let the container adapt to canvas natural aspect ratio */
-  display: inline-block;
-  overflow: hidden;
-}
+
 
 
 
