@@ -438,9 +438,9 @@ export default function RPHead({ isMobile }) {
       >
         <div
           style={{
-            width: "min(90vw, 640px)", // Responsive up to 640px
+            width: "min(90vw, 50vw)", // Responsive up to 640px
+            height: "auto",
             // Let the canvas determine its own aspect ratio based on camera
-            aspectRatio: "auto",
             transform: isMobile
               ? snapped
                 ? "translateY(-22vh)"
@@ -451,23 +451,32 @@ export default function RPHead({ isMobile }) {
             transitionDelay: snapped ? "0.5s" : "0s",
             transition: "all 1.3s ease-in-out",
             display: "flex",
-            justifyContent: "center",
-            alignItems: "center",
           }}
         >
           <div
             ref={canvasContainerRef}
             className="p5Container"
             style={{
+              display: "flex",
+              flexDirection: "column",
               width: "100%",
               height: "auto",
-              aspectRatio:
-                canvasSize.width && canvasSize.height
-                  ? `${canvasSize.width} / ${canvasSize.height}`
-                  : "4 / 3",
             }}
           >
-            <Sketch setup={setup} draw={draw} />
+            <div
+              style={{
+                width: "100%",
+                height: "auto",
+                aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
+              }}
+              onClick={handleSnap}
+            >
+              <Sketch
+                setup={setup}
+                draw={draw}
+                style={{ width: "100%", height: "100%" }}
+              />
+            </div>
             {/* <div className="buttons">
               {!snapped && (
                 <button

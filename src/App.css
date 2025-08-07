@@ -1059,23 +1059,13 @@ font-weight: 300;
 
 }
 
-
-
-
-
-
-
-
-
-.buttons{
-  position: fixed;
-  bottom: .8vh;
-  left: 0vh;
-  width: 100vw;
-  height: auto;
-  display: flex;
-  
+.p5Container{
+  width: 100%;
+  /* Let the container adapt to canvas natural aspect ratio */
+  display: inline-block;
 }
+
+
 
 .visitor-log-form {
   display: flex;
