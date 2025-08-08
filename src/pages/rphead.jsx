@@ -114,7 +114,9 @@ export default function RPHead({ isMobile }) {
           videoRef.current.hide();
           // Update canvas to match camera's native resolution
           const actualWidth = videoRef.current.width;
-          const actualHeight = videoRef.current.height;
+          const actualHeight = isMobile
+            ? videoRef.current.height / 2
+            : videoRef.current.height;
 
           setCanvasSize({
             width: actualWidth,
@@ -458,7 +460,7 @@ export default function RPHead({ isMobile }) {
                 style={{
                   width: `${canvasSize.width}px`,
                   height: `${canvasSize.height}px`,
-                  // aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
+                  aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
                   maxWidth: "100%", // Optional for responsiveness
                   maxHeight: "100%",
                   overflow: "hidden", // Optional if you want cropping behavior
@@ -476,34 +478,6 @@ export default function RPHead({ isMobile }) {
                   }}
                 />
               </div>
-              {/* <div className="buttons">
-              {!snapped && (
-                <button
-                  onClick={handleSnap}
-                  style={{
-                    fontSize: "3vh",
-                    fontWeight: "900",
-                    backgroundColor: "black",
-                    color: "white",
-                  }}
-                >
-                  Shoot!
-                </button>
-              )}
-              {snapped && (
-                <button
-                  onClick={handleReset}
-                  style={{
-                    fontSize: "3vh",
-                    fontWeight: "900",
-                    backgroundColor: "black",
-                    color: "white",
-                  }}
-                >
-                  Retake
-                </button>
-              )}
-            </div> */}
             </div>
           </div>
         </div>
