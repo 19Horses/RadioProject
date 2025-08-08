@@ -106,15 +106,15 @@ export default function RPHead({ isMobile }) {
           video: {
             facingMode: "user",
             // Let the device choose its native resolution
-            width: { ideal: isMobile ? 446 : 640 },
-            height: { ideal: isMobile ? 450 : 480 },
+            width: { ideal: isMobile ? 320 : 640 },
+            height: { ideal: isMobile ? 240 : 480 },
           },
         },
         () => {
           videoRef.current.hide();
           // Update canvas to match camera's native resolution
-          const actualWidth = videoRef.current.width;
-          const actualHeight = videoRef.current.height;
+          const actualWidth = videoRef.current.el.width;
+          const actualHeight = videoRef.current.el.height;
 
           setCanvasSize({
             width: actualWidth,
@@ -471,8 +471,9 @@ export default function RPHead({ isMobile }) {
                   setup={setup}
                   draw={draw}
                   style={{
-                    width: "100%",
-                    height: "100%",
+                    display: "block",
+                    width: `${canvasSize.width}px`,
+                    height: `${canvasSize.height}px`,
                   }}
                 />
               </div>
