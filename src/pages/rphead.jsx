@@ -1257,7 +1257,8 @@ export function RPGrid({ isPlaying, isMobile }) {
             display: "flex",
             flexDirection: "column",
             position: "fixed",
-            width: "80vw",
+            scale: clickedFormData.deviceType === "mobile" ? "1" : ".8",
+            width: clickedFormData.deviceType === "mobile" ? "70vw" : "80vw",
             top: "50%",
             left: isPlaying ? "47%" : "50%",
             transform: isPlaying
@@ -1288,7 +1289,13 @@ export function RPGrid({ isPlaying, isMobile }) {
             />
           </div>
 
-          <div>
+          <div
+            style={{
+              display: "flex",
+              flexWrap: "wrap",
+              scale: clickedFormData.deviceType === "mobile" ? "1" : ".8",
+            }}
+          >
             <div
               style={{
                 flex: 1,
@@ -1297,8 +1304,7 @@ export function RPGrid({ isPlaying, isMobile }) {
                 padding: "1rem",
                 fontSize: "14px",
                 maxHeight: 480,
-                overflow: "auto",
-                width: "19.5rem",
+                width: "70%",
               }}
             >
               {clickedFormData ? (
@@ -1379,10 +1385,14 @@ export function RPGrid({ isPlaying, isMobile }) {
             </div>
             <div
               style={{
+                maxWidth: "100%",
                 paddingLeft: ".85vw",
                 paddingTop: "1vh",
                 fontFamily: "dot",
                 fontSize: "2vh",
+                wordBreak: "break-word",
+                overflowWrap: "break-word",
+                whiteSpace: "normal",
               }}
             >
               {"“" + clickedFormData.answer + "”"}
