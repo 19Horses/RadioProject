@@ -106,7 +106,7 @@ export default function RPHead({ isMobile }) {
           video: {
             facingMode: "user",
             // Let the device choose its native resolution
-            width: { ideal: 640 },
+            width: { ideal: isMobile ? 320 : 640 },
             height: { ideal: isMobile ? 240 : 480 },
           },
         },
