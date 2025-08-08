@@ -748,11 +748,13 @@ export default function RPHead({ isMobile }) {
                     </div>
                     <label
                       htmlFor="question"
+                      className="pulsing-label"
                       style={{
                         paddingTop: "1vh",
                         width: "100%",
                         fontFamily: "dot",
                         fontSize: "1.6vh",
+                        color: "black",
                       }}
                     >
                       {randomQuestion}

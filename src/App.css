@@ -1106,6 +1106,15 @@ input{
   font-weight: 900;
 }
 
+@keyframes pulseOpacity {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.25; }
+}
+
+.pulsing-label {
+  animation: pulseOpacity 2s ease-in-out infinite;
+}
+
 button{
   background-color: transparent;
   border: none;
