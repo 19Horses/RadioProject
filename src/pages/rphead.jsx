@@ -107,7 +107,7 @@ export default function RPHead({ isMobile }) {
             facingMode: "user",
             // Let the device choose its native resolution
             width: { ideal: isMobile ? 300 : 640 },
-            height: { ideal: isMobile ? 240 : 480 },
+            height: { ideal: isMobile ? 260 : 480 },
           },
         },
         () => {
