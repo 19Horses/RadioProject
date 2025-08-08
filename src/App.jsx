@@ -10,6 +10,7 @@ import { Landing } from "./pages/Landing";
 import { Chat } from "./pages/Chat";
 import { Article } from "./pages/Article";
 import RPHead, { RPGrid } from "./pages/rphead";
+import { DynamicTitle } from "./utils/useDynamicTitle";
 
 function App() {
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
@@ -27,6 +28,7 @@ function App() {
 
   return (
     <HashRouter>
+      <DynamicTitle />
       <div className={"gradient-overlay-tl"} />
       <Header
         isMobile={isMobile}
