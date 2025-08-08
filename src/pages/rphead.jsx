@@ -58,6 +58,7 @@ export default function RPHead({ isMobile }) {
   const [step, setStep] = useState(0); // Tracks which question we're on
   const textareaRef = useRef();
   const [randomQuestion, setRandomQuestion] = useState("");
+  const [submitted, setSubmitted] = useState(false);
 
   const bayerMatrix = [
     [15, 7, 13, 5],
@@ -337,6 +338,7 @@ export default function RPHead({ isMobile }) {
     const formBlob = new Blob([JSON.stringify(inputs)], {
       type: "application/json",
     });
+    setSubmitted(true);
 
     try {
       await Promise.all([
@@ -344,11 +346,11 @@ export default function RPHead({ isMobile }) {
         uploadToBackend(unditheredBlob, unditheredKey, "image/png"),
         uploadToBackend(formBlob, formKey, "application/json"),
       ]);
-      navigate("/visitorcheck");
     } catch (err) {
       console.error("Upload failed", err);
       alert("Upload failed. Check console.");
     }
+    setTimeout(() => navigate("/visitorcheck"), 1100);
   };
 
   useEffect(() => {
@@ -402,7 +404,13 @@ export default function RPHead({ isMobile }) {
   const currentIcon = starSignIcons[currentSign];
 
   return (
-    <div className="rphead-container">
+    <div
+      className="rphead-container"
+      style={{
+        transform: submitted ? "translateY(-100vh)" : "translateY(0vh)",
+        transition: "transform 1s ease-in-out",
+      }}
+    >
       <div
         style={{
           display: "flex",
@@ -793,205 +801,6 @@ export default function RPHead({ isMobile }) {
               </button>
             </div>
           </form>
-
-          {/* <form
-            onSubmit={handleSubmit}
-            autoComplete="off"
-            style={{ display: "flex", flexDirection: "column" }}
-          >
-            <div style={{ display: "flex", flexDirection: "row" }}>
-              <div style={{ display: "flex", flexDirection: "column" }}>
-                {step >= 0 && (
-                  <div
-                    style={{
-                      opacity: 0,
-                      animation: "fadeIn 1s ease-in-out forwards",
-                      animationDelay: "0.7s",
-                      marginBottom: step > 0 ? "0vh" : "1rem",
-                      display: "flex",
-                      flexDirection: "row",
-                    }}
-                  >
-                    <div>
-                      <div style={{ display: "flex", gap: "0.5rem" }}>
-                        <input
-                          id="username"
-                          type="text"
-                          name="username"
-                          pattern="[A-Za-z0-9]*"
-                          value={inputs.username || ""}
-                          onChange={handleChange}
-                          readOnly={step > 0}
-                          style={{
-                            borderBottom: "1px solid",
-                            borderColor: step > 0 ? "transparent" : "#000",
-                            marginBottom: step > 0 ? "0vh" : "",
-                            transition: " border-color .2s ease-in-out",
-                          }}
-                        />
-                      </div>
-                      {step === 0 && (
-                        <label
-                          htmlFor="username"
-                          style={{
-                            opacity: showNameLabel ? 1 : 0,
-                            transition: "opacity .2s ease-in-out",
-                          }}
-                        >
-                          NAME
-                        </label>
-                      )}
-                    </div>
-                    {step === 0 && (
-                      <button
-                        onClick={handleNext}
-                        disabled={!inputs.username}
-                        style={{
-                          opacity: showNameLabel ? 1 : 0,
-                          transition: "opacity .2s ease-in-out",
-                        }}
-                      >
-                        <img src={chevron} />
-                      </button>
-                    )}
-                  </div>
-                )}
-
-                {step >= 1 && (
-                  <div
-                    style={{
-                      marginBottom: "1rem",
-                      display: "flex",
-                      flexDirection: "row",
-                      opacity: 0,
-                      animation: "fadeIn 1s ease-in-out forwards",
-                      animationDelay: "0.1s",
-                    }}
-                  >
-                    <div>
-                      <div style={{ display: "flex", gap: "0.5rem" }}>
-                        <input
-                          id="profession"
-                          type="text"
-                          name="profession"
-                          value={inputs.profession || ""}
-                          onChange={handleTAChange}
-                          readOnly={step > 1}
-                          style={{
-                            fontSize: step > 1 ? "1.4vh" : "4vh",
-                            borderBottom: "1px solid",
-                            borderColor: step > 1 ? "transparent" : "#000",
-                            transition:
-                              "font-size 0.3s ease-in-out, border-color 0.2s ease-in-out",
-                          }}
-                        />
-                      </div>
-                      <div style={{ opacity: step > 1 ? "0" : "1" }}>
-                        {step >= 1 && (
-                          <label
-                            htmlFor="profession"
-                            style={{
-                              opacity: showProfessionLabel ? 1 : 0,
-                              transition: "opacity .2s ease-in-out",
-                            }}
-                          >
-                            WHAT'S YOUR PROFESSION?
-                          </label>
-                        )}
-                      </div>
-                    </div>
-                    {step == 1 && (
-                      <button
-                        onClick={handleNext}
-                        disabled={!inputs.username}
-                        style={{
-                          opacity: showProfessionLabel ? 1 : 0,
-                          transition: "opacity .2s ease-in-out",
-                        }}
-                      >
-                        <img src={chevron} />
-                      </button>
-                    )}
-                  </div>
-                )}
-              </div>
-              {step >= 2 && (
-                <img
-                  src={currentIcon}
-                  width="50vh"
-                  height="50vh"
-                  style={{ animation: "fadeIn 1s forwards" }}
-                />
-              )}
-            </div>
-
-            {step >= 2 && (
-              <StarSignStep
-                inputs={inputs}
-                setInputs={setInputs}
-                step={step}
-                handleNext={handleNext}
-                setStep={setStep}
-              />
-            )}
-            {step >= 3 && (
-              <div
-                style={{
-                  marginBottom: "1rem",
-                  display: "flex",
-                  flexDirection: "row",
-                  opacity: 0,
-                  animation: "fadeIn 1s ease-in-out forwards",
-                  animationDelay: "0.1s",
-                }}
-              >
-                <div>
-                  <div style={{ display: "flex", gap: "0.5rem" }}>
-                    <textarea
-                      id="answer"
-                      name="answer"
-                      value={inputs.answer || ""}
-                      onChange={handleTAChange}
-                      onKeyDown={(e) => {
-                        if (e.key === "Enter" && !e.shiftKey) {
-                          e.preventDefault(); // prevent newline
-                          handleSubmit(e); // manually trigger submit
-                        }
-                      }}
-                      rows={1}
-                      style={{
-                        resize: "none", // Optional: prevent manual resizing
-                        overflow: "hidden", // Hide scrollbars
-                        fontFamily: "Helvetica",
-                        border: "none",
-                        backgroundColor: "transparent",
-                        fontSize: "4vh",
-                        width: "20vw",
-                        borderBottom: "1px solid #000000",
-                      }}
-                      maxlength={150}
-                      ref={textareaRef}
-                    />
-                  </div>
-                  <label
-                    htmlFor="username"
-                    style={{ textTransform: "uppercase", width: "80%" }}
-                  >
-                    {randomQuestion}
-                  </label>
-                </div>
-                {step == 3 && (
-                  <button
-                    type="submit"
-                    disabled={!inputs.answer}
-                    style={{ marginLeft: "2vh", fontSize: "2vh" }}
-                  >
-                    ⏎
-                  </button>
-                )}
-              </div>
-            )}
-          </form> */}
         </div>
       </div>
     </div>
@@ -1309,8 +1118,7 @@ export function RPGrid({ isPlaying, isMobile }) {
             <DitheredImageCanvas
               isMobile={isMobile}
               imageUrl={clickedImage}
-              width={640}
-              height={480}
+              deviceType={clickedFormData.deviceType}
             />
           </div>
 
@@ -1476,8 +1284,7 @@ export function RPGrid({ isPlaying, isMobile }) {
             <DitheredImageCanvas
               isMobile={isMobile}
               imageUrl={clickedImage}
-              width={640}
-              height={480}
+              deviceType={clickedFormData.deviceType}
             />
           </div>
 

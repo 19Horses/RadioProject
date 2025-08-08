@@ -35,7 +35,11 @@ function applyBayerDither(p5, img, scaleFactor) {
   img.updatePixels();
 }
 
-export default function DitheredImageCanvas({ imageUrl, isMobile }) {
+export default function DitheredImageCanvas({
+  imageUrl,
+  isMobile,
+  deviceType,
+}) {
   const [p5Image, setP5Image] = useState(null);
   const currentScaleRef = useRef(15);
   const animationStartTime = useRef(Date.now());
@@ -46,8 +50,18 @@ export default function DitheredImageCanvas({ imageUrl, isMobile }) {
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
+        if (deviceType === "mobile") {
+          setDimensions({ width: "480", height: "640" });
+        }
         const { width } = entry.contentRect;
-        const height = width * (3 / 4); // 4:3 aspect ratio
+
+        let height = 0;
+        if (deviceType === "mobile") {
+          height = width * (4 / 3);
+        } else {
+          height = width * (3 / 4); // 4:3 aspect ratio
+        }
+
         setDimensions({ width, height });
       }
     });
@@ -99,8 +113,14 @@ export default function DitheredImageCanvas({ imageUrl, isMobile }) {
     <div
       ref={containerRef}
       style={{
-        width: isMobile ? "100%" : "50vw",
-        aspectRatio: "4 / 3",
+        width: isMobile
+          ? deviceType === "mobile"
+            ? "100%"
+            : "100%"
+          : deviceType === "mobile"
+          ? "30vw"
+          : "50vw",
+        aspectRatio: deviceType === "mobile" ? "3 / 4" : "4 / 3",
         position: "relative",
       }}
     >
