@@ -113,8 +113,8 @@ export default function RPHead({ isMobile }) {
         () => {
           videoRef.current.hide();
           // Update canvas to match camera's native resolution
-          const actualWidth = videoRef.current.el.width;
-          const actualHeight = videoRef.current.el.height;
+          const actualWidth = videoRef.current.width;
+          const actualHeight = videoRef.current.height;
 
           setCanvasSize({
             width: actualWidth,
