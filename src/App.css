@@ -719,7 +719,7 @@ table {
   position: fixed;
   top: auto;
   bottom: 3vh;
-  height: 85vh;
+  height: 93vh;
   width: 15px;
   opacity: 0;
   animation: fadeIn 0.3s ease-in forwards;
@@ -750,7 +750,7 @@ table {
   height: 85%;
   width: 3vh;
   right: 1%;
-  top: 12%;
+  top: 5%;
 }
 
 .control-module__desktop p{
