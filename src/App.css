@@ -309,6 +309,11 @@ padding-left: 5vw;
 
 }
 
+#defaultCanvas0{
+  width: 100%;
+  height: auto;
+}
+
 .selectTrack:hover {
   color: rgb(255, 61, 129);
 }

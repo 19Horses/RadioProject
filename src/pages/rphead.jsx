@@ -98,6 +98,11 @@ export default function RPHead({ isMobile }) {
   const setup = (p5, canvasParentRef) => {
     const canvas = p5.createCanvas(canvasSize.width, canvasSize.height);
     canvas.parent(canvasParentRef);
+
+    canvas.style("height", "100%");
+    canvas.style("width", "auto");
+    // canvas.style("display", "block");
+    // canvas.style("margin", "0 auto");
     p5.background(0);
 
     if (!videoRef.current) {
@@ -106,8 +111,8 @@ export default function RPHead({ isMobile }) {
           video: {
             facingMode: "user",
             // Let the device choose its native resolution
-            width: { ideal: isMobile ? 480 : 640 },
-            height: { ideal: isMobile ? 640 : 480 },
+            width: { ideal: isMobile ? 1920 : 640 },
+            height: { ideal: isMobile ? 1440 : 480 },
           },
         },
         () => {
@@ -475,8 +480,8 @@ export default function RPHead({ isMobile }) {
                   draw={draw}
                   style={{
                     display: "block",
-                    width: `${canvasSize.width}px`,
-                    height: `${canvasSize.height}px`,
+                    width: `${canvasSize.width}px`, //100%
+                    // height: `${canvasSize.height}px`, //auto
                   }}
                 />
               </div>
