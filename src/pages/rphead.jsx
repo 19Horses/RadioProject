@@ -149,7 +149,7 @@ export default function RPHead({ isMobile }) {
     }
 
     // Desired aspect ratio
-    const targetAspect = isMobile ? 3 / 4 : 4 / 3;
+    const targetAspect = isMobile ? 4 / 3 : 4 / 3;
     let sx, sy, sWidth, sHeight;
 
     if (video.width / video.height > targetAspect) {
