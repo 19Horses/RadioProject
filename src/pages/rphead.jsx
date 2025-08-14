@@ -140,23 +140,15 @@ export default function RPHead({ isMobile }) {
 
     let scaleFactor = 13;
 
-    // Save the current transform
     p5.push();
 
-    // Handle mobile camera orientation (mirror selfie-style)
+    // Mirror horizontally for selfie
     if (isMobile) {
-      const isPortrait = video.width < video.height;
-
-      if (isPortrait) {
-        p5.translate(p5.width, 0);
-        p5.scale(-1, 1);
-      } else {
-        p5.translate(p5.width, 0);
-        p5.scale(-1, 1);
-      }
+      p5.translate(p5.width, 0);
+      p5.scale(-1, 1);
     }
 
-    // Calculate centered crop (so left+right or top+bottom are trimmed evenly)
+    // Desired aspect ratio
     const targetAspect = isMobile ? 3 / 4 : 4 / 3;
     let sx, sy, sWidth, sHeight;
 
@@ -164,15 +156,21 @@ export default function RPHead({ isMobile }) {
       // video too wide → crop sides
       sHeight = video.height;
       sWidth = sHeight * targetAspect;
-      sx = (video.width - sWidth) / 2; // center horizontally
+      sx = (video.width - sWidth) / 2;
       sy = 0;
     } else {
       // video too tall → crop top/bottom
       sWidth = video.width;
       sHeight = sWidth / targetAspect;
       sx = 0;
-      sy = (video.height - sHeight) / 2; // center vertically
+      sy = (video.height - sHeight) / 2;
     }
+
+    // How large to display the feed (without stretching)
+    const displayWidth = p5.height * targetAspect;
+    const displayHeight = p5.height;
+    const dx = (p5.width - displayWidth) / 2; // center horizontally
+    const dy = 0; // already fills vertically
 
     if (snapped) {
       const duration = 2000;
@@ -196,18 +194,35 @@ export default function RPHead({ isMobile }) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
 
-        // Draw cropped snapshot centered into canvas
-        p5.image(img, 0, 0, p5.width, p5.height, sx, sy, sWidth, sHeight);
+        p5.image(
+          img,
+          dx,
+          dy,
+          displayWidth,
+          displayHeight,
+          sx,
+          sy,
+          sWidth,
+          sHeight
+        );
       }
     } else {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
 
-      // Draw cropped live video centered into canvas
-      p5.image(frame, 0, 0, p5.width, p5.height, sx, sy, sWidth, sHeight);
+      p5.image(
+        frame,
+        dx,
+        dy,
+        displayWidth,
+        displayHeight,
+        sx,
+        sy,
+        sWidth,
+        sHeight
+      );
     }
 
-    // Restore transform
     p5.pop();
   };
 
