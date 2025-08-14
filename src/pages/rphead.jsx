@@ -170,8 +170,9 @@ export default function RPHead({ isMobile }) {
     const displayWidth = p5.height * targetAspect;
     const displayHeight = p5.height;
     const dx = isMobile
-      ? (p5.width - displayWidth) / 2 + 140
-      : (p5.width - displayWidth) / 2; // ✅ push 20px right
+      ? (p5.width - displayWidth) / 2
+      : //  + 140
+        (p5.width - displayWidth) / 2; // ✅ push 20px right
     const dy = 0; // already fills vertically
 
     if (snapped) {
@@ -348,12 +349,12 @@ export default function RPHead({ isMobile }) {
       let dx = (p5canvas.width - displayWidth) / 2;
       const dy = 0;
 
-      if (isMobile) {
-        // Crop extra from the right side (e.g., 40px)
-        const extraCrop = 421;
-        displayWidth -= extraCrop; // shrink the crop width
-        // dx stays the same so crop comes off the right side
-      }
+      // if (isMobile) {
+      //   // Crop extra from the right side (e.g., 40px)
+      //   const extraCrop = 421;
+      //   displayWidth -= extraCrop; // shrink the crop width
+      //   // dx stays the same so crop comes off the right side
+      // }
 
       const cropCanvas = document.createElement("canvas");
       cropCanvas.width = displayWidth;
