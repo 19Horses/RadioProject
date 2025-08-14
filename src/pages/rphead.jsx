@@ -352,7 +352,7 @@ export default function RPHead({ isMobile }) {
 
       if (isMobile) {
         // Crop extra from the right side (e.g., 40px)
-        const extraCrop = 421;
+        const extraCrop = 0;
         displayWidth -= extraCrop; // shrink the crop width
         // dx stays the same so crop comes off the right side
       }
