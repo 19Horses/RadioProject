@@ -451,18 +451,20 @@ export default function RPHead({ isMobile }) {
               style={{
                 display: "flex",
                 flexDirection: "column",
+                justifyContent: "center", // 👈 centers vertically
+                alignItems: "center", // 👈 centers horizontally
                 width: "100%",
-                height: "auto",
+                height: "100%", // 👈 important so it has space to center within
               }}
             >
               <div
                 style={{
                   width: `${canvasSize.width}px`,
                   height: `${canvasSize.height}px`,
-                  aspectRatio: isMobile ? "3 / 4" : "4 / 3", // Fixed aspect ratios for display
-                  maxWidth: "100%", // Optional for responsiveness
+                  aspectRatio: isMobile ? "3 / 4" : "4 / 3",
+                  maxWidth: "100%",
                   maxHeight: "100%",
-                  overflow: "hidden", // Optional if you want cropping behavior
+                  overflow: "hidden",
                   cursor: snapped ? "default" : "pointer",
                   pointerEvents: snapped ? "none" : "auto",
                 }}
