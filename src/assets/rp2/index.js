@@ -1,4 +1,4 @@
- import p from './p.jpg'
+ import p from './p.png'
  import pp from './2pp.png'
  import ip from "./ip.png"
 

@@ -1,5 +1,5 @@
 import React, { useRef, useEffect } from "react";
-import { CursorTitle } from "../styles";
+import { CursorTitle, MainCursorTitle } from "../styles";
 
 export const CustomCursor = ({
   hoveredGuest,
@@ -47,7 +47,9 @@ export const CustomCursor = ({
     <div
       className="cursor"
       ref={cursor}
-      style={{ textAlign: isLeft ? "right" : "left" }}
+      style={{
+        textAlign: isLeft ? "right" : "left",
+      }}
     >
       {/* Line 1 */}
       <CursorTitle
@@ -68,7 +70,7 @@ export const CustomCursor = ({
       {!isGuest && <br />}
 
       {/* Line 2 */}
-      <CursorTitle
+      <MainCursorTitle
         className="cursor-title"
         $hovered={hovered}
         $bgcolor="black"
@@ -83,45 +85,32 @@ export const CustomCursor = ({
         $isMobile={isMobile}
       >
         <b>{isGuest ? title : profession}</b>
-      </CursorTitle>
+      </MainCursorTitle>
       <br />
+      <div
+        style={{
+          marginTop: ".5vh",
+        }}
+      >
+        {/* Line 3 */}
+        {isGuest && (
+          <CursorTitle
+            className="cursor-title"
+            $hovered={hovered}
+            $bgcolor="black"
+            color="white"
+            fontSize="2.6vh"
+            $delay={0.2}
+            style={{ paddingBottom: ".3vh" }}
+            $isMobile={isMobile}
+          >
+            <b>{title2}</b>
+          </CursorTitle>
+        )}
+        <br />
 
-      {/* Line 3 */}
-      {isGuest && (
-        <CursorTitle
-          className="cursor-title"
-          $hovered={hovered}
-          $bgcolor="black"
-          color="white"
-          fontSize="2.6vh"
-          $delay={0.2}
-          style={{ paddingBottom: ".3vh" }}
-          $isMobile={isMobile}
-        >
-          <b>{title2}</b>
-        </CursorTitle>
-      )}
-      <br />
-
-      {/* Line 4 */}
-      {isGuest && (
-        <CursorTitle
-          className="cursor-title"
-          $hovered={hovered}
-          $bgcolor="black"
-          color="white"
-          fontSize="2vh"
-          $delay={0.2}
-          $isMobile={isMobile}
-        >
-          <b>{title3}</b>
-        </CursorTitle>
-      )}
-
-      {/* Line 5 (only for guests) */}
-      {isGuest && (
-        <>
-          <br />
+        {/* Line 4 */}
+        {isGuest && (
           <CursorTitle
             className="cursor-title"
             $hovered={hovered}
@@ -131,10 +120,28 @@ export const CustomCursor = ({
             $delay={0.2}
             $isMobile={isMobile}
           >
-            <b>{broadcastDate}</b>
+            <b>{title3}</b>
           </CursorTitle>
-        </>
-      )}
+        )}
+
+        {/* Line 5 (only for guests) */}
+        {isGuest && (
+          <>
+            <br />
+            <CursorTitle
+              className="cursor-title"
+              $hovered={hovered}
+              $bgcolor="black"
+              color="white"
+              fontSize="2vh"
+              $delay={0.2}
+              $isMobile={isMobile}
+            >
+              <b>{broadcastDate}</b>
+            </CursorTitle>
+          </>
+        )}
+      </div>
     </div>
   );
 };

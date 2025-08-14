@@ -76,6 +76,7 @@ export const Article = ({ isMobile, isPlaying }) => {
                     style={{
                       fontFamily: "Helvetica",
                       fontWeight: "100",
+                      padding: "2px 5px", // Optional for better visibility
                     }}
                   >
                     {articleSelected?.rpCount}

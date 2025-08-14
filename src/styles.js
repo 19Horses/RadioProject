@@ -98,7 +98,7 @@ export const PhotoContainerAll = styled.div`
 export const CursorTitle = styled.p`
   background-color: ${(props) => (props.$hovered ? props.$bgcolor : "")};
   color: ${(props) => (props.$hovered ? props.color : "black")};
-  display: ${(props) => (props.isMobile ? "inline" : "inline-block")};
+  display: ${(props) => (props.isMobile ? "inline" : "inline")};
   font-size: ${(props) => props.fontSize || "inherit"};
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: ${(props) => props.$delay}s;
@@ -107,4 +107,16 @@ export const CursorTitle = styled.p`
   margin: 0vh;
 
 
+`;
+
+export const MainCursorTitle = styled.p`
+  background-color: ${(props) => (props.$hovered ? props.$bgcolor : "")};
+  color: ${(props) => (props.$hovered ? props.color : "black")};
+  display: ${(props) => (props.isMobile ? "inline" : "inline")};
+  font-size: ${(props) => props.fontSize || "inherit"};
+  animation: ${fadeIn} 0.5s ease-out forwards;
+  animation-delay: ${(props) => props.$delay}s;
+  opacity: 0;
+  padding-bottom: .1vh;
+  margin: 0vh;
 `;

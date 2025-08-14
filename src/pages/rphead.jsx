@@ -483,15 +483,21 @@ export default function RPHead({ isMobile }) {
         </div>
 
         <div
-          className="visitor-log-textform"
+          className={
+            isMobile ? "visitor-log-textform-mobile" : "visitor-log-textform"
+          }
           style={{
             display: "flex",
-            justifyContent: "center", // 👈 always center, use transform for movement
-            height: "auto",
+            justifyContent: isMobile ? "" : "center", // 👈 always center, use transform for movement
+            height: isMobile ? (snapped ? "300px" : "0vh") : "auto",
             width: isMobile ? "0" : snapped ? "320px" : "0",
             opacity: snapped ? "1" : "0",
             pointerEvents: snapped ? "auto" : "none",
-            transition: snapped
+            transition: isMobile
+              ? snapped
+                ? "height 1.3s ease-in-out, opacity 1.3s ease-in-out .7s"
+                : "height 1.3s ease-in-out, opacity .5s ease-in-out "
+              : snapped
               ? "width 1.3s ease-in-out, opacity 1.3s ease-in-out .7s"
               : "width 1.3s ease-in-out, opacity .5s ease-in-out ",
           }}
