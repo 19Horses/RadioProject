@@ -169,7 +169,9 @@ export default function RPHead({ isMobile }) {
     // How large to display the feed (without stretching)
     const displayWidth = p5.height * targetAspect;
     const displayHeight = p5.height;
-    const dx = (p5.width - displayWidth) / 2; // center horizontally
+    const dx = isMobile
+      ? (p5.width - displayWidth) / 2 - 100
+      : (p5.width - displayWidth) / 2; // ✅ push 20px right
     const dy = 0; // already fills vertically
 
     if (snapped) {
