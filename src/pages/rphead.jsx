@@ -338,7 +338,8 @@ export default function RPHead({ isMobile }) {
       return;
     }
 
-    async function getCroppedCanvasBlob() {
+    async function getCroppedCanvasBlob(originalCanvas) {
+      const originalWidth = originalCanvas.width;
       const p5canvas = document.querySelector("canvas");
       if (!p5canvas) throw new Error("Canvas element not found");
 
@@ -349,31 +350,18 @@ export default function RPHead({ isMobile }) {
       const dy = 0;
 
       if (isMobile) {
-        // Crop extra from the right side (e.g., 40px)
         const extraCrop = 420;
-        displayWidth -= extraCrop; // shrink the crop width
-        // dx stays the same so crop comes off the right side
+        displayWidth -= extraCrop;
       }
 
       const cropCanvas = document.createElement("canvas");
       cropCanvas.width = displayWidth;
       cropCanvas.height = displayHeight;
+
       const ctx = cropCanvas.getContext("2d");
       ctx.translate(originalWidth, 0);
       ctx.scale(-1, 1);
       ctx.drawImage(originalCanvas, 0, 0);
-
-      ctx.drawImage(
-        p5canvas,
-        dx,
-        dy,
-        displayWidth,
-        displayHeight,
-        0,
-        0,
-        displayWidth,
-        displayHeight
-      );
 
       return new Promise((resolve) => {
         cropCanvas.toBlob((blob) => resolve(blob), "image/png");
@@ -381,7 +369,7 @@ export default function RPHead({ isMobile }) {
     }
 
     // Convert the dithered canvas to a blob
-    const ditheredBlob = await getCroppedCanvasBlob();
+    const ditheredBlob = await getCroppedCanvasBlob(snapshotRef.current.canvas);
 
     // Create an offscreen canvas for the undithered image
     const originalCanvas = snapshotRef.current?.canvas;
