@@ -349,9 +349,10 @@ export default function RPHead({ isMobile }) {
       const dy = 0;
 
       if (isMobile) {
-        // Crop extra from the right side (e.g., 420px)
+        // Crop extra from the right side (e.g., 40px)
         const extraCrop = 420;
-        displayWidth -= extraCrop;
+        displayWidth -= extraCrop; // shrink the crop width
+        // dx stays the same so crop comes off the right side
       }
 
       const cropCanvas = document.createElement("canvas");
@@ -395,12 +396,7 @@ export default function RPHead({ isMobile }) {
 
     const ctx = unditheredCanvas.getContext("2d");
 
-    if (isMobile) {
-      // Flip horizontally only on mobile
-      ctx.translate(originalWidth, 0);
-      ctx.scale(-1, 1);
-    }
-
+    // Draw the full image (no cropping or aspect ratio adjustments)
     ctx.drawImage(originalCanvas, 0, 0);
 
     const unditheredBlob = await canvasToBlob(unditheredCanvas);
