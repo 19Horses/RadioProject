@@ -143,21 +143,35 @@ export default function RPHead({ isMobile }) {
     // Save the current transform
     p5.push();
 
-    // Handle mobile camera orientation
+    // Handle mobile camera orientation (mirror selfie-style)
     if (isMobile) {
-      // Check if video is in portrait orientation
       const isPortrait = video.width < video.height;
 
       if (isPortrait) {
-        // For portrait video, we might need to rotate or adjust
-        // For now, just flip horizontally like before
         p5.translate(p5.width, 0);
         p5.scale(-1, 1);
       } else {
-        // For landscape video, just flip horizontally
         p5.translate(p5.width, 0);
         p5.scale(-1, 1);
       }
+    }
+
+    // Calculate centered crop (so left+right or top+bottom are trimmed evenly)
+    const targetAspect = isMobile ? 3 / 4 : 4 / 3;
+    let sx, sy, sWidth, sHeight;
+
+    if (video.width / video.height > targetAspect) {
+      // video too wide → crop sides
+      sHeight = video.height;
+      sWidth = sHeight * targetAspect;
+      sx = (video.width - sWidth) / 2; // center horizontally
+      sy = 0;
+    } else {
+      // video too tall → crop top/bottom
+      sWidth = video.width;
+      sHeight = sWidth / targetAspect;
+      sx = 0;
+      sy = (video.height - sHeight) / 2; // center vertically
     }
 
     if (snapped) {
@@ -182,15 +196,15 @@ export default function RPHead({ isMobile }) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
 
-        // Use image's actual dimensions - no stretching
-        p5.image(img, 0, 0, img.width, img.height);
+        // Draw cropped snapshot centered into canvas
+        p5.image(img, 0, 0, p5.width, p5.height, sx, sy, sWidth, sHeight);
       }
     } else {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
 
-      // Use video's actual dimensions - no stretching
-      p5.image(frame, 0, 0, frame.width, frame.height);
+      // Draw cropped live video centered into canvas
+      p5.image(frame, 0, 0, p5.width, p5.height, sx, sy, sWidth, sHeight);
     }
 
     // Restore transform
