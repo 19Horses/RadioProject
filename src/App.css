@@ -1090,6 +1090,18 @@ font-weight: 300;
   z-index: 9999;
 }
 
+.visitor-log-textform-mobile {
+  display: flex;
+  top: 70vh;
+  left: 7vw;
+  flex-direction: row;
+  height: auto;
+  width: 10vw;
+  box-sizing: border-box;
+  gap: 2rem;
+  z-index: 9999;
+}
+
 label {
   display: flex;
   flex-direction: column;
@@ -1145,18 +1157,5 @@ position: fixed;
   gap: 2rem;
   z-index: 9999;
 }
-
-.visitor-log-textform-mobile {
-  display: flex;
-  top: 70vh;
-  left: 7vw;
-  flex-direction: row;
-  height: auto;
-  width: 100vw;
-  box-sizing: border-box;
-  gap: 2rem;
-  z-index: 9999;
 }
 
-
-}

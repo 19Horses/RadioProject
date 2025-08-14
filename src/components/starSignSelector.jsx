@@ -17,7 +17,14 @@ const starSigns = [
   "Pisces",
 ];
 
-const StarSignStep = ({ inputs, setInputs, step, setStep, handleNext }) => {
+const StarSignStep = ({
+  inputs,
+  setInputs,
+  step,
+  setStep,
+  handleNext,
+  isMobile,
+}) => {
   const [index, setIndex] = useState(0);
   const [showStarSignLabel, setShowStarSignLabel] = useState(true);
 
@@ -68,19 +75,22 @@ const StarSignStep = ({ inputs, setInputs, step, setStep, handleNext }) => {
           type="button"
           onClick={handleLeft}
           aria-label="Previous Star Sign"
-          style={{ paddingLeft: "0", width: "1.4vh" }}
+          style={{ paddingLeft: "0", width: isMobile ? "2vh" : "1.4vh" }}
         >
-          <img style={{ width: "1.4vh" }} src={leftchevron} />
+          <img
+            style={{ width: isMobile ? "2vh" : "1.4vh" }}
+            src={leftchevron}
+          />
         </button>
         <div
           style={{
             fontFamily: "dot",
             textTransform: "uppercase",
-            fontSize: "1.4vh",
+            fontSize: isMobile ? "2vh" : "1.4vh",
             overflow: "hidden",
             width: "auto",
             textAlign: "center",
-            paddingTop: ".2vh",
+            paddingTop: isMobile ? "0" : ".2vh",
             fontWeight: "1000",
           }}
         >
@@ -90,9 +100,9 @@ const StarSignStep = ({ inputs, setInputs, step, setStep, handleNext }) => {
           type="button"
           onClick={handleRight}
           aria-label="Nexr Star Sign"
-          style={{ paddingLeft: "0", width: "1.4vh" }}
+          style={{ paddingLeft: "0", width: isMobile ? "2vh" : "1.4vh" }}
         >
-          <img style={{ width: "1.4vh" }} src={chevron} />
+          <img style={{ width: isMobile ? "2vh" : "1.4vh" }} src={chevron} />
         </button>
       </div>
 

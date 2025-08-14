@@ -454,7 +454,7 @@ export default function RPHead({ isMobile }) {
           gap: ".5rem",
           padding: "1rem",
           paddingRight: ".9rem",
-          scale: isMobile ? "0.8" : "",
+          scale: isMobile ? "0.85" : "",
 
           background: snapped ? "white" : "unset",
           borderRadius: "8px",
@@ -529,7 +529,7 @@ export default function RPHead({ isMobile }) {
           style={{
             display: "flex",
             justifyContent: isMobile ? "" : "center", // 👈 always center, use transform for movement
-            height: isMobile ? (snapped ? "300px" : "0vh") : "auto",
+            height: isMobile ? (snapped ? "35vh" : "0vh") : "auto",
             width: isMobile ? "0" : snapped ? "320px" : "0",
             opacity: snapped ? "1" : "0",
             pointerEvents: snapped ? "auto" : "none",
@@ -557,7 +557,7 @@ export default function RPHead({ isMobile }) {
                   fontSize: "14px",
                   maxHeight: 480,
                   overflow: "auto",
-                  width: isMobile ? 310 : 300,
+                  width: isMobile ? "73vw" : 300,
                 }}
               >
                 <>
@@ -581,7 +581,7 @@ export default function RPHead({ isMobile }) {
                         style={{
                           display: "flex",
                           flexDirection: "column",
-                          gap: "0.5vh",
+                          gap: isMobile ? "0" : "0.5vh",
                           position: "relative", // Make sure it's not statically positioned
                           overflow: "visible", // ✅ allow children to overflow
                           zIndex: 1, // This can stay, but child must be higher
@@ -608,6 +608,7 @@ export default function RPHead({ isMobile }) {
                               fontWeight: "900",
                               textTransform: "uppercase",
                               width: "100%",
+                              paddingLeft: "0",
                               // borderBottom: "1px solid",
                               // borderColor: step > 0 ? "transparent" : "#000",
                               marginBottom: step > 0 ? "0vh" : "",
@@ -633,12 +634,14 @@ export default function RPHead({ isMobile }) {
                             readOnly={step > 1}
                             placeholder="enter profession"
                             style={{
-                              fontSize: "1.4vh",
+                              fontSize: "2vh",
                               fontWeight: "900",
                               textTransform: "uppercase",
                               width: "75%",
+                              paddingLeft: "0",
                               // borderBottom: "1px solid",
                               // borderColor: step > 0 ? "transparent" : "#000",
+
                               marginBottom: step > 0 ? "0vh" : "",
                               transition: " border-color .2s ease-in-out",
                             }}
@@ -682,7 +685,7 @@ export default function RPHead({ isMobile }) {
               >
                 <div
                   style={{
-                    paddingLeft: "1vw",
+                    paddingLeft: isMobile ? "2.3vw" : "1vw",
                     paddingTop: "1vh",
                     color: "gray",
                     fontSize: "1.3vh",
@@ -705,6 +708,7 @@ export default function RPHead({ isMobile }) {
                     handleNext={handleNext}
                     setStep={setStep}
                     style={{ left: "20vw" }}
+                    isMobile={isMobile}
                   />
                 </div>
               </div>
@@ -764,7 +768,7 @@ export default function RPHead({ isMobile }) {
                           fontFamily: "dot",
                           border: "none",
                           backgroundColor: "transparent",
-                          fontSize: "1.6vh",
+                          fontSize: isMobile ? "2vh" : "1.6vh",
                           width: "95%",
                           borderBottom: "1px solid #000000",
                           minHeight: "1vh", // 👈 prevents the jumpiness
@@ -781,7 +785,7 @@ export default function RPHead({ isMobile }) {
                         paddingTop: "1vh",
                         width: "100%",
                         fontFamily: "dot",
-                        fontSize: "1.6vh",
+                        fontSize: isMobile ? "2vh" : "1.6vh",
                         color: "black",
                       }}
                     >
