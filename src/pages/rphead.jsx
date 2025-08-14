@@ -480,8 +480,9 @@ export default function RPHead({ isMobile }) {
                   draw={draw}
                   style={{
                     display: "block",
-                    width: `${canvasSize.width}px`, //100%
-                    // height: `${canvasSize.height}px`, //auto
+                    margin: "0 auto", // ✅ centers horizontally
+                    maxWidth: "100%", // ✅ responsive
+                    height: "auto",
                   }}
                 />
               </div>
