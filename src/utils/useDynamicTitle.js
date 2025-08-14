@@ -13,7 +13,8 @@ export function DynamicTitle() {
       "/rp/ubi": "RP1 ♪ games that touch the arts | RADIO Project",
       "/rp/dvd": "RP2 ♪ BUILD! | RADIO Project",
       "/rp/bebeluna": "RP3 ♪ Ghost in the Shell | RADIO Project",
-      "/rg/anouk" : "The Promise of Freedom in the Western Sphere | RADIO Project"
+      "/rg/anouk" : "The Promise of Freedom in the Western Sphere | RADIO Project",
+      "/rg/manny" : "A Conversation with MANNY! | RADIO Project"
     };
 
     document.title = titleMap[path] || "RADIO Project";

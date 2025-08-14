@@ -29,7 +29,7 @@ function App() {
   return (
     <HashRouter>
       <DynamicTitle />
-      <div className={"gradient-overlay-tl"} />
+      {isMobile && <div className={"gradient-overlay-tl"} />}
       <Header
         isMobile={isMobile}
         isPlaying={playingGuest}

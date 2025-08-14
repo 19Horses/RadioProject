@@ -414,6 +414,7 @@ export default function RPHead({ isMobile }) {
       <div
         style={{
           display: "flex",
+          flexDirection: isMobile ? "column" : "row",
           gap: ".5rem",
           padding: "1rem",
           paddingRight: ".9rem",
