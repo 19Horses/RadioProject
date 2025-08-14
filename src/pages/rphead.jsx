@@ -142,12 +142,6 @@ export default function RPHead({ isMobile }) {
 
     p5.push();
 
-    // Mirror horizontally for selfie
-    if (isMobile) {
-      p5.translate(p5.width, 0);
-      p5.scale(-1, 1);
-    }
-
     // Desired aspect ratio
     const targetAspect = isMobile ? 3 / 4 : 4 / 3;
     let sx, sy, sWidth, sHeight;

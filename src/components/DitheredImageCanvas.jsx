@@ -50,9 +50,6 @@ export default function DitheredImageCanvas({
   useEffect(() => {
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
-        if (deviceType === "mobile") {
-          setDimensions({ width: "480", height: "640" });
-        }
         const { width } = entry.contentRect;
 
         let height = 0;
