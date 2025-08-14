@@ -556,7 +556,7 @@ export default function RPHead({ isMobile }) {
                   fontSize: "14px",
                   maxHeight: 480,
                   overflow: "auto",
-                  width: isMobile ? 270 : 300,
+                  width: isMobile ? 310 : 300,
                 }}
               >
                 <>
