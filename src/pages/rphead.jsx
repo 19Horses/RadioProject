@@ -359,6 +359,9 @@ export default function RPHead({ isMobile }) {
       cropCanvas.width = displayWidth;
       cropCanvas.height = displayHeight;
       const ctx = cropCanvas.getContext("2d");
+      ctx.translate(originalWidth, 0);
+      ctx.scale(-1, 1);
+      ctx.drawImage(originalCanvas, 0, 0);
 
       ctx.drawImage(
         p5canvas,
