@@ -342,32 +342,34 @@ export default function RPHead({ isMobile }) {
       const p5canvas = document.querySelector("canvas");
       if (!p5canvas) throw new Error("Canvas element not found");
 
-      // Values from your draw function for cropping
       const targetAspect = isMobile ? 3 / 4 : 4 / 3;
-      const displayWidth = p5canvas.height * targetAspect;
+      let displayWidth = p5canvas.height * targetAspect;
       const displayHeight = p5canvas.height;
-      const dx = isMobile
-        ? (p5canvas.width - displayWidth) / 2 + 140
-        : (p5canvas.width - displayWidth) / 2;
+      let dx = (p5canvas.width - displayWidth) / 2;
       const dy = 0;
 
-      // Create offscreen canvas for the cropped image
+      if (isMobile) {
+        // Crop extra from the right side (e.g., 40px)
+        const extraCrop = 420;
+        displayWidth -= extraCrop; // shrink the crop width
+        // dx stays the same so crop comes off the right side
+      }
+
       const cropCanvas = document.createElement("canvas");
       cropCanvas.width = displayWidth;
       cropCanvas.height = displayHeight;
       const ctx = cropCanvas.getContext("2d");
 
-      // Crop from the p5 canvas
       ctx.drawImage(
         p5canvas,
         dx,
         dy,
         displayWidth,
-        displayHeight, // source rect
+        displayHeight,
         0,
         0,
         displayWidth,
-        displayHeight // destination rect
+        displayHeight
       );
 
       return new Promise((resolve) => {
