@@ -170,7 +170,7 @@ export default function RPHead({ isMobile }) {
     const displayWidth = p5.height * targetAspect;
     const displayHeight = p5.height;
     const dx = isMobile
-      ? (p5.width - displayWidth) / 2 + 100
+      ? (p5.width - displayWidth) / 2 + 120
       : (p5.width - displayWidth) / 2; // ✅ push 20px right
     const dy = 0; // already fills vertically
 
