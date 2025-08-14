@@ -95,6 +95,27 @@ export default function RPHead({ isMobile }) {
     img.updatePixels();
   };
 
+  // Add this at the top of your component
+  const [gyroX, setGyroX] = useState(0);
+
+  // In useEffect, set up device orientation listener for mobile
+  useEffect(() => {
+    if (isMobile) {
+      const handleOrientation = (event) => {
+        // event.gamma: left/right tilt [-90, 90]
+        // We can clamp it to a smaller range for better control
+        const maxTilt = 45;
+        const clampedGamma = Math.max(-maxTilt, Math.min(maxTilt, event.gamma));
+        setGyroX(clampedGamma);
+      };
+      window.addEventListener("deviceorientation", handleOrientation);
+
+      return () => {
+        window.removeEventListener("deviceorientation", handleOrientation);
+      };
+    }
+  }, [isMobile]);
+
   const setup = (p5, canvasParentRef) => {
     const canvas = p5.createCanvas(canvasSize.width, canvasSize.height);
     canvas.parent(canvasParentRef);
@@ -164,27 +185,35 @@ export default function RPHead({ isMobile }) {
 
       const minScale = 8;
       const maxScale = 15;
-      const clampedMouseX = Math.max(
-        0,
-        Math.min(smoothedMouseX, window.innerWidth)
-      );
-      const mouseScaleFactor =
-        minScale + ((maxScale - minScale) * clampedMouseX) / window.innerWidth;
 
-      scaleFactor = mouseScaleFactor * easedT;
+      let dynamicScale = scaleFactor;
+
+      if (isMobile) {
+        // Map gyroX [-45,45] to scale factor [minScale, maxScale]
+        const mappedScale =
+          minScale + ((gyroX + 45) / 90) * (maxScale - minScale);
+        dynamicScale = mappedScale * easedT;
+      } else {
+        const clampedMouseX = Math.max(
+          0,
+          Math.min(smoothedMouseX, window.innerWidth)
+        );
+        const mouseScaleFactor =
+          minScale +
+          ((maxScale - minScale) * clampedMouseX) / window.innerWidth;
+        dynamicScale = mouseScaleFactor * easedT;
+      }
+
+      scaleFactor = dynamicScale;
 
       if (snapshotRef.current) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
-
-        // Use image's actual dimensions - no stretching
         p5.image(img, 0, 0, img.width, img.height);
       }
     } else {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
-
-      // Use video's actual dimensions - no stretching
       p5.image(frame, 0, 0, frame.width, frame.height);
     }
 
