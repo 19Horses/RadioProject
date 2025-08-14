@@ -346,7 +346,7 @@ export default function RPHead({ isMobile }) {
       let displayWidth = p5canvas.height * targetAspect;
       const displayHeight = p5canvas.height;
       let dx = isMobile
-        ? (p5canvas.width - displayWidth) / 2 - 500
+        ? (p5canvas.width - displayWidth) / 2 - 420
         : (p5canvas.width - displayWidth) / 2;
       const dy = 0;
 
