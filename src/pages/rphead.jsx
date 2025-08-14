@@ -293,7 +293,7 @@ export default function RPHead({ isMobile }) {
     const el = textareaRef.current;
     if (el) {
       el.style.height = "auto"; // Reset height
-      el.style.height = $`{el.scrollHeight}px`; // Set to content height
+      el.style.height = `${el.scrollHeight}px`; // Set to content height
     }
   }
 
@@ -338,8 +338,45 @@ export default function RPHead({ isMobile }) {
       return;
     }
 
+    async function getCroppedCanvasBlob() {
+      const p5canvas = document.querySelector("canvas");
+      if (!p5canvas) throw new Error("Canvas element not found");
+
+      // Values from your draw function for cropping
+      const targetAspect = isMobile ? 3 / 4 : 4 / 3;
+      const displayWidth = p5canvas.height * targetAspect;
+      const displayHeight = p5canvas.height;
+      const dx = isMobile
+        ? (p5canvas.width - displayWidth) / 2 + 140
+        : (p5canvas.width - displayWidth) / 2;
+      const dy = 0;
+
+      // Create offscreen canvas for the cropped image
+      const cropCanvas = document.createElement("canvas");
+      cropCanvas.width = displayWidth;
+      cropCanvas.height = displayHeight;
+      const ctx = cropCanvas.getContext("2d");
+
+      // Crop from the p5 canvas
+      ctx.drawImage(
+        p5canvas,
+        dx,
+        dy,
+        displayWidth,
+        displayHeight, // source rect
+        0,
+        0,
+        displayWidth,
+        displayHeight // destination rect
+      );
+
+      return new Promise((resolve) => {
+        cropCanvas.toBlob((blob) => resolve(blob), "image/png");
+      });
+    }
+
     // Convert the dithered canvas to a blob
-    const ditheredBlob = await canvasToBlob(p5canvas);
+    const ditheredBlob = await getCroppedCanvasBlob();
 
     // Create an offscreen canvas for the undithered image
     const originalCanvas = snapshotRef.current?.canvas;
@@ -1281,7 +1318,6 @@ export function RPGrid({ isPlaying, isMobile }) {
             display: "flex",
             flexDirection: "column",
             position: "fixed",
-            scale: clickedFormData.deviceType === "mobile" ? "1" : ".8",
             width: clickedFormData.deviceType === "mobile" ? "70vw" : "80vw",
             top: "50%",
             left: isPlaying ? "47%" : "50%",
@@ -1317,7 +1353,6 @@ export function RPGrid({ isPlaying, isMobile }) {
             style={{
               display: "flex",
               flexWrap: "wrap",
-              scale: clickedFormData.deviceType === "mobile" ? "1" : ".8",
             }}
           >
             <div
@@ -1395,10 +1430,10 @@ export function RPGrid({ isPlaying, isMobile }) {
             </div>
 
             <div
+              className="pulsing-label"
               style={{
                 paddingLeft: ".85vw",
                 paddingTop: "1vh",
-                color: "gray",
                 fontSize: "2vh",
                 fontFamily: "dot",
                 fontStyle: "italic",

@@ -51,7 +51,7 @@ export default function DitheredImageCanvas({
     const observer = new ResizeObserver((entries) => {
       for (let entry of entries) {
         if (deviceType === "mobile") {
-          setDimensions({ width: "480", height: "640" });
+          setDimensions({ width: "300", height: "300" });
         }
         const { width } = entry.contentRect;
 
@@ -106,7 +106,18 @@ export default function DitheredImageCanvas({
 
     const imgCopy = p5Image.get();
     applyBayerDither(p5, imgCopy, currentScaleRef.current);
-    p5.image(imgCopy, 0, 0, p5.width, p5.height);
+
+    // Scale image based on height
+    const imgAspect = imgCopy.width / imgCopy.height;
+    const canvasHeight = p5.height;
+    const drawHeight = canvasHeight;
+    const drawWidth = drawHeight * imgAspect;
+
+    // Center horizontally
+    const offsetX = (p5.width - drawWidth) / 2;
+    const offsetY = 0;
+
+    p5.image(imgCopy, offsetX, offsetY, drawWidth, drawHeight);
   };
 
   return (
@@ -115,12 +126,11 @@ export default function DitheredImageCanvas({
       style={{
         width: isMobile
           ? deviceType === "mobile"
-            ? "100%"
-            : "100%"
+            ? "70vw"
+            : "100vw"
           : deviceType === "mobile"
           ? "30vw"
           : "50vw",
-        aspectRatio: deviceType === "mobile" ? "3 / 4" : "4 / 3",
         position: "relative",
       }}
     >
