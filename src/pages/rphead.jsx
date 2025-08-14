@@ -1470,33 +1470,34 @@ export function RPGrid({ isPlaying, isMobile }) {
                 <p>No form data found</p>
               )}
             </div>
-
-            <div
-              className="pulsing-label"
-              style={{
-                paddingLeft: ".85vw",
-                paddingTop: "1vh",
-                fontSize: "2vh",
-                fontFamily: "dot",
-                fontStyle: "italic",
-              }}
-            >
-              {clickedFormData.question ||
-                "No question provided. This is a bug, please report it."}
-            </div>
-            <div
-              style={{
-                maxWidth: "100%",
-                paddingLeft: ".85vw",
-                paddingTop: "1vh",
-                fontFamily: "dot",
-                fontSize: "2vh",
-                wordBreak: "break-word",
-                overflowWrap: "break-word",
-                whiteSpace: "normal",
-              }}
-            >
-              {"“" + clickedFormData.answer + "”"}
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div
+                className="pulsing-label"
+                style={{
+                  paddingLeft: ".85vw",
+                  paddingTop: "1vh",
+                  fontSize: "2vh",
+                  fontFamily: "dot",
+                  fontStyle: "italic",
+                }}
+              >
+                {clickedFormData.question ||
+                  "No question provided. This is a bug, please report it."}
+              </div>
+              <div
+                style={{
+                  maxWidth: "100%",
+                  paddingLeft: ".85vw",
+                  paddingTop: "1vh",
+                  fontFamily: "dot",
+                  fontSize: "2vh",
+                  wordBreak: "break-word",
+                  overflowWrap: "break-word",
+                  whiteSpace: "normal",
+                }}
+              >
+                {"“" + clickedFormData.answer + "”"}
+              </div>
             </div>
           </div>
         </div>
