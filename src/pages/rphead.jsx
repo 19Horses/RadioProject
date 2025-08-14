@@ -391,13 +391,51 @@ export default function RPHead({ isMobile }) {
     const originalHeight = originalCanvas.height;
 
     const unditheredCanvas = document.createElement("canvas");
-    unditheredCanvas.width = originalWidth;
-    unditheredCanvas.height = originalHeight;
+
+    // Set the target aspect ratio
+    const targetAspect = isMobile ? 3 / 4 : 4 / 3;
+
+    // Determine crop area from the original
+    let sx, sy, sWidth, sHeight;
+    if (originalWidth / originalHeight > targetAspect) {
+      // Too wide → crop sides
+      sHeight = originalHeight;
+      sWidth = sHeight * targetAspect;
+      sx = (originalWidth - sWidth) / 2;
+      sy = 0;
+    } else {
+      // Too tall → crop top/bottom
+      sWidth = originalWidth;
+      sHeight = sWidth / targetAspect;
+      sx = 0;
+      sy = (originalHeight - sHeight) / 2;
+    }
+
+    // Set canvas size to the cropped size
+    unditheredCanvas.width = sWidth;
+    unditheredCanvas.height = sHeight;
 
     const ctx = unditheredCanvas.getContext("2d");
+    ctx.drawImage(
+      originalCanvas,
+      sx,
+      sy,
+      sWidth,
+      sHeight, // source crop
+      0,
+      0,
+      sWidth,
+      sHeight // destination
+    );
 
-    // Draw the full image (no cropping or aspect ratio adjustments)
-    ctx.drawImage(originalCanvas, 0, 0);
+    // const unditheredCanvas = document.createElement("canvas");
+    // unditheredCanvas.width = originalWidth;
+    // unditheredCanvas.height = originalHeight;
+
+    // const ctx = unditheredCanvas.getContext("2d");
+
+    // // Draw the full image (no cropping or aspect ratio adjustments)
+    // ctx.drawImage(originalCanvas, 0, 0);
 
     const unditheredBlob = await canvasToBlob(unditheredCanvas);
 
