@@ -103,7 +103,15 @@ export default function DitheredImageCanvas({
 
     const imgCopy = p5Image.get();
     applyBayerDither(p5, imgCopy, currentScaleRef.current);
+
+    p5.push();
+    if (deviceType === "mobile") {
+      // Flip horizontally for mobile
+      p5.translate(p5.width, 0);
+      p5.scale(-1, 1);
+    }
     p5.image(imgCopy, 0, 0, p5.width, p5.height);
+    p5.pop();
   };
 
   return (
