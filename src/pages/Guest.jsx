@@ -55,8 +55,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             <div
               className="selectTrack"
               style={{
-                paddingRight: isMobile ? "5vw" : "",
-                fontSize: isMobile ? "3.5vh" : "",
+                fontSize: isMobile ? "2.4vh" : "",
               }}
               onClick={() => {
                 setPlayingGuest(selectedGuest);
