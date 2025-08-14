@@ -1109,29 +1109,28 @@ export function RPGrid({ isPlaying, isMobile }) {
           pointerEvents: clickedImage ? "none" : "auto",
         }}
       >
-        {!isMobile && (
-          <div
-            className="new-visitor"
-            style={{
-              width: 267,
-              height: 267,
-              color: "white",
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              cursor: "pointer",
-              fontSize: "10vh",
-              border: "1px solid #ccc",
-              pointerEvents: "auto",
-              zIndex: "9999",
-            }}
-            onClick={() => {
-              navigate("/visitorlog");
-            }}
-          >
-            +
-          </div>
-        )}
+        <div
+          className="new-visitor"
+          style={{
+            width: isMobile ? "100%" : 267,
+            height: isMobile ? (isPlaying ? "97%" : "93%") : 267,
+            color: "white",
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+            cursor: "pointer",
+            fontSize: "10vh",
+            border: "1px solid #ccc",
+            pointerEvents: "auto",
+            zIndex: "99",
+          }}
+          onClick={() => {
+            navigate("/visitorlog");
+          }}
+        >
+          +
+        </div>
+
         {items.map(({ baseName, images, formData }) => {
           return (
             <div
