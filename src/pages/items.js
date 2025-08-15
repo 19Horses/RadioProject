@@ -12,7 +12,7 @@ export const djs = [
     rpCount: "RP1 ♪ ",
     "2ppSrc": rp1.pp,
     ipSrc: rp1.ip,
-    title: 'Games That Touch the Arts',
+    title: 'Games that touch the arts',
     title2: "ubi",
     title3: "Musician",
     title4: "DJ ",

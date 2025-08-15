@@ -16,7 +16,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             ? "selected-artist-container-mob-addon"
             : "selected-artist-container"
         }`}
-        style={{ width: isMobile ? (isPlaying ? "85%" : "90%") : undefined }}
+        style={{ width: isMobile ? (isPlaying ? "84%" : "88%") : undefined }}
       >
         <div
           className="all-left-cont"
@@ -30,7 +30,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
                 className="description-header"
                 style={{
                   paddingLeft: isMobile ? "3vw" : "",
-                  fontSize: isMobile ? "3.5vh" : "2.7vh",
+                  fontSize: isMobile ? "2.9vh" : "2.7vh",
                 }}
               >
                 <span
@@ -55,7 +55,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             <div
               className="selectTrack"
               style={{
-                fontSize: isMobile ? "2.4vh" : "",
+                fontSize: isMobile ? "1.9vh" : "",
               }}
               onClick={() => {
                 setPlayingGuest(selectedGuest);

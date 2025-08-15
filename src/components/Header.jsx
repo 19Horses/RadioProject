@@ -5,10 +5,9 @@ import { Logo } from "./Logo";
 
 const StyledLink = styled(Link)`
   font-family: Helvetica;
-  font-size: 1.8vh;
   color: black;
   font-weight: ${(props) => (props.$isCurrentPath ? "1000" : "100")};
-  font-size: ${(props) => (props.$isMobile ? "2.3vh" : "1.8vh")};
+  font-size: ${(props) => (props.$isMobile ? "2.3vh" : "2.1vh")};
   text-decoration: none;
   transition: opacity 0.3s ease-in-out;
   padding-bottom: 0.5vh;
@@ -135,63 +134,78 @@ const MobileLinks = ({ menuOpen, setMenuOpen, isMobile }) => {
         isMobile={isMobile}
         style={{ zIndex: 9999 }}
       />
-      <NavItem
-        text="+ Archive"
-        to="/"
-        external={false}
-        menuOpen={menuOpen}
-        isMobile={isMobile}
-        onClick={() => {
-          console.log("toggling menu");
-          setMenuOpen((prev) => !prev);
-        }}
-      />
-      {/* <NavItem text="Chat" to="/chat" external={false} /> */}
+      {menuOpen && (
+        <>
+          <NavItem
+            text="+ Archive"
+            to="/"
+            external={false}
+            menuOpen={menuOpen}
+            isMobile={isMobile}
+            onClick={() => {
+              console.log("toggling menu");
+              setMenuOpen((prev) => !prev);
+            }}
+          />
+          {/* <NavItem text="Chat" to="/chat" external={false} /> */}
 
-      <NavItem
-        text="+ Visitor Log"
-        to="/visitorcheck"
-        external={false}
-        menuOpen={menuOpen}
-        isMobile={isMobile}
-        onClick={() => {
-          console.log("toggling menu");
-          setMenuOpen((prev) => !prev);
-        }}
-      />
-      <NavItem
-        text="+ Nina"
-        to="https://www.ninaprotocol.com/profiles/radio-project"
-        external
-        menuOpen={menuOpen}
-        isMobile={isMobile}
-        onClick={() => {
-          console.log("toggling menu");
-          setMenuOpen((prev) => !prev);
-        }}
-      />
-      <NavItem
-        text="+ SoundCloud"
-        to="https://soundcloud.com/radio_project"
-        external
-        menuOpen={menuOpen}
-        isMobile={isMobile}
-        onClick={() => {
-          console.log("toggling menu");
-          setMenuOpen((prev) => !prev);
-        }}
-      />
-      <NavItem
-        text="+ Instagram"
-        to="https://www.instagram.com/radio__project/"
-        external
-        menuOpen={menuOpen}
-        isMobile={isMobile}
-        onClick={() => {
-          console.log("toggling menu");
-          setMenuOpen((prev) => !prev);
-        }}
-      />
+          <NavItem
+            text="+ Visitor Log"
+            to="/visitorcheck"
+            external={false}
+            menuOpen={menuOpen}
+            isMobile={isMobile}
+            onClick={() => {
+              console.log("toggling menu");
+              setMenuOpen((prev) => !prev);
+            }}
+          />
+          <NavItem
+            text="+ Nina"
+            to="https://www.ninaprotocol.com/profiles/radio-project"
+            external
+            menuOpen={menuOpen}
+            isMobile={isMobile}
+            onClick={() => {
+              console.log("toggling menu");
+              setMenuOpen((prev) => !prev);
+            }}
+          />
+          <NavItem
+            text="+ SoundCloud"
+            to="https://soundcloud.com/radio_project"
+            external
+            menuOpen={menuOpen}
+            isMobile={isMobile}
+            onClick={() => {
+              console.log("toggling menu");
+              setMenuOpen((prev) => !prev);
+            }}
+          />
+          <NavItem
+            text="+ Instagram"
+            to="https://www.instagram.com/radio__project/"
+            external
+            menuOpen={menuOpen}
+            isMobile={isMobile}
+            onClick={() => {
+              console.log("toggling menu");
+              setMenuOpen((prev) => !prev);
+            }}
+          />
+          <NavItem
+            text="+ Contact"
+            to="mailto:contact@radioproject.live"
+            external
+            menuOpen={menuOpen}
+            isMobile={isMobile}
+            onClick={() => {
+              console.log("toggling menu");
+              setMenuOpen((prev) => !prev);
+            }}
+          />
+        </>
+      )}
     </div>
   );
 };
