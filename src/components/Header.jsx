@@ -43,6 +43,7 @@ const NavItem = ({
         opacity: text === "+ Menu" ? 1 : menuOpen ? 1 : 0,
         pointerEvents: text === "+ Menu" ? "Auto" : menuOpen ? "auto" : "none",
       }}
+      className="styledlink"
       onMouseEnter={onMouseEnter} // ← pass it here
       $menuOpen={menuOpen}
       onClick={onClick}
@@ -58,44 +59,54 @@ const Links = () => {
 
   return (
     <div
-      style={{ display: "flex", flexDirection: "column" }}
+      style={{
+        display: "flex",
+        flexDirection: "column",
+      }}
       onMouseLeave={() => {
         setMenuOpen(false);
       }}
     >
-      <NavItem text="+ Archive" to="/" external={false} menuOpen={menuOpen} />
-      {/* <NavItem text="Chat" to="/chat" external={false} /> */}
-
-      <NavItem
-        text="+ Visitor Log"
-        to="/visitorcheck"
-        external={false}
-        menuOpen={menuOpen}
-      />
-      <NavItem
-        text="+ Nina"
-        to="https://www.ninaprotocol.com/profiles/radio-project"
-        external
-        menuOpen={menuOpen}
-      />
-      <NavItem
-        text="+ SoundCloud"
-        to="https://soundcloud.com/radio_project"
-        external
-        menuOpen={menuOpen}
-      />
-      <NavItem
-        text="+ Instagram"
-        to="https://www.instagram.com/radio__project/"
-        external
-        menuOpen={menuOpen}
-      />
-      <NavItem
-        text="+ Contact"
-        to="mailto:contact@radioproject.live"
-        external
-        menuOpen={menuOpen}
-      />
+      {menuOpen && (
+        <>
+          <NavItem
+            text="+ Archive"
+            to="/"
+            external={false}
+            menuOpen={menuOpen}
+          />
+          <NavItem
+            text="+ Visitor Log"
+            to="/visitorcheck"
+            external={false}
+            menuOpen={menuOpen}
+          />
+          <NavItem
+            text="+ Nina"
+            to="https://www.ninaprotocol.com/profiles/radio-project"
+            external
+            menuOpen={menuOpen}
+          />
+          <NavItem
+            text="+ SoundCloud"
+            to="https://soundcloud.com/radio_project"
+            external
+            menuOpen={menuOpen}
+          />
+          <NavItem
+            text="+ Instagram"
+            to="https://www.instagram.com/radio__project/"
+            external
+            menuOpen={menuOpen}
+          />
+          <NavItem
+            text="+ Contact"
+            to="mailto:contact@radioproject.live"
+            external
+            menuOpen={menuOpen}
+          />
+        </>
+      )}
 
       <NavItem
         text="+ Menu"
@@ -223,16 +234,10 @@ export const Header = ({ isMobile, isPlaying, headerOpen }) => {
   return (
     <>
       <Logo isMobile={isMobile} />
-      <header
-        className="header-container"
-        style={{
-          transition: "transform 0.3s ease-in-out",
-        }}
-      >
-        <nav className="header-nav" style={{}}>
-          <Links />
-        </nav>
-      </header>
+
+      <nav className="header-nav" style={{ zIndex: "99999999" }}>
+        <Links />
+      </nav>
     </>
   );
 };

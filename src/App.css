@@ -343,10 +343,8 @@ padding-left: 5vw;
 /* Ensure header takes full width and aligns items */
 .header-container {
   position: fixed; /* Ensure the header is fixed to the viewport */
-  bottom: 17vh;
-  left: 3vh;
-  width: 12.5%; /* Full width */
-  height: 44px; /* Adjust height as needed */
+  bottom: 0;
+  left: 0;
   z-index: 990; /* Ensure it stays on top of other elements */
 }
 
@@ -498,11 +496,14 @@ padding-left: 5vw;
 
 /* Navigation styling */
 .header-nav {
-  position: absolute;
+  position: fixed;
+  left: 3vh;
+  bottom: 3vh;
   display: flex;
   flex-direction: column;
  animation: fadeIn 0.2s ease-in forwards;
  opacity: 0;
+ z-index: 99999999;
 }
 
 .mix-info {
@@ -912,6 +913,11 @@ input[type="range"]::-moz-range-thumb {
   flex-direction: column-reverse; /* Ensure new messages are added at the bottom */
   scrollbar-width: none; /* Firefox */
   -ms-overflow-style: none; /* IE/Edge */
+}
+
+.styledlink{
+  animation: fadeIn .4s  forwards ;
+
 }
 
 .blog-content-text__desktop {
