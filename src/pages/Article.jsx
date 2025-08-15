@@ -137,6 +137,7 @@ export const Article = ({ isMobile, isPlaying }) => {
                 // left: "3vw",
                 width: "28vw",
                 fontFamily: "Helvetica",
+                fontWeight: "100",
                 opacity: fadeIn ? (atTop ? 1 : 0) : 0,
                 transition: fadeIn
                   ? atTop

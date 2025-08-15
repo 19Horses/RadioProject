@@ -90,6 +90,12 @@ const Links = () => {
         external
         menuOpen={menuOpen}
       />
+      <NavItem
+        text="+ Contact"
+        to="mailto:contact@radioproject.live"
+        external
+        menuOpen={menuOpen}
+      />
 
       <NavItem
         text="+ Menu"

@@ -302,7 +302,7 @@ padding-left: 5vw;
 }
 
 .selectTrack {
-  font-family: dot;
+  font-family: "dot";
   display: flex;
   align-self: flex-end;
   margin-left: auto;
@@ -343,7 +343,7 @@ padding-left: 5vw;
 /* Ensure header takes full width and aligns items */
 .header-container {
   position: fixed; /* Ensure the header is fixed to the viewport */
-  bottom: 14vh;
+  bottom: 17vh;
   left: 3vh;
   width: 12.5%; /* Full width */
   height: 44px; /* Adjust height as needed */
@@ -774,7 +774,7 @@ table {
 }
 
 .genre{
-  font-family: dot;
+  font-family: "dot";
 }
 
 /* Chrome, Safari, Edge, Opera */
@@ -922,6 +922,8 @@ input[type="range"]::-moz-range-thumb {
   flex-direction: column; /* Ensures posts stack vertically */
   align-items: flex-start; /* Align posts to the left */
 }
+
+
 
 .input-container {
   display: flex;
