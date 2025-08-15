@@ -217,7 +217,7 @@ export const Header = ({ isMobile, isPlaying, headerOpen }) => {
     return (
       <>
         <Logo isMobile />
-        <header className="header-container" style={{}}>
+        <header className="header-container">
           <nav className="header-nav">
             <div
               className={`dropdown-menu slide-in`}

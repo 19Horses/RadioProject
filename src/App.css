@@ -624,7 +624,7 @@ table {
   height: 100vh; /* Full height of the viewport */
   top: 0;
  background-color: transparent; /* Optional: Add a background color */
-  z-index: 990;
+  z-index: 99999999;
  
 }
 
@@ -635,6 +635,8 @@ table {
   flex-direction: column;
   gap: 20px;
   align-items: flex-end;
+  z-index: 99999999;
+
 }
 
 @keyframes slideIn {
