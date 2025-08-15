@@ -30,7 +30,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
                 className="description-header"
                 style={{
                   paddingLeft: isMobile ? "3vw" : "",
-                  fontSize: isMobile ? "3.5vh" : "3.7vh",
+                  fontSize: isMobile ? "3.5vh" : "2.7vh",
                 }}
               >
                 <span

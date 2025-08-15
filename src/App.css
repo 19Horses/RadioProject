@@ -209,11 +209,21 @@ padding-left: 5vw;
   font-size: 1.2vw;
 }
 
-.selected-article-container {
+
+.article-info-container{
   position: fixed;
   display: flex;
+  flex-direction: column;
+  padding-top: 9vh;
+  padding-left: 3vh;
+  margin-top: 3vh;
+}
+
+.selected-article-container {
+  /* position: fixed; */
+  display: flex;
   gap: 1vw;
-  left: 2.5vw;
+  /* left: 2.5vw; */
   width: 30vw;
   font-family: Helvetica;
   color: black;
@@ -295,12 +305,12 @@ padding-left: 5vw;
   display: flex;
   align-self: flex-end;
   margin-left: auto;
-  font-size: 1.8vh;
+  font-size: 1.7vh;
   font-weight: 700;
   color: rgb(0, 0, 0); /* Optional: text color */
   transition: color 0.4s;
   cursor: pointer;
-  padding: 0.8vh;
+  padding: 0.6vh;
     margin-bottom: 1.3vh;
     border: 1px solid #000000;
 
@@ -546,6 +556,7 @@ table {
   margin-right: 0.5rem; /* Add some space between the paragraphs */
   bottom: 0;
   margin-bottom: 1vh;
+  margin-left: 0;
 }
 
 .slight-info {
@@ -638,6 +649,7 @@ table {
 .slide-in {
   animation: slideIn 0.5s forwards;
 }
+
 
 
 /* MOBILE ARTICLE SELECTED */

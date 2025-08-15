@@ -37,7 +37,10 @@ export const Article = ({ isMobile, isPlaying }) => {
       {/* Selected Article */}
       {articleSelected != null && !isMobile && (
         <>
-          <div className="article-content__desktop">
+          <div
+            className="article-content__desktop"
+            style={{ width: isPlaying ? "52%" : "54%" }}
+          >
             <p
               className="article-content-text__desktop"
               dangerouslySetInnerHTML={{
@@ -48,15 +51,17 @@ export const Article = ({ isMobile, isPlaying }) => {
           <div
             className="article-info-container"
             style={{
-              transition: "opacity 1s ease-in-out",
+              top: atTop ? "0vh" : "60vh",
+              transition: "top 1.5s, opacity 1s ease-in-out",
+              transitionDelay: "top .3s",
             }}
           >
             <div
               className="selected-article-container"
               style={{
                 opacity: fadeIn ? 1 : 0,
-                bottom: atTop ? "65.5vh" : "8vh",
-                transition: "bottom 1.5s, opacity 0.5s",
+                // top: atTop ? "11vh" : "72vh",
+                transition: "top 1.5s, opacity 0.5s",
                 transitionDelay: ".3s",
               }}
             >
@@ -127,9 +132,9 @@ export const Article = ({ isMobile, isPlaying }) => {
             <div
               className="article-summary"
               style={{
-                position: "fixed",
-                top: "35vh",
-                left: "3vw",
+                // position: "fixed",
+                // top: "30vh",
+                // left: "3vw",
                 width: "28vw",
                 fontFamily: "Helvetica",
                 opacity: fadeIn ? (atTop ? 1 : 0) : 0,
