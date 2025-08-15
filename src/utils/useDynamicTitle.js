@@ -14,7 +14,7 @@ export function DynamicTitle() {
       "/rp/dvd": "RP2 ♪ BUILD! | RADIO Project",
       "/rp/bebeluna": "RP3 ♪ Ghost in the Shell | RADIO Project",
       "/rg/anouk" : "The Promise of Freedom in the Western Sphere | RADIO Project",
-      "/rg/manny" : "A Conversation with MANNY! | RADIO Project"
+      "/rg/manny" : "“Jesus Hates My Porn Addiction” | RADIO Project"
     };
 
     document.title = titleMap[path] || "RADIO Project";
