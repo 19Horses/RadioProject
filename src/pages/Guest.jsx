@@ -77,7 +77,6 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             style={{
               display: "flex",
               justifyContent: "space-between",
-              paddingTop: "2vh",
             }}
           >
             <div>
@@ -140,6 +139,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
                 fontSize: "2.2vh",
                 fontWeight: "100",
                 width: "80%",
+                marginTop: "1vh",
                 paddingBottom: isMobile ? "10vh" : "",
                 lineHeight: "2.7vh",
                 paddingRight: "1.5vw",
@@ -149,15 +149,17 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
               }}
             />
             <div
+              className="genre"
               style={{
+                font: "dot",
                 display: "flex",
                 alignItems: "stretch",
                 border: "1px solid black",
                 paddingLeft: ".8vh",
                 paddingRight: ".8vh",
-                fontSize: "1vh",
+                fontSize: "1.1vh",
                 margin: "auto",
-                marginTop: "3vh",
+                marginTop: "1vh",
                 marginRight: "0",
                 textAlign: "center",
               }}

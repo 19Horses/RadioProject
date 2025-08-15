@@ -39,6 +39,18 @@ export const Tracklist = ({ selectedGuest }) => {
                     backgroundColor:
                       mixTrack?.title === "UNRELEASED" ? "black" : "",
                     fontWeight: mixTrack?.artist === "" ? "100" : "",
+                    fontFamily:
+                      mixTrack.title === "RADIO (a)" ||
+                      mixTrack.title === "PROJECT" ||
+                      mixTrack.title === "RADIO (b)"
+                        ? "dot"
+                        : "",
+                    fontSize:
+                      mixTrack.title === "RADIO (a)" ||
+                      mixTrack.title === "PROJECT" ||
+                      mixTrack.title === "RADIO (b)"
+                        ? "1.7vh"
+                        : "",
                   }}
                 >
                   {mixTrack.title}

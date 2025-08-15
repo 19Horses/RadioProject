@@ -302,10 +302,11 @@ padding-left: 5vw;
 }
 
 .selectTrack {
+  font-family: dot;
   display: flex;
   align-self: flex-end;
   margin-left: auto;
-  font-size: 1.7vh;
+  font-size: 1.95vh;
   font-weight: 700;
   color: rgb(0, 0, 0); /* Optional: text color */
   transition: color 0.4s;
@@ -770,6 +771,10 @@ table {
     font-size: 1.5vh;
     font-weight: 600;
     text-transform: uppercase;
+}
+
+.genre{
+  font-family: dot;
 }
 
 /* Chrome, Safari, Edge, Opera */
