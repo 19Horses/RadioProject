@@ -249,7 +249,7 @@ export const Article = ({ isMobile, isPlaying }) => {
               style={{
                 fontFamily: "Helvetica",
                 fontSize: "5vw",
-                width: isPlaying != null ? "90%" : "92%",
+                width: isPlaying != null ? "90%" : "95%",
                 marginLeft: "3vw",
                 paddingBottom: isPlaying != null ? "20px" : "10px",
               }}

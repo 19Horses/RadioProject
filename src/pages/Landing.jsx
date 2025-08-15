@@ -31,6 +31,7 @@ export const Landing = ({ selectedIndex, isMobile, mobileIndex }) => {
 
   const filteredItems = items
     .filter((item) => {
+      if (item.dontShow === true) return false;
       if (showMixes && item.type === "mix") return true;
       if (showArticles && item.type === "radiogram") return true;
       return false;

@@ -275,6 +275,7 @@ export const djs = [
     "releaseDate": "22/8/25",
     "length": "14 minute read",
     "igLink": "https://www.instagram.com/pattibobi/",
+    "dontShow": true
   },
 
   
