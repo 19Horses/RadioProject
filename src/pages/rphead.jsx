@@ -533,7 +533,7 @@ export default function RPHead({ isMobile }) {
           gap: ".5rem",
           padding: "1rem",
           paddingRight: ".9rem",
-          scale: isMobile ? "0.85" : "",
+          scale: isMobile ? (window.innerWidth <= 400 ? "0.8" : "0.85") : "",
 
           background: snapped ? "white" : "unset",
           borderRadius: "8px",
