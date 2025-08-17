@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-export const Logo = ({ isMobile }) => {
+export const Logo = ({ isMobile, darkMode, setDarkMode }) => {
   const [headerHover, setHeaderHover] = useState(false);
   const navigate = useNavigate();
   return (
@@ -24,6 +24,7 @@ export const Logo = ({ isMobile }) => {
           onMouseLeave={() => {
             setHeaderHover(false);
           }}
+          style={{ filter: darkMode ? "invert(1)" : "" }}
           className="main"
           src="./transplogo2.png"
           alt="Logo"

@@ -3,7 +3,7 @@ import { useParams } from "react-router-dom";
 
 import { djs } from "./items";
 
-export const Article = ({ isMobile, isPlaying }) => {
+export const Article = ({ isMobile, isPlaying, darkMode }) => {
   const { articleName } = useParams();
 
   const articleSelected = djs.find((article) => article.url === articleName);
@@ -82,6 +82,7 @@ export const Article = ({ isMobile, isPlaying }) => {
                       fontFamily: "Helvetica",
                       fontWeight: "100",
                       padding: "2px 5px", // Optional for better visibility
+                      color: darkMode ? "white" : "black",
                     }}
                   >
                     {articleSelected?.rpCount}
@@ -89,8 +90,8 @@ export const Article = ({ isMobile, isPlaying }) => {
                   {<br />}
                   <span
                     style={{
-                      backgroundColor: "black",
-                      color: "white",
+                      backgroundColor: darkMode ? "white" : "black",
+                      color: darkMode ? "black" : "white",
                       padding: "2px 5px", // Optional for better visibility
                     }}
                   >
@@ -102,7 +103,7 @@ export const Article = ({ isMobile, isPlaying }) => {
                   target="_blank"
                   style={{
                     fontWeight: "1000",
-                    color: "black",
+                    color: darkMode ? "white" : "black",
                     textDecoration: "none",
                     lineHeight: "4vh",
                   }}
@@ -119,9 +120,15 @@ export const Article = ({ isMobile, isPlaying }) => {
                     opacity: atTop ? 1 : 0,
                   }}
                 >
-                  <p style={{ margin: "0" }}>{articleSelected?.tag}</p>
+                  <p
+                    style={{ margin: "0", color: darkMode ? "white" : "black" }}
+                  >
+                    {articleSelected?.tag}
+                  </p>
 
-                  <p style={{ margin: "0" }}>
+                  <p
+                    style={{ margin: "0", color: darkMode ? "white" : "black" }}
+                  >
                     {articleSelected?.broadcastDate +
                       " | " +
                       articleSelected?.length}
@@ -132,10 +139,8 @@ export const Article = ({ isMobile, isPlaying }) => {
             <div
               className="article-summary"
               style={{
-                // position: "fixed",
-                // top: "30vh",
-                // left: "3vw",
                 width: "28vw",
+                color: darkMode ? "white" : "black",
                 fontFamily: "Helvetica",
                 fontWeight: "100",
                 opacity: fadeIn ? (atTop ? 1 : 0) : 0,
@@ -145,7 +150,6 @@ export const Article = ({ isMobile, isPlaying }) => {
                     : "opacity 0.3s"
                   : "opacity 0.3s",
                 fontSize: "2vh",
-                backgroundColor: atTop ? "rgb(247, 247, 247)" : "transparent",
                 transitionDelay: !fadeIn
                   ? "0s"
                   : allowScrollFade
@@ -186,7 +190,12 @@ export const Article = ({ isMobile, isPlaying }) => {
                   }}
                 />
               </a>
-              <div style={{ paddingLeft: "3vw" }}>
+              <div
+                style={{
+                  paddingLeft: "3vw",
+                  filter: darkMode ? "invert(1)" : "",
+                }}
+              >
                 <div
                   style={{
                     fontSize: "4.5vw",

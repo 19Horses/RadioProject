@@ -3,7 +3,7 @@ import { FaPlay, FaPause } from "react-icons/fa";
 import "../player.css";
 import { useAudio } from "../AudioContext";
 
-export default function SoundCloudPlayer({ playingGuest, isMobile }) {
+export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
   const {
     title2: artist,
     title,
@@ -345,11 +345,6 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                   onClick={(e) => e.stopPropagation()}
                   style={{ display: "flex", zIndex: "10000000" }}
                 >
-                  <div>
-                    <a href={playingGuest.djLink} target="_blank">
-                      <img src={pic} />
-                    </a>
-                  </div>
                   <div
                     onClick={(e) => {
                       e.stopPropagation();
@@ -377,40 +372,39 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                     <div
                       ref={containerRef}
                       className={"scrolling-title-container-mob-addon"}
+                      style={{ paddingLeft: ".1rem" }}
                     >
-                      <div className="gradient-overlay-mob" />
                       <div
-                        className={`${
-                          isMobile ? "scrolling-title-mob" : "scrolling-title"
-                        } ${shouldScroll ? "scroll" : ""}`}
-                        style={{ fontSize: "1.6vh", paddingLeft: "1vw" }}
+                        className="scrolling-title-mob"
+                        style={{
+                          fontSize: "1.6vh",
+                          color: "white",
+                          backgroundColor: "black",
+                          marginRight: ".1rem",
+                        }}
                       >
                         {currentlyPlayingTitle}
+                        {"  "}
                       </div>
                     </div>
-                    <div style={{ height: "20px" }}>
+                    <div style={{ height: "auto" }}>
                       <p
                         style={{
                           fontSize: "1.6vh",
                           fontFamily: "Helvetica",
                           margin: "auto",
                           fontWeight: "1000",
+                          textAlign: "right",
                         }}
                       >
                         {currentlyPlayingArtist}
                       </p>
                     </div>
                   </div>
-                  <div className="timestamp">
-                    <p>
-                      {formatTime(toSeconds(currentTime))} /{" "}
-                      <b>
-                        {audioRef.current?.duration &&
-                        !isNaN(audioRef.current.duration)
-                          ? formatTime(audioRef.current.duration)
-                          : "--:--"}
-                      </b>
-                    </p>
+                  <div>
+                    <a href={playingGuest.djLink} target="_blank">
+                      <img src={pic} />
+                    </a>
                   </div>
                 </div>
               )
@@ -435,6 +429,8 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                         transform: "translateX(-50%)",
                         whiteSpace: "nowrap",
                         cursor: "pointer",
+                        filter: darkMode ? "invert(1)" : "",
+                        color: darkMode ? "black" : "",
                       }}
                       onClick={(e) => {
                         e.stopPropagation();
@@ -466,7 +462,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                             paddingLeft: "0.7vh",
                             fontWeight: 200,
                             backgroundColor: "transparent",
-                            color: "black",
+                            color: darkMode ? "white" : "black",
                           }}
                         >
                           {formatTime(toSeconds(currentTime))}
@@ -525,9 +521,13 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
             WebkitAppearance: "none",
             appearance: "none",
             height: isMobile ? "8px" : "3vh",
-            background: `linear-gradient(to right, black ${
-              volume * 100
-            }%, #cacaca ${volume * 100}%)`,
+            background: darkMode
+              ? `linear-gradient(to right, #ffffff ${volume * 100}%, #cacaca ${
+                  volume * 100
+                }%)`
+              : `linear-gradient(to right, black ${volume * 100}%, #cacaca ${
+                  volume * 100
+                }%)`,
             borderBottom: "transparent",
           }}
           aria-label="Volume slider"
@@ -583,7 +583,13 @@ export default function SoundCloudPlayer({ playingGuest, isMobile }) {
                     : 0
                 }%`,
                 backgroundColor:
-                  hoveredChapter === chapter?.title ? "#000000" : "white",
+                  hoveredChapter === chapter?.title
+                    ? darkMode
+                      ? "white"
+                      : "#000000"
+                    : darkMode
+                    ? "black"
+                    : "white",
               }}
               onMouseEnter={() => setHoveredChapter(chapter?.title)}
               onMouseLeave={() => setHoveredChapter("")}

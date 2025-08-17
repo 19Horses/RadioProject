@@ -8,6 +8,11 @@
   -moz-osx-font-smoothing: grayscale;
 }
 
+:root.dark {
+  background-color: #000000;
+  color: #f7f7f7;
+}
+
 i::selection,
 a::selection,
 p::selection,
@@ -21,6 +26,13 @@ sup::selection {
   background-color: rgb(255, 0, 90);
 }
 
+
+:root.dark ::selection {
+  background-color: rgb(0, 255, 165);
+  color: black; /* optional for contrast */
+}
+
+
 html, body {
   max-width: 100%;
   overflow-x: hidden;
@@ -31,6 +43,11 @@ strong{
   background-color: rgb(0, 0, 0);
   display: inline;
   font-weight: 100;
+}
+
+:root.dark strong {
+  color: black;
+  background-color: white;
 }
 
 *:focus {

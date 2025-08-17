@@ -5,15 +5,15 @@ import { Logo } from "./Logo";
 
 const StyledLink = styled(Link)`
   font-family: Helvetica;
-  color: black;
+  color: ${(props) => props.theme.text};
   font-weight: ${(props) => (props.$isCurrentPath ? "1000" : "100")};
   font-size: ${(props) => (props.$isMobile ? "2.3vh" : "2.1vh")};
   text-decoration: none;
   transition: opacity 0.3s ease-in-out;
   padding-bottom: 0.5vh;
   text-align: ${(props) => (props.$isMobile ? "right" : "left")};
-  background-color: ${(props) => (props.$isMobile ? "#f7f7f72" : "")};
-  background-color: ${(props) => (props.$isMobile ? "#f7f7f72" : "#f7f7f7")};
+  background-color: ${(props) =>
+    props.$isMobile ? props.theme.backgroundMobile : props.theme.background};
   padding-left: 0.5vw;
   padding-right: 0.5vw;
   cursor: pointer;
@@ -210,19 +210,29 @@ const MobileLinks = ({ menuOpen, setMenuOpen, isMobile }) => {
   );
 };
 
-export const Header = ({ isMobile, isPlaying, headerOpen }) => {
+export const Header = ({
+  isMobile,
+  isPlaying,
+  headerOpen,
+  darkMode,
+  setDarkMode,
+}) => {
   const [menuOpen, setMenuOpen] = useState(false);
 
   if (isMobile) {
     return (
       <>
-        <Logo isMobile />
+        <Logo isMobile darkMode={darkMode} setDarkMode={setDarkMode} />
         <header className="header-container">
           <nav className="header-nav">
             <div
               className={`dropdown-menu slide-in`}
               style={{
-                backgroundColor: !menuOpen ? "transparent" : "#f7f7f7f2",
+                backgroundColor: !menuOpen
+                  ? "transparent"
+                  : darkMode
+                  ? "#000000"
+                  : "#f7f7f7",
                 transition: "all .3s ease-in-out",
                 pointerEvents: menuOpen ? "auto" : "none",
                 right: isPlaying ? "6vw" : "",
@@ -247,7 +257,7 @@ export const Header = ({ isMobile, isPlaying, headerOpen }) => {
 
   return (
     <>
-      <Logo isMobile={isMobile} />
+      <Logo isMobile={isMobile} darkMode={darkMode} />
 
       <nav className="header-nav" style={{ zIndex: "99999999" }}>
         <Links />

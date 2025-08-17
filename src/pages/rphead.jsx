@@ -533,7 +533,7 @@ export default function RPHead({ isMobile }) {
           gap: ".5rem",
           padding: "1rem",
           paddingRight: ".9rem",
-          scale: isMobile ? (window.innerWidth <= 400 ? "0.8" : "0.85") : "",
+          scale: isMobile ? (window.innerWidth <= 400 ? "0.75" : "0.85") : "",
 
           background: snapped ? "white" : "unset",
           borderRadius: "8px",
@@ -847,7 +847,11 @@ export default function RPHead({ isMobile }) {
                           fontFamily: "dot",
                           border: "none",
                           backgroundColor: "transparent",
-                          fontSize: isMobile ? "2vh" : "1.6vh",
+                          fontSize: isMobile
+                            ? window.innerWidth <= 400
+                              ? "1.7vh"
+                              : "2vh"
+                            : "1.6vh",
                           width: "95%",
                           borderBottom: "1px solid #000000",
                           minHeight: "1vh", // 👈 prevents the jumpiness
@@ -933,7 +937,7 @@ async function fetchJson(url) {
   }
 }
 
-export function RPGrid({ isPlaying, isMobile }) {
+export function RPGrid({ isPlaying, isMobile, darkMode }) {
   const [items, setItems] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
@@ -1206,9 +1210,11 @@ export function RPGrid({ isPlaying, isMobile }) {
             gap: "2rem",
             padding: "1rem",
             alignItems: "flex-start",
-            background: "white",
+            background: darkMode ? "#151515" : "white",
             borderRadius: "8px",
-            boxShadow: "0 4px 20px rgba(0,0,0,0.2)",
+            boxShadow: darkMode
+              ? "0 4px 20px rgba(181, 181, 181, 0.2)"
+              : "0 4px 20px rgba(0,0,0,0.2)",
             zIndex: 1000,
             animation: "fadeIn 1s forwards",
             pointerEvents: "auto",
@@ -1229,7 +1235,7 @@ export function RPGrid({ isPlaying, isMobile }) {
             <div
               style={{
                 flex: 1,
-                background: "#f7f7f7",
+                background: darkMode ? "#222222" : "#f7f7f7",
                 borderRadius: "8px",
                 padding: "1rem",
                 fontSize: "14px",
@@ -1283,7 +1289,7 @@ export function RPGrid({ isPlaying, isMobile }) {
                           {clickedFormData.profession}
                         </div>
                       </div>
-                      <div>
+                      <div style={{ filter: darkMode ? "invert(1)" : "none" }}>
                         <img
                           src={starSignIcons[clickedFormData.starsign]}
                           width="40vh"

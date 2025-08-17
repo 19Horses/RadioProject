@@ -4,7 +4,7 @@ import { Tracklist } from "../components/Tracklist";
 import { useParams } from "react-router-dom";
 import { djs } from "./items";
 
-export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
+export const Guest = ({ isMobile, setPlayingGuest, isPlaying, darkMode }) => {
   const { guestName } = useParams();
   const selectedGuest = djs.find((dj) => dj.url === guestName);
 
@@ -16,7 +16,9 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             ? "selected-artist-container-mob-addon"
             : "selected-artist-container"
         }`}
-        style={{ width: isMobile ? (isPlaying ? "84%" : "88%") : undefined }}
+        style={{
+          width: isMobile ? (isPlaying ? "84%" : "88%") : undefined,
+        }}
       >
         <div
           className="all-left-cont"
@@ -24,7 +26,13 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             top: isMobile ? "7%" : "",
           }}
         >
-          <div style={{ display: "flex", flexDirection: "row" }}>
+          <div
+            style={{
+              display: "flex",
+              flexDirection: "row",
+              filter: darkMode ? "invert(1)" : "",
+            }}
+          >
             <div className="description-container">
               <p
                 className="description-header"
@@ -77,6 +85,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
             style={{
               display: "flex",
               justifyContent: "space-between",
+              filter: darkMode ? "invert(1)" : "",
             }}
           >
             <div>
@@ -133,7 +142,13 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
               </a>
             </div>
           </div>
-          <div style={{ flexDirection: "row", display: "flex" }}>
+          <div
+            style={{
+              flexDirection: "row",
+              display: "flex",
+              filter: darkMode ? "invert(1)" : "",
+            }}
+          >
             <p
               style={{
                 fontSize: "2.2vh",
@@ -172,7 +187,7 @@ export const Guest = ({ isMobile, setPlayingGuest, isPlaying }) => {
         </div>
       </div>
       {selectedGuest && !isMobile && (
-        <Tracklist selectedGuest={selectedGuest} />
+        <Tracklist selectedGuest={selectedGuest} darkMode={darkMode} />
       )}
     </>
   );

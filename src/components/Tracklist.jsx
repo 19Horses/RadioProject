@@ -1,9 +1,12 @@
 import React, { useState } from "react";
 
-export const Tracklist = ({ selectedGuest }) => {
+export const Tracklist = ({ selectedGuest, darkMode }) => {
   const [hoveredTitle, setHoveredTitle] = useState("");
   return (
-    <div className="tracklist-container__desktop">
+    <div
+      className="tracklist-container__desktop"
+      style={{ filter: darkMode ? "invert(1)" : "none" }}
+    >
       <table className="tracklist-table__desktop">
         {selectedGuest.tracklist.map((mixTrack, index) => (
           <React.Fragment key={index}>
@@ -30,7 +33,9 @@ export const Tracklist = ({ selectedGuest }) => {
                   color:
                     hoveredTitle === mixTrack?.title &&
                     mixTrack?.title !== "UNRELEASED"
-                      ? "rgb(255, 0, 90)"
+                      ? darkMode
+                        ? "rgb(0, 255, 165)"
+                        : "rgb(255, 0, 90)"
                       : "black",
                 }}
               >
@@ -62,7 +67,9 @@ export const Tracklist = ({ selectedGuest }) => {
                   color:
                     hoveredTitle === mixTrack?.title &&
                     mixTrack?.title !== "UNRELEASED"
-                      ? "rgb(255, 0, 90)"
+                      ? darkMode
+                        ? "rgb(0, 255, 166)"
+                        : "rgb(255, 0, 90)"
                       : "rgb(137, 137, 137)",
                   fontWeight: "100",
                 }}

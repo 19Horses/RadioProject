@@ -322,6 +322,11 @@ padding-left: 5vw;
   color: rgb(255, 61, 129);
 }
 
+:root.dark .selectTrack:hover{
+  color: rgb(0, 255, 165);
+                        
+}
+
 .selected-artist-image {
   display: block;
   user-select: none;
@@ -371,6 +376,10 @@ padding-left: 5vw;
   z-index: 991;
 }
 
+:root.dark .header-logo{
+  filter: invert(1);
+}
+
 .hover-zoom:hover {
   transform: scale(1.05); /* Zoom by 5% */
 }
@@ -394,6 +403,12 @@ padding-left: 5vw;
   transform: translateX(-20%);
   width: 10vh;
 }
+
+
+
+
+
+
 
 .grid-icon{
   width: 2vw;
@@ -486,7 +501,10 @@ padding-left: 5vw;
   color: rgb(0, 0, 0);
   display: inline-block;
   white-space: nowrap;
-  animation: scroll-left 10s linear infinite;
+  width: 100%;
+  height: "auto";
+  text-align: right;
+  right: 0;
   font-size: 1.8vh;
 }
 
@@ -509,10 +527,8 @@ padding-left: 5vw;
 .mix-info {
   display: flex;
   flex-direction: column;
-  width: 50%;
-  padding-left: 10px;
+  width: auto;
   justify-content: center;
-  margin: 0 auto;
   height: 100%;
 }
 
@@ -541,6 +557,10 @@ table {
   height: 90%;
   width: 5%;
   z-index: 997;
+}
+
+:root.dark .player-background{
+  background-color: #000000;
 }
 
 .description-container {
@@ -672,6 +692,10 @@ table {
   font-weight: 100;
   font-family: Helvetica;
   color: black;
+}
+
+:root.dark .article-content-text__desktop {
+  color:white
 }
 
 .article-content-text__mobile {
@@ -806,10 +830,12 @@ input[type="range"]::-moz-range-thumb {
 /* CONTROL {MOBILE} */
 .control-module__mobile {
   position: fixed;
-  bottom: 0%;
-  left: 0;
+  display: flex;
+  bottom: 0;
+  right: 0;
   height: 6vh;
-  width: 100vw;
+  width: auto;
+  gap: 10px;
   background-color: rgb(247, 247, 247);
 }
 
@@ -819,18 +845,14 @@ input[type="range"]::-moz-range-thumb {
 
 .time-controls__mobile {
   display: flex;
-  align-items: center;
   justify-content: space-between;
-  gap: 1rem; /* Adjust the gap between elements as needed */
   font-family: "Helvetica";
-  width: 10%;
+  width: auto;
 }
 
 .time-controls__mobile a {
   font-size: 3vh;
-  padding-left: 15px;
-  padding-right: 30px;
-  padding-top: 1vh;
+  
 }
 
 /* PROGRESS BAR */
