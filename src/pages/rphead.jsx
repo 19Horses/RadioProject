@@ -45,7 +45,7 @@ export default function RPHead({ isMobile }) {
     Pisces: PiscesIcon,
   };
   const questions = [
-    "What is the most life-changing decision you’ve ever made on a whim?",
+    "What is the one thing about your home country that stays with you no matter where you go?",
   ];
 
   const navigate = useNavigate();
