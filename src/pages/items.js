@@ -274,8 +274,7 @@ export const djs = [
     "summary": "RADIO Project sat down with London-based pop artist MANNY! to talk about the deeply personal themes running through his upcoming work and the space he has carved in music, defined by honesty, experimentation, and an openness about faith, sexuality, and identity.",
     "releaseDate": "22/8/25",
     "length": "14 minute read",
-    "igLink": "https://www.instagram.com/pattibobi/",
-    "dontShow": true
+    "igLink": "https://www.instagram.com/pattibobi/"
   },
 
   
