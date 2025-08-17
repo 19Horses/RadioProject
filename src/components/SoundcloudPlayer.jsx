@@ -352,6 +352,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
                       togglePlayPause();
                     }}
                     className="time-controls__mobile"
+                    style={{ alignSelf: "flex-start" }}
                   >
                     <button
                       style={{
@@ -361,11 +362,15 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
                         color: "black",
                       }}
                     >
-                      {isPlaying ? (
-                        <p>◼️</p>
-                      ) : (
-                        <p style={{ fontSize: "2.7vh" }}>▶</p>
-                      )}
+                      <p
+                        style={{
+                          fontSize: isPlaying ? "2vh" : "3vh",
+                          transform: isPlaying ? "" : "translateY(-1.6vh)",
+                        }}
+                      >
+                        {" "}
+                        {isPlaying ? "◼️" : "▶"}{" "}
+                      </p>
                     </button>
                   </div>
                   <div className="mix-info">
@@ -387,17 +392,21 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
                         {"  "}
                       </div>
                     </div>
-                    <div style={{ height: "auto" }}>
+                    <div style={{ height: "auto", width: "auto" }}>
                       <p
                         style={{
                           fontSize: "1.6vh",
                           fontFamily: "Helvetica",
                           margin: "auto",
+                          marginRight: ".1rem",
                           fontWeight: "1000",
                           textAlign: "right",
+                          backgroundColor: "#f7f7f7",
+                          display: "inline-block", // <— this makes it hug its content
+                          width: "fit-content",
                         }}
                       >
-                        {currentlyPlayingArtist}
+                        {currentlyPlayingArtist} {"  "}
                       </p>
                     </div>
                   </div>

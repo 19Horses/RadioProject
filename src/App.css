@@ -451,7 +451,6 @@ padding-left: 5vw;
   overflow: hidden;
   white-space: nowrap;
   position: relative;
-  background-color: rgb(247, 247, 247);
   color: black;
 }
 
@@ -831,12 +830,12 @@ input[type="range"]::-moz-range-thumb {
 .control-module__mobile {
   position: fixed;
   display: flex;
-  bottom: 0;
-  right: 0;
+  bottom: 0vh;
+  right: 2vw;
   height: 6vh;
   width: auto;
   gap: 10px;
-  background-color: rgb(247, 247, 247);
+  background-color: transparent;
 }
 
 .control-module__mobile img {
