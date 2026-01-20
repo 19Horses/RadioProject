@@ -346,6 +346,10 @@
   border-bottom: 1px solid rgba(67, 74, 71, 0.1);
 }
 
+.comment-item.different-day {
+  border-bottom: 1px solid rgba(67, 74, 71, 0.4);
+}
+
 .comment-item:last-child {
   margin-bottom: 0;
   padding-bottom: 0;

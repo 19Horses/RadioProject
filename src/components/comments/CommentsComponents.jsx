@@ -238,12 +238,23 @@ export const CommentsList = ({
             No comments yet... start the discourse!
           </div>
         ) : (
-          comments.map((comment, index) => (
+          comments.map((comment, index) => {
+            // Check if next comment is on a different day
+            const getDateOnly = (timestamp) => {
+              if (!timestamp) return null;
+              const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
+              return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+            };
+            
+            const currentDate = getDateOnly(comment.createdAt);
+            const nextComment = comments[index + 1];
+            const nextDate = nextComment ? getDateOnly(nextComment.createdAt) : null;
+            const isDifferentDay = nextDate && currentDate !== nextDate;
+            
+            return (
             <div
               key={comment.id}
-              className={
-                index < comments.length - 1 ? "comment-item" : "comment-item"
-              }
+              className={`comment-item${isDifferentDay ? " different-day" : ""}`}
             >
               <div className="comment-header">
                 <span className="comment-author"><span style={{ color: "rgb(255,0, 71)" }}>{comment.replyToAuthor ? "⚖" : "▧"} {" "}</span>{comment.author}</span>
@@ -346,7 +357,7 @@ REPLY
               {/* actual comment content */}
               <p className="comment-content">{comment.content}</p>
             </div>
-          ))
+          );})
         )}
         <div ref={commentsEndRef} />
       </div>
