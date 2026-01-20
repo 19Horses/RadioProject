@@ -1,0 +1,209 @@
+@keyframes textPulse {
+  0%, 100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.8;
+  }
+}
+
+/* Vertical Type Indicator Container */
+.vertical-indicator-container {
+  position: fixed;
+  left: 50%;
+  top: 0;
+  transform: translateX(-50%);
+  z-index: 99999;
+  pointer-events: none;
+  overflow: hidden;
+  height: 100vh;
+}
+
+.vertical-indicator-wrapper {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  transition: transform 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  transform: translateY(calc(50vh - 175px - var(--focused-index-offset, 0px)));
+  will-change: transform;
+}
+
+.vertical-indicator-item {
+  height: 350px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.vertical-indicator-line {
+  position: absolute;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 1px;
+  height: calc(50% - 30px);
+  background-color: rgba(150, 150, 150, 0.2);
+}
+
+.vertical-indicator-line-top {
+  top: 0;
+}
+
+.vertical-indicator-line-bottom {
+  bottom: 0;
+}
+
+.vertical-indicator-text {
+  font-family: "dot", "VCR", monospace;
+  font-size: 11px;
+  transition: color 0.4s ease-out, text-shadow 0.4s ease-out;
+  text-orientation: mixed;
+  text-transform: uppercase;
+  text-align: center;
+  word-break: normal;
+}
+
+.vertical-indicator-text-focused {
+  color: rgba(255, 255, 255, 0.429);
+  -webkit-text-stroke: 0.5px rgba(255, 255, 255, 0.4);
+  animation: textPulse 0.2s ease-in-out infinite;
+  will-change: opacity;
+}
+
+.vertical-indicator-text-unfocused {
+  color: rgba(72, 72, 72, 0.35);
+  -webkit-text-stroke: 0.3px rgba(200, 200, 200, 0.15);
+}
+
+.vertical-indicator-text-focused-desktop {
+  text-shadow: 0 0 20px rgba(255, 255, 255, 0.6),
+    0 0 40px rgba(255, 255, 255, 0.3),
+    0 0 60px rgba(255, 0, 90, 0.25);
+}
+
+.vertical-indicator-text-mobile {
+  width: 100%;
+  overflow-wrap: break-word;
+  line-height: 1.3;
+}
+
+.vertical-indicator-text-desktop {
+  width: auto;
+  overflow-wrap: normal;
+  line-height: 1;
+}
+
+.release-date-superscript {
+  font-size: 0.7em;
+  vertical-align: super;
+  margin-right: 4px;
+  opacity: 0.7;
+}
+
+/* Main Container */
+.landing-vertical-container {
+  position: fixed;
+  left: 0;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  height: 100dvh;
+  width: 100vw;
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Gradient overlay */
+.landing-vertical-container::before {
+  content: "";
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  pointer-events: none;
+  z-index: 10;
+  opacity: 0;
+  background: linear-gradient(
+    to right,
+    #ececec 1%,
+    transparent 7%,
+    transparent 93%,
+    #ececec 99%
+  );
+}
+
+@media (min-width: 768px) {
+  .landing-vertical-container::before {
+    opacity: 0.5;
+  }
+}
+
+.landing-vertical-scroll-wrapper {
+  flex: 1;
+  width: 100%;
+  height: 100%;
+}
+
+.landing-vertical-flex-container {
+  display: flex;
+  flex-direction: row;
+  overflow-x: auto;
+  overflow-y: hidden;
+  align-items: center;
+  height: 100%;
+  width: 100%;
+  padding-left: 50%;
+  padding-right: 50%;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+  scroll-snap-type: x mandatory;
+  overscroll-behavior-x: contain;
+}
+
+.landing-vertical-flex-container-mobile {
+  gap: 25px;
+}
+
+.landing-vertical-flex-container-desktop {
+  gap: 150px;
+}
+
+.landing-vertical-item-wrapper {
+  height: 50%;
+}
+
+.landing-vertical-item-wrapper-mobile {
+  height: 45%;
+}
+
+.landing-vertical-image-container {
+  position: relative;
+  scroll-snap-align: center;
+  scroll-snap-stop: normal;
+  height: 100%;
+}
+
+.landing-vertical-image {
+  transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+  height: 100%;
+  width: auto;
+  display: block;
+  cursor: pointer;
+  transform-origin: center center;
+  touch-action: manipulation;
+  contain: layout paint;
+}
+
+.landing-vertical-image-focused {
+  opacity: 1;
+  will-change: transform;
+}
+
+.landing-vertical-image-unfocused {
+  opacity: 0.4;
+  will-change: auto;
+}
+

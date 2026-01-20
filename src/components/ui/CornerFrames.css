@@ -1,0 +1,30 @@
+.corner-frame {
+  position: fixed;
+  width: 6px;
+  height: 6px;
+  z-index: 0;
+}
+
+.corner-frame-top-left {
+  top: 15px;
+  left: 15px;
+}
+
+.corner-frame-top-right {
+  top: 15px;
+  right: 15px;
+  transform: rotate(90deg);
+}
+
+.corner-frame-bottom-right {
+  bottom: 15px;
+  right: 15px;
+  transform: rotate(180deg);
+}
+
+.corner-frame-bottom-left {
+  bottom: 15px;
+  left: 15px;
+  transform: rotate(270deg);
+}
+

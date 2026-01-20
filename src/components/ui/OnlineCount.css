@@ -1,0 +1,27 @@
+@keyframes colorBlink {
+  0%, 80%, 100% {
+    color: white;
+  }
+  81%, 99% {
+    color: #c0c0c0;
+  }
+}
+
+.online-count {
+  position: fixed;
+  bottom: 29px;
+  left: 29px;
+  font-family: "dot", "VCR", monospace;
+  font-size: 14px;
+  background-color: #c0c0c0;
+  color: white;
+  z-index: 10000;
+  user-select: none;
+  height: auto;
+  padding: 0 1px;
+  transform-origin: bottom left;
+  transform: rotate(-90deg);
+  white-space: nowrap;
+  animation: colorBlink 4s infinite;
+}
+

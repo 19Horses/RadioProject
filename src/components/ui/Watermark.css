@@ -1,0 +1,49 @@
+@font-face {
+    font-family: "NeueHaasDisplayMediu";
+    src: local("NeueHaasDisplayRoman"), url("../../assets/NeueHaasDisplayMediu.woff") format("opentype");
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "NeueBit-Regular";
+    src: local("NeueBit-Regular"), url("../../assets/NeueBit-Regular.ttf") format("opentype");
+    font-style: normal;
+  }
+
+  @font-face {
+    font-family: "PPNeueBit-Bold";
+    src: local("PPNeueBit-Bold"), url("../../assets/PPNeueBit-Bold.ttf") format("opentype");
+    font-style: normal;
+  }
+
+  @keyframes fadeOut {
+    0% {
+      opacity: 1;
+    }
+    100% {
+      opacity: 0.2;
+    }
+  }
+
+  .arrow-fade-1 {
+    animation: fadeOut 1.5s ease-in-out infinite;
+  }
+
+  .arrow-fade-2 {
+    animation: fadeOut 1.5s ease-in-out infinite;
+    animation-delay: 0.2s;
+  }
+
+  .arrow-fade-3 {
+    animation: fadeOut 1.5s ease-in-out infinite;
+    animation-delay: 0.4s;
+  }
+
+  .watermark-container {
+    transition: transform 0.3s ease;
+    transform-origin: top left;
+  }
+
+  .watermark-container:hover {
+    transform: scale(2.05);
+  }

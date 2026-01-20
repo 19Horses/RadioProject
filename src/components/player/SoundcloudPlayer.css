@@ -1,0 +1,352 @@
+/* Control Module */
+.control-module-desktop {
+  transition: opacity 0.7s ease;
+}
+
+.control-module-desktop-fade-in {
+  opacity: 1;
+}
+
+.control-module-desktop-fade-out {
+  opacity: 0;
+}
+
+/* Controls Column */
+.controls-column {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 25px;
+  position: relative;
+  opacity: 0;
+  animation: fadeIn 0.3s ease-in forwards;
+}
+
+/* Play Button */
+.play-button {
+  white-space: nowrap;
+  cursor: pointer;
+  color: #454a47;
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  font-size: 0.9rem;
+  line-height: 17px;
+  height: 15px;
+}
+
+/* Track Info Block */
+.track-info-block {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  white-space: nowrap;
+  margin-top: 10px;
+  cursor: pointer;
+}
+
+.track-info-block-fade-in {
+  opacity: 1;
+}
+
+.track-info-block-fade-out {
+  opacity: 0;
+}
+
+/* Track Info Paragraph */
+.track-info-paragraph {
+  margin: 0;
+  font-size: 10px;
+  font-family: "NeueHaasDisplayRoman";
+}
+
+/* Track Title Span */
+.track-title-span {
+  padding: 2px 2px;
+}
+
+/* Hovered states - these should always apply */
+.track-title-span-hovered {
+  color: #ebebeb !important;
+  background-color: #434a47 !important;
+}
+
+.track-title-span-not-hovered {
+  color: #454a47 !important;
+  background-color: transparent !important;
+}
+
+/* Transition states - with title includes opacity */
+.track-title-span-with-title {
+  transition: opacity 0.7s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Transition states - without title */
+.track-title-span-without-title {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Track Time Span */
+.track-time-span {
+  background-color: transparent;
+  color: #828784;
+  font-size: 10px;
+  padding-top: 0.7vh;
+  font-family: "NeueHaasDisplayRoman";
+}
+
+/* Track Artist Paragraph */
+.track-artist-paragraph {
+  margin: 0;
+  font-size: 10px;
+  font-family: "NeueHaasDisplayRoman";
+  padding: 2px 0px;
+
+}
+
+/* Hovered states - these should always apply */
+.track-artist-paragraph-hovered {
+  color: #ebebeb !important;
+  background-color: #434a47 !important;
+}
+
+.track-artist-paragraph-not-hovered {
+  color: #828784 !important;
+  background-color: transparent !important;
+}
+
+/* Transition states - with title includes opacity */
+.track-artist-paragraph-with-title {
+  transition: opacity 0.7s ease, background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Transition states - without title */
+.track-artist-paragraph-without-title {
+  transition: background-color 0.15s ease, color 0.15s ease;
+}
+
+/* Comment Toggle Button */
+.comment-toggle-button {
+  margin-top: auto;
+  width: 15px;
+  height: 15px;
+  border: 1px solid #434a47;
+  background-color: #434a47;
+  cursor: pointer;
+  transition: background-color 0.15s ease, color 0.15s ease;
+  padding: 0;
+  margin-left: 2px;
+  padding-bottom: 5px;
+  margin-bottom: 10px;
+  font-family: "dot", sans-serif;
+  font-size: 10px;
+  line-height: 10px;
+  text-align: center;
+  color: #ebebeb;
+  box-sizing: border-box;
+}
+
+.comment-toggle-button:hover {
+  background-color: #5a6360;
+}
+
+.comment-toggle-button-active {
+  background-color: transparent;
+  color: #000000;
+}
+
+.comment-toggle-button-active:hover {
+  background-color: rgba(67, 74, 71, 0.2);
+}
+
+/* Volume Slider Container */
+.volume-slider-container {
+  width: 15px;
+  height: 100px;
+  position: relative;
+}
+
+/* Volume Slider */
+.volume-slider {
+  position: absolute;
+  width: 100px;
+  height: 15px;
+  cursor: pointer;
+  transform: rotate(-90deg);
+  transform-origin: top left;
+  top: 98px;
+  left: 0;
+  -webkit-appearance: none;
+  appearance: none;
+  border: none;
+  outline: none;
+  transition: filter 0.3s ease;
+}
+
+.volume-slider-hovered {
+  filter: brightness(0.9);
+}
+
+.volume-slider-not-hovered {
+  filter: brightness(1);
+}
+
+/* Timeline Bar Container */
+.timeline-bar-container {
+  background: rgba(195, 195, 195, 0.8);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1),
+    inset 0 0 20px rgba(255, 255, 255, 0.05);
+  position: relative;
+}
+
+.timeline-bar-container-no-track {
+  pointer-events: none;
+  opacity: 0;
+}
+
+.timeline-bar-container-with-track {
+  opacity: 1;
+}
+
+/* Timeline Hover Gradient Overlay */
+.timeline-hover-gradient-overlay {
+  position: absolute;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  transition: opacity 1s ease;
+  pointer-events: none;
+  z-index: 0;
+}
+
+.timeline-hover-gradient-overlay-visible {
+  opacity: 1;
+}
+
+.timeline-hover-gradient-overlay-hidden {
+  opacity: 0;
+}
+
+/* Chapter Slit Hitbox */
+/* Styles handled by existing class */
+
+/* Chapter Slit */
+.progress-bar-chapter-slit__desktop {
+  height: 1px;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+
+.progress-bar-chapter-slit__desktop-hovered {
+  transform: scaleY(3);
+  background-color: #434a47;
+}
+
+.progress-bar-chapter-slit__desktop-not-hovered {
+  transform: scaleY(1);
+  background-color: #ebebeb;
+}
+
+/* Comment Markers Container */
+.comment-markers-container {
+  opacity: 1;
+  transition: opacity 0.15s ease;
+}
+
+.comment-markers-hidden {
+  opacity: 0;
+  pointer-events: none;
+}
+
+/* Comment Marker Group */
+.comment-marker-group {
+  position: absolute;
+  right:7px;
+  transform: translateY(-50%);
+  display: flex;
+  align-items: center;
+  z-index: 10;
+}
+
+/* Comment Marker Grid */
+.comment-marker-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 7px);
+  gap: 1px;
+  margin-right: 3px;
+  direction: rtl;
+}
+
+/* Comment Marker */
+.comment-marker {
+  width: 5px;
+  height: 5px;
+  background-color: #808080;
+  border: 0.5px solid #ffffff;
+  cursor: pointer;
+  transition: all 0.15s ease;
+}
+
+.comment-marker-reply {
+  background-color: #c5c5c5;
+}
+
+.comment-marker-active {
+  transform: scale(1.3);
+  animation: iconBlink 0.6s ease-in-out infinite;
+}
+
+.comment-marker-inactive {
+  transform: scale(1);
+  animation: none;
+}
+
+/* Comment Marker Line */
+.comment-marker-line {
+  width: 12px;
+  height: 1px;
+  opacity: 0.5;
+  background: linear-gradient(to right, #c6c6c6 25%, #ffffff 25%);
+}
+
+/* Comment Preview Tooltip */
+.comment-preview-tooltip {
+  position: absolute;
+  right: 100%;
+  top: 50%;
+  transform: translateY(-50%);
+  margin-right: 5px;
+  white-space: nowrap;
+  max-width: 180px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  background-color: #f4f4f4e2;
+  padding: 2px 8px 2px 4px;
+  font-size: 20px;
+  font-family: "NeueBit-Regular", sans-serif;
+  color: #434a47;
+  z-index: 9999;
+  isolation: isolate;
+  pointer-events: none;
+}
+
+/* Progress Bar Current Icon */
+.progress-bar-current-icon__desktop {
+  left: 50%;
+}
+
+@keyframes iconBlink {
+  0%,
+  49% {
+    opacity: 1;
+  }
+  50%,
+  100% {
+    opacity: 0;
+  }
+}
+

@@ -13,6 +13,7 @@ export const AudioProvider = ({ children }) => {
   const [isPlaying, setIsPlaying] = useState(false);
   const [progress, setProgress] = useState(0);
   const [currentTime, setCurrentTime] = useState("--:--");
+  const [currentTimeSeconds, setCurrentTimeSeconds] = useState(0);
 
   const togglePlayPause = () => {
     const audio = audioRef.current;
@@ -29,7 +30,6 @@ export const AudioProvider = ({ children }) => {
         playPromise
           .then(() => {
             setIsPlaying(true);
-            console.log("Playback started");
           })
           .catch((error) => {
             console.error("Playback prevented:", error);
@@ -47,6 +47,7 @@ export const AudioProvider = ({ children }) => {
       if (audio.duration) {
         setProgress((audio.currentTime / audio.duration) * 100);
         setCurrentTime(formatTime(audio.currentTime));
+        setCurrentTimeSeconds(audio.currentTime);
       }
     };
 
@@ -70,6 +71,8 @@ export const AudioProvider = ({ children }) => {
         setProgress,
         currentTime,
         setCurrentTime,
+        currentTimeSeconds,
+        setCurrentTimeSeconds,
         togglePlayPause,
       }}
     >

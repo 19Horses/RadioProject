@@ -59,8 +59,7 @@ async function displayFiles() {
     })
   );
 
-  console.log("Images with URLs:", imageUrls);
-  console.log("Data files with URLs:", dataUrls);
+  
 
   // You can now pass these URLs to your frontend to display in a grid
 }

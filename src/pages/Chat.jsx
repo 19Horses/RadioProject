@@ -1,4 +1,4 @@
-import Posts from "../components/Posts";
+import Posts from "../components/forms/Posts";
 
 export const Chat = ({
   isMobile,

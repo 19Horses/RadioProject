@@ -1,0 +1,111 @@
+/* Guest Container */
+.guest-container {
+  width: 100%;
+  height: 100vh; /* Fallback for browsers without dvh support */
+  height: 100dvh;
+  min-height: 100vh; /* Fallback for browsers without dvh support */
+  min-height: 100dvh;
+  top: 0;
+  left: 0;
+  margin: 0;
+  padding: 0;
+}
+
+.guest-container-mobile {
+  display: block;
+  position: relative;
+  height: auto;
+  min-height: auto;
+  padding-top: 0;
+  margin-top: 0;
+}
+
+.guest-container-desktop {
+  display: flex;
+  position: fixed;
+}
+
+/* Bookmark Spacer */
+.guest-bookmark-spacer {
+  width: calc(3vw + 284px);
+  flex-shrink: 0;
+}
+
+/* Tracklist Content Container */
+.guest-tracklist-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.guest-tracklist-container-mobile {
+  flex: none;
+  height: auto;
+  overflow: visible;
+  padding-top: 0;
+  margin-top: 0;
+  position: relative;
+  top: 0;
+}
+
+.guest-tracklist-container-desktop {
+  flex: 1;
+  height: 100dvh;
+  overflow: hidden;
+}
+
+.guest-tracklist-container-playing {
+  margin-right: calc(6vh + 1%);
+  transition: margin-right 0.3s ease;
+}
+
+.guest-tracklist-container-not-playing {
+  margin-right: 0;
+  transition: margin-right 0.3s ease;
+}
+
+.guest-tracklist-container-mobile-padding {
+  padding-top: calc(10dvh); /* Logo spacing + extra padding for player */
+}
+
+.guest-tracklist-container-mobile-no-padding {
+  padding-top: calc(2% + 12vw + 10px); /* Account for logo: top: 2% + height: 12vw + spacing */
+}
+
+/* Mobile Play Button Marquee */
+.guest-mobile-play-marquee {
+  width: 100%;
+  overflow: hidden;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  transition: height 0.3s 0.3s ease, opacity 0.3s ease;
+}
+
+.guest-mobile-play-marquee-visible {
+  height: 35px;
+  margin-top: 10px;
+  margin-bottom: 10px;
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.guest-mobile-play-marquee-hidden {
+  height: 0px;
+  margin-top: 10px;
+  margin-bottom: 0px;
+  opacity: 0;
+  pointer-events: none;
+}
+
+.guest-mobile-play-button {
+  background-color: #434a47;
+  font-size: 20px;
+  color: #ececec;
+  padding: 2px 4px;
+  position: fixed;
+  left: 50%;
+  transform: translateX(-50%);
+  top: 55px;
+  z-index: 100;
+}
+

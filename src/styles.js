@@ -96,27 +96,35 @@ export const PhotoContainerAll = styled.div`
 
 
 export const CursorTitle = styled.p`
-  background-color: ${(props) => (props.$hovered ? props.$bgcolor : "")};
+  background-color: ${(props) => (props.$hovered ? props.$bgcolor : "rgba(0,0,0,0)")};
   color: ${(props) => (props.$hovered ? props.color : "black")};
   display: ${(props) => (props.isMobile ? "inline" : "inline")};
   font-size: ${(props) => props.fontSize || "inherit"};
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: ${(props) => props.$delay}s;
+  -webkit-transition: background-color 0.3s ease-out ${(props) => props.$delay}s;
+  transition: background-color 0.3s ease-out ${(props) => props.$delay}s;
+  line-height: 1;
   opacity: 0;
-  padding-bottom: .1vh;
   margin: 0vh;
-
-
+  padding-right: .3vh;
+  padding-left: .2vh;
+  font-family: NeueHaasDisplayRoman;
+  -webkit-box-decoration-break: clone;
+  box-decoration-break: clone;
 `;
 
 export const MainCursorTitle = styled.p`
-  background-color: ${(props) => (props.$hovered ? props.$bgcolor : "")};
+  background-color: ${(props) => (props.$hovered ? props.$bgcolor : "rgba(0,0,0,0)")};
   color: ${(props) => (props.$hovered ? props.color : "black")};
   display: ${(props) => (props.isMobile ? "inline" : "inline")};
   font-size: ${(props) => props.fontSize || "inherit"};
   animation: ${fadeIn} 0.5s ease-out forwards;
   animation-delay: ${(props) => props.$delay}s;
+  -webkit-transition: background-color 0.3s ease-out ${(props) => props.$delay}s;
+  transition: background-color 0.3s ease-out ${(props) => props.$delay}s;
   opacity: 0;
   padding-bottom: .1vh;
   margin: 0vh;
+  font-family: NeueHaasDisplayRoman;
 `;

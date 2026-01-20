@@ -1,194 +1,177 @@
-import React from "react";
-import { FaPlay } from "react-icons/fa";
-import { Tracklist } from "../components/Tracklist";
+import React, { useEffect, useMemo, useRef } from "react";
+import { createPortal } from "react-dom";
+import { Tracklist } from "../components/tracklist/Tracklist";
 import { useParams } from "react-router-dom";
 import { djs } from "./items";
+import { useAudio } from "../AudioContext";
+import "./Guest.css";
 
-export const Guest = ({ isMobile, setPlayingGuest, isPlaying, darkMode }) => {
+export const Guest = ({
+  isMobile,
+  setCurrentArticle,
+  playingGuest,
+  setPlayingGuest,
+}) => {
   const { guestName } = useParams();
   const selectedGuest = djs.find((dj) => dj.url === guestName);
+  const { currentTimeSeconds, progress, audioRef } = useAudio() || {};
+  const prevSectionRef = useRef(null);
+
+  useEffect(() => {
+    if (selectedGuest && setCurrentArticle) {
+      // Create a summary-compatible object for mixes
+      const mixWithSummary = {
+        ...selectedGuest,
+        summary: selectedGuest.description, // Use description as summary
+      };
+      setCurrentArticle(mixWithSummary);
+    }
+    return () => {
+      if (setCurrentArticle) {
+        setCurrentArticle(null);
+      }
+    };
+  }, [selectedGuest, setCurrentArticle]);
+
+  const isPlayingThisGuest = selectedGuest?.url === playingGuest?.url;
+  const hasPlayingGuest = playingGuest != null;
+
+  // Determine current playing section based on chapters and current time
+  const currentSection = useMemo(() => {
+    if (!isPlayingThisGuest || !selectedGuest?.chapters) {
+      return null;
+    }
+
+    const chapters = selectedGuest.chapters;
+
+    // Try currentTimeSeconds first, fall back to calculating from progress
+    let currentTime = currentTimeSeconds || 0;
+    if (!currentTime && progress && audioRef?.current?.duration) {
+      currentTime = (progress / 100) * audioRef.current.duration;
+    }
+
+    // Find which chapter we're in (chapters are typically named for sections)
+    let section = "a"; // default to first section
+    for (const chapter of chapters) {
+      if (currentTime >= chapter.startTime) {
+        // Map chapter titles to section names (use lowercase for comparison)
+        const title = chapter.title?.toLowerCase() || "";
+        if (title.includes("project") || title.includes("+")) {
+          section = "+";
+        } else if (title.includes("(b)") || title === "radio b") {
+          section = "b";
+        } else if (title.includes("(a)") || title === "radio a") {
+          section = "a";
+        }
+      }
+    }
+    return section;
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [
+    isPlayingThisGuest,
+    selectedGuest?.chapters,
+    currentTimeSeconds,
+    progress,
+  ]);
+
+  // Log when section changes
+  useEffect(() => {
+    if (currentSection && currentSection !== prevSectionRef.current) {
+      const calculatedTime =
+        progress && audioRef?.current?.duration
+          ? (progress / 100) * audioRef.current.duration
+          : null;
+      console.log(`🎵 Entered section: ${currentSection}`, {
+        currentTimeSeconds,
+        progress,
+        calculatedTime: calculatedTime?.toFixed(1),
+        duration: audioRef?.current?.duration,
+      });
+      prevSectionRef.current = currentSection;
+    }
+  }, [currentSection, currentTimeSeconds, progress, audioRef]);
+
+  // Output tracklist to console when guest page loads
+  useEffect(() => {
+    if (selectedGuest?.tracklist) {
+      console.log(
+        `\n%c📻 ${selectedGuest.rpCount} ${selectedGuest.title2?.toUpperCase()} - ${selectedGuest.title?.toUpperCase()}\n`,
+        "font-weight: bold; font-size: 14px; color: " + (selectedGuest.themeColor || "#ff005a")
+      );
+
+      let output = "";
+      selectedGuest.tracklist.forEach((track, index) => {
+        const isSectionBreak =
+          track.title === "RADIO (a)" ||
+          track.title === "PROJECT" ||
+          track.title === "RADIO (b)";
+
+        if (isSectionBreak) {
+          const sectionLabel =
+            track.title === "RADIO (a)" ? "\n\n⟨a⟩\n" :
+            track.title === "PROJECT" ? "\n\n⟨+⟩\n" :
+            track.title === "RADIO (b)" ? "\n\n⟨b⟩\n" : track.title;
+          output += sectionLabel;
+        } else {
+          const superNum = String(index).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[d]).join("");
+          const title = track.title || "";
+          const artist = track.artist || "";
+          output += `${superNum}${title} ${artist} `;
+        }
+      });
+
+      console.log(output.trim());
+      console.log("\n");
+    }
+  }, [selectedGuest]);
 
   return (
     <>
-      <div
-        className={` ${
-          isMobile
-            ? "selected-artist-container-mob-addon"
-            : "selected-artist-container"
-        }`}
-        style={{
-          width: isMobile ? (isPlaying ? "84%" : "88%") : undefined,
-        }}
-      >
-        <div
-          className="all-left-cont"
-          style={{
-            top: isMobile ? "7%" : "",
-          }}
+      {/* Mobile play button - rendered via portal to bypass PageTransition transforms */}
+      {isMobile && selectedGuest && !isPlayingThisGuest && createPortal(
+        <span
+          className="guest-mobile-play-button"
+          onClick={() => setPlayingGuest(selectedGuest)}
         >
-          <div
-            style={{
-              display: "flex",
-              flexDirection: "row",
-              filter: darkMode ? "invert(1)" : "",
-            }}
-          >
-            <div className="description-container">
-              <p
-                className="description-header"
-                style={{
-                  paddingLeft: isMobile ? "3vw" : "",
-                  fontSize: isMobile ? "2.9vh" : "2.7vh",
-                }}
-              >
-                <span
-                  style={{
-                    fontFamily: "Helvetica",
-                    fontWeight: "100",
-                  }}
-                >
-                  {selectedGuest.rpCount}
-                </span>{" "}
-                <span
-                  style={{
-                    backgroundColor: "black",
-                    color: "white",
-                    padding: "2px 5px",
-                  }}
-                >
-                  <b>{selectedGuest.title}</b>
-                </span>
-              </p>
-            </div>
-            <div
-              className="selectTrack"
-              style={{
-                fontSize: isMobile ? "1.9vh" : "",
-              }}
-              onClick={() => {
-                setPlayingGuest(selectedGuest);
-              }}
-            >
-              PLAY
-            </div>
-          </div>
+          ►
+        </span>,
+        document.body
+      )}
+      
+      <div
+        className={`guest-container ${
+          isMobile ? "guest-container-mobile" : "guest-container-desktop"
+        }`}
+      >
+        {/* Spacer for bookmark on desktop */}
+        {!isMobile && <div className="guest-bookmark-spacer" />}
 
-          <div className="artist-pics">
-            <a>
-              <img
-                src={selectedGuest["2ppSrc"]}
-                className="selected-artist-image"
-              />
-            </a>
-          </div>
-          <div
-            style={{
-              display: "flex",
-              justifyContent: "space-between",
-              filter: darkMode ? "invert(1)" : "",
-            }}
-          >
-            <div>
-              <p className="slight-info" style={{ fontSize: "1.2vh" }}>
-                <a
-                  style={{
-                    fontWeight: "100",
-                    fontSize: "2vh",
-                    lineHeight: "1.5",
-                    textDecoration: "none",
-                    cursor: "pointer",
-                    color: "black",
-                  }}
-                  href={selectedGuest.djLink}
-                  target="_blank"
-                >
-                  <b>{selectedGuest.title2}</b>
-                </a>
-                <br />
-                <span
-                  style={{
-                    fontWeight: "100",
-                  }}
-                >
-                  {selectedGuest.broadcastDate}
-                </span>
-                <br />
-                <span
-                  style={{
-                    fontWeight: "100",
-                  }}
-                >
-                  {selectedGuest.length}
-                </span>
-              </p>
-            </div>
-
-            <div
-              className="socials"
-              style={{
-                display: "flex",
-                margin: "auto",
-                marginRight: "0",
-              }}
-            >
-              <a href={selectedGuest.scLink} target="_blank">
-                <img src="/sc.svg" className="sc-logo" />
-              </a>
-              <a href={selectedGuest.npLink} target="_blank">
-                <img src="/np.png" className="sc-logo" />
-              </a>
-              <a href={selectedGuest.igLink} target="_blank">
-                <img src="/ig.jpg" className="sc-logo" />
-              </a>
-            </div>
-          </div>
-          <div
-            style={{
-              flexDirection: "row",
-              display: "flex",
-              filter: darkMode ? "invert(1)" : "",
-            }}
-          >
-            <p
-              style={{
-                fontSize: "2.2vh",
-                fontWeight: "100",
-                width: "80%",
-                marginTop: "1vh",
-                paddingBottom: isMobile ? "10vh" : "",
-                lineHeight: "2.7vh",
-                paddingRight: "1.5vw",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: selectedGuest.description,
-              }}
-            />
-            <div
-              className="genre"
-              style={{
-                font: "dot",
-                display: "flex",
-                alignItems: "stretch",
-                border: "1px solid black",
-                paddingLeft: ".8vh",
-                paddingRight: ".8vh",
-                fontSize: "1.1vh",
-                margin: "auto",
-                marginTop: "1vh",
-                marginRight: "0",
-                textAlign: "center",
-              }}
-            >
-              <p>
-                <b>{selectedGuest.genre}</b>
-              </p>
-            </div>
-          </div>
+        {/* Tracklist content container */}
+        <div
+          className={`guest-tracklist-container ${
+            isMobile
+              ? "guest-tracklist-container-mobile"
+              : "guest-tracklist-container-desktop"
+          } ${
+            !isMobile && playingGuest
+              ? "guest-tracklist-container-playing"
+              : "guest-tracklist-container-not-playing"
+          } ${
+            isMobile
+              ? hasPlayingGuest
+                ? "guest-tracklist-container-mobile-padding"
+                : "guest-tracklist-container-mobile-no-padding"
+              : ""
+          }`}
+        >
+          <Tracklist
+            selectedGuest={selectedGuest}
+            isMobile={isMobile}
+            isPlaying={isPlayingThisGuest}
+            currentSection={currentSection}
+          />
         </div>
       </div>
-      {selectedGuest && !isMobile && (
-        <Tracklist selectedGuest={selectedGuest} darkMode={darkMode} />
-      )}
     </>
   );
 };

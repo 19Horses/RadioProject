@@ -1,274 +1,476 @@
-import React, { useState, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import React, { useState, useEffect, useRef } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import "./Article.css";
 
 import { djs } from "./items";
 
-export const Article = ({ isMobile, isPlaying, darkMode }) => {
+export const Article = ({
+  isMobile,
+  isPlaying,
+  darkMode,
+  setCurrentArticle,
+  setScrollPercentage,
+}) => {
   const { articleName } = useParams();
+  const navigate = useNavigate();
 
   const articleSelected = djs.find((article) => article.url === articleName);
 
+  // atTop is set but not used - kept for potential future use
+  // eslint-disable-next-line
   const [atTop, setAtTop] = useState(true);
+  const [showNextArticle, setShowNextArticle] = useState(false);
+  const [animateIn, setAnimateIn] = useState(false);
+  const [nextArticle, setNextArticle] = useState(null);
+  const [hasTriggered, setHasTriggered] = useState(false);
+  const [isHovering, setIsHovering] = useState(false);
+  const [isExpanded, setIsExpanded] = useState(false);
 
-  const [fadeIn, setFadeIn] = useState(false);
-  const [allowScrollFade, setAllowScrollFade] = useState(false);
+  // Smooth scroll refs and state
+  const scrollContainerRef = useRef(null);
+  const targetScrollRef = useRef(0);
+  const currentScrollRef = useRef(0);
+  const animationFrameRef = useRef(null);
 
   useEffect(() => {
-    const fadeTimeout = setTimeout(() => {
-      setFadeIn(true);
-      // enable scroll-based fading after fade-in finishes (1s = transition duration)
-      setTimeout(() => setAllowScrollFade(true), 1000);
-    }, 50); // initial trigger delay to apply opacity: 0
+    if (articleSelected && setCurrentArticle) {
+      setCurrentArticle(articleSelected);
+    }
+    return () => {
+      if (setCurrentArticle) {
+        setCurrentArticle(null);
+      }
+    };
+  }, [articleSelected, setCurrentArticle]);
 
-    return () => clearTimeout(fadeTimeout);
-  }, []);
+  // const [fadeIn, setFadeIn] = useState(false);
+  // const [allowScrollFade, setAllowScrollFade] = useState(false);
+
+  // useEffect(() => {
+  //   const fadeTimeout = setTimeout(() => {
+  //     setFadeIn(true);
+  //     // enable scroll-based fading after fade-in finishes (1s = transition duration)
+  //     setTimeout(() => setAllowScrollFade(true), 1000);
+  //   }, 50); // initial trigger delay to apply opacity: 0
+
+  //   return () => clearTimeout(fadeTimeout);
+  // }, []);
 
   useEffect(() => {
-    const handleScroll = () => {
-      setAtTop(window.scrollY < 100);
+    // Check scroll position to trigger next article
+    const checkScrollPosition = () => {
+      if (!isMobile && scrollContainerRef.current) {
+        // Use lerped position for smooth detection
+        const scrollPercentage =
+          (currentScrollRef.current + scrollContainerRef.current.clientHeight) /
+          scrollContainerRef.current.scrollHeight;
+
+        if (scrollPercentage >= 0.95) {
+          if (!hasTriggered) {
+            setShowNextArticle(true);
+            setHasTriggered(true);
+
+            // Pick a random article (radiogram only) different from current one
+            const otherArticles = djs.filter(
+              (article) =>
+                article.url !== articleName && article.type === "radiogram"
+            );
+            if (otherArticles.length > 0) {
+              const randomIndex = Math.floor(
+                Math.random() * otherArticles.length
+              );
+              setNextArticle(otherArticles[randomIndex]);
+            }
+          }
+        } else {
+          // Slide down when scrolling back up past 95%
+          if (animateIn) {
+            setAnimateIn(false);
+            setHasTriggered(false); // Reset so it can show again when scrolling back down
+
+            // Unmount after slide-down animation completes
+            setTimeout(() => {
+              setShowNextArticle(false);
+            }, 1000); // Match transition duration
+          }
+        }
+      }
     };
 
-    window.addEventListener("scroll", handleScroll);
-    return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
+    // For mobile, use regular scroll
+    const handleMobileScroll = () => {
+      if (isMobile) {
+        setAtTop(window.scrollY < 100);
+        const scrollHeight = document.documentElement.scrollHeight;
+        const scrollTop = window.scrollY;
+        const clientHeight = window.innerHeight;
+        const scrollPercent = (scrollTop / (scrollHeight - clientHeight)) * 100;
+
+        // Update scroll percentage for mobile
+        if (setScrollPercentage) {
+          setScrollPercentage(Math.min(100, Math.max(0, scrollPercent)));
+        }
+
+        const scrollPercentage = (scrollTop + clientHeight) / scrollHeight;
+
+        if (scrollPercentage >= 0.95) {
+          if (!hasTriggered) {
+            setShowNextArticle(true);
+            setHasTriggered(true);
+            setIsExpanded(false);
+
+            const otherArticles = djs.filter(
+              (article) =>
+                article.url !== articleName && article.type === "radiogram"
+            );
+            if (otherArticles.length > 0) {
+              const randomIndex = Math.floor(
+                Math.random() * otherArticles.length
+              );
+              setNextArticle(otherArticles[randomIndex]);
+            }
+          }
+        } else {
+          // Slide down when scrolling back up past 95%
+          if (animateIn) {
+            setAnimateIn(false);
+            setHasTriggered(false); // Reset so it can show again when scrolling back down
+            setIsExpanded(false);
+
+            // Unmount after slide-down animation completes
+            setTimeout(() => {
+              setShowNextArticle(false);
+            }, 1000); // Match transition duration
+          }
+        }
+      }
+    };
+
+    // Check position on desktop during lerp animation
+    if (!isMobile) {
+      const intervalId = setInterval(checkScrollPosition, 100);
+      return () => clearInterval(intervalId);
+    } else {
+      // Mobile scroll listener
+      window.addEventListener("scroll", handleMobileScroll);
+      return () => {
+        window.removeEventListener("scroll", handleMobileScroll);
+      };
+    }
+  }, [
+    articleName,
+    hasTriggered,
+    isMobile,
+    showNextArticle,
+    setScrollPercentage,
+    animateIn,
+  ]);
+
+  // Reset trigger when article changes
+  useEffect(() => {
+    setHasTriggered(false);
+    setShowNextArticle(false);
+    setAnimateIn(false);
+
+    // Reset lerped scroll on article change
+    if (scrollContainerRef.current) {
+      scrollContainerRef.current.scrollTop = 0;
+      targetScrollRef.current = 0;
+      currentScrollRef.current = 0;
+    }
+
+    // Reset scroll percentage
+    if (setScrollPercentage) {
+      setScrollPercentage(0);
+    }
+  }, [articleName, setScrollPercentage]);
+
+  // Trigger animation after component is rendered
+  useEffect(() => {
+    if (showNextArticle) {
+      // Small delay to ensure element is in DOM before animating
+      const timer = setTimeout(() => {
+        setAnimateIn(true);
+      }, 50);
+      return () => clearTimeout(timer);
+    }
+  }, [showNextArticle]);
+
+  // Smooth scroll lerping effect
+  useEffect(() => {
+    if (isMobile || !scrollContainerRef.current) return;
+
+    const scrollContainer = scrollContainerRef.current;
+    const lerp = (start, end, factor) => start + (end - start) * factor;
+    const scrollSpeed = 0.08; // Adjust for smoother/snappier scroll (0.05-0.15 recommended)
+    const wheelMultiplier = 1.5; // Adjust scroll sensitivity
+
+    // Animation loop
+    const animateScroll = () => {
+      if (scrollContainer) {
+        currentScrollRef.current = lerp(
+          currentScrollRef.current,
+          targetScrollRef.current,
+          scrollSpeed
+        );
+
+        // Apply the lerped scroll position
+        scrollContainer.scrollTop = currentScrollRef.current;
+
+        // Check if we need to continue animating
+        if (
+          Math.abs(targetScrollRef.current - currentScrollRef.current) > 0.1
+        ) {
+          animationFrameRef.current = requestAnimationFrame(animateScroll);
+        } else {
+          // Clear animation frame when scroll stops
+          animationFrameRef.current = null;
+        }
+      }
+    };
+
+    // Separate interval for updating scroll percentage to ensure smooth updates
+    const updateScrollPercentage = () => {
+      if (scrollContainer && setScrollPercentage) {
+        const scrollPercent =
+          (currentScrollRef.current /
+            (scrollContainer.scrollHeight - scrollContainer.clientHeight)) *
+          100;
+        setScrollPercentage(Math.min(100, Math.max(0, scrollPercent)));
+      }
+    };
+
+    // Update scroll percentage more frequently
+    const scrollPercentInterval = setInterval(updateScrollPercentage, 16); // ~60fps
+
+    // Handle wheel events
+    const handleWheel = (e) => {
+      e.preventDefault();
+
+      // Calculate new target scroll position
+      const delta = e.deltaY * wheelMultiplier;
+      const maxScroll =
+        scrollContainer.scrollHeight - scrollContainer.clientHeight;
+
+      targetScrollRef.current = Math.max(
+        0,
+        Math.min(targetScrollRef.current + delta, maxScroll)
+      );
+
+      // Start animation if not already running
+      if (!animationFrameRef.current) {
+        animationFrameRef.current = requestAnimationFrame(animateScroll);
+      }
+    };
+
+    // Add passive: false to allow preventDefault
+    scrollContainer.addEventListener("wheel", handleWheel, { passive: false });
+
+    // Initialize current scroll position
+    currentScrollRef.current = scrollContainer.scrollTop;
+    targetScrollRef.current = scrollContainer.scrollTop;
+
+    return () => {
+      scrollContainer.removeEventListener("wheel", handleWheel);
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+      }
+      clearInterval(scrollPercentInterval);
+    };
+  }, [isMobile, articleSelected, setScrollPercentage]);
 
   return (
-    <>
-      {/* Selected Article */}
-      {articleSelected != null && !isMobile && (
-        <>
-          <div
-            className="article-content__desktop"
-            style={{ width: isPlaying ? "52%" : "54%" }}
-          >
-            <p
-              className="article-content-text__desktop"
-              dangerouslySetInnerHTML={{
-                __html: articleSelected?.description,
-              }}
-            />
-          </div>
-          <div
-            className="article-info-container"
-            style={{
-              top: atTop ? "0vh" : "60vh",
-              transition: "top 1.5s, opacity 1s ease-in-out",
-              transitionDelay: "top .3s",
-            }}
-          >
-            <div
-              className="selected-article-container"
-              style={{
-                opacity: fadeIn ? 1 : 0,
-                // top: atTop ? "11vh" : "72vh",
-                transition: "top 1.5s, opacity 0.5s",
-                transitionDelay: ".3s",
-              }}
-            >
-              <a
-                target="_blank"
-                href={articleSelected?.igLink}
-                style={{ bottom: "0" }}
-              >
-                <img
-                  src={articleSelected?.src2}
-                  style={{ height: "19vh", width: "19vh", objectFit: "cover" }}
-                />
-              </a>
-              <div className="">
-                <div style={{ fontSize: "2.7vh", lineHeight: "3vh" }}>
-                  <span
-                    style={{
-                      fontFamily: "Helvetica",
-                      fontWeight: "100",
-                      padding: "2px 5px", // Optional for better visibility
-                      color: darkMode ? "white" : "black",
-                    }}
-                  >
-                    {articleSelected?.rpCount}
-                  </span>
-                  {<br />}
-                  <span
-                    style={{
-                      backgroundColor: darkMode ? "white" : "black",
-                      color: darkMode ? "black" : "white",
-                      padding: "2px 5px", // Optional for better visibility
-                    }}
-                  >
-                    <b>{articleSelected?.title}</b>
-                  </span>
-                </div>
-                <a
-                  href={articleSelected?.igLink}
-                  target="_blank"
-                  style={{
-                    fontWeight: "1000",
-                    color: darkMode ? "white" : "black",
-                    textDecoration: "none",
-                    lineHeight: "4vh",
-                  }}
-                >
-                  {articleSelected?.title2}
-                </a>
-                <br />
-                <br />
-                <div
-                  style={{
-                    transition: "opacity 0.5s",
-                    fontSize: "1.7vh",
-                    lineHeight: "2vh",
-                    opacity: atTop ? 1 : 0,
-                  }}
-                >
-                  <p
-                    style={{ margin: "0", color: darkMode ? "white" : "black" }}
-                  >
-                    {articleSelected?.tag}
-                  </p>
+    <div
+      className={`article-container ${
+        isMobile ? "article-container-mobile" : "article-container-desktop"
+      }`}
+    >
+      {/* Spacer for bookmark on desktop */}
+      {!isMobile && <div className="article-spacer" />}
 
+      {/* Article content container */}
+      <div
+        className={`article-content-container ${
+          isMobile
+            ? "article-content-container-mobile"
+            : "article-content-container-desktop"
+        } ${
+          isMobile
+            ? isPlaying != null
+              ? "article-content-container-padding-top-playing"
+              : "article-content-container-padding-top-not-playing"
+            : ""
+        }`}
+      >
+        {/* Selected Article */}
+        {articleSelected != null && !isMobile && (
+          <>
+            <div
+              ref={scrollContainerRef}
+              className={`article-scroll-container ${
+                isPlaying != null ? "article-scroll-container-playing" : ""
+              }`}
+            >
+              <div className="article-description-wrapper">
+                {typeof articleSelected?.description === "function" ? (
+                  <articleSelected.description />
+                ) : (
                   <p
-                    style={{ margin: "0", color: darkMode ? "white" : "black" }}
-                  >
-                    {articleSelected?.broadcastDate +
-                      " | " +
-                      articleSelected?.length}
-                  </p>
-                </div>
+                    className="article-description-paragraph"
+                    dangerouslySetInnerHTML={{
+                      __html: articleSelected?.description,
+                    }}
+                  />
+                )}
               </div>
             </div>
-            <div
-              className="article-summary"
-              style={{
-                width: "28vw",
-                color: darkMode ? "white" : "black",
-                fontFamily: "Helvetica",
-                fontWeight: "100",
-                opacity: fadeIn ? (atTop ? 1 : 0) : 0,
-                transition: fadeIn
-                  ? atTop
-                    ? "opacity 0.7s"
-                    : "opacity 0.3s"
-                  : "opacity 0.3s",
-                fontSize: "2vh",
-                transitionDelay: !fadeIn
-                  ? "0s"
-                  : allowScrollFade
-                  ? atTop
-                    ? "1.4s"
-                    : "0s"
-                  : ".3s", // default to visible until scroll fade kicks in
-              }}
-            >
-              <p>{articleSelected?.summary}</p>
-            </div>
-          </div>
-        </>
-      )}
-      {articleSelected && isMobile ? (
-        <div>
-          <div className="article-content-text__mobile">
-            <div
-              className="selected-article-container-mob"
-              style={{
-                transition: "bottom 1.5s, opacity 0.5s",
-                transitionDelay: ".3s",
-                width: isPlaying != null ? "90%" : "",
-              }}
-            >
-              <a
-                target="_blank"
-                href={articleSelected?.igLink}
-                style={{ bottom: "0" }}
-              >
-                <img
-                  src={articleSelected?.src2}
-                  style={{
-                    height: "28vw",
-                    width: "28vw",
-                    objectFit: "cover",
-                    paddingLeft: "2vw",
-                  }}
-                />
-              </a>
-              <div
-                style={{
-                  paddingLeft: "3vw",
-                  filter: darkMode ? "invert(1)" : "",
+          </>
+        )}
+        {articleSelected && isMobile ? (
+          <div
+            className={`article-content-description__mobile ${
+              isPlaying != null
+                ? "article-content-description__mobile-playing"
+                : "article-content-description__mobile-not-playing"
+            }`}
+          >
+            {typeof articleSelected?.description === "function" ? (
+              <articleSelected.description />
+            ) : (
+              <p
+                dangerouslySetInnerHTML={{
+                  __html: articleSelected?.description,
                 }}
-              >
-                <div
-                  style={{
-                    fontSize: "4.5vw",
-                    lineHeight: "6.2vw",
-                    width: "100%",
-                  }}
-                >
-                  <span
-                    style={{
-                      fontFamily: "Helvetica",
-                      fontWeight: "100",
-                    }}
-                  >
-                    {articleSelected?.rpCount}
-                  </span>
-                  <br />
-                  <span
-                    style={{
-                      backgroundColor: "black",
-                      color: "white",
-                      padding: "2px 5px", // Optional for better visibility
-                    }}
-                  >
-                    <b>{articleSelected?.title}</b>
-                  </span>
-                </div>
-                <a
-                  href={articleSelected?.igLink}
-                  target="_blank"
-                  style={{
-                    fontWeight: "1000",
-                    color: "black",
-                    textDecoration: "none",
-                    lineHeight: "4vh",
-                    fontSize: "4vw",
-                  }}
-                >
-                  {articleSelected?.title2}
-                </a>
-                <br />
-                <br />
-                <div
-                  style={{
-                    fontSize: "3vw",
-                    lineHeight: "4vw",
-                  }}
-                >
-                  <p style={{ margin: "0" }}>{articleSelected?.tag}</p>
+              />
+            )}
+          </div>
+        ) : null}
 
-                  <p style={{ margin: "0" }}>
-                    {articleSelected?.broadcastDate +
-                      " | " +
-                      articleSelected?.length}
-                  </p>
+        {/* Next Article Suggestion Pop-up */}
+        {/* {showNextArticle && nextArticle && (
+          <div
+            style={{
+              position: "fixed",
+              bottom: animateIn ? "40px" : "-10vh",
+              left: "calc(51.5vw + 142px)", // Center within article area (after bookmark)
+              transform: "translateX(-50%)",
+              width: "350px",
+              height: isExpanded ? "80px" : "40px",
+              backgroundColor: "white",
+              transition: "bottom 1s ease-out, height 1s ease",
+              zIndex: 10000,
+              cursor: "pointer",
+              flexDirection: "column",
+            }}
+            onClick={() => setIsExpanded(!isExpanded)}
+            onMouseEnter={() => setIsHovering(true)}
+            onMouseLeave={() => setIsHovering(false)}
+          >
+            <div
+              style={{
+                display: "flex",
+                gap: "15px",
+                alignItems: "center",
+                position: isExpanded ? "relative" : "absolute",
+                backgroundColor: "#b1b1b1",
+                top: 0,
+                left: 0,
+                right: 0,
+                height: "40px",
+                minHeight: "40px",
+                maxHeight: "40px",
+                flexShrink: 0,
+                paddingLeft: "10px",
+                zIndex: 2,
+
+                fontFamily: "PPNeueBit-Bold",
+                fontSize: "20px",
+                boxSizing: "border-box",
+              }}
+            >
+              <div className="icon-blink">another one?</div>
+            </div>
+            <div
+              className="icon-blink"
+              style={{
+                position: "fixed",
+                display: "flex",
+                gap: "10px",
+                alignItems: "center",
+                bottom: 0,
+                height: "40px",
+                minHeight: "40px",
+                maxHeight: "40px",
+                flexShrink: 0,
+                backgroundColor: "white",
+                zIndex: 1,
+
+                boxSizing: "border-box",
+              }}
+              onClick={(e) => {
+                if (isExpanded) {
+                  e.stopPropagation();
+
+                  // Reset scroll position
+                  window.scrollTo(0, 0);
+                  if (scrollContainerRef.current) {
+                    // Reset lerped scroll positions
+                    scrollContainerRef.current.scrollTop = 0;
+                    targetScrollRef.current = 0;
+                    currentScrollRef.current = 0;
+                  }
+
+                  // Reset expanded state
+                  setIsExpanded(false);
+
+                  // Navigate to article
+                  const path =
+                    nextArticle.type === "radiogram"
+                      ? `/article/${nextArticle.url}`
+                      : `/mix/${nextArticle.url}`;
+                  navigate(path);
+                }
+              }}
+            >
+              <img
+                src={nextArticle.src || nextArticle.src2 || nextArticle.src3}
+                alt={nextArticle.title}
+                style={{
+                  width: "40px",
+                  height: "40px",
+                  objectFit: "cover",
+                }}
+              />
+
+              <div style={{ flex: 1, top: 1, position: "relative" }}>
+                <div
+                  style={{
+                    fontSize: "20px",
+                    fontWeight: "bold",
+                    color: darkMode ? "white" : "black",
+                    fontFamily: "PPNeueBit-Bold",
+                    overflow: "hidden",
+                    whiteSpace: "nowrap",
+                    textOverflow: "ellipsis",
+                  }}
+                >
+                  {nextArticle.title}
+                </div>
+
+                <div
+                  style={{
+                    fontSize: "15px",
+                    color: darkMode ? "#aaa" : "#666",
+                    fontFamily: "NeueBit-Regular",
+                  }}
+                >
+                  {nextArticle.title2}
                 </div>
               </div>
             </div>
-            <p
-              className="article-content-description__mobile"
-              style={{
-                fontFamily: "Helvetica",
-                fontSize: "5vw",
-                width: isPlaying != null ? "90%" : "95%",
-                marginLeft: "3vw",
-                paddingBottom: isPlaying != null ? "20px" : "10px",
-              }}
-              dangerouslySetInnerHTML={{
-                __html: articleSelected?.description,
-              }}
-            />
           </div>
-        </div>
-      ) : null}
-    </>
+        )} */}
+      </div>
+    </div>
   );
 };

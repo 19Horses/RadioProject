@@ -7,14 +7,14 @@ export function DynamicTitle() {
 
   useEffect(() => {
     const titleMap = {
-      "/": "Archive | RADIO Project",
+      "/": "RADIO Project",
       "/visitorlog": "Visitor Log | RADIO Project",
       "/visitorcheck": "Visitor Check | RADIO Project",
-      "/rp/ubi": "RP1 ♪ games that touch the arts | RADIO Project",
-      "/rp/dvd": "RP2 ♪ BUILD! | RADIO Project",
-      "/rp/bebeluna": "RP3 ♪ Ghost in the Shell | RADIO Project",
-      "/rg/anouk" : "The Promise of Freedom in the Western Sphere | RADIO Project",
-      "/rg/manny" : "“Jesus Hates My Porn Addiction” | RADIO Project"
+      "/mix/ubi": "game arts | Listen on RADIO Project",
+      "/mix/dvd": "BUILD! | Listen on RADIO Project",
+      "/mix/bebeluna": "Ghost in the Shell | Listen on RADIO Project",
+      "/article/anouk" : "The Promise of Freedom in the Western Sphere | Read on RADIO Project",
+      "/article/manny" : "A Conversation with Manny | Read on RADIO Project"
     };
 
     document.title = titleMap[path] || "RADIO Project";
