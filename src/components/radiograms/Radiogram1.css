@@ -1,5 +1,6 @@
 /* Radiogram 1 - Anouk's "The Promise of Freedom in the Western Sphere" */
 .radiogram-1 {
+  padding-top: 60px;
   position: relative;
   color: #434a47;
 }
@@ -55,7 +56,6 @@
   line-height: 1; 
   letter-spacing: -1.1px;
   text-align: justify;
-  margin-top: 25px;
   margin-bottom: 20px;
 }
 
