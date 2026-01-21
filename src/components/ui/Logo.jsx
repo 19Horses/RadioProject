@@ -26,7 +26,7 @@ export const Logo = ({ isMobile, darkMode, setDarkMode }) => {
           }}
           style={{ filter: darkMode ? "invert(1)" : "" }}
           className="main"
-          src="./transplogo2.png"
+          src="/transplogo2.png"
           alt="Logo"
         />
       </a>
@@ -38,7 +38,7 @@ export const Logo = ({ isMobile, darkMode, setDarkMode }) => {
               opacity: headerHover === true ? "1" : "0",
               transform: headerHover === true ? "translateX(-6%)" : "",
             }}
-            src="./transplogo.png"
+            src="/transplogo.png"
           />
         </a>
       )}
