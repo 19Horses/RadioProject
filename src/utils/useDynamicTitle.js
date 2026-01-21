@@ -10,11 +10,11 @@ export function DynamicTitle() {
       "/": "RADIO Project",
       "/visitorlog": "Visitor Log | RADIO Project",
       "/visitorcheck": "Visitor Check | RADIO Project",
-      "/mix/ubi": "game arts | Listen on RADIO Project",
+      "/mix/edenplus": "game arts | Listen on RADIO Project",
       "/mix/dvd": "BUILD! | Listen on RADIO Project",
       "/mix/bebeluna": "Ghost in the Shell | Listen on RADIO Project",
-      "/article/anouk" : "The Promise of Freedom in the Western Sphere | Read on RADIO Project",
-      "/article/manny" : "A Conversation with Manny | Read on RADIO Project"
+      "/article/anouk": "The Promise of Freedom in the Western Sphere | Read on RADIO Project",
+      "/article/manny": "A Conversation with Manny | Read on RADIO Project"
     };
 
     document.title = titleMap[path] || "RADIO Project";
