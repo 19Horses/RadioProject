@@ -14,7 +14,15 @@ export const Article = ({
   const { articleName } = useParams();
   const navigate = useNavigate();
 
-  const articleSelected = djs.find((article) => article.url === articleName);
+  const articleSelected = djs.find((article) => article.url === articleName && article.type === "radiogram");
+
+  // Redirect to home if item doesn't exist or is not a radiogram/article
+  useEffect(() => {
+    const item = djs.find((article) => article.url === articleName);
+    if (!item || item.type !== "radiogram") {
+      navigate("/", { replace: true });
+    }
+  }, [articleName, navigate]);
 
   // atTop is set but not used - kept for potential future use
   // eslint-disable-next-line

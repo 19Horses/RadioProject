@@ -1,7 +1,7 @@
 import React, { useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Tracklist } from "../components/tracklist/Tracklist";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { djs } from "./items";
 import { useAudio } from "../AudioContext";
 import "./Guest.css";
@@ -13,8 +13,17 @@ export const Guest = ({
   setPlayingGuest,
 }) => {
   const { guestName } = useParams();
-  const selectedGuest = djs.find((dj) => dj.url === guestName);
+  const navigate = useNavigate();
+  const selectedGuest = djs.find((dj) => dj.url === guestName && dj.type === "mix");
   const { currentTimeSeconds, progress, audioRef } = useAudio() || {};
+
+  // Redirect to home if item doesn't exist or is not a mix
+  useEffect(() => {
+    const item = djs.find((dj) => dj.url === guestName);
+    if (!item || item.type !== "mix") {
+      navigate("/", { replace: true });
+    }
+  }, [guestName, navigate]);
   const prevSectionRef = useRef(null);
 
   useEffect(() => {
