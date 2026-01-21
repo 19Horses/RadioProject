@@ -5,7 +5,7 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, Link } from "react-router-dom";
 import "./Bookmark.css";
 import SymmetricalPattern from "../ui/SymmetricalPattern";
 import Watermark from "../ui/Watermark";
@@ -1121,8 +1121,8 @@ const Bookmark = ({
                     isClosing ? "menu-contracting" : "menu-expanding"
                   }`}
                 >
-                  <a
-                    href="/#/"
+                  <Link
+                    to="/"
                     className="icon-blink menu-item-glitch menu-link"
                     onClick={toggleMenu}
                     onMouseEnter={() =>
@@ -1139,9 +1139,9 @@ const Bookmark = ({
                     }}
                   >
                     Archive
-                  </a>
-                  <a
-                    href="/#/visitorlog"
+                  </Link>
+                  <Link
+                    to="/visitorlog"
                     className="icon-blink menu-item-glitch menu-link"
                     onClick={toggleMenu}
                     onMouseEnter={() =>
@@ -1157,7 +1157,7 @@ const Bookmark = ({
                     }}
                   >
                     Visitor Log
-                  </a>
+                  </Link>
                   <a
                     href="https://soundcloud.com/radio_project"
                     target="_blank"
@@ -1475,8 +1475,8 @@ const Bookmark = ({
                         isClosing ? "menu-contracting" : "menu-expanding"
                       }`}
                     >
-                      <a
-                        href="/#/"
+                      <Link
+                        to="/"
                         className="icon-blink menu-item-glitch menu-link"
                         onClick={toggleMenu}
                         onMouseEnter={() =>
@@ -1487,9 +1487,9 @@ const Bookmark = ({
                         }
                       >
                         Archive
-                      </a>
-                      <a
-                        href="/#/visitorlog"
+                      </Link>
+                      <Link
+                        to="/visitorlog"
                         className="icon-blink menu-item-glitch menu-link"
                         onClick={toggleMenu}
                         onMouseEnter={() =>
@@ -1500,7 +1500,7 @@ const Bookmark = ({
                         }
                       >
                         Visitor Log
-                      </a>
+                      </Link>
                       <a
                         href="https://soundcloud.com/radio_project"
                         target="_blank"

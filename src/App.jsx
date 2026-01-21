@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef, useCallback } from "react";
 import {
-  HashRouter,
+  BrowserRouter,
   Navigate,
   Route,
   Routes,
@@ -309,7 +309,7 @@ function App() {
 
   return (
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
-      <HashRouter>
+      <BrowserRouter>
         <DynamicTitle />
 
         {/* Online visitor counter */}
@@ -361,7 +361,7 @@ function App() {
           setSelectedQuestion={setSelectedQuestion}
         />
         </AudioProvider>
-      </HashRouter>
+      </BrowserRouter>
     </ThemeProvider>
   );
 }

@@ -3,7 +3,7 @@ import { useLocation } from "react-router-dom";
 
 export function DynamicTitle() {
   const location = useLocation();
-  const path = location.pathname; // ✅ This is what works with HashRouter
+  const path = location.pathname; // Works with BrowserRouter
 
   useEffect(() => {
     const titleMap = {
