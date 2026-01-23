@@ -24,6 +24,24 @@ export const Tracklist = ({
     return currentSec;
   };
 
+  // Helper to get the position within the PROJECT section (for alternating fonts)
+  const getProjectSectionIndex = (index) => {
+    let projectIndex = -1;
+    let inProjectSection = false;
+    for (let i = 0; i <= index; i++) {
+      const title = selectedGuest.tracklist[i]?.title;
+      if (title === "PROJECT") {
+        inProjectSection = true;
+        projectIndex = -1; // Reset counter when entering PROJECT section
+      } else if (title === "RADIO (b)") {
+        inProjectSection = false;
+      } else if (inProjectSection && title !== "RADIO (a)") {
+        projectIndex++;
+      }
+    }
+    return projectIndex;
+  };
+
   // Helper to determine if an item should be dark (already played or currently playing)
   const shouldBeDark = (itemSection) => {
     if (!isPlaying || !currentSection) return false;
@@ -279,6 +297,17 @@ export const Tracklist = ({
             !isGreyedOut &&
             !isSectionBreak &&
             activeHovers.has(index);
+
+          // Alternating font for PROJECT section
+          const itemSection = getItemSection(index);
+          const projectIdx = itemSection === "+" ? getProjectSectionIndex(index) : -1;
+          const isProjectItem = itemSection === "+" && !isSectionBreak && projectIdx >= 0;
+          const projectFont = isProjectItem
+            ? projectIdx % 2 === 0
+              ? "NeueHaasDisplayLight"
+              : "NeueHaasDisplayRoman"
+            : undefined;
+
           return (
             <span
               key={index}
@@ -320,6 +349,7 @@ export const Tracklist = ({
                   ...(isMobile || isGreyedOut || isSectionBreak
                     ? {}
                     : hoverColors[index]),
+                  ...(projectFont && { fontFamily: projectFont }),
                 }}
               >
                 {!isSectionBreak && (
@@ -347,7 +377,12 @@ export const Tracklist = ({
                     ? "(b)"
                     : mixTrack.title}{" "}
                 </span>
-                <span className="track-artist">{mixTrack.artist}</span>
+                <span 
+                  className="track-artist"
+                  style={projectFont ? { fontFamily: projectFont } : undefined}
+                >
+                  {mixTrack.artist}
+                </span>
               </span>
               {isSectionBreak && <br />}
             </span>

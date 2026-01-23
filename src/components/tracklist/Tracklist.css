@@ -1,3 +1,8 @@
+@font-face {
+  font-family: "NeueHaasDisplayLight";
+  src: local("NeueHaasDisplayLight"), url("../../assets/NeueHaasDisplayLight.ttf") format("truetype");
+}
+
 /* Tracklist Container */
 .tracklist-container {
   overflow: auto;

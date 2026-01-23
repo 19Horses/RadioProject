@@ -147,40 +147,40 @@ export const Guest = ({
         document.body
       )}
       
+    <div
+      className={`guest-container ${
+        isMobile ? "guest-container-mobile" : "guest-container-desktop"
+      }`}
+    >
+      {/* Spacer for bookmark on desktop */}
+      {!isMobile && <div className="guest-bookmark-spacer" />}
+
+      {/* Tracklist content container */}
       <div
-        className={`guest-container ${
-          isMobile ? "guest-container-mobile" : "guest-container-desktop"
+        className={`guest-tracklist-container ${
+          isMobile
+            ? "guest-tracklist-container-mobile"
+            : "guest-tracklist-container-desktop"
+        } ${
+          !isMobile && playingGuest
+            ? "guest-tracklist-container-playing"
+            : "guest-tracklist-container-not-playing"
+        } ${
+          isMobile
+            ? hasPlayingGuest
+              ? "guest-tracklist-container-mobile-padding"
+              : "guest-tracklist-container-mobile-no-padding"
+            : ""
         }`}
       >
-        {/* Spacer for bookmark on desktop */}
-        {!isMobile && <div className="guest-bookmark-spacer" />}
-
-        {/* Tracklist content container */}
-        <div
-          className={`guest-tracklist-container ${
-            isMobile
-              ? "guest-tracklist-container-mobile"
-              : "guest-tracklist-container-desktop"
-          } ${
-            !isMobile && playingGuest
-              ? "guest-tracklist-container-playing"
-              : "guest-tracklist-container-not-playing"
-          } ${
-            isMobile
-              ? hasPlayingGuest
-                ? "guest-tracklist-container-mobile-padding"
-                : "guest-tracklist-container-mobile-no-padding"
-              : ""
-          }`}
-        >
-          <Tracklist
-            selectedGuest={selectedGuest}
-            isMobile={isMobile}
-            isPlaying={isPlayingThisGuest}
-            currentSection={currentSection}
-          />
-        </div>
+        <Tracklist
+          selectedGuest={selectedGuest}
+          isMobile={isMobile}
+          isPlaying={isPlayingThisGuest}
+          currentSection={currentSection}
+        />
       </div>
+    </div>
     </>
   );
 };
