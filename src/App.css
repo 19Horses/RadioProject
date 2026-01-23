@@ -22,6 +22,11 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "NeueHaasDisplayLight";
+  src: local("NeueHaasDisplayLight"), url("./assets/NeueHaasDisplayLight.ttf") format("truetype");
+  font-style: normal;
+}
 
 @keyframes fadeIn {
   0% {
