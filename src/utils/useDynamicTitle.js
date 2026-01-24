@@ -11,6 +11,7 @@ export function DynamicTitle() {
       "/visitorlog": "Visitor Log | RADIO Project",
       "/visitorcheck": "Visitor Check | RADIO Project",
       "/mix/edenplus": "game arts | Listen on RADIO Project",
+      "/mix/howdogirlsleep": "#KITBASHING | Listen on RADIO Project",
       "/mix/dvd": "BUILD! | Listen on RADIO Project",
       "/mix/bebeluna": "Ghost in the Shell | Listen on RADIO Project",
       "/article/anouk": "The Promise of Freedom in the Western Sphere | Read on RADIO Project",
