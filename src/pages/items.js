@@ -391,7 +391,7 @@ export const djs = [
 
       { startTime: "1672", title: "PROJECT" },
       { title: "3D Beginnings", artist: "" },
-      { title: "Analysing: Ash Thorp's McLaren 750 Premiere Video", artist: "" },
+      { title: "Analysing: Ash Thorp's McLaren 750S Premiere Video", artist: "" },
       { title: "The Marathon Scandal!?", artist: "" },
       { title: "The Origins of Whitelands!", artist: "" },
       { title: "That Feeling When Your Guitar String Snaps Mid Gig :(", artist: "" },

@@ -291,6 +291,10 @@
   transition: all 0.15s ease;
 }
 
+.comment-marker:hover {
+  transform: scale(1.2);
+}
+
 .comment-marker-reply {
   background-color: #c5c5c5;
 }
@@ -331,7 +335,12 @@
   color: #434a47;
   z-index: 9999;
   isolation: isolate;
-  pointer-events: none;
+  pointer-events: auto;
+  transition: background-color 0.2s ease;
+}
+
+.comment-preview-tooltip:hover {
+  background-color: #e8e8e8;
 }
 
 /* Progress Bar Current Icon */

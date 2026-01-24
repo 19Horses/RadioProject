@@ -146,7 +146,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
     const q = query(
       collection(db, "comments"),
       where("itemId", "==", playingGuest.url),
-      orderBy("createdAt", "asc")
+      orderBy("createdAt", "asc"),
     );
 
     const unsubscribe = onSnapshot(
@@ -161,7 +161,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
             (comment) =>
               comment.trackTimestamp !== undefined &&
               comment.trackTimestamp !== null &&
-              typeof comment.trackTimestamp === "number"
+              typeof comment.trackTimestamp === "number",
           );
         setCommentMarkers(markers);
       },
@@ -169,10 +169,10 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
         // Handle index not ready error gracefully
         console.log(
           "Comment markers query error (index may need to be created):",
-          error.message
+          error.message,
         );
         setCommentMarkers([]);
-      }
+      },
     );
 
     return () => unsubscribe();
@@ -300,7 +300,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
           prevArtistRef.current = currentlyPlayingArtist;
           setFade("fade-in");
         },
-        prevTitleRef.current != "" ? 1000 : 0
+        prevTitleRef.current != "" ? 1000 : 0,
       ); // match CSS transition duration
     }
   }, [currentlyPlayingTitle, currentlyPlayingArtist]);
@@ -362,7 +362,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
   useEffect(() => {
     if (titleRef.current && containerRef.current) {
       setShouldScroll(
-        titleRef.current.scrollWidth > containerRef.current.clientWidth
+        titleRef.current.scrollWidth > containerRef.current.clientWidth,
       );
     }
   }, [currentlyPlayingTitle]);
@@ -389,7 +389,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
   useEffect(() => {
     if (titleRef.current && containerRef.current) {
       setShouldScroll(
-        titleRef.current.scrollWidth > containerRef.current.clientWidth
+        titleRef.current.scrollWidth > containerRef.current.clientWidth,
       );
     }
   }, [title]);
@@ -429,7 +429,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
     if (audioRef.current) {
       audioRef.current.currentTime = Math.min(
         audioRef.current.currentTime + 10,
-        audioRef.current.duration
+        audioRef.current.duration,
       );
     }
   };
@@ -438,7 +438,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
     if (audioRef.current) {
       audioRef.current.currentTime = Math.max(
         audioRef.current.currentTime - 10,
-        0
+        0,
       );
     }
   };
@@ -451,7 +451,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
           audioRef.current.play();
         }
       },
-      { once: true }
+      { once: true },
     );
   }, []);
 
@@ -463,7 +463,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
           audioRef.current.play();
         }
       },
-      { once: true }
+      { once: true },
     );
   }, []);
 
@@ -630,7 +630,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
             top: `${progress}%`,
             background: `linear-gradient(to bottom, transparent 0%, #434a479f ${Math.max(
               0,
-              ((timelineMouseY - progress) / (100 - progress)) * 100
+              ((timelineMouseY - progress) / (100 - progress)) * 100,
             )}%, transparent 100%)`,
           }}
         />
@@ -729,46 +729,129 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
                 >
                   {/* Grid of markers (rows of 3, stacking right to left) */}
                   <div className="comment-marker-grid">
-                    {comments.map((comment) => (
-                      <div
-                        key={comment.id}
-                        className={`comment-marker ${
-                          comment.replyTo ? "comment-marker-reply" : ""
-                        } ${
-                          hoveredComment === comment.id ||
-                          activeCommentId === comment.id
-                            ? "comment-marker-active"
-                            : "comment-marker-inactive"
-                        }`}
-                        onClick={(e) => {
-                          e.stopPropagation();
-                          if (audioRef?.current) {
-                            audioRef.current.currentTime =
-                              comment.trackTimestamp;
-                            setProgress(
-                              (comment.trackTimestamp /
-                                audioRef.current.duration) *
-                                100
-                            );
+                    {comments.map((comment) => {
+                      const isRadioProject =
+                        comment.author?.trim().toUpperCase() ===
+                        "RADIOPROJECT2047";
+
+                      return (
+                        <div
+                          key={comment.id}
+                          className={`comment-marker ${
+                            comment.replyTo ? "comment-marker-reply" : ""
+                          } ${
+                            hoveredComment === comment.id ||
+                            activeCommentId === comment.id
+                              ? "comment-marker-active"
+                              : "comment-marker-inactive"
+                          }`}
+                          style={
+                            isRadioProject ? { backgroundColor: "#346fc7" } : {}
                           }
-                        }}
-                        onMouseEnter={() => setHoveredComment(comment.id)}
-                        onMouseLeave={() => setHoveredComment(null)}
-                      />
-                    ))}
+                          onClick={(e) => {
+                            e.stopPropagation();
+                            if (audioRef?.current) {
+                              audioRef.current.currentTime =
+                                comment.trackTimestamp;
+                              setProgress(
+                                (comment.trackTimestamp /
+                                  audioRef.current.duration) *
+                                  100,
+                              );
+                            }
+                          }}
+                          onMouseEnter={() => setHoveredComment(comment.id)}
+                          onMouseLeave={() => setHoveredComment(null)}
+                        />
+                      );
+                    })}
                   </div>
                   {/* Single horizontal line to timeline center */}
                   <div className="comment-marker-line" />
                   {/* Comment preview tooltip - positioned to left of markers */}
                   {comments.some(
-                    (c) => hoveredComment === c.id || activeCommentId === c.id
+                    (c) => hoveredComment === c.id || activeCommentId === c.id,
                   ) && (
-                    <div className="comment-preview-tooltip">
+                    <div
+                      className="comment-preview-tooltip"
+                      onClick={(e) => {
+                        const activeComment = comments.find(
+                          (c) =>
+                            hoveredComment === c.id || activeCommentId === c.id,
+                        );
+                        const isRadioProject =
+                          activeComment?.author?.trim().toUpperCase() ===
+                          "RADIOPROJECT2047";
+
+                        if (isRadioProject && activeComment?.content) {
+                          // Extract URL from comment content
+                          const urlRegex = /(https?:\/\/[^\s]+)/g;
+                          const urls = activeComment.content.match(urlRegex);
+
+                          if (urls && urls.length > 0) {
+                            e.stopPropagation();
+                            window.open(
+                              urls[0],
+                              "_blank",
+                              "noopener,noreferrer",
+                            );
+                          }
+                        }
+                      }}
+                      style={{
+                        cursor: (() => {
+                          const activeComment = comments.find(
+                            (c) =>
+                              hoveredComment === c.id ||
+                              activeCommentId === c.id,
+                          );
+                          const isRadioProject =
+                            activeComment?.author?.trim().toUpperCase() ===
+                            "RADIOPROJECT2047";
+                          return isRadioProject &&
+                            activeComment?.content?.match(
+                              /(https?:\/\/[^\s]+)/g,
+                            )
+                            ? "pointer"
+                            : "default";
+                        })(),
+                        color: (() => {
+                          const activeComment = comments.find(
+                            (c) =>
+                              hoveredComment === c.id ||
+                              activeCommentId === c.id,
+                          );
+                          const isRadioProject =
+                            activeComment?.author?.trim().toUpperCase() ===
+                            "RADIOPROJECT2047";
+                          return isRadioProject &&
+                            activeComment?.content?.match(
+                              /(https?:\/\/[^\s]+)/g,
+                            )
+                            ? "#346fc7"
+                            : "#434a47";
+                        })(),
+                      }}
+                    >
                       {(() => {
                         const activeComment = comments.find(
                           (c) =>
-                            hoveredComment === c.id || activeCommentId === c.id
+                            hoveredComment === c.id || activeCommentId === c.id,
                         );
+
+                        const isRadioProject =
+                          activeComment?.author?.trim().toUpperCase() ===
+                          "RADIOPROJECT2047";
+
+                        if (isRadioProject && activeComment?.content) {
+                          const urlRegex = /(https?:\/\/[^\s]+)/g;
+                          const hasUrl = activeComment.content.match(urlRegex);
+
+                          if (hasUrl) {
+                            return "→ link";
+                          }
+                        }
+
                         return activeComment?.replyTo
                           ? `→ ${activeComment.content}`
                           : activeComment?.content;

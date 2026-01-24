@@ -94,16 +94,22 @@ export const CommentInputForm = ({
           {((selectedText && itemType === "radiogram") || replyingTo) && (
             <div className="reply-quote-info">
               <span className="reply-quote-text">
-              <span style={{ color: "rgb(255,0, 71)" }}>{replyingTo ? "⚖" : "▧"} {" "}</span>
+                <span style={{ color: "rgb(255,0, 71)" }}>
+                  {replyingTo ? "⚖" : "▧"}{" "}
+                </span>
                 {replyingTo && (
                   <>
-                  
                     <span
                       onClick={() => setReplyingTo(null)}
                       className="reply-link"
                     >
-                      <span className="bold-text">{chatUser?.toUpperCase()}</span> replies to{" "}
-                      <span className="bold-text">{replyingTo.author?.toUpperCase()}</span>
+                      <span className="bold-text">
+                        {chatUser?.toUpperCase()}
+                      </span>{" "}
+                      replies to{" "}
+                      <span className="bold-text">
+                        {replyingTo.author?.toUpperCase()}
+                      </span>
                       {!(selectedText && itemType === "radiogram") && ""}
                     </span>
                     {selectedText && itemType === "radiogram" && (
@@ -118,7 +124,9 @@ export const CommentInputForm = ({
                   >
                     {!replyingTo && (
                       <>
-                        <span className="bold-text">{chatUser?.toUpperCase()}</span>{" "}
+                        <span className="bold-text">
+                          {chatUser?.toUpperCase()}
+                        </span>{" "}
                       </>
                     )}
                     quotes{" "}
@@ -140,7 +148,6 @@ export const CommentInputForm = ({
                           </span>
                         </>
                       )}
-                    
                   </span>
                 )}
               </span>
@@ -151,13 +158,19 @@ export const CommentInputForm = ({
             !replyingTo &&
             !(selectedText && itemType === "radiogram") && (
               <div className="live-timestamp-display">
-                <span style={{ 
-                  color: "rgb(255, 0, 71)", 
-                  WebkitBackgroundClip: "unset",
-                  backgroundClip: "unset",
-                  WebkitTextFillColor: "rgb(255, 0, 71)"
-                }}>{!replyingTo && "▧\u00A0"}</span>
-                <span className="bold-text-padding-right">{chatUser?.toUpperCase()}</span>
+                <span
+                  style={{
+                    color: "rgb(255, 0, 71)",
+                    WebkitBackgroundClip: "unset",
+                    backgroundClip: "unset",
+                    WebkitTextFillColor: "rgb(255, 0, 71)",
+                  }}
+                >
+                  {!replyingTo && "▧\u00A0"}
+                </span>
+                <span className="bold-text-padding-right">
+                  {chatUser?.toUpperCase()}
+                </span>
                 said @
                 <span className="bold-text">
                   {" "}
@@ -214,6 +227,10 @@ export const CommentsList = ({
   inputRef,
   commentsEndRef,
 }) => {
+  const filteredComments = comments.filter(
+    (comment) => comment.author?.trim().toUpperCase() !== "RADIOPROJECT2047",
+  );
+
   return (
     <div
       className={`comments-scroll ${
@@ -222,7 +239,7 @@ export const CommentsList = ({
     >
       <div
         className={
-          comments.length === 0
+          filteredComments.length === 0
             ? "comments-list-wrapper-empty"
             : "comments-list-wrapper"
         }
@@ -230,7 +247,7 @@ export const CommentsList = ({
           paddingBottom: isMobile ? "0px" : "",
         }}
       >
-        {comments.length === 0 ? (
+        {filteredComments.length === 0 ? (
           <div
             className="no-comments-message"
             style={{ padding: isMobile ? "0px 0px" : "7px 2px" }}
@@ -238,126 +255,138 @@ export const CommentsList = ({
             No comments yet... start the discourse!
           </div>
         ) : (
-          comments.map((comment, index) => {
-            // Check if next comment is on a different day
-            const getDateOnly = (timestamp) => {
-              if (!timestamp) return null;
-              const date = timestamp.toDate ? timestamp.toDate() : new Date(timestamp);
-              return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
-            };
-            
-            const currentDate = getDateOnly(comment.createdAt);
-            const nextComment = comments[index + 1];
-            const nextDate = nextComment ? getDateOnly(nextComment.createdAt) : null;
-            const isDifferentDay = nextDate && currentDate !== nextDate;
-            
-            return (
-            <div
-              key={comment.id}
-              className={`comment-item${isDifferentDay ? " different-day" : ""}`}
-            >
-              <div className="comment-header">
-                <span className="comment-author"><span style={{ color: "rgb(255,0, 71)" }}>{comment.replyToAuthor ? "⚖" : "▧"} {" "}</span>{comment.author}</span>
-                {chatUser && (
-                  <button
-                    onClick={(e) => {
-                      e.stopPropagation();
-                      setReplyingTo({
-                        id: comment.id,
-                        author: comment.author,
-                        content: comment.content,
-                      });
-                      inputRef.current?.focus();
-                    }}
-                    className={`reply-button ${
-                      replyingTo?.id === comment.id ? "reply-button-active" : ""
-                    }`}
-                  >
-REPLY
-                  </button>
-                )}
-                <span className="comment-timestamp">
-                  {formatTime(comment.createdAt)}
-                </span>
-              </div>
-              {comment.trackTimestamp !== undefined &&
-                comment.trackTimestamp !== null && (
-                  <div
-                    onClick={() => {
-                      if (playingGuest?.url === itemId) {
-                        seekToTimestamp(comment.trackTimestamp);
-                      }
-                    }}
-                    className={`track-timestamp-link ${
-                      playingGuest?.url === itemId
-                        ? ""
-                        : "track-timestamp-link-default"
-                    }`}
-                    title={
-                      playingGuest?.url === itemId
-                        ? "Click to jump to this moment"
-                        : "Play this mix to jump to timestamp"
-                    }
-                  >
-                    <span className="track-timestamp-text">
-                      →{" "}
-                      <span className="track-timestamp-bold">
-                        said @{formatTrackTime(comment.trackTimestamp)}
+          filteredComments.map((comment, index) => {
+              // Check if next comment is on a different day
+              const getDateOnly = (timestamp) => {
+                if (!timestamp) return null;
+                const date = timestamp.toDate
+                  ? timestamp.toDate()
+                  : new Date(timestamp);
+                return `${date.getFullYear()}-${date.getMonth()}-${date.getDate()}`;
+              };
+
+              const currentDate = getDateOnly(comment.createdAt);
+              const nextComment = filteredComments[index + 1];
+              const nextDate = nextComment
+                ? getDateOnly(nextComment.createdAt)
+                : null;
+              const isDifferentDay = nextDate && currentDate !== nextDate;
+
+              return (
+                <div
+                  key={comment.id}
+                  className={`comment-item${isDifferentDay ? " different-day" : ""}`}
+                >
+                  <div className="comment-header">
+                    <span className="comment-author">
+                      <span style={{ color: "rgb(255,0, 71)" }}>
+                        {comment.replyToAuthor ? "⚖" : "▧"}{" "}
                       </span>
+                      {comment.author}
                     </span>
-                    {playingGuest?.url === itemId && (
-                      <span className="jump-to-text">JUMP TO</span>
+                    {chatUser && (
+                      <button
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          setReplyingTo({
+                            id: comment.id,
+                            author: comment.author,
+                            content: comment.content,
+                          });
+                          inputRef.current?.focus();
+                        }}
+                        className={`reply-button ${
+                          replyingTo?.id === comment.id
+                            ? "reply-button-active"
+                            : ""
+                        }`}
+                      >
+                        REPLY
+                      </button>
                     )}
+                    <span className="comment-timestamp">
+                      {formatTime(comment.createdAt)}
+                    </span>
                   </div>
-                )}
-              {comment.replyToAuthor && (
-                <span className="reply-to-info">
-                  →{" "}
-                  <span className="reply-to-author">
-                    {comment.replyToAuthor?.toUpperCase()}
-                  </span>
-                  {comment.replyToContent && (
-                    <span className="reply-to-content">
-                      {" "}
-                      {comment.replyToContent.length > 40
-                        ? "said " +
-                          comment.replyToContent.substring(0, 40) +
-                          "..."
-                        : "said '" + comment.replyToContent + "'"}
+                  {comment.trackTimestamp !== undefined &&
+                    comment.trackTimestamp !== null && (
+                      <div
+                        onClick={() => {
+                          if (playingGuest?.url === itemId) {
+                            seekToTimestamp(comment.trackTimestamp);
+                          }
+                        }}
+                        className={`track-timestamp-link ${
+                          playingGuest?.url === itemId
+                            ? ""
+                            : "track-timestamp-link-default"
+                        }`}
+                        title={
+                          playingGuest?.url === itemId
+                            ? "Click to jump to this moment"
+                            : "Play this mix to jump to timestamp"
+                        }
+                      >
+                        <span className="track-timestamp-text">
+                          →{" "}
+                          <span className="track-timestamp-bold">
+                            said @{formatTrackTime(comment.trackTimestamp)}
+                          </span>
+                        </span>
+                        {playingGuest?.url === itemId && (
+                          <span className="jump-to-text">JUMP TO</span>
+                        )}
+                      </div>
+                    )}
+                  {comment.replyToAuthor && (
+                    <span className="reply-to-info">
+                      →{" "}
+                      <span className="reply-to-author">
+                        {comment.replyToAuthor?.toUpperCase()}
+                      </span>
+                      {comment.replyToContent && (
+                        <span className="reply-to-content">
+                          {" "}
+                          {comment.replyToContent.length > 40
+                            ? "said " +
+                              comment.replyToContent.substring(0, 40) +
+                              "..."
+                            : "said '" + comment.replyToContent + "'"}
+                        </span>
+                      )}
                     </span>
                   )}
-                </span>
-              )}
-              {comment.highlightedText && (
-                <div
-                  className="highlighted-text-link"
-                  onClick={() => {
-                    highlightTextInArticle(comment.highlightedText);
-                    if (isMobile && setMenuOpen) {
-                      setMenuOpen(false);
-                    }
-                  }}
-                  onMouseLeave={() => {
-                    clearHighlights();
-                  }}
-                >
-                  <span className="highlighted-text-content">
-                    → quotes{" "}
-                    <span >
-                      "
-                      {comment.highlightedText.length > 120
-                        ? comment.highlightedText.substring(0, 120) + "..."
-                        : comment.highlightedText}
-                      "
-                    </span>
-                  </span>
-                  <span className="see-quote-text">SEE QUOTE</span>
+                  {comment.highlightedText && (
+                    <div
+                      className="highlighted-text-link"
+                      onClick={() => {
+                        highlightTextInArticle(comment.highlightedText);
+                        if (isMobile && setMenuOpen) {
+                          setMenuOpen(false);
+                        }
+                      }}
+                      onMouseLeave={() => {
+                        clearHighlights();
+                      }}
+                    >
+                      <span className="highlighted-text-content">
+                        → quotes{" "}
+                        <span>
+                          "
+                          {comment.highlightedText.length > 120
+                            ? comment.highlightedText.substring(0, 120) + "..."
+                            : comment.highlightedText}
+                          "
+                        </span>
+                      </span>
+                      <span className="see-quote-text">SEE QUOTE</span>
+                    </div>
+                  )}
+                  {/* actual comment content */}
+                  <p className="comment-content">{comment.content}</p>
                 </div>
-              )}
-              {/* actual comment content */}
-              <p className="comment-content">{comment.content}</p>
-            </div>
-          );})
+              );
+            })
         )}
         <div ref={commentsEndRef} />
       </div>
