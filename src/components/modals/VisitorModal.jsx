@@ -37,14 +37,13 @@ export function VisitorModal({
   isPlaying,
   containerRef,
   onClose,
+  gyroPermissionGranted = false,
 }) {
   const boundingRef = useRef(null);
   const mobileCardRef = useRef(null);
   const [isClosing, setIsClosing] = useState(false);
   const [isEntered, setIsEntered] = useState(false);
   const [ditherMode, setDitherMode] = useState(false);
-  const [gyroPermission, setGyroPermission] = useState(false);
-  const [needsPermission, setNeedsPermission] = useState(false);
   const rafIdRef = useRef(null);
   const cardRef = useRef(null);
 
@@ -60,23 +59,6 @@ export function VisitorModal({
 
   const handleModeSwitch = () => {
     setDitherMode(!ditherMode);
-  };
-
-  const handleGyroPermission = async () => {
-    if (
-      typeof DeviceOrientationEvent !== "undefined" &&
-      typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
-      try {
-        const permission = await DeviceOrientationEvent.requestPermission();
-        if (permission === "granted") {
-          setGyroPermission(true);
-          setNeedsPermission(false);
-        }
-      } catch (error) {
-        console.log("Gyroscope permission denied:", error);
-      }
-    }
   };
 
   // Reset closing state and trigger entrance animation when modal opens
@@ -138,8 +120,8 @@ export function VisitorModal({
       const gamma = event.gamma || 0; // -90 to 90 (left/right)
 
       // Normalize and limit rotation values
-      const xRotation = Math.max(-15, Math.min(15, gamma * 0.5)); // Left/right tilt
-      const yRotation = Math.max(-15, Math.min(15, (beta - 45) * 0.3)); // Front/back tilt (offset by 45 for natural holding angle)
+      const xRotation = Math.max(-30, Math.min(30, gamma * 0.8)); // Left/right tilt
+      const yRotation = Math.max(-30, Math.min(30, (beta - 45) * 0.6)); // Front/back tilt (offset by 45 for natural holding angle)
 
       // Calculate position for shine effect
       const xPercent = ((gamma + 90) / 180) * 100;
@@ -157,28 +139,15 @@ export function VisitorModal({
       mobileCardRef.current.style.setProperty("--y", `${yPercent}%`);
     };
 
-    // Check if permission is needed and set up gyroscope
-    if (
-      typeof DeviceOrientationEvent !== "undefined" &&
-      typeof DeviceOrientationEvent.requestPermission === "function"
-    ) {
-      // iOS 13+ requires explicit permission
-      setNeedsPermission(true);
-
-      // If permission already granted, add listener
-      if (gyroPermission) {
-        window.addEventListener("deviceorientation", handleOrientation);
-      }
-    } else {
-      // Non-iOS devices or older iOS - permission not required
-      setGyroPermission(true);
+    // Set up gyroscope listener if permission is granted
+    if (gyroPermissionGranted) {
       window.addEventListener("deviceorientation", handleOrientation);
     }
 
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
     };
-  }, [isMobile, clickedImage, ditherMode, gyroPermission]);
+  }, [isMobile, clickedImage, ditherMode, gyroPermissionGranted]);
 
   if (!clickedImage) return null;
 
@@ -514,17 +483,6 @@ export function VisitorModal({
           margin-bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
           box-sizing: content-box;
         }
-        
-        @keyframes pulse {
-          0%, 100% {
-            transform: translateX(-50%) scale(1);
-            opacity: 1;
-          }
-          50% {
-            transform: translateX(-50%) scale(1.05);
-            opacity: 0.9;
-          }
-        }
       `}</style>
       <div
         className="ios-modal-backdrop"
@@ -551,7 +509,7 @@ export function VisitorModal({
         >
           <div
             ref={mobileCardRef}
-            onClick={needsPermission ? handleGyroPermission : handleModeSwitch}
+            onClick={handleModeSwitch}
             style={{
               width: "85vw",
               maxWidth: "400px",
@@ -616,7 +574,7 @@ export function VisitorModal({
                 }}
               />
               {/* Shine overlay effect */}
-              {!ditherMode && gyroPermission && (
+              {!ditherMode && gyroPermissionGranted && (
                 <div
                   style={{
                     position: "absolute",
@@ -727,7 +685,6 @@ export function VisitorModal({
                 {'"' + clickedFormData.answer + '"'}
               </span>
             </div>
-            {/* Gyroscope permission prompt */}
           </div>
         </div>
       </div>

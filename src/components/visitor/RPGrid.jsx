@@ -19,8 +19,31 @@ export function RPGrid({
   const [clickedImage, setClickedImage] = useState(null);
   const [clickedImageDithered, setClickedImageDithered] = useState(null);
   const [clickedFormData, setClickedFormData] = useState(null);
+  const [gyroPermission, setGyroPermission] = useState(false);
 
   const containerRef = useRef(null);
+
+  // Request gyroscope permission on mobile
+  const requestGyroPermission = async () => {
+    if (!isMobile) return;
+    
+    if (
+      typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function"
+    ) {
+      try {
+        const permission = await DeviceOrientationEvent.requestPermission();
+        if (permission === "granted") {
+          setGyroPermission(true);
+        }
+      } catch (error) {
+        console.log("Gyroscope permission denied:", error);
+      }
+    } else {
+      // Non-iOS devices don't need permission
+      setGyroPermission(true);
+    }
+  };
 
   // Filter items based on selected question
   const filteredItems = useMemo(() => {
@@ -258,7 +281,7 @@ export function RPGrid({
                             "transform 0.3s ease, width 0.3s ease, height 0.3s ease",
                           animationDelay: `${index * 1}s`,
                         }}
-                        onClick={(e) => {
+                        onClick={async (e) => {
                           // Prevent clicks when mobile menu is open
                           if (
                             document.body.classList.contains("mobile-menu-open")
@@ -267,6 +290,12 @@ export function RPGrid({
                             e.stopPropagation();
                             return;
                           }
+                          
+                          // Request gyroscope permission on mobile before opening modal
+                          if (isMobile) {
+                            await requestGyroPermission();
+                          }
+                          
                           if (unditheredImage) {
                             setClickedImage(unditheredImage.url); // Set undithered image as main
                             setClickedImageDithered(url); // Set dithered image
@@ -298,6 +327,7 @@ export function RPGrid({
           darkMode={darkMode}
           containerRef={containerRef}
           onClose={closeModal}
+          gyroPermissionGranted={gyroPermission}
         />
       </div>
     </>
