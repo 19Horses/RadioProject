@@ -5,32 +5,56 @@ import "./Radiogram6.css";
 const CDN_BASE = "https://d21zv5r7rdb0xb.cloudfront.net";
 
 const inanimates = [
-  { src: `${CDN_BASE}/1)%20IS%20YOUR%20KISS%20STUCK%20IN%20TRAFFIC_.png`, alt: "IS YOUR KISS STUCK IN TRAFFIC?" },
-  { src: `${CDN_BASE}/2)%20YES%20IT%20IS%20STUCK%20IN%20TRAFFIC.png`, alt: "YES IT IS STUCK IN TRAFFIC" },
-  { src: `${CDN_BASE}/AFTER%20A%20LETTER%20DELIVERED.png`, alt: "AFTER A LETTER DELIVERED" },
-  { src: `${CDN_BASE}/AM%20I%20TIMES%20STRANGER_.png`, alt: "AM I TIMES STRANGER?" },
-  { src: `${CDN_BASE}/BELOVED%20PART%201.png`, alt: "BELOVED PART 1" },
-  { src: `${CDN_BASE}/BELOVED%20PART%202.png`, alt: "BELOVED PART 2" },
-  { src: `${CDN_BASE}/BELOVED%20PART%203.png`, alt: "BELOVED PART 3" },
-  { src: `${CDN_BASE}/CONFESSIONAL%201.png`, alt: "CONFESSIONAL 1" },
-  { src: `${CDN_BASE}/CONFESSIONAL%202.png`, alt: "CONFESSIONAL 2" },
-  { src: `${CDN_BASE}/ELISABETH%20CALL.png`, alt: "ELISABETH CALL" },
-  { src: `${CDN_BASE}/FLOWER%20INTERROGATION.png`, alt: "FLOWER INTERROGATION" },
-  { src: `${CDN_BASE}/I%20FOUND%20YOU%20IN%20A%20BIRD.png`, alt: "I FOUND YOU IN A BIRD" },
-  { src: `${CDN_BASE}/IS%20SHE%20HIS%20GHOST_.png`, alt: "IS SHE HIS GHOST?" },
-  { src: `${CDN_BASE}/LOVE_S%20NOCTURAL%20SHAPE.png`, alt: "LOVE'S NOCTURNAL SHAPE" },
-  { src: `${CDN_BASE}/THAT_S%20MY%20HEART.png`, alt: "THAT'S MY HEART" },
-  { src: `${CDN_BASE}/THE%20FORMALITIES%20OF%20A%20LOVER%20ARRIVED.png`, alt: "THE FORMALITIES OF A LOVER ARRIVED" },
-  { src: `${CDN_BASE}/THE%20HEADACHE.png`, alt: "THE HEADACHE" },
-  { src: `${CDN_BASE}/THE%20SECOND%20ARROW.png`, alt: "THE SECOND ARROW" },
-  { src: `${CDN_BASE}/WAX.png`, alt: "WAX" },
+  {
+    src: `${CDN_BASE}/1)%20IS%20YOUR%20KISS%20STUCK%20IN%20TRAFFIC_.webp`,
+    alt: "IS YOUR KISS STUCK IN TRAFFIC?",
+  },
+  {
+    src: `${CDN_BASE}/2)%20YES%20IT%20IS%20STUCK%20IN%20TRAFFIC.webp`,
+    alt: "YES IT IS STUCK IN TRAFFIC",
+  },
+  {
+    src: `${CDN_BASE}/AFTER%20A%20LETTER%20DELIVERED.webp`,
+    alt: "AFTER A LETTER DELIVERED",
+  },
+  {
+    src: `${CDN_BASE}/AM%20I%20TIMES%20STRANGER_.webp`,
+    alt: "AM I TIMES STRANGER?",
+  },
+  { src: `${CDN_BASE}/BELOVED%20PART%201.webp`, alt: "BELOVED PART 1" },
+  { src: `${CDN_BASE}/BELOVED%20PART%202.webp`, alt: "BELOVED PART 2" },
+  { src: `${CDN_BASE}/BELOVED%20PART%203.webp`, alt: "BELOVED PART 3" },
+  { src: `${CDN_BASE}/CONFESSIONAL%201.webp`, alt: "CONFESSIONAL 1" },
+  { src: `${CDN_BASE}/CONFESSIONAL%202.webp`, alt: "CONFESSIONAL 2" },
+  { src: `${CDN_BASE}/ELISABETH%20CALL.webp`, alt: "ELISABETH CALL" },
+  {
+    src: `${CDN_BASE}/FLOWER%20INTERROGATION.webp`,
+    alt: "FLOWER INTERROGATION",
+  },
+  {
+    src: `${CDN_BASE}/I%20FOUND%20YOU%20IN%20A%20BIRD.webp`,
+    alt: "I FOUND YOU IN A BIRD",
+  },
+  { src: `${CDN_BASE}/IS%20SHE%20HIS%20GHOST_.webp`, alt: "IS SHE HIS GHOST?" },
+  {
+    src: `${CDN_BASE}/LOVE_S%20NOCTURAL%20SHAPE.webp`,
+    alt: "LOVE'S NOCTURNAL SHAPE",
+  },
+  { src: `${CDN_BASE}/THAT_S%20MY%20HEART.webp`, alt: "THAT'S MY HEART" },
+  {
+    src: `${CDN_BASE}/THE%20FORMALITIES%20OF%20A%20LOVER%20ARRIVED.webp`,
+    alt: "THE FORMALITIES OF A LOVER ARRIVED",
+  },
+  { src: `${CDN_BASE}/THE%20HEADACHE.webp`, alt: "THE HEADACHE" },
+  { src: `${CDN_BASE}/THE%20SECOND%20ARROW.webp`, alt: "THE SECOND ARROW" },
+  { src: `${CDN_BASE}/WAX.webp`, alt: "WAX" },
 ];
 
-// Grid image component
+// Grid image component with lazy loading
 const GridImage = ({ src, alt, onClick }) => {
   return (
     <div className="inanimate-grid-item" onClick={onClick}>
-      <img src={src} alt={alt} />
+      <img src={src} alt={alt} loading="lazy" decoding="async" />
     </div>
   );
 };
@@ -57,19 +81,21 @@ export const Radiogram6 = () => {
   useEffect(() => {
     const originalOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
-    
+
     return () => {
       document.body.style.overflow = originalOverflow;
     };
   }, []);
 
-  // Preload all images on mount to prevent lag
+  // Preload only on desktop (mobile bandwidth is limited)
   useEffect(() => {
-    inanimates.forEach((image) => {
-      const img = new Image();
-      img.src = image.src;
-    });
-  }, []);
+    if (!isMobile) {
+      inanimates.forEach((image) => {
+        const img = new Image();
+        img.src = image.src;
+      });
+    }
+  }, [isMobile]);
 
   const handleImageClick = (image, index) => {
     // Prevent same item from being stacked twice in a row
@@ -154,7 +180,12 @@ export const Radiogram6 = () => {
               }}
               onClick={() => handleStackClick(stackIndex)}
             >
-              <img src={image.src} alt={image.alt} />
+              <img
+                src={image.src}
+                alt={image.alt}
+                loading="eager"
+                decoding="async"
+              />
             </div>
           );
         })}
