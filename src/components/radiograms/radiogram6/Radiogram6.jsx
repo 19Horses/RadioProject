@@ -1,47 +1,29 @@
 import React, { useState, useEffect, useRef, useMemo } from "react";
 import "./Radiogram6.css";
 
-// Static imports for better performance
-import image1 from "./inanimates/1) IS YOUR KISS STUCK IN TRAFFIC_.png";
-import image2 from "./inanimates/2) YES IT IS STUCK IN TRAFFIC.png";
-import afterLetter from "./inanimates/AFTER A LETTER DELIVERED.png";
-import timesStranger from "./inanimates/AM I TIMES STRANGER_.png";
-import beloved1 from "./inanimates/BELOVED PART 1.png";
-import beloved2 from "./inanimates/BELOVED PART 2.png";
-import beloved3 from "./inanimates/BELOVED PART 3.png";
-import confessional1 from "./inanimates/CONFESSIONAL 1.png";
-import confessional2 from "./inanimates/CONFESSIONAL 2.png";
-import elisabeth from "./inanimates/ELISABETH CALL.png";
-import flower from "./inanimates/FLOWER INTERROGATION.png";
-import bird from "./inanimates/I FOUND YOU IN A BIRD.png";
-import ghost from "./inanimates/IS SHE HIS GHOST_.png";
-import nocturnal from "./inanimates/LOVE_S NOCTURAL SHAPE.png";
-import heart from "./inanimates/THAT_S MY HEART.png";
-import formalities from "./inanimates/THE FORMALITIES OF A LOVER ARRIVED.png";
-import headache from "./inanimates/THE HEADACHE.png";
-import secondArrow from "./inanimates/THE SECOND ARROW.png";
-import wax from "./inanimates/WAX.png";
+// CloudFront CDN base URL
+const CDN_BASE = "https://d21zv5r7rdb0xb.cloudfront.net";
 
 const inanimates = [
-  { src: image1, alt: "IS YOUR KISS STUCK IN TRAFFIC?" },
-  { src: image2, alt: "YES IT IS STUCK IN TRAFFIC" },
-  { src: afterLetter, alt: "AFTER A LETTER DELIVERED" },
-  { src: timesStranger, alt: "AM I TIMES STRANGER?" },
-  { src: beloved1, alt: "BELOVED PART 1" },
-  { src: beloved2, alt: "BELOVED PART 2" },
-  { src: beloved3, alt: "BELOVED PART 3" },
-  { src: confessional1, alt: "CONFESSIONAL 1" },
-  { src: confessional2, alt: "CONFESSIONAL 2" },
-  { src: elisabeth, alt: "ELISABETH CALL" },
-  { src: flower, alt: "FLOWER INTERROGATION" },
-  { src: bird, alt: "I FOUND YOU IN A BIRD" },
-  { src: ghost, alt: "IS SHE HIS GHOST?" },
-  { src: nocturnal, alt: "LOVE'S NOCTURNAL SHAPE" },
-  { src: heart, alt: "THAT'S MY HEART" },
-  { src: formalities, alt: "THE FORMALITIES OF A LOVER ARRIVED" },
-  { src: headache, alt: "THE HEADACHE" },
-  { src: secondArrow, alt: "THE SECOND ARROW" },
-  { src: wax, alt: "WAX" },
+  { src: `${CDN_BASE}/1)%20IS%20YOUR%20KISS%20STUCK%20IN%20TRAFFIC_.png`, alt: "IS YOUR KISS STUCK IN TRAFFIC?" },
+  { src: `${CDN_BASE}/2)%20YES%20IT%20IS%20STUCK%20IN%20TRAFFIC.png`, alt: "YES IT IS STUCK IN TRAFFIC" },
+  { src: `${CDN_BASE}/AFTER%20A%20LETTER%20DELIVERED.png`, alt: "AFTER A LETTER DELIVERED" },
+  { src: `${CDN_BASE}/AM%20I%20TIMES%20STRANGER_.png`, alt: "AM I TIMES STRANGER?" },
+  { src: `${CDN_BASE}/BELOVED%20PART%201.png`, alt: "BELOVED PART 1" },
+  { src: `${CDN_BASE}/BELOVED%20PART%202.png`, alt: "BELOVED PART 2" },
+  { src: `${CDN_BASE}/BELOVED%20PART%203.png`, alt: "BELOVED PART 3" },
+  { src: `${CDN_BASE}/CONFESSIONAL%201.png`, alt: "CONFESSIONAL 1" },
+  { src: `${CDN_BASE}/CONFESSIONAL%202.png`, alt: "CONFESSIONAL 2" },
+  { src: `${CDN_BASE}/ELISABETH%20CALL.png`, alt: "ELISABETH CALL" },
+  { src: `${CDN_BASE}/FLOWER%20INTERROGATION.png`, alt: "FLOWER INTERROGATION" },
+  { src: `${CDN_BASE}/I%20FOUND%20YOU%20IN%20A%20BIRD.png`, alt: "I FOUND YOU IN A BIRD" },
+  { src: `${CDN_BASE}/IS%20SHE%20HIS%20GHOST_.png`, alt: "IS SHE HIS GHOST?" },
+  { src: `${CDN_BASE}/LOVE_S%20NOCTURAL%20SHAPE.png`, alt: "LOVE'S NOCTURNAL SHAPE" },
+  { src: `${CDN_BASE}/THAT_S%20MY%20HEART.png`, alt: "THAT'S MY HEART" },
+  { src: `${CDN_BASE}/THE%20FORMALITIES%20OF%20A%20LOVER%20ARRIVED.png`, alt: "THE FORMALITIES OF A LOVER ARRIVED" },
+  { src: `${CDN_BASE}/THE%20HEADACHE.png`, alt: "THE HEADACHE" },
+  { src: `${CDN_BASE}/THE%20SECOND%20ARROW.png`, alt: "THE SECOND ARROW" },
+  { src: `${CDN_BASE}/WAX.png`, alt: "WAX" },
 ];
 
 // Grid image component
