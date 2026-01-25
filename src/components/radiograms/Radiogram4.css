@@ -2,6 +2,7 @@
 .radiogram-4 {
   position: relative;
   color: #434a47;
+  padding-top: 60px;
 }
 
 /* Blur and fade animation - optimized for performance */
@@ -57,6 +58,10 @@
   letter-spacing: -1.1px;
   margin-bottom: 50px;
   margin-top: 50px;
+}
+
+.radiogram-4 p.italic-poem {
+  font-family: "NeueHaasDisplay-RomanItalic";
 }
 
 

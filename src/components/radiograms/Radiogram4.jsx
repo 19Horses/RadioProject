@@ -48,12 +48,18 @@ export const Radiogram4 = () => {
 
   return (
     <div className="radiogram-4" ref={containerRef}>
-      <p style={{ width: isMobile ? "80%" : undefined, fontFamily: "lust-display" }}>(I)</p>
       <p
         style={{
-          textAlign: isMobile ? "left" : "justify",
+          width: isMobile ? "80%" : undefined,
+          fontFamily: "lust-display",
+          opacity: 0.7,
+          fontSize: "1.3rem",
+          letterSpacing: "-0.1rem",
         }}
       >
+        (I)
+      </p>
+      <p style={{ width: isMobile ? "80%" : undefined }}>
         We waited on a cursus barrow when the queue had melded into a mass. It
         would ease up and we’d be closer to the sunset here. It was marked by
         high drumsong collapsing into human shouts. There are few sheep on the
@@ -91,22 +97,43 @@ export const Radiogram4 = () => {
         myself out.
       </p>
 
-      <p style={{ width: isMobile ? "80%" : undefined }}>
-        A lone trumpet plays a standard, and a couple with elven ears press
-        their heads each others against one of the stones in silence. The stones
-        are hold heat from the day’s sun. Twin women with big white curls and
-        neon glasses have claimed a smaller rock. Like mermaids with feathers in
-        their hair, a leopard print picnic mat, the crystal sea. The stones are
-        cast in a deep blue, like a UV. Drumming at the the inner circle,
-        teenagers flirting on altar stones, a young man in a stylish suit
-        laughing 7tft above the ground. The drumming quickens, the crowd hums a
-        spontaneous baseline. Large rocks around us, something fallen, something
-        of a reminder. We are dancing on the dead. We are playing drums on the
-        dead.{" "}
+      <p className="italic-poem" style={{ width: isMobile ? "60%" : "50%" }}>
+        A lone trumpet plays a standard,
+        <br /> and a couple with elven ears press their heads each others
+        against one of the stones in silence.
+        <br /> The stones are hold heat from the day’s sun.
+        <br /> Twin women with big white curls and neon glasses have claimed a
+        smaller rock.
+        <br /> Like mermaids with feathers in their hair,
+        <br /> a leopard print picnic mat,
+        <br /> the crystal sea.
+        <br /> The stones are cast in a deep blue,
+        <br />
+        like a UV.
+        <br /> Drumming at the the inner circle
+        <br /> teenagers flirting on altar stones,
+        <br /> a young man in a stylish suit laughing 7ft above the ground.
+        <br />
+        The drumming quickens,
+        <br /> the crowd hums a spontaneous baseline.
+        <br /> Large rocks around us,
+        <br /> something fallen, something of a reminder.
+        <br /> We are dancing on the dead.
+        <br /> We are playing drums on the dead.{" "}
       </p>
       <br />
       <br />
-      <p style={{ width: isMobile ? "80%" : undefined, fontFamily: "lust-display" }}>(II)</p>
+      <p
+        style={{
+          width: isMobile ? "80%" : undefined,
+          fontFamily: "lust-display",
+          opacity: 0.7,
+          fontSize: "1.3rem",
+          letterSpacing: "-0.1rem",
+        }}
+      >
+        (II)
+      </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
         From Cat and Mutton bridge I see the fireworks from Victoria Park. It
         was bonfire night this past Wednesday. Throughout the week before and
