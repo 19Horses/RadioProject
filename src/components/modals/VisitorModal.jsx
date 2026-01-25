@@ -44,6 +44,8 @@ export function VisitorModal({
   const [isEntered, setIsEntered] = useState(false);
   const [ditherMode, setDitherMode] = useState(false);
   const [gyroPermission, setGyroPermission] = useState(false);
+  const rafIdRef = useRef(null);
+  const cardRef = useRef(null);
 
   const handleClose = () => {
     setIsClosing(true);
@@ -88,6 +90,15 @@ export function VisitorModal({
       document.body.style.touchAction = originalTouchAction;
     };
   }, [clickedImage, isMobile]);
+
+  // Cleanup animation frame on unmount
+  useEffect(() => {
+    return () => {
+      if (rafIdRef.current) {
+        cancelAnimationFrame(rafIdRef.current);
+      }
+    };
+  }, []);
 
   // Gyroscope effect for mobile
   useEffect(() => {
@@ -181,13 +192,21 @@ export function VisitorModal({
           }}
         >
           <div
+            ref={cardRef}
             className={`arc-card ${
               ditherMode ? "arc-card-sketch" : "arc-card"
             }`}
-onMouseLeave={() => {
-                              if (ditherMode) return;
-                              boundingRef.current = null;
-                            }}
+            style={{
+              willChange: ditherMode ? 'auto' : 'transform',
+            }}
+            onMouseLeave={() => {
+              if (ditherMode) return;
+              boundingRef.current = null;
+              if (rafIdRef.current) {
+                cancelAnimationFrame(rafIdRef.current);
+                rafIdRef.current = null;
+              }
+            }}
             onMouseEnter={(ev) => {
               if (ditherMode) return;
               boundingRef.current = ev.currentTarget.getBoundingClientRect();
@@ -195,6 +214,7 @@ onMouseLeave={() => {
             onMouseMove={(ev) => {
               if (ditherMode) return;
               if (!boundingRef.current) return;
+              
               const x = ev.clientX - boundingRef.current.left;
               const y = ev.clientY - boundingRef.current.top;
               const xPercentage = x / boundingRef.current.width;
@@ -202,22 +222,32 @@ onMouseLeave={() => {
               const xRotation = (xPercentage - 0.5) * 20;
               const yRotation = (0.5 - yPercentage) * 20;
 
-              ev.currentTarget.style.setProperty(
-                "--x-rotation",
-                `${yRotation}deg`
-              );
-              ev.currentTarget.style.setProperty(
-                "--y-rotation",
-                `${xRotation}deg`
-              );
-              ev.currentTarget.style.setProperty(
-                "--x",
-                `${xPercentage * 100}%`
-              );
-              ev.currentTarget.style.setProperty(
-                "--y",
-                `${yPercentage * 100}%`
-              );
+              // Cancel any pending animation frame
+              if (rafIdRef.current) {
+                cancelAnimationFrame(rafIdRef.current);
+              }
+
+              // Schedule update for next frame
+              rafIdRef.current = requestAnimationFrame(() => {
+                if (cardRef.current) {
+                  cardRef.current.style.setProperty(
+                    "--x-rotation",
+                    `${yRotation}deg`
+                  );
+                  cardRef.current.style.setProperty(
+                    "--y-rotation",
+                    `${xRotation}deg`
+                  );
+                  cardRef.current.style.setProperty(
+                    "--x",
+                    `${xPercentage * 100}%`
+                  );
+                  cardRef.current.style.setProperty(
+                    "--y",
+                    `${yPercentage * 100}%`
+                  );
+                }
+              });
             }}
           >
             <div>

@@ -890,6 +890,10 @@ position: fixed;
   padding-bottom: 0;
   color: #000000;
   transition: transform 0.2s ease-out;
+  transform-style: preserve-3d;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  -webkit-transform-style: preserve-3d;
 }
 
 .arc-card:hover {
@@ -917,6 +921,9 @@ position: fixed;
   pointer-events: none;
   position: absolute;
   inset: 0;
+  will-change: opacity, background;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
 }
 
 .arc-card:hover .arc-card-hover-overlay {
