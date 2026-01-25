@@ -325,7 +325,7 @@ export const djs = [
     "title3": "Director",
     "description": Radiogram5,
     "tag": "Film Commentary",
-    "summary": "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with <b>London-based pop artist</b></span> <a href='https://www.instagram.com/pattibobi/'>MANNY!</a><span> They spoke about the personal themes presented in his upcoming work and the space he has carved in music, defined by <b>honesty, experimentation, and an openness about faith, sexuality, and identity.</b></span>",
+    "summary": "<span><a href='https://www.instagram.com/https://www.instagram.com/andydydydydydy/?hl=en/'>Andy Xianyi Zhang</a> revisits childhood Shanghai through Bunny Leap’s first music video, capturing memory and freedom by <b>walking through landscapes shaped bycontinuity.</b></span>",
     "releaseDate": "18/8/25",
     "length": "05:30",
     "postLink": "https://www.instagram.com/p/DNfoIyhsIfG/?img_index=1",
