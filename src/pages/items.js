@@ -13,6 +13,7 @@ import { Radiogram3 } from '../components/radiograms/radiogram3/Radiogram3';
 import { rpa6 } from '../assets/rpa6';
 import { Radiogram4 } from '../components/radiograms/radiogram4/Radiogram4';
 import { Radiogram5 } from '../components/radiograms/radiogram5/Radiogram5';
+import { Radiogram6 } from '../components/radiograms/radiogram6/Radiogram6';
 
 
 export const djs = [
@@ -303,6 +304,8 @@ export const djs = [
     "postLink": "https://www.instagram.com/p/DNfoIyhsIfG/?img_index=1",
     "igLink": "https://www.instagram.com/pattibobi/"
   },
+
+  // UNPUBLISHED
   {
 
     "id": 5,
@@ -453,75 +456,30 @@ export const djs = [
   },
   {
     id: 9,
-    type: "radiogram",
-    src: rpa6.p,
-    src3: rpa6.pd,
-    rpCount: "RP6 ♪ ",
-    "2ppSrc": rpa6.pm,
-    title: 'RADIOGRAM 6',
-    title2: "The Narrator",
-    url: "thenarrator",
-    title3: "Writer",
-    title4: "Producer",
-    description:
-      "The Narrator",
-    mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP3-BEBE.wav",
-    djLink: "https://www.instagram.com/itsbebeluna/",
-    igLink: "https://www.instagram.com/p/DMh4aoKsARb/?img_index=1",
-    scLink: "https://soundcloud.com/radio_project/rp3-bebeluna-gits",
-    npLink: "https://www.ninaprotocol.com/releases/rp3-bebeluna-ghost-in-the-shell",
-    broadcastDate: "25/7/25 15:00",
-    releaseDate: "25/7/25",
-    length: "1 Hour 26 Minutes",
-    genre: "AMBIENT HARDGROOVE",
-    chapters: [
-      { startTime: 0, title: "RADIO (a)" },
-      { startTime: 1871, title: "PROJECT" },
-      { startTime: 3306, title: "RADIO (b)" },
-    ],
-    tracklist: [
-      { startTime: "0", title: "RADIO (a)" },
-      { title: "Hasta Santiago A Pie (Congas Orientales)", artist: "Los Hermanos Bravo" },
-      { title: "Part Two (Release of the Moon)", artist: "Kit Gordon, Isaac Robertson" },
-      { title: "Kulu", artist: "N'Gou Bagayoko" },
-      { title: "Sunset Key Melt", artist: "Tim Hecker" },
-      { title: "Both Sides Now", artist: "Joni Mitchell" },
-      { title: "Su Pelo", artist: "Ray Heredia" },
-      { title: "TDAGB", artist: "Duval Timothy" },
-      { title: "Esperança", artist: "Munir Hossn, Ganavya" },
 
-
-      { startTime: "1954", title: "PROJECT" },
-      { title: "Life as a Refugee", artist: "" },
-      { title: "Acoustic Tendencies", artist: "" },
-      { title: "Vespa Life", artist: "" },
-      { title: "Bebe's Experience Producing for Other Media Forms", artist: "" },
-      { title: "Favourite Film Comps!?", artist: "" },
-      { title: "The Cat Is In The Bag", artist: "" },
-
-      { startTime: "3276", title: "RADIO (b)" },
-      { title: "No Speaking (Breaka Remix)", artist: "Juice Menace" },
-      { title: "Burn", artist: "REA" },
-      { title: "Percussive Brain Cleanse", artist: "JOETI" },
-      { title: "Butterfly (Kimboclat & Swerv Jersey Edit)", artist: "Crazy Town" },
-      { title: "Night (Lucent Edit)", artist: "Benga & Coki" },
-      { title: "Check Up On It (Edit)", artist: "Lo5ive" },
-      {
-        title: "1 Sec (Ali McK & IYZ Hard Re-Drum)",
-        artist: "Novelist, Mumdance",
-      },
-      { title: "Lean Up", artist: "Sam Interface" },
-      { title: "Conga Drive", artist: "Dilater" },
-      { title: "Changes (MOOD$ Flip)", artist: "MOOD$" },
-      { title: "Monica Belluci", artist: "Tom Manzarek" },
-      { title: "fatfast", artist: "sanmallxxs" },
-      { title: "Candy Drop", artist: "Disco Samir" },
-      { title: "Grace (A.Fruit Remix)", artist: "Anna Morgan" },
-      { title: "Juke It", artist: "Constantine, Sauadooble" },
-      { title: "C-Slug", artist: "Muskila, HEDO HYDR8" },
-      { title: "BANKHEAD (1-800-RAZ Remix)", artist: "KELELA" },
-    ],
+    "type": "radiogram",
+    "src": rpa4.p,
+    "src2": rpa4.pm,
+    "src3": rpa4.pd,
+    "rpCount": "RG2 ",
+    "broadcastDay": "18",
+    "broadcastMonth": "08",
+    "broadcastYear": "25",
+    "broadcastTime": "17:00",
+    "broadcastDate": "18/8/25",
+    "url": "thenarrator",
+    "title2": "The Narrator",
+    "title": "Love Is a Contact Sport",
+    "title3": "occupation",
+    "description": Radiogram6,
+    "tag": "storytelling",
+    "summary": "summary",
+    "releaseDate": "18/8/25",
+    "length": "05:30",
+    "postLink": "https://www.instagram.com/",
+    "igLink": "https://www.instagram.com/thenarrator_______/",
     "dontShow": true,
+
   },
 
 ];
