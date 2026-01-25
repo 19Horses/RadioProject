@@ -48,6 +48,7 @@ export const Radiogram4 = () => {
 
   return (
     <div className="radiogram-4" ref={containerRef}>
+      <p style={{ width: isMobile ? "80%" : undefined }}>(I)</p>
       <p
         style={{
           textAlign: isMobile ? "left" : "justify",
@@ -105,6 +106,7 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>(II)</p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
         From Cat and Mutton bridge I see the fireworks from Victoria Park. It
         was bonfire night this past Wednesday. Throughout the week before and
@@ -129,6 +131,7 @@ export const Radiogram4 = () => {
         pyrochemical smell in the air.
       </p>
       <br />
+
       <p style={{ width: isMobile ? "80%" : undefined }}>
         When I was six years old, my cat was dying and she stopped eating
         because all her teeth had come out. Her claws too, were weak and some of
