@@ -71,6 +71,16 @@ export const Radiogram6 = () => {
   // Randomize grid order on mount
   const shuffledInanimates = useMemo(() => shuffleArray(inanimates), []);
 
+  // Disable scrolling on mount, restore on unmount
+  useEffect(() => {
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, []);
+
   // Preload all images on mount to prevent lag
   useEffect(() => {
     inanimates.forEach((image) => {
