@@ -473,7 +473,7 @@ export const djs = [
     "title3": "occupation",
     "description": Radiogram6,
     "tag": "storytelling",
-    "summary": "summary",
+    "summary": "v1.1",
     "releaseDate": "18/8/25",
     "length": "05:30",
     "postLink": "https://www.instagram.com/",
