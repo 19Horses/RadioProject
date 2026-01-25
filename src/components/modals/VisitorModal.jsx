@@ -44,6 +44,7 @@ export function VisitorModal({
   const [isEntered, setIsEntered] = useState(false);
   const [ditherMode, setDitherMode] = useState(false);
   const [gyroPermission, setGyroPermission] = useState(false);
+  const [needsPermission, setNeedsPermission] = useState(false);
   const rafIdRef = useRef(null);
   const cardRef = useRef(null);
 
@@ -59,6 +60,23 @@ export function VisitorModal({
 
   const handleModeSwitch = () => {
     setDitherMode(!ditherMode);
+  };
+
+  const handleGyroPermission = async () => {
+    if (
+      typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function"
+    ) {
+      try {
+        const permission = await DeviceOrientationEvent.requestPermission();
+        if (permission === "granted") {
+          setGyroPermission(true);
+          setNeedsPermission(false);
+        }
+      } catch (error) {
+        console.log("Gyroscope permission denied:", error);
+      }
+    }
   };
 
   // Reset closing state and trigger entrance animation when modal opens
@@ -104,6 +122,14 @@ export function VisitorModal({
   useEffect(() => {
     if (!isMobile || !clickedImage || ditherMode) return;
 
+    // Initialize CSS custom properties
+    if (mobileCardRef.current) {
+      mobileCardRef.current.style.setProperty("--x-rotation", "0deg");
+      mobileCardRef.current.style.setProperty("--y-rotation", "0deg");
+      mobileCardRef.current.style.setProperty("--x", "50%");
+      mobileCardRef.current.style.setProperty("--y", "50%");
+    }
+
     const handleOrientation = (event) => {
       if (!mobileCardRef.current) return;
 
@@ -121,44 +147,38 @@ export function VisitorModal({
 
       mobileCardRef.current.style.setProperty(
         "--x-rotation",
-        `${yRotation}deg`
+        `${yRotation}deg`,
       );
       mobileCardRef.current.style.setProperty(
         "--y-rotation",
-        `${xRotation}deg`
+        `${xRotation}deg`,
       );
       mobileCardRef.current.style.setProperty("--x", `${xPercent}%`);
       mobileCardRef.current.style.setProperty("--y", `${yPercent}%`);
     };
 
-    // Request permission on iOS 13+
-    const requestPermission = async () => {
-      if (
-        typeof DeviceOrientationEvent !== "undefined" &&
-        typeof DeviceOrientationEvent.requestPermission === "function"
-      ) {
-        try {
-          const permission = await DeviceOrientationEvent.requestPermission();
-          if (permission === "granted") {
-            setGyroPermission(true);
-            window.addEventListener("deviceorientation", handleOrientation);
-          }
-        } catch (error) {
-          console.log("Gyroscope permission denied:", error);
-        }
-      } else {
-        // Non-iOS devices don't need permission
-        setGyroPermission(true);
+    // Check if permission is needed and set up gyroscope
+    if (
+      typeof DeviceOrientationEvent !== "undefined" &&
+      typeof DeviceOrientationEvent.requestPermission === "function"
+    ) {
+      // iOS 13+ requires explicit permission
+      setNeedsPermission(true);
+
+      // If permission already granted, add listener
+      if (gyroPermission) {
         window.addEventListener("deviceorientation", handleOrientation);
       }
-    };
-
-    requestPermission();
+    } else {
+      // Non-iOS devices or older iOS - permission not required
+      setGyroPermission(true);
+      window.addEventListener("deviceorientation", handleOrientation);
+    }
 
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
     };
-  }, [isMobile, clickedImage, ditherMode]);
+  }, [isMobile, clickedImage, ditherMode, gyroPermission]);
 
   if (!clickedImage) return null;
 
@@ -197,7 +217,7 @@ export function VisitorModal({
               ditherMode ? "arc-card-sketch" : "arc-card"
             }`}
             style={{
-              willChange: ditherMode ? 'auto' : 'transform',
+              willChange: ditherMode ? "auto" : "transform",
             }}
             onMouseLeave={() => {
               if (ditherMode) return;
@@ -214,7 +234,7 @@ export function VisitorModal({
             onMouseMove={(ev) => {
               if (ditherMode) return;
               if (!boundingRef.current) return;
-              
+
               const x = ev.clientX - boundingRef.current.left;
               const y = ev.clientY - boundingRef.current.top;
               const xPercentage = x / boundingRef.current.width;
@@ -232,19 +252,19 @@ export function VisitorModal({
                 if (cardRef.current) {
                   cardRef.current.style.setProperty(
                     "--x-rotation",
-                    `${yRotation}deg`
+                    `${yRotation}deg`,
                   );
                   cardRef.current.style.setProperty(
                     "--y-rotation",
-                    `${xRotation}deg`
+                    `${xRotation}deg`,
                   );
                   cardRef.current.style.setProperty(
                     "--x",
-                    `${xPercentage * 100}%`
+                    `${xPercentage * 100}%`,
                   );
                   cardRef.current.style.setProperty(
                     "--y",
-                    `${yPercentage * 100}%`
+                    `${yPercentage * 100}%`,
                   );
                 }
               });
@@ -257,7 +277,6 @@ export function VisitorModal({
                   src={clickedImageDithered}
                   alt="clickedImage"
                 />
-                
               </div>
               <div
                 className="arc-card-footer"
@@ -283,7 +302,7 @@ export function VisitorModal({
                       return `${day}/${month}/${year} ${hours}:${minutes}`;
                     })()
                   : "No timestamp available"}
-                  <svg
+                <svg
                   width="15"
                   height="15"
                   viewBox="0 0 210 210"
@@ -301,8 +320,14 @@ export function VisitorModal({
                   <path d="M184.8 0H210V210H184.8V0Z" fill="currentColor" />
                   <path d="M0 25.2V0H210V25.2H0Z" fill="currentColor" />
                   <path d="M0 210V184.8H210V210H0Z" fill="currentColor" />
-                  <path d="M92.4 50.4H117.6V159.6H92.4V50.4Z" fill="currentColor" />
-                  <path d="M159.6 92.4V117.6H50.4V92.4H159.6Z" fill="currentColor" />
+                  <path
+                    d="M92.4 50.4H117.6V159.6H92.4V50.4Z"
+                    fill="currentColor"
+                  />
+                  <path
+                    d="M159.6 92.4V117.6H50.4V92.4H159.6Z"
+                    fill="currentColor"
+                  />
                 </svg>
               </div>
             </div>
@@ -462,7 +487,7 @@ export function VisitorModal({
           </div>
         </div>
       </div>,
-      document.body
+      document.body,
     );
   }
 
@@ -489,6 +514,17 @@ export function VisitorModal({
           margin-bottom: calc(-1 * env(safe-area-inset-bottom, 0px));
           box-sizing: content-box;
         }
+        
+        @keyframes pulse {
+          0%, 100% {
+            transform: translateX(-50%) scale(1);
+            opacity: 1;
+          }
+          50% {
+            transform: translateX(-50%) scale(1.05);
+            opacity: 0.9;
+          }
+        }
       `}</style>
       <div
         className="ios-modal-backdrop"
@@ -506,15 +542,16 @@ export function VisitorModal({
             transform: isClosing
               ? "translateY(100dvh)"
               : isEntered
-              ? "translateY(0) scale(1)"
-              : "translateY(50dvh)",
+                ? "translateY(0) scale(1)"
+                : "translateY(50dvh)",
             opacity: isClosing ? 0 : isEntered ? 1 : 0,
             transition: "transform 0.4s ease-in-out, opacity 0.3s ease-out",
+            perspective: "1000px",
           }}
         >
           <div
             ref={mobileCardRef}
-            onClick={handleModeSwitch}
+            onClick={needsPermission ? handleGyroPermission : handleModeSwitch}
             style={{
               width: "85vw",
               maxWidth: "400px",
@@ -522,6 +559,17 @@ export function VisitorModal({
               overflow: "hidden",
               boxShadow: "0 10px 40px rgba(0,0,0,0.3)",
               backgroundColor: "white",
+              transform: ditherMode
+                ? "none"
+                : "rotateX(var(--x-rotation, 0deg)) rotateY(var(--y-rotation, 0deg))",
+              transition: ditherMode
+                ? "transform 0.3s ease-out"
+                : "transform 0.1s ease-out",
+              transformStyle: "preserve-3d",
+              backfaceVisibility: "hidden",
+              WebkitBackfaceVisibility: "hidden",
+              willChange: ditherMode ? "auto" : "transform",
+              position: "relative",
             }}
           >
             {/* Username and Profession - above image */}
@@ -567,6 +615,23 @@ export function VisitorModal({
                   display: "block",
                 }}
               />
+              {/* Shine overlay effect */}
+              {!ditherMode && gyroPermission && (
+                <div
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    pointerEvents: "none",
+                    background: `radial-gradient(
+                      at var(--x, 50%) var(--y, 50%),
+                      rgba(255, 255, 255, 0.2) 20%,
+                      transparent 80%
+                    )`,
+                    opacity: 0.6,
+                    transition: "opacity 0.3s ease",
+                  }}
+                />
+              )}
               <svg
                 width="20"
                 height="20"
@@ -585,8 +650,14 @@ export function VisitorModal({
                 <path d="M184.8 0H210V210H184.8V0Z" fill="currentColor" />
                 <path d="M0 25.2V0H210V25.2H0Z" fill="currentColor" />
                 <path d="M0 210V184.8H210V210H0Z" fill="currentColor" />
-                <path d="M92.4 50.4H117.6V159.6H92.4V50.4Z" fill="currentColor" />
-                <path d="M159.6 92.4V117.6H50.4V92.4H159.6Z" fill="currentColor" />
+                <path
+                  d="M92.4 50.4H117.6V159.6H92.4V50.4Z"
+                  fill="currentColor"
+                />
+                <path
+                  d="M159.6 92.4V117.6H50.4V92.4H159.6Z"
+                  fill="currentColor"
+                />
               </svg>
             </div>
             {/* Question section */}
@@ -656,10 +727,11 @@ export function VisitorModal({
                 {'"' + clickedFormData.answer + '"'}
               </span>
             </div>
+            {/* Gyroscope permission prompt */}
           </div>
         </div>
       </div>
     </>,
-    document.body
+    document.body,
   );
 }
