@@ -45,6 +45,7 @@ export function VisitorModal({
   const [isEntered, setIsEntered] = useState(false);
   const [ditherMode, setDitherMode] = useState(false);
   const rafIdRef = useRef(null);
+  const gyroRafIdRef = useRef(null);
   const cardRef = useRef(null);
 
   const handleClose = () => {
@@ -91,11 +92,14 @@ export function VisitorModal({
     };
   }, [clickedImage, isMobile]);
 
-  // Cleanup animation frame on unmount
+  // Cleanup animation frames on unmount
   useEffect(() => {
     return () => {
       if (rafIdRef.current) {
         cancelAnimationFrame(rafIdRef.current);
+      }
+      if (gyroRafIdRef.current) {
+        cancelAnimationFrame(gyroRafIdRef.current);
       }
     };
   }, []);
@@ -127,16 +131,26 @@ export function VisitorModal({
       const xPercent = ((gamma + 90) / 180) * 100;
       const yPercent = ((beta + 180) / 360) * 100;
 
-      mobileCardRef.current.style.setProperty(
-        "--x-rotation",
-        `${yRotation}deg`,
-      );
-      mobileCardRef.current.style.setProperty(
-        "--y-rotation",
-        `${xRotation}deg`,
-      );
-      mobileCardRef.current.style.setProperty("--x", `${xPercent}%`);
-      mobileCardRef.current.style.setProperty("--y", `${yPercent}%`);
+      // Cancel any pending animation frame
+      if (gyroRafIdRef.current) {
+        cancelAnimationFrame(gyroRafIdRef.current);
+      }
+
+      // Schedule update for next frame
+      gyroRafIdRef.current = requestAnimationFrame(() => {
+        if (mobileCardRef.current) {
+          mobileCardRef.current.style.setProperty(
+            "--x-rotation",
+            `${yRotation}deg`,
+          );
+          mobileCardRef.current.style.setProperty(
+            "--y-rotation",
+            `${xRotation}deg`,
+          );
+          mobileCardRef.current.style.setProperty("--x", `${xPercent}%`);
+          mobileCardRef.current.style.setProperty("--y", `${yPercent}%`);
+        }
+      });
     };
 
     // Set up gyroscope listener if permission is granted
@@ -146,6 +160,9 @@ export function VisitorModal({
 
     return () => {
       window.removeEventListener("deviceorientation", handleOrientation);
+      if (gyroRafIdRef.current) {
+        cancelAnimationFrame(gyroRafIdRef.current);
+      }
     };
   }, [isMobile, clickedImage, ditherMode, gyroPermissionGranted]);
 
@@ -505,6 +522,9 @@ export function VisitorModal({
             opacity: isClosing ? 0 : isEntered ? 1 : 0,
             transition: "transform 0.4s ease-in-out, opacity 0.3s ease-out",
             perspective: "1000px",
+            WebkitPerspective: "1000px",
+            transformStyle: "preserve-3d",
+            WebkitTransformStyle: "preserve-3d",
           }}
         >
           <div
@@ -522,8 +542,9 @@ export function VisitorModal({
                 : "rotateX(var(--x-rotation, 0deg)) rotateY(var(--y-rotation, 0deg))",
               transition: ditherMode
                 ? "transform 0.3s ease-out"
-                : "transform 0.1s ease-out",
+                : "transform 0.05s linear",
               transformStyle: "preserve-3d",
+              WebkitTransformStyle: "preserve-3d",
               backfaceVisibility: "hidden",
               WebkitBackfaceVisibility: "hidden",
               willChange: ditherMode ? "auto" : "transform",
