@@ -7,12 +7,12 @@ import { rpa2 } from '../assets/rpa2';
 import { rpa3 } from '../assets/rpa3';
 import { rpa4 } from '../assets/rpa4';
 import { rpa5 } from '../assets/rpa5';
-import { Radiogram1 } from '../components/radiograms/Radiogram1';
-import { Radiogram2 } from '../components/radiograms/Radiogram2';
-import { Radiogram3 } from '../components/radiograms/Radiogram3';
+import { Radiogram1 } from '../components/radiograms/radiogram1/Radiogram1';
+import { Radiogram2 } from '../components/radiograms/radiogram2/Radiogram2';
+import { Radiogram3 } from '../components/radiograms/radiogram3/Radiogram3';
 import { rpa6 } from '../assets/rpa6';
-import { Radiogram4 } from '../components/radiograms/Radiogram4';
-import { Radiogram5 } from '../components/radiograms/Radiogram5';
+import { Radiogram4 } from '../components/radiograms/radiogram4/Radiogram4';
+import { Radiogram5 } from '../components/radiograms/radiogram5/Radiogram5';
 
 
 export const djs = [

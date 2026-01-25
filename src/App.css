@@ -30,13 +30,13 @@
 
 @font-face {
   font-family: "NeueHaasDisplay-RomanItalic";
-  src: local("NeueHaasDisplay-RomanItalic"), url("./assets/NeueHaasDisplay-RomanItalic.otf") format("opentype");
+  src: local("NeueHaasDisplay-RomanItalic"), url("./components/radiograms/fonts/NeueHaasDisplay-RomanItalic.otf") format("opentype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "lust-display";
-  src: local("lust-display"), url("./assets/lust-display.otf") format("opentype");
+  src: local("lust-display"), url("./components/radiograms/fonts/lust-display.otf") format("opentype");
   font-style: normal;
 }
 

@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 import "./Radiogram2.css";
 // eslint-disable-next-line
-import { rpa2 } from "../../assets/rpa2"; // Kept for future use (lyric_sheet image)
+import { rpa2 } from "../../../assets/rpa2"; // Kept for future use (lyric_sheet image)
 
 export const Radiogram2 = () => {
   const containerRef = useRef(null);
