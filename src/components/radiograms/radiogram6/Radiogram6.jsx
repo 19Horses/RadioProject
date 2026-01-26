@@ -52,7 +52,6 @@ const inanimates = [
     alt: "LOVE'S NOCTURNAL SHAPE",
   },
   { src: `${CDN_BASE}/MARGATE%20FORTUNE.webp`, alt: "MARGATE FORTUNE" },
-  { src: `${CDN_BASE}/MY%20HEART.webp`, alt: "MY HEART" },
   { src: `${CDN_BASE}/SNAIL%20BY%20MILES.webp`, alt: "SNAIL BY MILES" },
   { src: `${CDN_BASE}/THAT_S%20MY%20HEART.webp`, alt: "THAT'S MY HEART" },
   {
@@ -66,7 +65,10 @@ const inanimates = [
   { src: `${CDN_BASE}/THE%20HEADACHE.webp`, alt: "THE HEADACHE" },
   { src: `${CDN_BASE}/THE%20SECOND%20ARROW.webp`, alt: "THE SECOND ARROW" },
   { src: `${CDN_BASE}/TOGETHER.webp`, alt: "TOGETHER" },
-  { src: `${CDN_BASE}/TWO%20BIRDS%20ONE%20KISS.webp`, alt: "TWO BIRDS ONE KISS" },
+  {
+    src: `${CDN_BASE}/TWO%20BIRDS%20ONE%20KISS.webp`,
+    alt: "TWO BIRDS ONE KISS",
+  },
   { src: `${CDN_BASE}/WAX.webp`, alt: "WAX" },
 ];
 
@@ -177,6 +179,9 @@ export const Radiogram6 = () => {
 
       {/* Right side - Stacked selected images */}
       <div className="radiogram-6-stack">
+        {selectedImages.length === 0 && (
+          <div className="stack-placeholder">click to inspect inanimates</div>
+        )}
         {selectedImages.map((image, stackIndex) => {
           const isTopImage = stackIndex === selectedImages.length - 1;
           const isExpanded = isTopImage && isTopExpanded;

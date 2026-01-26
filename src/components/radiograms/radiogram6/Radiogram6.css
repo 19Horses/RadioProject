@@ -59,8 +59,20 @@
   pointer-events: auto;
 }
 
-/* Make topmost image clickable */
-.stacked-image:last-child {
+.stack-placeholder {
+  font-family: "NeueHaasDisplayRoman", sans-serif;
+  font-size: 14px;
+  color: #888;
+  text-align: center;
+  pointer-events: none;
+}
+
+/* Make stacked images show magnifying glass cursor */
+.stacked-image {
+  cursor:pointer;
+}
+
+.stacked-image.stacked-image-expanded {
   cursor: pointer;
 }
 
@@ -80,6 +92,11 @@
   height: 100%;
   object-fit: contain;
   display: block;
+  transition: transform 0.2s ease;
+}
+
+.inanimate-grid-item:hover img {
+  transform: scale(1.08);
 }
 
 /* Stacked images */
