@@ -13,6 +13,7 @@ const inanimates = [
     src: `${CDN_BASE}/2)%20YES%20IT%20IS%20STUCK%20IN%20TRAFFIC.webp`,
     alt: "YES IT IS STUCK IN TRAFFIC",
   },
+  { src: `${CDN_BASE}/3.webp`, alt: "3" },
   {
     src: `${CDN_BASE}/AFTER%20A%20LETTER%20DELIVERED.webp`,
     alt: "AFTER A LETTER DELIVERED",
@@ -21,12 +22,17 @@ const inanimates = [
     src: `${CDN_BASE}/AM%20I%20TIMES%20STRANGER_.webp`,
     alt: "AM I TIMES STRANGER?",
   },
+  {
+    src: `${CDN_BASE}/AMBER%20LIVES%20TO%20100.webp`,
+    alt: "AMBER LIVES TO 100",
+  },
   { src: `${CDN_BASE}/BELOVED%20PART%201.webp`, alt: "BELOVED PART 1" },
   { src: `${CDN_BASE}/BELOVED%20PART%202.webp`, alt: "BELOVED PART 2" },
   { src: `${CDN_BASE}/BELOVED%20PART%203.webp`, alt: "BELOVED PART 3" },
   { src: `${CDN_BASE}/CONFESSIONAL%201.webp`, alt: "CONFESSIONAL 1" },
   { src: `${CDN_BASE}/CONFESSIONAL%202.webp`, alt: "CONFESSIONAL 2" },
   { src: `${CDN_BASE}/ELISABETH%20CALL.webp`, alt: "ELISABETH CALL" },
+  { src: `${CDN_BASE}/FINALE.webp`, alt: "FINALE" },
   {
     src: `${CDN_BASE}/FLOWER%20INTERROGATION.webp`,
     alt: "FLOWER INTERROGATION",
@@ -36,17 +42,31 @@ const inanimates = [
     alt: "I FOUND YOU IN A BIRD",
   },
   { src: `${CDN_BASE}/IS%20SHE%20HIS%20GHOST_.webp`, alt: "IS SHE HIS GHOST?" },
+  { src: `${CDN_BASE}/JUST%20IN%20CASE.webp`, alt: "JUST IN CASE" },
+  { src: `${CDN_BASE}/LET%20IT%20BE.webp`, alt: "LET IT BE" },
+  { src: `${CDN_BASE}/LET%20IT%20BE%20(2).webp`, alt: "LET IT BE (2)" },
+  { src: `${CDN_BASE}/LIFE%20IS%20FOR%20JOY.webp`, alt: "LIFE IS FOR JOY" },
+  { src: `${CDN_BASE}/LOVE%20IN%20SOCKS.webp`, alt: "LOVE IN SOCKS" },
   {
     src: `${CDN_BASE}/LOVE_S%20NOCTURAL%20SHAPE.webp`,
     alt: "LOVE'S NOCTURNAL SHAPE",
   },
+  { src: `${CDN_BASE}/MARGATE%20FORTUNE.webp`, alt: "MARGATE FORTUNE" },
+  { src: `${CDN_BASE}/MY%20HEART.webp`, alt: "MY HEART" },
+  { src: `${CDN_BASE}/SNAIL%20BY%20MILES.webp`, alt: "SNAIL BY MILES" },
   { src: `${CDN_BASE}/THAT_S%20MY%20HEART.webp`, alt: "THAT'S MY HEART" },
+  {
+    src: `${CDN_BASE}/THE%20BUTTERFLY%20DREAMT.webp`,
+    alt: "THE BUTTERFLY DREAMT",
+  },
   {
     src: `${CDN_BASE}/THE%20FORMALITIES%20OF%20A%20LOVER%20ARRIVED.webp`,
     alt: "THE FORMALITIES OF A LOVER ARRIVED",
   },
   { src: `${CDN_BASE}/THE%20HEADACHE.webp`, alt: "THE HEADACHE" },
   { src: `${CDN_BASE}/THE%20SECOND%20ARROW.webp`, alt: "THE SECOND ARROW" },
+  { src: `${CDN_BASE}/TOGETHER.webp`, alt: "TOGETHER" },
+  { src: `${CDN_BASE}/TWO%20BIRDS%20ONE%20KISS.webp`, alt: "TWO BIRDS ONE KISS" },
   { src: `${CDN_BASE}/WAX.webp`, alt: "WAX" },
 ];
 
