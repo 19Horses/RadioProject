@@ -4,18 +4,30 @@ import "./Radiogram4.css";
 
 // Import location images
 import stonehengeImg from "./Stonehenge2007_07_30.webp";
+import cursusBarrowImg from "./Stonehenge_tumulus.webp";
+import innerCircleImg from "./0002-Stonehenge-Restored-plan-q85-1165x1066.webp";
 import catAndMuttonImg from "./Regent's_Canal,_Cat_and_Mutton_Bridge_and_Acton's_Lock_-_geograph.org.uk_-_1727977.webp";
 import victoriaParkImg from "./victoria-park-london-1748262143.webp";
+import wohnheimImg from "./210_020-021.webp";
 
 // Location data with coordinates
 const locations = {
-  stonehenge: {
-    name: "Stonehenge",
+  cursusBarrow: {
+    name: "Cursus Barrows",
+    coords: "51.1833° N, 1.8167° W",
+    lat: 51.1833,
+    lng: -1.8167,
+    place: "Wiltshire, England",
+    image: cursusBarrowImg,
+  },
+
+  innerCircle: {
+    name: "Inner Circle, Stonehenge",
     coords: "51.1789° N, 1.8262° W",
     lat: 51.1789,
     lng: -1.8262,
     place: "Wiltshire, England",
-    image: stonehengeImg,
+    image: innerCircleImg,
   },
   catAndMutton: {
     name: "Cat and Mutton Bridge",
@@ -25,13 +37,13 @@ const locations = {
     place: "Hackney, London",
     image: catAndMuttonImg,
   },
-  victoriaPark: {
-    name: "Victoria Park",
-    coords: "51.5361° N, 0.0377° W",
-    lat: 51.5361,
-    lng: -0.0377,
-    place: "Tower Hamlets, London",
-    image: victoriaParkImg,
+  wohnheim: {
+    name: "Wohnheim Franz-Mehring-Platz",
+    coords: "52.5134° N, 13.4380° E",
+    lat: 52.5134204,
+    lng: 13.4380178,
+    place: "Berlin, Germany",
+    image: wohnheimImg,
   },
 };
 
@@ -90,9 +102,8 @@ export const Radiogram4 = () => {
   };
 
   const handleLocationClick = (locationKey) => {
-    if (!isMobile) return;
     const location = locations[locationKey];
-    // Open in maps - uses geo: URI which works on both iOS and Android
+    // Open in Google Maps
     const mapsUrl = `https://maps.google.com/?q=${location.lat},${location.lng}`;
     window.open(mapsUrl, "_blank");
   };
@@ -158,87 +169,104 @@ export const Radiogram4 = () => {
           letterSpacing: "-0.1rem",
         }}
       >
-        (I)
+        I
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        We waited on a cursus barrow when the queue had melded into a mass. It
-        would ease up and we’d be closer to the sunset here. It was marked by
-        high drumsong collapsing into human shouts. There are few sheep on the
-        fields beneath, babies and mothers, clips on their ears. I take pictures
-        of Gabby and Luke in the pink dusk turning lilac and indigo.{" "}
+        We waited on a{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("cursusBarrow", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("cursusBarrow")}
+        >
+          cursus barrow
+        </span>{" "}
+        as the queues had melded into a mass. It would ease up and we’d be
+        closer to the sunset here. It was marked by high drumsong collapsing
+        into human shouts. There are few sheep on the fields beneath, babies and
+        mothers, clips on their ears. I take pictures of Gabby and Luke in the
+        pink dusk turning lilac and indigo.{" "}
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Dianne and George in heavy gear parked their e-bikes at the barrow’s
-        base. They wore sporty sunglasses and did their best to tolerate us, the
-        newly high and just out of London. They have been to every such landmark
-        in England, pulling up a youtube video, introducing a nearby valley of
+        base. They wear white and red bandanas and do their best to tolerate us,
+        the newly high and just out of London. They have been to every such
+        landmark in England, pulling up a youtube video about a nearby valley of
         prehistoric stones, ‘worth a visit’. I asked if they were
-        archaeologists, ‘Just old’ Diane offers ‘and nothing better to do than
-        look at stones’. They are spending the night on the barrow, watching the
-        summer solstice from outside{" "}
-        <span
-          className="location-link"
-          onMouseEnter={(e) => handleLocationEnter("stonehenge", e)}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleLocationLeave}
-          onClick={() => handleLocationClick("stonehenge")}
-        >
-          Stonehenge
-        </span>
-        , ‘not until we get our stones back’. In 1977,{" "}
-        <span
-          className="location-link"
-          onMouseEnter={(e) => handleLocationEnter("stonehenge", e)}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleLocationLeave}
-          onClick={() => handleLocationClick("stonehenge")}
-        >
-          Stonehenge
-        </span>{" "}
-        was roped off, and formally fenced in 1978, with visitors only allowed
-        to walk up to them at pre-arranged dates and times. One used to be able
-        to drive right up to the stones, touch them, carve pictures in their
-        moss. The sun setting and rising, is that the passing of time? The
-        importance of appointments, the moments held and missed, the difference
-        being the sun, in relation to us, the movement of the earth and what it
-        means to age. Luke asks about the meaning, ‘That’s the point, no one
-        knows, it’s all conjecture at this point’ George speaks from behind
-        tinted lenses. Dianne laughs when I tell her this is all I’ve worn.
+        archaeologists, ‘just old’ Diane offers ‘and nothing better to do than
+        to look at stones’.{" "}
+      </p>
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        They are spending the night on the barrow, watching the solstice from
+        outside Stonehenge, ‘not until we get our stones back’. In 1977,
+        Stonehenge was roped off, and formally fenced in 1978, with visitors
+        only allowed to walk up to them at pre-arranged dates and times. One
+        used to be able to drive right up to the stones, touch them, carve
+        pictures in their moss. The sun setting and rising, is that the passing
+        of time? The importance of appointments, the moment held and missed, the
+        difference being the sun, the movement of the earth.
+      </p>
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        Luke asks about the meaning. ‘That’s the point, no one knows, it’s all
+        conjecture at this point’ George speaks from behind sunglasses. Dianne
+        laughs when I tell her this is all I’ve worn.
       </p>
       <br />
-
+      <p style={{ width: isMobile ? "80%" : undefined, textAlign: "center" }}>
+        - - -
+      </p>
+      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         It feels like any other festival, a tent selling t-shirts and tote bags,
         trucks with crepes and duck fat fries. There is no Momo truck yet, maybe
         next year. Mapping where the nearest dark kitchen could be. The
-        improperness of this opening scene strikes something hollow in me so I
-        say ‘funny’. I will say this aloud and to myself a lot tonight, tiring
-        myself out.
+        improperness of this opening scene strikes something hollow in me,
+        ‘funny’ I remark. I will say this aloud and to myself a lot, tiring
+        myself out, watching.
       </p>
-
-      <p className="italic-poem" style={{ width: isMobile ? "60%" : "50%" }}>
+      <p
+        className="italic-poem"
+        style={{ width: isMobile ? "60%" : undefined }}
+      >
         A lone trumpet plays a standard,
-        <br /> and a couple with elven ears press their heads each others
-        against one of the stones in silence.
-        <br /> The stones are hold heat from the day’s sun.
-        <br /> Twin women with big white curls and neon glasses have claimed a
-        smaller rock.
-        <br /> Like mermaids with feathers in their hair,
+        <br />a couple with elven ears press their heads against a stone in
+        silence.
+        <br />
+        The stones hold heat from the day’s sun.
+        <br />
+        Twin women with big white curls and neon glasses claim a boulder.
+        <br />
+        Like mermaids with feathers in their hair,
         <br /> a leopard print picnic mat,
-        <br /> the crystal sea.
+        <br />
+        the crystal sea.
         <br /> The stones are cast in a deep blue,
-        <br />
-        like a UV.
-        <br /> Drumming at the the inner circle
+        <br /> like a UV.
+        <br /> Drumming at the{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("innerCircle", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("innerCircle")}
+        >
+          inner circle
+        </span>
+        ,
         <br /> teenagers flirting on altar stones,
-        <br /> a young man in a stylish suit laughing 7ft above the ground.
-        <br />
-        The drumming quickens,
-        <br /> the crowd hums a spontaneous baseline.
+        <br /> a young man in an overly styled suit laughing 7ft above the
+        ground,
+        <br /> his knees swinging against the stars.
+        <br /> The drumming quickens,
+        <br /> crowd hums a spontaneous baseline,
+        <br /> the slightest viola solo.
         <br /> Large rocks around us,
-        <br /> something fallen, something of a reminder.
+        <br />
+        something fallen, something of a reminder.
         <br /> We are dancing on the dead.
-        <br /> We are playing drums on the dead.{" "}
+        <br />
+        We are playing drums on the dead.
       </p>
       <br />
       <br />
@@ -251,7 +279,7 @@ export const Radiogram4 = () => {
           letterSpacing: "-0.1rem",
         }}
       >
-        (II)
+        II
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
         From{" "}
@@ -264,85 +292,164 @@ export const Radiogram4 = () => {
         >
           Cat and Mutton bridge
         </span>{" "}
-        I see the fireworks from{" "}
-        <span
-          className="location-link"
-          onMouseEnter={(e) => handleLocationEnter("victoriaPark", e)}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleLocationLeave}
-          onClick={() => handleLocationClick("victoriaPark")}
-        >
-          Victoria Park
-        </span>
-        . It was bonfire night this past Wednesday. Throughout the week before
-        and now the days after, I’d glimpse firework shows between buildings, in
-        the distance over treetops, pyrochemical smell in the air.
-      </p>
-      <p style={{ width: isMobile ? "80%" : undefined }}>
-        On bonfire night, I met a black cat who was frightened. Her back arched
-        into a c-shape, she kept grazing past me, back and forth, she couldn't
-        sit still. I think she only came to me because I was dressed all in
-        black, apparently black cats do that. I read somewhere that all cats
-        think we're big cats who serve them. They think we must be stupid to
-        share our food. I live with a cat now and bless her, she's 13 years old,
-        and she never learned to retract her claws. So even when she's happy,
-        even when she's resting, her claws are out. She is laying on me as I
-        write some of these sentences, her head and tailed curled into her paws.
-        There re three Buddhas in the backyard and sometimes she sits there for
-        hours, bowing with her eyes shut next From{" "}
-        <span
-          className="location-link"
-          onMouseEnter={(e) => handleLocationEnter("catAndMutton", e)}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleLocationLeave}
-          onClick={() => handleLocationClick("catAndMutton")}
-        >
-          Cat and Mutton bridge
-        </span>{" "}
-        I see the fireworks from{" "}
-        <span
-          className="location-link"
-          onMouseEnter={(e) => handleLocationEnter("victoriaPark", e)}
-          onMouseMove={handleMouseMove}
-          onMouseLeave={handleLocationLeave}
-          onClick={() => handleLocationClick("victoriaPark")}
-        >
-          Victoria Park
-        </span>
-        . It was bonfire night this past Wednesday. Throughout the week before
-        and now the days after, I’d glimpse firework shows between buildings, in
-        the distance over treetops, pyrochemical smell in the air.
+        , I hear then see fireworks from Victoria Park. It was bonfire night
+        this past Wednesday. Throughout the week before and now the days after,
+        I’d glimpse firework shows between buildings, in the distance over
+        treetops, pyrochemical smell upon leaving the house.
       </p>
       <br />
-
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        On bonfire night, I met a black cat, her back curved in a frightened
+        shape, she kept grazing past me, back and forth, she couldn't sit still.
+        I think she only came to me because I was dressed all in black,
+        apparently black cats do that. I read somewhere that all cats think
+        we're big cats who serve them. They think we must be stupid to share our
+        food. I live with a cat now and bless her, she's 13 years old, and she
+        never learned to retract her claws. So even when she's happy, even when
+        she's resting, her claws are out. She is laying on me as I write some of
+        these sentences, her head and tailed curled into paws. Sometimes she
+        sits for a long time, bowing with her eyes shut.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        There are three Buddhas in the backyard. I watch her from the kitchen
+        window, there for hours in the afternoon sun, bowing to the head of the
+        Buddha. Sometimes I think she is preparing to die and that's why she
+        sits so still and bows so much.
+      </p>
+      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         When I was six years old, my cat was dying and she stopped eating
-        because all her teeth had come out. Her claws too, were weak and some of
-        them had ripped out from her paws, leaving red gapes. On the last day of
-        her life, I was having fried fish for breakfast. Periodically, I’d go
-        looking for her, squidging up some fish meat, thinking she might like to
-        suck on it. The third time I went to find her, she was on our sheep skin
-        rug and she was dead and stretched out frozen, the fish meat from my
-        last visit splayed out on the terrazzo flooring. I'd never seen her
-        stretched out like that. Her legs. and hands, and all four legs were
-        straight stiff and her eyes frozen open. Though it was still morning, my
-        father came home from work, she stayed just as stiff when he lifted her
-        and put her in the ground.
+        because all her teeth had fallen out. Her claws too, were weakened, some
+        of them ripped from her paws, leaving red gapes. On the last day of her
+        life, I was having fried fish for breakfast. Over the course of the meal
+        I’d go looking for her, squidging up some fish meat so she could suck on
+        it.{" "}
       </p>
+      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        She had a chunk of white marble as a tombstone. I dug up some yellow
-        wild flowers to plant at her grave. Today I learn they are called
-        Singapore Daisies. We said prayers for her, me in pyjamas, my father,
-        the sleeves of his white button down rolled up till his elbows, the noon
-        sun blaring. A year later, it rained throughout the day and I saw a
-        stalk shoot up an inch then tremor. I wondered if she could feel the
+        The third time I went to find her, she was on our sheep’s wool rug and
+        she was dead and stretched out frozen. The fish from my last visit
+        splayed out on the floor. I'd never seen her stretched out like that.
+        Her legs and hands all four legs were straight stiff and her eyes wide
+        open. Though it was morning, my father came home from work, he lifted
+        her and she stayed just as stiff. He buried her in the front garden and
+        she was so stiff and straightened as my father put her in the
+        ground.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        She had a chunk of marble as a tombstone. I dug up some yellow wild
+        flowers to plant at her grave. Today I learn they are called Singapore
+        Daisies. We said prayers for her, me in pyjamas, my father, the sleeves
+        of his white bottom down rolled up till his elbows, the noon sun and
+        quiet leaves. A year later, it rained throughout the day and I saw a
+        stalk shoot up an inch then tremour. I wondered if she could feel the
         rain through the earth. Two years later, we relevelled that part of the
         garden, work boots crushing the flowers. I told my mother they were
         stepping on her grave.
       </p>
-
+      <br />
+      <br />
+      <p
+        style={{
+          width: isMobile ? "80%" : undefined,
+          fontFamily: "lust-display",
+          opacity: 0.7,
+          fontSize: "1.3rem",
+          letterSpacing: "-0.1rem",
+        }}
+      >
+        III
+      </p>
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        In a potent mix of betrayal and hollowness, I decided I’d leave the
+        group. I turned this over in my heart as we exited Douniya’s room, where
+        the sun never shone directly through the cramped windows and the carpet
+        reminded me of a children’s play area, with spaceships and stars, down
+        the dim lift into the foyer of the{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("wohnheim", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("wohnheim")}
+        >
+          700-room student accommodation
+        </span>
+        , with the crisp foosball table, mineral water vending machines, faux
+        tungsten bulbs strung up.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        In a mix of wrong and right, I said I was going home and turned the
+        other way. I headed to the U-Bahn and walked past it. Through
+        residential estates and ugly buildings, sun streaming through the
+        leaves, past the canal bar onto the bridge where I started to cry
+        uncontrollably and put on my sunglasses resourcefully. It was 8 in the
+        morning, the first of May. I’d kept stopping along the pavement, me and
+        others, pair and trios, trying to discern where the sounds were coming
+        from.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        Kreuzberg was empty, two large police vans were parked neatly in the
+        deserted street. I must have missed it. The houses were pastel yellow,
+        they filled the street, beaming light back into my eyes. I bought a
+        lighter for too much money and entered a park. I’d run out of filters
+        and wanted to speak to someone. I sat a seat away from a man in a large
+        wool coat with long black and white hair. He was drinking coca-cola from
+        a glass bottle. I asked for a filter, he told me he didn’t use them. His
+        fingernails were long, dark, and pointed. We smoked our tobacco just
+        from the paper, pinching it at the lips.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined, textAlign: "center" }}>
+        - - -
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        When I suggested I had to get my train, he said to be careful that it
+        wasn’t the train to Busan. I hadn’t seen it at the time. He didn’t have
+        a computer taught me about many movies I hadn’t heard of, straight to
+        DVD, back of the shelf. He only drank from glass bottles. He taught me
+        about the 1862 Internal Exhibition in London where Plastic was exhibited
+        to the world and Prince Albert bought in early. He said they knew it was
+        dangerous, that it would augment and destroy us. He didn't have a phone
+        or email. He had a player for DVDs and VHS. He told me to never forget
+        that any channel has two sides, a telephone is a channel, a screen is a
+        channel. He told me he doesn’t care about people. He told me everyone is
+        stupid. It would only take a meteor to crash near a nuclear power plant
+        for our world to be non. When I look around, everyone is already
+        dead.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        When this would happen, he said we would reunite and go to Malaga, the
+        South of Spain, live out the end of the world together. His name was
+        Martin and he had been to London in 1972 with a past girlfriend where
+        they had made fun of him for his Polish name. He gave me his address to
+        write to him. He explained all the digits, meaning he lived down an
+        alley then a staircase, leading to an outbuilding where his was the
+        fourth door.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        When I got up to leave, he stood up as well, and he was twice my height
+        and smiled so kindly. When I hugged him, I cried, pressing my face into
+        his wool coat. I was sorry for all of the dead, the disbelievers. He
+        said we would see each other again when the world ended and we'd go to
+        the South of Spain. I never wrote to him. I kept his address for a long
+        time, a year or two, I moved twice in that time. The second time, I must
+        have felt guilty. His odd writing in red marker ink, his odd address,
+        his Polish last name that began with a K.{" "}
+      </p>
       {/* Location cursor tooltip */}
-      <LocationCursor location={hoveredLocation} mousePos={mousePos} isFadingOut={isFadingOut} />
+      <LocationCursor
+        location={hoveredLocation}
+        mousePos={mousePos}
+        isFadingOut={isFadingOut}
+      />
     </div>
   );
 };

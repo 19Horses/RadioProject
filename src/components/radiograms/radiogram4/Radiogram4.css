@@ -74,7 +74,7 @@
   text-decoration: underline;
   text-decoration-style: dotted;
   text-underline-offset: 3px;
-  cursor: crosshair;
+  cursor: pointer;
   transition: opacity 0.2s ease;
   color: #818885
 }
