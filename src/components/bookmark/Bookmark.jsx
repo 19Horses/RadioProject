@@ -99,7 +99,7 @@ const Bookmark = ({
                   authorInstagram: json.questionAuthorInstagram,
                 });
               }
-            })
+            }),
           );
 
           setVisitorQuestions(Array.from(questionsMap.values()));
@@ -155,7 +155,7 @@ const Bookmark = ({
       window.removeEventListener("retakePhoto", handleRetakePhoto);
       window.removeEventListener(
         "formValidityChanged",
-        handleFormValidityChanged
+        handleFormValidityChanged,
       );
     };
   }, []);
@@ -776,7 +776,7 @@ const Bookmark = ({
                     >
                       {/* Left arrow indicator - outside the box */}
                       <span
-                      style={{
+                        style={{
                           fontFamily: "NeueBit-Regular",
                           fontSize: "24px",
                           color: "#434a47",
@@ -785,7 +785,8 @@ const Bookmark = ({
                           width: isCurrentSelected ? "20px" : "0px",
                           marginRight: isCurrentSelected ? "4px" : "0px",
                           overflow: "hidden",
-                          transition: "opacity 0.2s ease, width 0.2s ease, margin-right 0.2s ease",
+                          transition:
+                            "opacity 0.2s ease, width 0.2s ease, margin-right 0.2s ease",
                           flexShrink: 0,
                         }}
                       >
@@ -795,38 +796,38 @@ const Bookmark = ({
                       <div
                         style={{
                           flex: 1,
-                        paddingLeft: "5px",
-                        paddingRight: isCurrentSelected ? "12px" : "22px",
-                        paddingTop: "3px",
-                        paddingBottom: "6px",
+                          paddingLeft: "5px",
+                          paddingRight: isCurrentSelected ? "12px" : "22px",
+                          paddingTop: "3px",
+                          paddingBottom: "6px",
                           marginLeft: isCurrentSelected ? "0px" : "0",
-                        backgroundColor: isCurrentSelected
-                          ? "#434a47"
-                          : "transparent",
-                        transition:
+                          backgroundColor: isCurrentSelected
+                            ? "#434a47"
+                            : "transparent",
+                          transition:
                             "background-color 0.2s ease, padding 0.2s ease, margin 0.2s ease",
-                      }}
-                    >
-                      <div
-                        style={{
-                          fontFamily: "NeueBit-Regular",
-                          fontSize: "22px",
-                          color: isCurrentSelected ? "#bfbfbf" : "#616161",
-                          lineHeight: "0.7",
-                          marginBottom: "4px",
                         }}
                       >
-                        a question from {CURRENT_QUESTION_AUTHOR}...
-                      </div>
-                      <div
-                        style={{
-                          fontFamily: "NeueBit-Regular",
-                          fontSize: "30px",
-                          color: isCurrentSelected ? "#ececec" : "#000000",
-                          lineHeight: "0.8",
-                        }}
-                      >
-                        {currentQ}
+                        <div
+                          style={{
+                            fontFamily: "NeueBit-Regular",
+                            fontSize: "22px",
+                            color: isCurrentSelected ? "#bfbfbf" : "#616161",
+                            lineHeight: "0.7",
+                            marginBottom: "4px",
+                          }}
+                        >
+                          a question from {CURRENT_QUESTION_AUTHOR}...
+                        </div>
+                        <div
+                          style={{
+                            fontFamily: "NeueBit-Regular",
+                            fontSize: "30px",
+                            color: isCurrentSelected ? "#ececec" : "#000000",
+                            lineHeight: "0.8",
+                          }}
+                        >
+                          {currentQ}
                         </div>
                       </div>
                     </div>
@@ -881,7 +882,8 @@ const Bookmark = ({
                             width: isSelected ? "16px" : "0px",
                             marginRight: isSelected ? "4px" : "0px",
                             overflow: "hidden",
-                            transition: "opacity 0.2s ease, width 0.2s ease, margin-right 0.2s ease",
+                            transition:
+                              "opacity 0.2s ease, width 0.2s ease, margin-right 0.2s ease",
                             flexShrink: 0,
                           }}
                         >
@@ -891,40 +893,40 @@ const Bookmark = ({
                         <div
                           style={{
                             flex: 1,
-                          paddingLeft: "10px",
-                          paddingRight: isSelected ? "10px" : "0",
-                          borderLeft: "2px solid #ff5a92",
-                          paddingBottom: "0",
-                          backgroundColor: isSelected
-                            ? "#434a47"
-                            : "transparent",
-                          transition:
+                            paddingLeft: "10px",
+                            paddingRight: isSelected ? "10px" : "0",
+                            borderLeft: "2px solid #ff5a92",
+                            paddingBottom: "0",
+                            backgroundColor: isSelected
+                              ? "#434a47"
+                              : "transparent",
+                            transition:
                               "background-color 0.2s ease, border-color 0.2s ease, padding 0.2s ease",
-                        }}
-                      >
-                        <div
-                          style={{
-                            fontFamily: "NeueBit-Regular",
-                            fontSize: "18px",
-                            color: isSelected ? "#bfbfbf" : "#616161",
-                            lineHeight: "0.7",
-                            marginBottom: "4px",
-                            marginTop: "4px",
                           }}
                         >
-                          a question from {q.author}...
-                        </div>
-                        <div
-                          style={{
-                            fontFamily: "NeueBit-Regular",
-                            fontSize: "21px",
-                            color: isSelected ? "#ececec" : "#000000",
-                            lineHeight: "0.8",
-                            marginBottom: "4px",
-                            transition: "color 0.2s ease",
-                          }}
-                        >
-                          {q.question}
+                          <div
+                            style={{
+                              fontFamily: "NeueBit-Regular",
+                              fontSize: "18px",
+                              color: isSelected ? "#bfbfbf" : "#616161",
+                              lineHeight: "0.7",
+                              marginBottom: "4px",
+                              marginTop: "4px",
+                            }}
+                          >
+                            a question from {q.author}...
+                          </div>
+                          <div
+                            style={{
+                              fontFamily: "NeueBit-Regular",
+                              fontSize: "21px",
+                              color: isSelected ? "#ececec" : "#000000",
+                              lineHeight: "0.8",
+                              marginBottom: "4px",
+                              transition: "color 0.2s ease",
+                            }}
+                          >
+                            {q.question}
                           </div>
                         </div>
                       </div>
@@ -1049,14 +1051,14 @@ const Bookmark = ({
                     <button
                       onClick={() => {
                         const form = document.querySelector(
-                          'form[autocomplete="off"]'
+                          'form[autocomplete="off"]',
                         );
                         if (form) {
                           form.dispatchEvent(
                             new Event("submit", {
                               bubbles: true,
                               cancelable: true,
-                            })
+                            }),
                           );
                         }
                       }}
@@ -1215,7 +1217,25 @@ const Bookmark = ({
                   >
                     Instagram
                   </a>
-
+                  <a
+                    href="mailto:contact@radioproject.live"
+                    target="_blank"
+                    className="icon-blink menu-item-glitch menu-link"
+                    onClick={toggleMenu}
+                    onMouseEnter={() =>
+                      onHoverMenuItem && onHoverMenuItem("contact")
+                    }
+                    onMouseLeave={() =>
+                      onHoverMenuItem && onHoverMenuItem(null)
+                    }
+                    style={{
+                      opacity: 0,
+                      animation: "fadeIn 0.7s ease-out forwards",
+                      animationDelay: "0.7s",
+                    }}
+                  >
+                    Proposals
+                  </a>
                   <a
                     href="mailto:contact@radioproject.live"
                     target="_blank"

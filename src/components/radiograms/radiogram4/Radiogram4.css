@@ -69,11 +69,102 @@
 /* .radiogram-4 p:last-child {
 } */
 
+/* Location link styling */
+.location-link {
+  text-decoration: underline;
+  text-decoration-style: dotted;
+  text-underline-offset: 3px;
+  cursor: crosshair;
+  transition: opacity 0.2s ease;
+  color: #818885
+}
+
+.location-link:hover {
+  opacity: 0.7;
+}
+
+/* Location cursor tooltip */
+.location-cursor {
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  background: #f7f7f7;
+  color: #434a47;
+  font-family: "NeueHaasDisplayRoman", sans-serif;
+  font-size: 0.85rem;
+  line-height: 1.4;
+  white-space: nowrap;
+  overflow: hidden;
+  max-width: 250px;
+  animation: locationCursorIn 0.5s ease-out forwards;
+}
+
+.location-cursor.fading-out {
+  animation: locationCursorOut 0.25s ease-in forwards;
+}
+
+@keyframes locationCursorIn {
+  from {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+}
+
+@keyframes locationCursorOut {
+  from {
+    opacity: 1;
+    filter: blur(0);
+    transform: scale(1);
+  }
+  to {
+    opacity: 0;
+    filter: blur(8px);
+    transform: scale(0.95);
+  }
+}
+
+.location-cursor-image {
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+  display: block;
+}
+
+.location-cursor-info {
+}
+
+.location-cursor-name {
+  font-family: "NeueHaasDisplayMedium", sans-serif;
+}
+
+.location-cursor-coords {
+  padding-left: 5px;
+  font-family: "NeueBit-Regular", monospace;
+  font-size: 0.9rem;
+}
+
+.location-cursor-place {
+  font-size: 0.8rem;
+  opacity: 0.7;
+}
+
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
   .radiogram-4 p {
     line-height: 1.5;
     margin-top: 0;
     margin-bottom: 0;
+  }
+
+  .location-link {
+    text-decoration: underline;
+    text-decoration-style: solid;
+    cursor: pointer;
   }
 }

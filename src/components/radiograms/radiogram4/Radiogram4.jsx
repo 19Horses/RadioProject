@@ -1,9 +1,110 @@
 import React, { useEffect, useRef, useState } from "react";
+import { createPortal } from "react-dom";
 import "./Radiogram4.css";
+
+// Import location images
+import stonehengeImg from "./Stonehenge2007_07_30.webp";
+import catAndMuttonImg from "./Regent's_Canal,_Cat_and_Mutton_Bridge_and_Acton's_Lock_-_geograph.org.uk_-_1727977.webp";
+import victoriaParkImg from "./victoria-park-london-1748262143.webp";
+
+// Location data with coordinates
+const locations = {
+  stonehenge: {
+    name: "Stonehenge",
+    coords: "51.1789° N, 1.8262° W",
+    lat: 51.1789,
+    lng: -1.8262,
+    place: "Wiltshire, England",
+    image: stonehengeImg,
+  },
+  catAndMutton: {
+    name: "Cat and Mutton Bridge",
+    coords: "51.5377° N, 0.0593° W",
+    lat: 51.5377,
+    lng: -0.0593,
+    place: "Hackney, London",
+    image: catAndMuttonImg,
+  },
+  victoriaPark: {
+    name: "Victoria Park",
+    coords: "51.5361° N, 0.0377° W",
+    lat: 51.5361,
+    lng: -0.0377,
+    place: "Tower Hamlets, London",
+    image: victoriaParkImg,
+  },
+};
+
+// Location cursor component
+const LocationCursor = ({ location, mousePos, isFadingOut }) => {
+  if (!location || !mousePos) return null;
+
+  return createPortal(
+    <div
+      className={`location-cursor ${isFadingOut ? "fading-out" : ""}`}
+      style={{
+        left: mousePos.x + 15,
+        top: mousePos.y - 10,
+      }}
+    >
+      {location.image && (
+        <img
+          className="location-cursor-image"
+          src={location.image}
+          alt={location.name}
+        />
+      )}
+      <div className="location-cursor-info">
+        <div className="location-cursor-coords">
+          {location.coords} → {location.place}
+        </div>
+      </div>
+    </div>,
+    document.body,
+  );
+};
 
 export const Radiogram4 = () => {
   const containerRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
+  const [hoveredLocation, setHoveredLocation] = useState(null);
+  const [mousePos, setMousePos] = useState(null);
+  const [isFadingOut, setIsFadingOut] = useState(false);
+  const fadeTimeoutRef = useRef(null);
+
+  // Track mouse position when hovering over a location
+  const handleMouseMove = (e) => {
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleLocationEnter = (locationKey, e) => {
+    if (isMobile) return;
+    // Clear any pending fade out
+    if (fadeTimeoutRef.current) {
+      clearTimeout(fadeTimeoutRef.current);
+      fadeTimeoutRef.current = null;
+    }
+    setIsFadingOut(false);
+    setHoveredLocation(locations[locationKey]);
+    setMousePos({ x: e.clientX, y: e.clientY });
+  };
+
+  const handleLocationClick = (locationKey) => {
+    if (!isMobile) return;
+    const location = locations[locationKey];
+    // Open in maps - uses geo: URI which works on both iOS and Android
+    const mapsUrl = `https://maps.google.com/?q=${location.lat},${location.lng}`;
+    window.open(mapsUrl, "_blank");
+  };
+
+  const handleLocationLeave = () => {
+    setIsFadingOut(true);
+    fadeTimeoutRef.current = setTimeout(() => {
+      setHoveredLocation(null);
+      setMousePos(null);
+      setIsFadingOut(false);
+    }, 250); // Match animation duration
+  };
 
   useEffect(() => {
     const observerOptions = {
@@ -74,17 +175,35 @@ export const Radiogram4 = () => {
         prehistoric stones, ‘worth a visit’. I asked if they were
         archaeologists, ‘Just old’ Diane offers ‘and nothing better to do than
         look at stones’. They are spending the night on the barrow, watching the
-        summer solstice from outside Stonehenge, ‘not until we get our stones
-        back’. In 1977, Stonehenge was roped off, and formally fenced in 1978,
-        with visitors only allowed to walk up to them at pre-arranged dates and
-        times. One used to be able to drive right up to the stones, touch them,
-        carve pictures in their moss. The sun setting and rising, is that the
-        passing of time? The importance of appointments, the moments held and
-        missed, the difference being the sun, in relation to us, the movement of
-        the earth and what it means to age. Luke asks about the meaning, ‘That’s
-        the point, no one knows, it’s all conjecture at this point’ George
-        speaks from behind tinted lenses. Dianne laughs when I tell her this is
-        all I’ve worn.
+        summer solstice from outside{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("stonehenge", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("stonehenge")}
+        >
+          Stonehenge
+        </span>
+        , ‘not until we get our stones back’. In 1977,{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("stonehenge", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("stonehenge")}
+        >
+          Stonehenge
+        </span>{" "}
+        was roped off, and formally fenced in 1978, with visitors only allowed
+        to walk up to them at pre-arranged dates and times. One used to be able
+        to drive right up to the stones, touch them, carve pictures in their
+        moss. The sun setting and rising, is that the passing of time? The
+        importance of appointments, the moments held and missed, the difference
+        being the sun, in relation to us, the movement of the earth and what it
+        means to age. Luke asks about the meaning, ‘That’s the point, no one
+        knows, it’s all conjecture at this point’ George speaks from behind
+        tinted lenses. Dianne laughs when I tell her this is all I’ve worn.
       </p>
       <br />
 
@@ -135,10 +254,29 @@ export const Radiogram4 = () => {
         (II)
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        From Cat and Mutton bridge I see the fireworks from Victoria Park. It
-        was bonfire night this past Wednesday. Throughout the week before and
-        now the days after, I’d glimpse firework shows between buildings, in the
-        distance over treetops, pyrochemical smell in the air.
+        From{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("catAndMutton", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("catAndMutton")}
+        >
+          Cat and Mutton bridge
+        </span>{" "}
+        I see the fireworks from{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("victoriaPark", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("victoriaPark")}
+        >
+          Victoria Park
+        </span>
+        . It was bonfire night this past Wednesday. Throughout the week before
+        and now the days after, I’d glimpse firework shows between buildings, in
+        the distance over treetops, pyrochemical smell in the air.
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
         On bonfire night, I met a black cat who was frightened. Her back arched
@@ -151,11 +289,29 @@ export const Radiogram4 = () => {
         even when she's resting, her claws are out. She is laying on me as I
         write some of these sentences, her head and tailed curled into her paws.
         There re three Buddhas in the backyard and sometimes she sits there for
-        hours, bowing with her eyes shut next From Cat and Mutton bridge I see
-        the fireworks from Victoria Park. It was bonfire night this past
-        Wednesday. Throughout the week before and now the days after, I’d
-        glimpse firework shows between buildings, in the distance over treetops,
-        pyrochemical smell in the air.
+        hours, bowing with her eyes shut next From{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("catAndMutton", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("catAndMutton")}
+        >
+          Cat and Mutton bridge
+        </span>{" "}
+        I see the fireworks from{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("victoriaPark", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("victoriaPark")}
+        >
+          Victoria Park
+        </span>
+        . It was bonfire night this past Wednesday. Throughout the week before
+        and now the days after, I’d glimpse firework shows between buildings, in
+        the distance over treetops, pyrochemical smell in the air.
       </p>
       <br />
 
@@ -184,6 +340,9 @@ export const Radiogram4 = () => {
         garden, work boots crushing the flowers. I told my mother they were
         stepping on her grave.
       </p>
+
+      {/* Location cursor tooltip */}
+      <LocationCursor location={hoveredLocation} mousePos={mousePos} isFadingOut={isFadingOut} />
     </div>
   );
 };
