@@ -346,7 +346,7 @@ export const djs = [
     "broadcastDate": "18/8/25",
     "url": "naja",
     "title2": "Naja",
-    "title": "Appointments",
+    "title": "Proponent",
     "title3": "run ins magazine founder",
     "description": Radiogram4,
     "tag": "creative writing",
