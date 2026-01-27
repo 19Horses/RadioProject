@@ -33,7 +33,7 @@ export const djs = [
     title5: "exxtralife Founder",
     title6: "Developer ",
     description:
-      "<a href='https://www.instagram.com/ubiifuruuu/' target='_blank'>edenplus</a> sits and talks with us about his <b>inspirations, video game soundtracks and gives insight into his event organisation, EXXTRALIFE. </b><b><i>Edwin</i></b> is a <b>musician and DJ</b>, as well as a <b>web developer</b> now based in North London.",
+      "<a href='https://www.instagram.com/ubiifuruuu/' target='_blank'>EDENPLUS</a> sits and talks with us about his <b>inspirations, video game soundtracks</b> and gives insight into his event organisation, <b>EXXTRALIFE.</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP1-ubi.wav",
     djLink: "https://www.instagram.com/ubiifuruuu/",
     igLink: "https://www.instagram.com/p/DIEUV-QMOVw/?img_index=1",
@@ -129,7 +129,7 @@ export const djs = [
     title3: "Technologist",
     title4: "DJ",
     description:
-      "<a href='https://www.instagram.com/david.chen02/' target='_blank'>DVD</a> touches on listening experiences; his introductions into tech; music and DJing; and his many creative design projects. <b>David</b> is a <b>creative technologist, DJ and audiophile.</b>",
+      "<a href='https://www.instagram.com/david.chen02/' target='_blank'>DVD</a> touches on <b>listening experiences, his introductions into tech, music and DJing,</b> and his many <b>creative design projects</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp2-dvd.wav",
     djLink: "https://www.instagram.com/david.chen02/",
     igLink: "https://www.instagram.com/p/DI_inZws2SI/?img_index=1",
@@ -222,7 +222,7 @@ export const djs = [
     title3: "Musician",
     title4: "DJ",
     description:
-      "<a href='https://www.instagram.com/itsbebeluna/ ' target='_blank'>BEBELUNA</a>, also known as <b><i>XYRAK47</i></b>, speaks about <b>her experience as a refugee in London and her love for composition in film and media.</b> Oroko Radio Resident, <b>BEBELUNA</b> is a musician and DJ hailing from Somalia, now based in the UK.",
+      "<a href='https://www.instagram.com/itsbebeluna/ ' target='_blank'>BEBELUNA</a>, also known as <b><i>XYRAK47</i></b>, speaks about <b>her experience as a refugee in London and her love for composition in film and media.</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP3-BEBE.wav",
     djLink: "https://www.instagram.com/itsbebeluna/",
     igLink: "https://www.instagram.com/p/DMh4aoKsARb/?img_index=1",
@@ -326,7 +326,7 @@ export const djs = [
     "title3": "Director",
     "description": Radiogram5,
     "tag": "Film Commentary",
-    "summary": "<span><a href='https://www.instagram.com/https://www.instagram.com/andydydydydydy/?hl=en/'>Andy Xianyi Zhang</a> revisits childhood Shanghai through Bunny Leap’s first music video, capturing memory and freedom by <b>walking through landscapes shaped bycontinuity.</b></span>",
+    "summary": "<span><a href='https://www.instagram.com/https://www.instagram.com/andydydydydydy/?hl=en/'>ANDY XIANYI ZHANG</a> revisits childhood Shanghai through Bunny Leap’s first music video, capturing memory and freedom by <b>walking through landscapes shaped bycontinuity.</b></span>",
     "releaseDate": "18/8/25",
     "length": "05:30",
     "postLink": "https://www.instagram.com/p/DNfoIyhsIfG/?img_index=1",
@@ -351,7 +351,7 @@ export const djs = [
     "title3": "run ins magazine founder",
     "description": Radiogram4,
     "tag": "creative writing",
-    "summary": "Naja’s essay in three recollections explores her entanglements with belief, death, and conspiracy.",
+    "summary": "<a href='https://www.instagram.com/https://www.instagram.com/najasurname/?hl=en/'>NAJA</a>'s essay in three recollections explores her entanglements with <b>belief, death, and conspiracy.</b>",
     "releaseDate": "18/8/25",
     "length": "05:30",
     "postLink": "https://www.instagram.com/",
@@ -371,7 +371,7 @@ export const djs = [
     url: "howdogirlsleep",
     title3: "Musician",
     description:
-      "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with </span> <a href='https://www.instagram.com/michael.adlj/'>Michael Adelaja</a><span> about their journey as a 3D modeller and how certain artists from the <b>early SoundCloud rap era influenced them.</b> Michael is a </span> <b>3D animator + artist,</b> as well as the <b>lead guitarist of shoegaze band, Whitelands.</b>",
+      "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with </span> <a href='https://www.instagram.com/michael.adlj/'>MICHAEL ADELJAJA</a><span> about their journey as a 3D modeller and how certain artists from the <b>early SoundCloud rap era influenced them.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp3+total.wav",
     releaseDate: "25/7/25",
     length: "1 Hour 23 Minutes",
