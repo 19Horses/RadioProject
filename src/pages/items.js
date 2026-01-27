@@ -348,7 +348,7 @@ export const djs = [
     "url": "naja",
     "title2": "Naja",
     "title": "Proponent",
-    "title3": "run ins magazine founder",
+    "title3": "Writer + Curator",
     "description": Radiogram4,
     "tag": "creative writing",
     "summary": "<a href='https://www.instagram.com/https://www.instagram.com/najasurname/?hl=en/'>NAJA</a>'s essay in three recollections explores her entanglements with <b>belief, death, and conspiracy.</b>",
