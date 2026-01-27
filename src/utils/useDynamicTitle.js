@@ -27,6 +27,7 @@ export function DynamicTitle() {
       "/article/edenplus2": "edenplus2 | Read on RADIO Project",
       "/article/thenarrator": "Love Is a Contact Sport | Read on RADIO Project",
       "/article/naja": "Proponent | Read on RADIO Project",
+      "/article/ivory": "USB City | Read on RADIO Project",
     };
 
     document.title = titleMap[path] || "RADIO Project";

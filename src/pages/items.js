@@ -14,6 +14,7 @@ import { rpa6 } from '../assets/rpa6';
 import { Radiogram4 } from '../components/radiograms/radiogram4/Radiogram4';
 import { Radiogram5 } from '../components/radiograms/radiogram5/Radiogram5';
 import { Radiogram6 } from '../components/radiograms/radiogram6/Radiogram6';
+import { Radiogram7 } from '../components/radiograms/radiogram7/Radiogram7';
 
 
 export const djs = [
@@ -478,6 +479,33 @@ export const djs = [
     "length": "05:30",
     "postLink": "https://www.instagram.com/",
     "igLink": "https://www.instagram.com/thenarrator_______/",
+    "dontShow": true,
+
+  },
+  {
+    id: 10,
+
+    "type": "radiogram",
+    "src": rpa4.p,
+    "src2": rpa4.pm,
+    "src3": rpa4.pd,
+    "rpCount": "RG2 ",
+    "broadcastDay": "18",
+    "broadcastMonth": "08",
+    "broadcastYear": "25",
+    "broadcastTime": "17:00",
+    "broadcastDate": "18/8/25",
+    "url": "ivory",
+    "title2": "Ivory Pijin",
+    "title": "USB City",
+    "title3": "occupation",
+    "description": Radiogram7,
+    "tag": "cultural commentary",
+    "summary": "v1.1",
+    "releaseDate": "18/8/25",
+    "length": "05:30",
+    "postLink": "https://www.instagram.com/",
+    "igLink": "https://www.instagram.com/ivorypijin/",
     "dontShow": true,
 
   },
