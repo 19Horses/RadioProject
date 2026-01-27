@@ -351,7 +351,7 @@ export const djs = [
     "title3": "Writer + Curator",
     "description": Radiogram4,
     "tag": "creative writing",
-    "summary": "<a href='https://www.instagram.com/https://www.instagram.com/najasurname/?hl=en/'>NAJA</a>'s essay in three recollections explores her entanglements with <b>belief, death, and conspiracy.</b>",
+    "summary": "<a href='https://www.instagram.com/https://www.instagram.com/najasurname/?hl=en/'>NAJA</a>'s essay, in three recollections, explores her sense of interconnections between <b>belief, death, and conspiracy. </b>",
     "releaseDate": "18/8/25",
     "length": "05:30",
     "postLink": "https://www.instagram.com/",
