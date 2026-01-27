@@ -105,13 +105,15 @@ export const Radiogram5 = () => {
 
       <div
         className={`article-content ${isTransitioning ? "fade-out" : "fade-in"}`}
+        style={{
+          paddingBottom: "150px",
+        }}
       >
         {texts.map((text, index) => (
           <p
             key={`${language}-${index}`}
             style={{
               width: isMobile ? "80%" : undefined,
-              paddingBottom: "150px",
             }}
           >
             {text}
