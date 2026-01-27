@@ -1526,6 +1526,19 @@ const Bookmark = ({
                       >
                         Visitor Log
                       </Link>
+                      <Link
+                        to="/proposals"
+                        className="icon-blink menu-item-glitch menu-link"
+                        onClick={toggleMenu}
+                        onMouseEnter={() =>
+                          onHoverMenuItem && onHoverMenuItem("contact")
+                        }
+                        onMouseLeave={() =>
+                          onHoverMenuItem && onHoverMenuItem(null)
+                        }
+                      >
+                        Proposals
+                      </Link>
                       <a
                         href="https://soundcloud.com/radio_project"
                         target="_blank"
@@ -1537,8 +1550,9 @@ const Bookmark = ({
                         onMouseLeave={() =>
                           onHoverMenuItem && onHoverMenuItem(null)
                         }
+                        style={{ color: "#a3a3a3" }}
                       >
-                        Soundcloud
+                        SoundCloud
                       </a>
                       <a
                         href="https://www.ninaprotocol.com/profiles/radio-project"
@@ -1551,6 +1565,7 @@ const Bookmark = ({
                         onMouseLeave={() =>
                           onHoverMenuItem && onHoverMenuItem(null)
                         }
+                        style={{ color: "#a3a3a3" }}
                       >
                         Nina Protocol
                       </a>
@@ -1565,10 +1580,10 @@ const Bookmark = ({
                         onMouseLeave={() =>
                           onHoverMenuItem && onHoverMenuItem(null)
                         }
+                        style={{ color: "#a3a3a3" }}
                       >
                         Instagram
                       </a>
-
                       <a
                         href="mailto:contact@radioproject.live"
                         target="_blank"
@@ -1580,6 +1595,7 @@ const Bookmark = ({
                         onMouseLeave={() =>
                           onHoverMenuItem && onHoverMenuItem(null)
                         }
+                        style={{ color: "#a3a3a3" }}
                       >
                         Contact
                       </a>

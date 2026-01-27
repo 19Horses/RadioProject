@@ -85,7 +85,8 @@ strong{
 .article-scroll-container,
 .guest-container,
 .rpgrid-container,
-.article-container {
+.article-container,
+.proposals-container {
   transition: opacity 1s ease-out;
 }
 
@@ -96,7 +97,8 @@ body.mobile-menu-open .article-content-description__mobile,
 body.mobile-menu-open .article-scroll-container,
 body.mobile-menu-open .guest-container,
 body.mobile-menu-open .rpgrid-container,
-body.mobile-menu-open .article-container {
+body.mobile-menu-open .article-container,
+body.mobile-menu-open .proposals-container {
   opacity: 0.2;
   pointer-events: none !important;
   user-select: none;
