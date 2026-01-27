@@ -351,7 +351,7 @@ export const djs = [
     "title3": "run ins magazine founder",
     "description": Radiogram4,
     "tag": "creative writing",
-    "summary": "Naja presents 3 short stories, all based on the importance of ....",
+    "summary": "Naja’s essay in three recollections explores her entanglements with belief, death, and conspiracy.",
     "releaseDate": "18/8/25",
     "length": "05:30",
     "postLink": "https://www.instagram.com/",
