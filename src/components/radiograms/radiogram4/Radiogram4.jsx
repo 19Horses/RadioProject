@@ -10,6 +10,7 @@ import catAndMuttonImg from "./Regent's_Canal,_Cat_and_Mutton_Bridge_and_Acton's
 import victoriaParkImg from "./victoria-park-london-1748262143.webp";
 import wohnheimImg from "./210_020-021.webp";
 import parkBenchImg from "./unnamed-2.webp";
+import malagaImg from "./Vista_de_Málaga_desde_el_castillo_de_Gibralfaro,_España,_2023-05-20,_DD_113.webp";
 
 // Location data with coordinates
 const locations = {
@@ -53,6 +54,14 @@ const locations = {
     lng: 13.3947508,
     place: "Kreuzberg, Berlin",
     image: parkBenchImg,
+  },
+  malaga: {
+    name: "Málaga",
+    coords: "36.7213° N, 4.4214° W",
+    lat: 36.7213,
+    lng: -4.4214,
+    place: "Andalusia, Spain",
+    image: malagaImg,
   },
 };
 
@@ -200,7 +209,7 @@ export const Radiogram4 = () => {
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Dianne and George in heavy gear parked their e-bikes at the barrow’s
         base. They wear white and red bandanas and do their best to tolerate us,
-        the newly high and just out of London. They have been to every such
+        the newly high, just out of London. They have been to every such
         landmark in England, pulling up a youtube video about a nearby valley of
         prehistoric stones, ‘worth a visit’. I asked if they were
         archaeologists, ‘just old’ Diane offers ‘and nothing better to do than
@@ -212,13 +221,13 @@ export const Radiogram4 = () => {
         Stonehenge was roped off, and formally fenced in 1978, with visitors
         only allowed to walk up to them at pre-arranged dates and times. One
         used to be able to drive right up to the stones, touch them, carve
-        pictures in their moss. The sun setting and rising, is that the passing
-        of time? The importance of appointments, the moment held and missed, the
-        difference being the sun, the movement of the earth.
+        pictures in their moss.
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
+        The sun setting and rising, the importance of appointments, moments held
+        and missed, the difference being the sun, the movement of the earth.
         Luke asks about the meaning. ‘That’s the point, no one knows, it’s all
-        conjecture at this point’ George speaks from behind sunglasses. Dianne
+        conjecture at this point!’ George’s eyes widen behind sunglasses. Dianne
         laughs when I tell her this is all I’ve worn.
       </p>
       <br />
@@ -236,22 +245,19 @@ export const Radiogram4 = () => {
       </p>
       <p
         className="italic-poem"
-        style={{ width: isMobile ? "60%" : undefined }}
+        style={{ width: isMobile ? "80%" : undefined }}
       >
-        A lone trumpet plays a standard,
-        <br />a couple with elven ears press their heads against a stone in
-        silence.
+        A lone trumpet plays a standard, a couple with elven ears press their
+        heads against a stone in silence. The stones hold heat from the day’s
+        sun.
         <br />
-        The stones hold heat from the day’s sun.
         <br />
         Twin women with big white curls and neon glasses claim a boulder.
         <br />
-        Like mermaids with feathers in their hair,
-        <br /> a leopard print picnic mat,
-        <br />
+        Like mermaids with feathers in their hair, a leopard print picnic mat,
         the crystal sea.
-        <br /> The stones are cast in a deep blue,
-        <br /> like a UV.
+        <br /> The stones are cast in a deep blue, like a UV.
+        <br />
         <br /> Drumming at the{" "}
         <span
           className="location-link"
@@ -266,16 +272,33 @@ export const Radiogram4 = () => {
         <br /> teenagers flirting on altar stones,
         <br /> a young man in an overly styled suit laughing 7ft above the
         ground,
-        <br /> his knees swinging against the stars.
-        <br /> The drumming quickens,
-        <br /> crowd hums a spontaneous baseline,
+        <br /> legs swinging against the stars.
+        <br /> <br /> The drumming quickens,
+        <br /> the crowd hums a spontaneous baseline,
         <br /> the slightest viola solo.
         <br /> Large rocks around us,
+        <br />
         <br />
         something fallen, something of a reminder.
         <br /> We are dancing on the dead.
         <br />
         We are playing drums on the dead.
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        Throughout the night we kept close watch of the sky. We stargazed,
+        closed our eyes and made sounds to find each other. The mound has filled
+        up with bodies lying in all orientations. We knock on shoes and whisper
+        sorries. I’m lying down when I overhear two men talking about war,
+        insisting they will never let their sons go.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined }}>
+        The sky, a continuation of dark and light. I think to ask if it’s
+        happened yet. My hair is caught in the dried moss of a stone which has
+        lost its heat. It is the same temperature as my skin and feels
+        unshakeable. We were crowded faces pinkened, facing east past the A303,
+        where the earth begins to bend.{" "}
       </p>
       <br />
       <br />
@@ -301,14 +324,14 @@ export const Radiogram4 = () => {
         >
           Cat and Mutton bridge
         </span>{" "}
-        , I hear then see fireworks from Victoria Park. It was bonfire night
-        this past Wednesday. Throughout the week before and now the days after,
-        I’d glimpse firework shows between buildings, in the distance over
-        treetops, pyrochemical smell upon leaving the house.
+        , I hear fireworks from Victoria Park. It was bonfire night this past
+        Wednesday. Throughout the week before and now the days after, I’d
+        glimpse firework shows between buildings, in the distance over treetops,
+        pyrochemical smell upon leaving the house.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        On bonfire night, I met a black cat, her back curved in a frightened
+        On bonfire night, I met a black cat, her back curved into a frightened
         shape, she kept grazing past me, back and forth, she couldn't sit still.
         I think she only came to me because I was dressed all in black,
         apparently black cats do that. I read somewhere that all cats think
@@ -322,41 +345,39 @@ export const Radiogram4 = () => {
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         There are three Buddhas in the backyard. I watch her from the kitchen
-        window, there for hours in the afternoon sun, bowing to the head of the
-        Buddha. Sometimes I think she is preparing to die and that's why she
-        sits so still and bows so much.
+        window, she sits there for hours in the afternoon sun, bowing to the
+        head of the Buddha. When she does this, I think she is preparing to die.
+        I remain open to the inevitability, keeping watch of her moods and
+        whereabouts.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        When I was six years old, my cat was dying and she stopped eating
-        because all her teeth had fallen out. Her claws too, were weakened, some
-        of them ripped from her paws, leaving red gapes. On the last day of her
-        life, I was having fried fish for breakfast. Over the course of the meal
-        I’d go looking for her, squidging up some fish meat so she could suck on
-        it.{" "}
+        When I was six years old, my cat stopped eating because all her teeth
+        had fallen out. Her claws too, were weakened, some of them ripped from
+        her paws, leaving red gapes. On the last day of her life, I was having
+        fried fish for breakfast. Over the course of the meal I’d go looking for
+        her, squidging up some fish meat so she could suck on it.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         The third time I went to find her, she was on our sheep’s wool rug and
         she was dead and stretched out frozen. The fish from my last visit
-        splayed out on the floor. I'd never seen her stretched out like that.
-        Her legs and hands all four legs were straight stiff and her eyes wide
-        open. Though it was morning, my father came home from work, he lifted
-        her and she stayed just as stiff. He buried her in the front garden and
-        she was so stiff and straightened as my father put her in the
-        ground.{" "}
+        splayed out on the floor. I'd never seen her stretched out like that,
+        all four legs were straight stiff, her eyes wide open. Though it was
+        morning, my father came home from work. He lifted her, she stayed just
+        as stiff. He brought her to the front garden. She was so stiff and
+        straightened as my father put her in the ground.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        She had a chunk of marble as a tombstone. I dug up some yellow wild
-        flowers to plant at her grave. Today I learn they are called Singapore
-        Daisies. We said prayers for her, me in pyjamas, my father, the sleeves
-        of his white bottom down rolled up till his elbows, the noon sun and
-        quiet leaves. A year later, it rained throughout the day and I saw a
-        stalk shoot up an inch then tremour. I wondered if she could feel the
-        rain through the earth. Two years later, we relevelled that part of the
-        garden, work boots crushing the flowers. I told my mother they were
-        stepping on her grave.
+        She had a chunk of marble as a tombstone. I dug up yellow wildflowers to
+        plant at her grave. Today I learn they are called Singapore Daisies. We
+        said prayers for her, me in pyjamas, my father, the sleeves of his white
+        shirt rolled up till his elbows, the noon sun and quiet leaves. A year
+        later, it rained throughout the day and I saw a stalk shoot up an inch
+        then tremour. I wondered if she could feel the rain through the earth.
+        Two years later, we relevelled that part of the garden, work boots
+        crushing the flowers. I told my mother they were stepping on her grave.
       </p>
       <br />
       <br />
@@ -402,11 +423,11 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        Kreuzberg was empty, two large police vans were parked neatly in the
-        deserted street. I must have missed it. The houses were pastel yellow,
-        they filled the street, beaming light back into my eyes. I bought a
-        lighter for too much money and entered a park. I’d run out of filters
-        and wanted to speak to someone. I sat{" "}
+        May Day and Kreuzberg were empty, two large police vans were parked
+        neatly in the deserted street. I must have missed it. The houses were
+        pastel yellow, they filled the street, beaming light back into my eyes.
+        I bought a lighter for too much money and entered a park. I’d run out of
+        filters and wanted to speak to someone. I sat{" "}
         <span
           className="location-link"
           onMouseEnter={(e) => handleLocationEnter("parkBench", e)}
@@ -416,11 +437,10 @@ export const Radiogram4 = () => {
         >
           a seat away
         </span>{" "}
-        from a man in a large
-        wool coat with long black and white hair. He was drinking coca-cola from
-        a glass bottle. I asked for a filter, he told me he didn’t use them. His
-        fingernails were long, dark, and pointed. We smoked our tobacco just
-        from the paper, pinching it at the lips.{" "}
+        from a man in a large wool coat with long black and white hair. He was
+        drinking coca-cola from a glass bottle. I asked for a filter, he told me
+        he didn’t use them. His fingernails were long, dark, and pointed. We
+        smoked our tobacco just from the paper, pinching it at the lips.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined, textAlign: "center" }}>
@@ -444,10 +464,19 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        When this would happen, he said we would reunite and go to Malaga, the
-        South of Spain, live out the end of the world together. His name was
-        Martin and he had been to London in 1972 with a past girlfriend where
-        they had made fun of him for his Polish name. He gave me his address to
+        When this happened, he said we would reunite and go to{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("malaga", e)}
+          onMouseLeave={handleLocationLeave}
+          onMouseMove={handleMouseMove}
+          onClick={() => handleLocationClick("malaga")}
+        >
+          Malaga
+        </span>
+        , the South of Spain, live out the end of the world together. His name
+        was Martin and he had been to London in 1972 with a past girlfriend
+        where they had made fun of his Polish name. He gave me his address to
         write to him. He explained all the digits, meaning he lived down an
         alley then a staircase, leading to an outbuilding where his was the
         fourth door.{" "}
@@ -455,11 +484,11 @@ export const Radiogram4 = () => {
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         When I got up to leave, he stood up as well, and he was twice my height
-        and smiled so kindly. When I hugged him, I cried, pressing my face into
+        and smiled so kindly that I hugged him and cried, pressing my face into
         his wool coat. I was sorry for all of the dead, the disbelievers. He
         said we would see each other again when the world ended and we'd go to
         the South of Spain. I never wrote to him. I kept his address for a long
-        time, a year or two, I moved twice in that time. The second time, I must
+        time, a year or two. I moved twice in that time. The second time, I must
         have felt guilty. His odd writing in red marker ink, his odd address,
         his Polish last name that began with a K.{" "}
       </p>
