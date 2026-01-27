@@ -1,0 +1,143 @@
+.proposals-container {
+  min-height: 100vh;
+  padding-bottom: 60px;
+  padding-left: 330px;
+  width: 100vw;
+  max-width: 100%;
+  box-sizing: border-box;
+  overflow-x: hidden;
+  color: #434a47;
+}
+
+/* Carousel styles */
+.proposals-carousel-wrapper {
+  width: calc(100vw - 330px);
+  overflow: hidden;
+  margin-bottom: 3rem;
+  position: relative;
+}
+
+.proposals-carousel-wrapper::before,
+.proposals-carousel-wrapper::after {
+  content: '';
+  position: absolute;
+  top: 0;
+  bottom: 0;
+  width: 60px;
+  pointer-events: none;
+  z-index: 2;
+}
+
+.proposals-carousel-wrapper::before {
+  left: 0;
+  background: linear-gradient(to right, #ececec, transparent);
+}
+
+.proposals-carousel-wrapper::after {
+  right: 0;
+  background: linear-gradient(to left, #ececec, transparent);
+}
+
+.proposals-carousel {
+  display: flex;
+  gap: 15px;
+  padding: 20px 0;
+  animation: scroll-carousel 20s linear infinite;
+  width: fit-content;
+  will-change: transform;
+  pointer-events: none;
+}
+
+@keyframes scroll-carousel {
+  from {
+    transform: translate3d(0, 0, 0);
+  }
+  to {
+    transform: translate3d(-33.333%, 0, 0);
+  }
+}
+
+.proposals-carousel-item {
+  flex-shrink: 0;
+}
+
+.proposals-carousel-item img {
+  height: 180px;
+  width: auto;
+  object-fit: cover;
+  display: block;
+  opacity: 0.7;
+}
+
+.proposals-content {
+  margin: 0 auto;
+  max-width: 100%;
+  padding-right: 40px;
+}
+
+.proposals-content h1 {
+  font-family: "NeueHaasDisplayMedium", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  letter-spacing: -0.5px;
+}
+
+.proposals-content p {
+  font-family: "NeueHaasDisplayRoman", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.3rem;
+  letter-spacing: -0.2px;
+}
+
+@media (max-width: 768px) {
+  .proposals-container {
+    padding-left: 0;
+  }
+
+  .proposals-carousel-wrapper {
+    width: 100vw;
+  }
+
+  .proposals-carousel-item img {
+    height: 120px;
+  }
+
+  .proposals-content h1 {
+    font-size: 1.5rem;
+  }
+}
+
+.proposals-content h1 {
+  font-family: "NeueHaasDisplayMedium", sans-serif;
+  font-size: 2rem;
+  margin-bottom: 2rem;
+  letter-spacing: -0.5px;
+}
+
+.proposals-content p {
+  font-family: "NeueHaasDisplayRoman", sans-serif;
+  font-size: 1rem;
+  line-height: 1.6;
+  margin-bottom: 1.3rem;
+  letter-spacing: -0.2px;
+}
+
+@media (max-width: 768px) {
+  .proposals-container {
+    padding-left: 0;
+    padding-top: 50px;
+  }
+
+  .proposals-carousel-wrapper {
+    width: 100vw;
+  }
+
+  .proposals-carousel-item img {
+    height: 120px;
+  }
+
+  .proposals-content h1 {
+    font-size: 1.5rem;
+  }
+}

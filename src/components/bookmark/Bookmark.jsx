@@ -483,7 +483,8 @@ const Bookmark = ({
     const shouldShowMarquee =
       location.pathname === "/" ||
       location.pathname === "/archive" ||
-      location.pathname === "/visitorlog";
+      location.pathname === "/visitorlog" ||
+      location.pathname === "/proposals";
 
     if (shouldShowMarquee) {
       // Delay fade in for smooth transition
@@ -1160,6 +1161,24 @@ const Bookmark = ({
                   >
                     Visitor Log
                   </Link>
+                  <Link
+                    to="/proposals"
+                    className="icon-blink menu-item-glitch menu-link"
+                    onClick={toggleMenu}
+                    onMouseEnter={() =>
+                      onHoverMenuItem && onHoverMenuItem("contact")
+                    }
+                    onMouseLeave={() =>
+                      onHoverMenuItem && onHoverMenuItem(null)
+                    }
+                    style={{
+                      opacity: 0,
+                      animation: "fadeIn 0.7s ease-out forwards",
+                      animationDelay: "0.7s",
+                    }}
+                  >
+                    Proposals
+                  </Link>
                   <a
                     href="https://soundcloud.com/radio_project"
                     target="_blank"
@@ -1175,9 +1194,10 @@ const Bookmark = ({
                       opacity: 0,
                       animation: "fadeIn 0.7s ease-out forwards",
                       animationDelay: "0.55s",
+                      color: "#a3a3a3",
                     }}
                   >
-                    Soundcloud
+                    SoundCloud
                   </a>
                   <a
                     href="https://www.ninaprotocol.com/profiles/radio-project"
@@ -1194,6 +1214,7 @@ const Bookmark = ({
                       opacity: 0,
                       animation: "fadeIn 0.7s ease-out forwards",
                       animationDelay: "0.6s",
+                      color: "#a3a3a3",
                     }}
                   >
                     Nina Protocol
@@ -1213,10 +1234,12 @@ const Bookmark = ({
                       opacity: 0,
                       animation: "fadeIn 0.7s ease-out forwards",
                       animationDelay: "0.65s",
+                      color: "#a3a3a3",
                     }}
                   >
                     Instagram
                   </a>
+
                   <a
                     href="mailto:contact@radioproject.live"
                     target="_blank"
@@ -1232,25 +1255,7 @@ const Bookmark = ({
                       opacity: 0,
                       animation: "fadeIn 0.7s ease-out forwards",
                       animationDelay: "0.7s",
-                    }}
-                  >
-                    Proposals
-                  </a>
-                  <a
-                    href="mailto:contact@radioproject.live"
-                    target="_blank"
-                    className="icon-blink menu-item-glitch menu-link"
-                    onClick={toggleMenu}
-                    onMouseEnter={() =>
-                      onHoverMenuItem && onHoverMenuItem("contact")
-                    }
-                    onMouseLeave={() =>
-                      onHoverMenuItem && onHoverMenuItem(null)
-                    }
-                    style={{
-                      opacity: 0,
-                      animation: "fadeIn 0.7s ease-out forwards",
-                      animationDelay: "0.7s",
+                      color: "#a3a3a3",
                     }}
                   >
                     Contact

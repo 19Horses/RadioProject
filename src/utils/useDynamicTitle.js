@@ -10,6 +10,7 @@ export function DynamicTitle() {
       "/": "RADIO Project",
       "/visitorlog": "Visitor Log | RADIO Project",
       "/visitorcheck": "Visitor Check | RADIO Project",
+      "/proposals": "Proposals | RADIO Project",
       // mixes
       "/mix/edenplus": "game arts | Listen on RADIO Project",
       "/mix/dvd": "BUILD! | Listen on RADIO Project",

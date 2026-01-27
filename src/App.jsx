@@ -18,6 +18,7 @@ import { LandingVertical } from "./pages/LandingVertical";
 import { Chat } from "./pages/Chat";
 import { Article } from "./pages/Article";
 import RPHead, { RPGrid } from "./pages/rphead";
+import { Proposals } from "./pages/Proposals";
 import { DynamicTitle } from "./utils/useDynamicTitle";
 
 import { ThemeProvider } from "styled-components";
@@ -124,6 +125,14 @@ function RoutesWithAnimation({ mobileMenuOpen, setMobileMenuOpen, ...props }) {
                 isPlaying={props.playingGuest}
                 isMobile={props.isMobile}
               />
+            </PageTransition>
+          }
+        />
+        <Route
+          path="/proposals"
+          element={
+            <PageTransition>
+              <Proposals isMobile={props.isMobile} />
             </PageTransition>
           }
         />
