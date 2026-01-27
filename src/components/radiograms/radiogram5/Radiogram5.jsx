@@ -111,6 +111,7 @@ export const Radiogram5 = () => {
             key={`${language}-${index}`}
             style={{
               width: isMobile ? "80%" : undefined,
+              paddingBottom: "150px",
             }}
           >
             {text}
