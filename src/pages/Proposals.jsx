@@ -1,8 +1,18 @@
-import React, { useMemo } from "react";
+import React, { useMemo, useEffect } from "react";
 import { djs as items } from "./items";
 import "./Proposals.css";
 
 export const Proposals = ({ isMobile }) => {
+  // Disable scrolling on desktop only
+  useEffect(() => {
+    if (isMobile) return;
+    const originalOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = originalOverflow;
+    };
+  }, [isMobile]);
+
   // Filter items same as landing page
   const filteredItems = useMemo(() => {
     return items
