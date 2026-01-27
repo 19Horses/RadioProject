@@ -213,12 +213,12 @@ export const Radiogram4 = () => {
         landmark in England, pulling up a youtube video about a nearby valley of
         prehistoric stones, ‘worth a visit’. I asked if they were
         archaeologists, ‘just old’ Diane offers ‘and nothing better to do than
-        to look at stones’.{" "}
+        look at stones’.{" "}
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
         They are spending the night on the barrow, watching the solstice from
-        outside Stonehenge, ‘not until we get our stones back’. In 1977,
-        Stonehenge was roped off, and formally fenced in 1978, with visitors
+        outside Stonehenge, ‘not until we get our stones back’. In 1977
+        Stonehenge was roped off, then formally fenced in 1978, with visitors
         only allowed to walk up to them at pre-arranged dates and times. One
         used to be able to drive right up to the stones, touch them, carve
         pictures in their moss.
@@ -236,9 +236,9 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        9 It feels like any other festival, a tent selling t-shirts and tote
-        bags, trucks with crepes and duck fat fries. There is no Momo truck yet,
-        maybe next year. Mapping where the nearest dark kitchen could be. The
+        It feels like any other festival, a tent selling t-shirts and tote bags,
+        trucks with crepes and duck fat fries. There is no Momo truck yet, maybe
+        next year. Mapping where the nearest dark kitchen could be. The
         improperness of this opening scene strikes something hollow in me,
         ‘funny’ I remark. I will repeat this aloud and to myself.
       </p>
@@ -271,25 +271,23 @@ export const Radiogram4 = () => {
         <br /> teenagers flirting on altar stones,
         <br /> a young man in an overly styled suit laughing 7ft above the
         ground,
-        <br /> legs swinging against the stars.
+        <br /> his legs swinging against the stars.
         <br /> <br /> The drumming quickens,
         <br /> the crowd hums a spontaneous baseline,
         <br /> the slightest viola solo.
         <br /> Large rocks around us,
-        <br />
-        <br />
-        something fallen, something of a reminder.
+        <br /> something fallen, something of a reminder.
         <br /> We are dancing on the dead.
         <br />
         We are playing drums on the dead.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        We kept close watch of the sky, stargazing, closing our eyes at the same
-        time, making sounds to find each other. The mound has filled up with
-        bodies lying in all orientations. We knock on shoes and whisper sorries.
-        I’m lying down when I overhear two men talking about war, insisting they
-        will never let their sons go.{" "}
+        We kept close watch of the sky, stargazing, shutting our eyes at the
+        same time, making sounds to find each other. The mound has filled up
+        with bodies lying in all orientations. We knock on shoes and whisper
+        sorries. I’m lying down when I overhear two men talking about war,
+        insisting they will never let their sons go.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -297,7 +295,7 @@ export const Radiogram4 = () => {
         happened yet. My hair is caught in the dried moss of a stone which has
         lost its heat. It is the same temperature as my skin and feels
         unshakeable. We were crowded faces pinkened, facing east past the A303,
-        where the earth begins to bend.{" "}
+        where the earth began to bend.{" "}
       </p>
       <br />
       <br />
@@ -338,24 +336,24 @@ export const Radiogram4 = () => {
         food. I live with a cat now and bless her, she's 13 years old, and she
         never learned to retract her claws. So even when she's happy, even when
         she's resting, her claws are out. She is laying on me as I write some of
-        these sentences, her head and tailed curled into paws. Sometimes she
-        sits for a long time, bowing with her eyes shut.{" "}
+        these sentences, her head and tail curled into paws. Sometimes she sits
+        for a long time, bowing with her eyes shut.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        7 My twenty-year-old cat stopped eating because all her teeth had fallen
-        out. Her claws too, were weakened, some of them ripped from her paws,
-        leaving red gapes. On the last day of her life, I was six years old,
-        having fried fish for breakfast. Over the course of the meal I’d go
-        looking for her, squidging up some fish meat so she could suck on it.
+        There are three Buddhas in the backyard. I watch her from the kitchen
+        window, she sits there for hours in the afternoon sun, bowing to the
+        head of the Buddha. When she does this, I think she is preparing to die.
+        I remain open to the inevitability, keeping watch of her moods and
+        whereabouts.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        When I was six years old, my cat stopped eating because all her teeth
-        had fallen out. Her claws too, were weakened, some of them ripped from
-        her paws, leaving red gapes. On the last day of her life, I was having
-        fried fish for breakfast. Over the course of the meal I’d go looking for
-        her, squidging up some fish meat so she could suck on it.{" "}
+        My 20-year-old cat stopped eating because all her teeth had fallen out.
+        Her claws too, were weakened, some of them ripped from her paws, leaving
+        red gapes. On the last day of her life, I was 6 years old, having fried
+        fish for breakfast. Over the course of the meal, I’d go looking for her,
+        squidging up some fish meat so she could suck on it.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -416,14 +414,14 @@ export const Radiogram4 = () => {
         other way. I headed to the U-Bahn and walked past it. Through
         residential estates and ugly buildings, sun streaming through the
         leaves, past the canal bar onto the bridge where I started to cry
-        uncontrollably and put on my sunglasses resourcefully. It was 8 in the
+        uncontrollably and wore my sunglasses resourcefully. It was 8 in the
         morning, the first of May. I’d kept stopping along the pavement, me and
         others, pair and trios, trying to discern where the sounds were coming
         from.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        May Day and Kreuzberg were empty, two large police vans were parked
+        May Day and Kreuzberg was empty, two large police vans were parked
         neatly in the deserted street. I must have missed it. The houses were
         pastel yellow, they filled the street, beaming light back into my eyes.
         I bought a lighter for too much money and entered a park. I’d run out of
@@ -450,17 +448,17 @@ export const Radiogram4 = () => {
       <p style={{ width: isMobile ? "80%" : undefined }}>
         When I suggested I had to get my train, he said to be careful that it
         wasn’t the train to Busan. I hadn’t seen it at the time. He didn’t have
-        a computer taught me about many movies I hadn’t heard of, straight to
-        DVD, back of the shelf. He only drank from glass bottles. He taught me
-        about the 1862 Internal Exhibition in London where Plastic was exhibited
-        to the world and Prince Albert bought in early. He said they knew it was
-        dangerous, that it would augment and destroy us. He didn't have a phone
-        or email. He had a player for DVDs and VHS. He told me to never forget
-        that any channel has two sides, a telephone is a channel, a screen is a
-        channel. He told me he doesn’t care about people. He told me everyone is
-        stupid. It would only take a meteor to crash near a nuclear power plant
-        for our world to be non. When I look around, everyone is already
-        dead.{" "}
+        a computer and taught me about many movies I hadn’t heard of, straight
+        to DVD, back of the shelf. He only drank from glass bottles. He taught
+        me about the 1862 International Exhibition in London where Plastic was
+        first exhibited to the world and Prince Albert bought in early. He said
+        they knew it was dangerous, that it would augment and destroy us. He
+        didn't have a phone or email. He had a player for DVDs and VHS. He told
+        me to never forget that any channel has two sides, a telephone is a
+        channel, a screen is a channel. He told me he doesn’t care about people.
+        He told me everyone is stupid. It would only take a meteor to crash near
+        a nuclear power plant for our world to be non. When I look around,
+        everyone is already dead.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
