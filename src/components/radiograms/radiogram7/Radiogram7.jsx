@@ -82,7 +82,6 @@ export const Radiogram7 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        When the film ended, that disc meant more. My love destroyed the memory.
         The pirated DVDs had a much shorter shelf life. They’d skip entire acts.
         Jump from The Mask to Bruce Almighty without warning.
       </p>

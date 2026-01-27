@@ -236,20 +236,19 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        It feels like any other festival, a tent selling t-shirts and tote bags,
-        trucks with crepes and duck fat fries. There is no Momo truck yet, maybe
-        next year. Mapping where the nearest dark kitchen could be. The
+        9 It feels like any other festival, a tent selling t-shirts and tote
+        bags, trucks with crepes and duck fat fries. There is no Momo truck yet,
+        maybe next year. Mapping where the nearest dark kitchen could be. The
         improperness of this opening scene strikes something hollow in me,
-        ‘funny’ I remark. I will say this aloud and to myself a lot, tiring
-        myself out, watching.
+        ‘funny’ I remark. I will repeat this aloud and to myself.
       </p>
       <p
         className="italic-poem"
         style={{ width: isMobile ? "80%" : undefined }}
       >
         A lone trumpet plays a standard, a couple with elven ears press their
-        heads against a stone in silence. The stones hold heat from the day’s
-        sun.
+        heads against a stone
+        <br /> in silence. The stones hold heat from the day’s sun.
         <br />
         <br />
         Twin women with big white curls and neon glasses claim a boulder.
@@ -286,15 +285,15 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        Throughout the night we kept close watch of the sky. We stargazed,
-        closed our eyes and made sounds to find each other. The mound has filled
-        up with bodies lying in all orientations. We knock on shoes and whisper
-        sorries. I’m lying down when I overhear two men talking about war,
-        insisting they will never let their sons go.{" "}
+        We kept close watch of the sky, stargazing, closing our eyes at the same
+        time, making sounds to find each other. The mound has filled up with
+        bodies lying in all orientations. We knock on shoes and whisper sorries.
+        I’m lying down when I overhear two men talking about war, insisting they
+        will never let their sons go.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        The sky, a continuation of dark and light. I think to ask if it’s
+        The sky, a continuation of dark and light. I think to ask if it has
         happened yet. My hair is caught in the dried moss of a stone which has
         lost its heat. It is the same temperature as my skin and feels
         unshakeable. We were crowded faces pinkened, facing east past the A303,
@@ -322,7 +321,7 @@ export const Radiogram4 = () => {
           onMouseLeave={handleLocationLeave}
           onClick={() => handleLocationClick("catAndMutton")}
         >
-          Cat and Mutton bridge
+          Cat and Mutton Bridge
         </span>{" "}
         , I hear fireworks from Victoria Park. It was bonfire night this past
         Wednesday. Throughout the week before and now the days after, I’d
@@ -344,11 +343,11 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        There are three Buddhas in the backyard. I watch her from the kitchen
-        window, she sits there for hours in the afternoon sun, bowing to the
-        head of the Buddha. When she does this, I think she is preparing to die.
-        I remain open to the inevitability, keeping watch of her moods and
-        whereabouts.
+        7 My twenty-year-old cat stopped eating because all her teeth had fallen
+        out. Her claws too, were weakened, some of them ripped from her paws,
+        leaving red gapes. On the last day of her life, I was six years old,
+        having fried fish for breakfast. Over the course of the meal I’d go
+        looking for her, squidging up some fish meat so she could suck on it.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -360,13 +359,13 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        The third time I went to find her, she was on our sheep’s wool rug and
-        she was dead and stretched out frozen. The fish from my last visit
-        splayed out on the floor. I'd never seen her stretched out like that,
-        all four legs were straight stiff, her eyes wide open. Though it was
-        morning, my father came home from work. He lifted her, she stayed just
-        as stiff. He brought her to the front garden. She was so stiff and
-        straightened as my father put her in the ground.{" "}
+        The third time I went to find her, she was on our sheep wool rug. She
+        was dead and stretched out frozen, the fish from my last visit splayed
+        out on the floor. I'd never seen her stretched out like that, all four
+        legs straight stiff, her eyes wide open. Though it was morning, my
+        father came home from work. He lifted her, she stayed just as stiff. He
+        brought her to the front garden. She was so stiff and straightened as my
+        father put her in the ground.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -374,10 +373,11 @@ export const Radiogram4 = () => {
         plant at her grave. Today I learn they are called Singapore Daisies. We
         said prayers for her, me in pyjamas, my father, the sleeves of his white
         shirt rolled up till his elbows, the noon sun and quiet leaves. A year
-        later, it rained throughout the day and I saw a stalk shoot up an inch
-        then tremour. I wondered if she could feel the rain through the earth.
-        Two years later, we relevelled that part of the garden, work boots
-        crushing the flowers. I told my mother they were stepping on her grave.
+        later, it rained throughout the day and I saw a Daisy stalk shoot up an
+        inch then tremour. I wondered if she could feel the rain through the
+        earth. Two years later, we relevelled that part of the garden, work
+        boots crushing the flowers. I told my mother they were stepping on her
+        grave.
       </p>
       <br />
       <br />
