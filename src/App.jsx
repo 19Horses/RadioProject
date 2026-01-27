@@ -338,28 +338,28 @@ function App() {
             />
           )}
           <RoutesWithAnimation
-          mobileMenuOpen={mobileMenuOpen}
-          setMobileMenuOpen={setMobileMenuOpen}
-          lerpedPos={lerpedPos}
-          lerpedTextPos={lerpedTextPos}
-          eyeSymbol={eyeSymbol}
-          handleEyeClick={handleEyeClick}
-          randomSentence={randomSentence}
-          displayedSentence={displayedSentence}
-          isMobile={isMobile}
-          mobileIndex={mobileIndex}
-          setCurrentArticle={setCurrentArticle}
-          playingGuest={playingGuest}
-          setPlayingGuest={setPlayingGuest}
-          setChatUser={setChatUser}
-          chatUser={chatUser}
-          hasSetUser={hasSetUser}
-          setHasSetUser={setHasSetUser}
-          darkMode={darkMode}
-          setScrollPercentage={setScrollPercentage}
-          selectedQuestion={selectedQuestion}
-          setSelectedQuestion={setSelectedQuestion}
-        />
+            mobileMenuOpen={mobileMenuOpen}
+            setMobileMenuOpen={setMobileMenuOpen}
+            lerpedPos={lerpedPos}
+            lerpedTextPos={lerpedTextPos}
+            eyeSymbol={eyeSymbol}
+            handleEyeClick={handleEyeClick}
+            randomSentence={randomSentence}
+            displayedSentence={displayedSentence}
+            isMobile={isMobile}
+            mobileIndex={mobileIndex}
+            setCurrentArticle={setCurrentArticle}
+            playingGuest={playingGuest}
+            setPlayingGuest={setPlayingGuest}
+            setChatUser={setChatUser}
+            chatUser={chatUser}
+            hasSetUser={hasSetUser}
+            setHasSetUser={setHasSetUser}
+            darkMode={darkMode}
+            setScrollPercentage={setScrollPercentage}
+            selectedQuestion={selectedQuestion}
+            setSelectedQuestion={setSelectedQuestion}
+          />
         </AudioProvider>
       </BrowserRouter>
     </ThemeProvider>

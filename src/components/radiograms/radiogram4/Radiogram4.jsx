@@ -9,6 +9,7 @@ import innerCircleImg from "./0002-Stonehenge-Restored-plan-q85-1165x1066.webp";
 import catAndMuttonImg from "./Regent's_Canal,_Cat_and_Mutton_Bridge_and_Acton's_Lock_-_geograph.org.uk_-_1727977.webp";
 import victoriaParkImg from "./victoria-park-london-1748262143.webp";
 import wohnheimImg from "./210_020-021.webp";
+import parkBenchImg from "./unnamed-2.webp";
 
 // Location data with coordinates
 const locations = {
@@ -44,6 +45,14 @@ const locations = {
     lng: 13.4380178,
     place: "Berlin, Germany",
     image: wohnheimImg,
+  },
+  parkBench: {
+    name: "Original Gemüse Kebab",
+    coords: "52.4914° N, 13.3948° E",
+    lat: 52.4914372,
+    lng: 13.3947508,
+    place: "Kreuzberg, Berlin",
+    image: parkBenchImg,
   },
 };
 
@@ -397,7 +406,17 @@ export const Radiogram4 = () => {
         deserted street. I must have missed it. The houses were pastel yellow,
         they filled the street, beaming light back into my eyes. I bought a
         lighter for too much money and entered a park. I’d run out of filters
-        and wanted to speak to someone. I sat a seat away from a man in a large
+        and wanted to speak to someone. I sat{" "}
+        <span
+          className="location-link"
+          onMouseEnter={(e) => handleLocationEnter("parkBench", e)}
+          onMouseMove={handleMouseMove}
+          onMouseLeave={handleLocationLeave}
+          onClick={() => handleLocationClick("parkBench")}
+        >
+          a seat away
+        </span>{" "}
+        from a man in a large
         wool coat with long black and white hair. He was drinking coca-cola from
         a glass bottle. I asked for a filter, he told me he didn’t use them. His
         fingernails were long, dark, and pointed. We smoked our tobacco just
