@@ -16,14 +16,14 @@ export function DynamicTitle() {
       "/mix/dvd": "BUILD! | Listen on RADIO Project",
       "/mix/bebeluna": "Ghost in the Shell | Listen on RADIO Project",
       // unreleased
-      "/mix/howdogirlsleep": "#KITBASHING | Listen on RADIO Project",
+      "/mix/howdogirlsleep": "KITBASH | Listen on RADIO Project",
 
       // 
       // articles
       "/article/anouk": "The Promise of Freedom in the Western Sphere | Read on RADIO Project",
       "/article/manny": "A Conversation with Manny | Read on RADIO Project",
       // unreleased
-      "/article/andy": "Bunny Leap | Read on RADIO Project",
+      "/article/andy": "Walking Across Object Remains | Read on RADIO Project",
       "/article/edenplus2": "edenplus2 | Read on RADIO Project",
       "/article/thenarrator": "Love Is a Contact Sport | Read on RADIO Project",
       "/article/naja": "Proponent | Read on RADIO Project",
