@@ -1,16 +1,14 @@
 import { rp1 } from "../assets/rp1";
 import { rp2 } from "../assets/rp2";
 import { rp3 } from "../assets/rp3";
-import { rp4 } from "../assets/rp4";
+import { rp5 } from "../assets/rp5";
 import { rpa1 } from '../assets/rpa1';
 import { rpa2 } from '../assets/rpa2';
 import { rpa3 } from '../assets/rpa3';
 import { rpa4 } from '../assets/rpa4';
-import { rpa5 } from '../assets/rpa5';
 import { Radiogram1 } from '../components/radiograms/radiogram1/Radiogram1';
 import { Radiogram2 } from '../components/radiograms/radiogram2/Radiogram2';
 import { Radiogram3 } from '../components/radiograms/radiogram3/Radiogram3';
-import { rpa6 } from '../assets/rpa6';
 import { Radiogram4 } from '../components/radiograms/radiogram4/Radiogram4';
 import { Radiogram5 } from '../components/radiograms/radiogram5/Radiogram5';
 import { Radiogram6 } from '../components/radiograms/radiogram6/Radiogram6';
@@ -23,15 +21,9 @@ export const djs = [
     type: "mix",
     src: rp1.p,
     src3: rp1.pd,
-    rpCount: "RP1 ♪ ",
-    "2ppSrc": rp1.pp,
-    ipSrc: rp1.pd,
     title: 'game arts',
     title2: "edenplus",
     title3: "exxtralife founder",
-    title4: "exxtralife founder",
-    title5: "exxtralife Founder",
-    title6: "Developer ",
     description:
       "<a href='https://www.instagram.com/ubiifuruuu/' target='_blank'>EDENPLUS</a> sits and talks with us about his <b>inspirations, video game soundtracks</b> and gives insight into his event organisation, <b>EXXTRALIFE.</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP1-ubi.wav",
@@ -120,9 +112,6 @@ export const djs = [
     type: "mix",
     src: rp2.p,
     src3: rp2.pd,
-    rpCount: "RP2 ♪ ",
-    "2ppSrc": rp2.pp,
-    ipSrc: rp2.pd,
     title: 'BUILD!',
     title2: "DVD",
     url: "dvd",
@@ -187,7 +176,6 @@ export const djs = [
     "id": 2,
     "type": "radiogram",
     "src": rpa1.p,
-    "src2": rpa1.pm,
     "src3": rpa1.pd,
     "rpCount": "RG1",
     "broadcastDate": "18/6/25 17:00",
@@ -199,7 +187,6 @@ export const djs = [
     "title2": "Anouk Losleben",
     "title": "The Promise of Freedom in the Western Sphere",
     "title3": "losleben founder",
-    "title4": "LOSLEBEN Founder",
     "description": Radiogram1,
     "tag": "Political Philosophy",
     "summary": "<span class='red'><a href='https://www.instagram.com/anouk_maj/' target='_blank'>ANOUK LOSLEBEN</a> writes that in today’s capitalist society, we’re made to believe we are free because we can choose things. But in reality, <b>we’re trapped in a system that uses consumption to control us and limit our true freedom.</b></span>",
@@ -213,14 +200,10 @@ export const djs = [
     type: "mix",
     src: rp3.p,
     src3: rp3.pd,
-    rpCount: "RP3 ♪ ",
-    "2ppSrc": rp3.pm,
-    ipSrc: rp3.pd,
     title: 'Ghost in the Shell',
     title2: "BEBELUNA",
     url: "bebeluna",
     title3: "Musician",
-    title4: "DJ",
     description:
       "<a href='https://www.instagram.com/itsbebeluna/ ' target='_blank'>BEBELUNA</a>, also known as <b><i>XYRAK47</i></b>, speaks about <b>her experience as a refugee in London and her love for composition in film and media.</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP3-BEBE.wav",
@@ -285,9 +268,7 @@ export const djs = [
     "id": 4,
     "type": "radiogram",
     "src": rpa2.p,
-    "src2": rpa2.pm,
     "src3": rpa2.pd,
-    "rpCount": "RG2 ",
     "broadcastDay": "18",
     "broadcastMonth": "08",
     "broadcastYear": "25",
@@ -307,73 +288,20 @@ export const djs = [
   },
 
   // UNPUBLISHED
-  {
 
-    "id": 5,
-    "type": "radiogram",
-    "src": rpa3.p,
-    "src2": rpa3.pm,
-    "src3": rpa3.pd,
-    "rpCount": "RG2 ",
-    "broadcastDay": "18",
-    "broadcastMonth": "08",
-    "broadcastYear": "25",
-    "broadcastTime": "17:00",
-    "broadcastDate": "18/8/25",
-    "url": "andy",
-    "title2": "Andy Xianyi Zhang",
-    "title": "Walking Across Object Remains",
-    "title3": "Director",
-    "description": Radiogram5,
-    "tag": "Film Commentary",
-    "summary": "<span><a href='https://www.instagram.com/https://www.instagram.com/andydydydydydy/?hl=en/'>ANDY XIANYI ZHANG</a> revisits childhood Shanghai through Bunny Leap’s first music video, capturing memory and freedom by <b>walking through landscapes shaped bycontinuity.</b></span>",
-    "releaseDate": "18/8/25",
-    "length": "05:30",
-    "postLink": "https://www.instagram.com/p/DNfoIyhsIfG/?img_index=1",
-    "igLink": "https://www.instagram.com/pattibobi/",
-    "dontShow": true,
-  },
   {
-    "id": 6,
-    "type": "radiogram",
-    "src": rpa4.p,
-    "src2": rpa4.pm,
-    "src3": rpa4.pd,
-    "rpCount": "RG2 ",
-    "broadcastDay": "18",
-    "broadcastMonth": "08",
-    "broadcastYear": "25",
-    "broadcastTime": "17:00",
-    "broadcastDate": "18/8/25",
-    "url": "naja",
-    "title2": "Naja",
-    "title": "Proponent",
-    "title3": "Writer + Curator",
-    "description": Radiogram4,
-    "tag": "creative writing",
-    "summary": "<a href='https://www.instagram.com/https://www.instagram.com/najasurname/?hl=en/'>NAJA</a>'s essay, in three recollections, explores her sense of interconnections between <b>belief, death, and conspiracy. </b>",
-    "releaseDate": "18/8/25",
-    "length": "05:30",
-    "postLink": "https://www.instagram.com/",
-    "igLink": "https://www.instagram.com/najasurname/",
-    "dontShow": true,
-  },
-  {
-    id: 7,
+    id: 5,
     type: "mix",
-    src: rpa4.p,
-    src3: rpa4.pd,
-    rpCount: "RP4 ♪ ",
-    "2ppSrc": rp4.pm,
-    ipSrc: rp4.pd,
-    title: 'KITBASH',
-    title2: "HOWDOGIRLSSLEEP",
-    url: "howdogirlsleep",
+    src: rp5.p,
+    src3: rp5.pd,
+    title: 'Kitbash',
+    title2: "St. Michel",
+    url: "stmichel",
     title3: "Musician",
     description:
-      "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with </span> <a href='https://www.instagram.com/michael.adlj/'>MICHAEL ADELJAJA</a><span> about their journey as a 3D modeller and how certain artists from the <b>early SoundCloud rap era influenced them.",
+      "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with </span> <a href='https://www.instagram.com/michael.adlj/'>St. Michel</a><span> about their journey as a 3D modeller and how certain artists from the <b>early SoundCloud rap era influenced them.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp3+total.wav",
-    releaseDate: "25/7/25",
+    releaseDate: "5/2/26",
     length: "1 Hour 23 Minutes",
     genre: "AMBIENT TECHNO",
     chapters: [
@@ -383,15 +311,16 @@ export const djs = [
     ],
     tracklist: [
       { startTime: "0", title: "RADIO (a)" },
-      { title: "Hasta Santiago A Pie (Congas Orientales)", artist: "Los Hermanos Bravo" },
-      { title: "Part Two (Release of the Moon)", artist: "Kit Gordon, Isaac Robertson" },
-      { title: "Kulu", artist: "N'Gou Bagayoko" },
-      { title: "Sunset Key Melt", artist: "Tim Hecker" },
-      { title: "Both Sides Now", artist: "Joni Mitchell" },
-      { title: "Su Pelo", artist: "Ray Heredia" },
-      { title: "TDAGB", artist: "Duval Timothy" },
-      { title: "Esperança", artist: "Munir Hossn, Ganavya" },
-
+      { title: "Any God Of Yours", artist: "Archy Marshall" },
+      { title: "Moderato", artist: "Astrid Sonne" },
+      { title: "Imposter", artist: "Oli" },
+      { title: "Fullmoon (Motion Graphics Remix)", artist: "Ryuichi Sakamoto" },
+      { title: "Soul", artist: "Stanisław Słowiński" },
+      { title: "Moderato", artist: "Astrid Sonne" },
+      { title: "Helm", artist: "Axis" },
+      { title: "Merry Go Round", artist: "Bladee" },
+      { title: "Just a Taste", artist: "Oliver Palfreyman" },
+      { title: "Falaise", artist: "Floating Points" },
 
       { startTime: "1672", title: "PROJECT" },
       { title: "3D Beginnings", artist: "" },
@@ -426,11 +355,62 @@ export const djs = [
       { title: "C-Slug", artist: "Muskila, HEDO HYDR8" },
       { title: "BANKHEAD (1-800-RAZ Remix)", artist: "KELELA" }
     ],
+    "dontShow": false,
+  },
+  {
+    "id": 6,
+    "type": "radiogram",
+    "src": rpa4.p,
+    "src2": rpa4.pm,
+    "src3": rpa4.pd,
+    "rpCount": "RG2 ",
+    "broadcastDay": "18",
+    "broadcastMonth": "08",
+    "broadcastYear": "25",
+    "broadcastTime": "17:00",
+    "broadcastDate": "18/8/25",
+    "url": "naja",
+    "title2": "Naja",
+    "title": "Proponent",
+    "title3": "Writer + Curator",
+    "description": Radiogram4,
+    "tag": "creative writing",
+    "summary": "<a href='https://www.instagram.com/https://www.instagram.com/najasurname/?hl=en/'>NAJA</a>'s essay, in three recollections, explores her sense of interconnections between <b>belief, death, and conspiracy. </b>",
+    "releaseDate": "18/8/25",
+    "length": "05:30",
+    "postLink": "https://www.instagram.com/",
+    "igLink": "https://www.instagram.com/najasurname/",
     "dontShow": true,
   },
   {
+    "id": 7,
+    "type": "radiogram",
+    "src": rpa3.p,
+    "src2": rpa3.pm,
+    "src3": rpa3.pd,
+    "rpCount": "RG2 ",
+    "broadcastDay": "18",
+    "broadcastMonth": "08",
+    "broadcastYear": "25",
+    "broadcastTime": "17:00",
+    "broadcastDate": "18/8/25",
+    "url": "andy",
+    "title2": "Andy Xianyi Zhang",
+    "title": "Walking Across Object Remains",
+    "title3": "Director",
+    "description": Radiogram5,
+    "tag": "Film Commentary",
+    "summary": "<span><a href='https://www.instagram.com/https://www.instagram.com/andydydydydydy/?hl=en/'>ANDY XIANYI ZHANG</a> revisits childhood Shanghai through Bunny Leap’s first music video, capturing memory and freedom by <b>walking through landscapes shaped bycontinuity.</b></span>",
+    "releaseDate": "18/8/25",
+    "length": "05:30",
+    "postLink": "https://www.instagram.com/p/DNfoIyhsIfG/?img_index=1",
+    "igLink": "https://www.instagram.com/pattibobi/",
+    "dontShow": true,
+  },
+  
+  
+  {
     id: 8,
-
     "type": "radiogram",
     "src": rpa4.p,
     "src2": rpa4.pm,
@@ -453,11 +433,9 @@ export const djs = [
     "postLink": "https://www.instagram.com/",
     "igLink": "https://www.instagram.com/ubifuruuu/",
     "dontShow": true,
-
   },
   {
     id: 9,
-
     "type": "radiogram",
     "src": rpa4.p,
     "src2": rpa4.pm,
@@ -484,7 +462,6 @@ export const djs = [
   },
   {
     id: 10,
-
     "type": "radiogram",
     "src": rpa4.p,
     "src2": rpa4.pm,
@@ -507,7 +484,6 @@ export const djs = [
     "postLink": "https://www.instagram.com/",
     "igLink": "https://www.instagram.com/ivorypijin/",
     "dontShow": true,
-
   },
 
 ];
