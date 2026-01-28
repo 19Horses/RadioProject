@@ -30,7 +30,7 @@
 
 @font-face {
   font-family: "NeueHaasDisplay-RomanItalic";
-  src: local("NeueHaasDisplay-RomanItalic"), url("./components/radiograms/fonts/NeueHaasDisplay-RomanItalic.otf") format("opentype");
+  src: local("NeueHaasDisplay-RomanItalic"), url("./assets/NeueHaasDisplay-RomanItalic.otf") format("opentype");
   font-style: normal;
 }
 

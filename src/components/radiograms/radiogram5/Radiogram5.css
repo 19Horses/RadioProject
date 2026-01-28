@@ -70,9 +70,16 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.radiogram-4 strong {
+.radiogram-4 strong,
+.radiogram-4 b {
   font-family: "NeueHaasDisplayMedium";
-  
+  background-color: #dadada;
+  font-weight: normal;
+}
+
+.radiogram-4 i {
+  font-family: "NeueHaasDisplay-RomanItalic";
+  font-style: normal;
 }
 
 /* Two column paragraph */
