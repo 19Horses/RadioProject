@@ -355,7 +355,7 @@ export const djs = [
       { title: "C-Slug", artist: "Muskila, HEDO HYDR8" },
       { title: "BANKHEAD (1-800-RAZ Remix)", artist: "KELELA" }
     ],
-    "dontShow": false,
+    "dontShow": true,
   },
   {
     "id": 6,
