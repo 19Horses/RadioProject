@@ -1180,7 +1180,7 @@ const Bookmark = ({
                     Proposals
                   </Link>
                   <a
-                    href="https://soundcloud.com/radio_project"
+                    href="https://soundcloud.com/radioproject_live"
                     target="_blank"
                     className="icon-blink menu-item-glitch menu-link"
                     onClick={toggleMenu}
@@ -1200,7 +1200,7 @@ const Bookmark = ({
                     SoundCloud
                   </a>
                   <a
-                    href="https://www.ninaprotocol.com/profiles/radio-project"
+                    href="https://www.ninaprotocol.com/profiles/radioproject-live"
                     target="_blank"
                     className="icon-blink menu-item-glitch menu-link"
                     onClick={toggleMenu}
@@ -1540,7 +1540,7 @@ const Bookmark = ({
                         Proposals
                       </Link>
                       <a
-                        href="https://soundcloud.com/radio_project"
+                        href="https://soundcloud.com/radioproject_live"
                         target="_blank"
                         className="icon-blink menu-item-glitch menu-link"
                         onClick={toggleMenu}
@@ -1555,7 +1555,7 @@ const Bookmark = ({
                         SoundCloud
                       </a>
                       <a
-                        href="https://www.ninaprotocol.com/profiles/radio-project"
+                        href="https://www.ninaprotocol.com/profiles/radioproject-live"
                         target="_blank"
                         className="icon-blink menu-item-glitch menu-link"
                         onClick={toggleMenu}
