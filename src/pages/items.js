@@ -297,7 +297,7 @@ export const djs = [
     title: 'Kitbash',
     title2: "St. Michel",
     url: "stmichel",
-    title3: "Musician",
+    title3: "3d Designer",
     description:
       "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with </span> <a href='https://www.instagram.com/michael.adlj/'>St. Michel</a><span> about their journey as a 3D artist and how certain artists from the <b>early SoundCloud rap era influenced them.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp3+total.wav",
