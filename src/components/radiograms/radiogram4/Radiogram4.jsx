@@ -203,7 +203,7 @@ export const Radiogram4 = () => {
         as the queues had melded into a mass. It would ease up and we’d be
         closer to the sunset here. It was marked by high drumsong collapsing
         into human shouts. There are few sheep on the fields beneath, babies and
-        mothers, clips on their ears. I take pictures of Gabby and Luke in the
+        mothers, clips on their ears. I take pictures of Gaby and Luke in the
         pink dusk turning lilac and indigo.{" "}
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
