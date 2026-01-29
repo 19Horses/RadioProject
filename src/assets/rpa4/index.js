@@ -1,9 +1,7 @@
- import pm from './pm.png'
- import p from './p.jpg'
- import pd from './pd.jpg'
+ import p from './p.png'
+ import pd from './pd.png'
 
  export const rpa4 = {
    p,
-   pm,
    pd,
  }

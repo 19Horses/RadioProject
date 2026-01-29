@@ -59,11 +59,10 @@ export const Radiogram7 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        I’m not a cheapskate, maybe. On Sundays, my dad used to buy Hollywood
-        DVDs from street vendors.
-        <br />
-        Hell, we’d come home with a bundle of 28 Jim Carrey movies on a single
-        disc, from Ace Ventura to I Love You Phillip Morris.
+        I’m not a cheapskate… maybe. On Sundays, my dad used to buy Hollywood
+        DVDs from street vendors. Hell, we’d come home with a bundle of 28 Jim
+        Carrey movies on a single disc, from Ace Ventura to I Love You Phillip
+        Morris.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -71,7 +70,7 @@ export const Radiogram7 = () => {
         crammed onto one disc, stacked on wooden planks, rubberbanded together,
         then held out through car windows like hot cakes at a football game. It
         felt normal. Watching 30 movies starring Eddie Murphy, Anne Hathaway, or
-        Vince Vaughn didn’t seem like theft.
+        Vince Vaughn in one sitting didn’t seem like theft.
       </p>
 
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -88,17 +87,17 @@ export const Radiogram7 = () => {
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Maybe that’s where it started: piracy passed down like furniture. Really
-        shitty, 144p stuff, sometimes filmed in cinemas in India, then
-        transported across the globe to West Africa, bought at shipping ports,
-        lined with paper slips and plastic sheets, then placed on carts, and
-        paraded down the street, all funny guys with the new Mission Impossible
-        or Osuofia in London, roll a window, take home, where I’d sit down, slot
-        them in the player and hope they didn’t skip, glitch, or turn out to be
-        a totally different movie.
+        shitty, 144p stuff. Occasionally filmed in cinemas in India, transported
+        across the globe to West Africa, bought at shipping ports, lined with
+        paper slips and plastic sheets, placed on carts, and paraded down the
+        street. All funny guys with the new Mission Impossible or Osuofia in
+        London, roll a window, take home, where I’d sit down, slot them in the
+        player and hope they didn’t skip, glitch, or turn out to be a totally
+        different movie.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        When streaming replaced DVDs, and torrents replaced the comp discs,
+        When streaming replaced DVDs, and torrents replaced the compact discs,
         things started to get strange.
       </p>
       <br />
@@ -109,13 +108,13 @@ export const Radiogram7 = () => {
         putlocker, downloading films by Jean Vigo, listening to my cracked copy
         of Bound 2; reading Batman comics. The only real hiccup was my Wi-Fi.
         I’d leave the download running overnight, wake up to the entire Odd
-        Future discog waiting in the morning.
+        Future discography waiting in the morning.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         14. They gave us school laptops, and we built a whole network for
         ourselves.
-        <br /> GTA San Andreas cheat codes on 1GB RAM Lenovos. It felt like the
+        <br /> GTA San Andreas cheat codes on 1GB RAM Lenovo's. It felt like the
         world was finally turning in our direction.
         <br /> All music on SoundCloud was already free. If it wasn’t, maybe it
         was on DatPiff. If it wasn’t there, we found a way.
@@ -125,7 +124,7 @@ export const Radiogram7 = () => {
         browsers, download queues and rap forums.
         <br /> Even Kanye couldn’t help himself. In 2016, he tweeted a
         screenshot of his laptop with a Pirate Bay tab open, clearly searching
-        for production software, Serum. It was surreal. Just weeks earlier, he
+        for production software. Serum. It was surreal. Just weeks earlier, he
         was raging about people pirating The Life of Pablo, which had leaked
         minutes after its exclusive Tidal release and was downloaded half a
         million times in a day, making it one of the most pirated albums of all
@@ -169,12 +168,12 @@ export const Radiogram7 = () => {
       <p style={{ width: isMobile ? "80%" : undefined }}>
         It can be argued that piracy has made us dumber.
         <br /> It’s overwhelming to wade through endless streams of ‘content’,
-        so overwhelming, anything that might purify our consumption cannot
+        so overwhelming that anything that might purify our consumption cannot
         satisfy us. <br />
         Online piracy opened the doors for the streaming era. Video shops
-        shuttered, and instead of discovering films to watch, recommendations
-        from clerks, an experience in itself, we replaced it with a flat
-        algorithm.
+        shuttered, and instead of discovering films to watch through
+        recommendations from clerks, an experience in itself, we replaced it
+        with a flat algorithm.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
