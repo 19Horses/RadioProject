@@ -90,7 +90,7 @@ const LocationCursor = ({ location, mousePos, isFadingOut }) => {
         </div>
       </div>
     </div>,
-    document.body,
+    document.body
   );
 };
 
@@ -189,6 +189,7 @@ export const Radiogram4 = () => {
       >
         I
       </p>
+      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         We waited on a{" "}
         <span
@@ -206,6 +207,7 @@ export const Radiogram4 = () => {
         mothers, clips on their ears. I take pictures of Gaby and Luke in the
         pink dusk turning lilac and indigo.{" "}
       </p>
+      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Dianne and George in heavy gear parked their e-bikes at the barrow’s
         base. They wear white and red bandanas and do their best to tolerate us,
@@ -215,6 +217,7 @@ export const Radiogram4 = () => {
         archaeologists, ‘just old’ Diane offers ‘and nothing better to do than
         look at stones’.{" "}
       </p>
+      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         They are spending the night on the barrow, watching the solstice from
         outside Stonehenge, ‘not until we get our stones back’. In 1977
@@ -223,6 +226,7 @@ export const Radiogram4 = () => {
         used to be able to drive right up to the stones, touch them, carve
         pictures in their moss.
       </p>
+      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         The sun setting and rising, the importance of appointments, moments held
         and missed, the difference being the sun, the movement of the earth.
@@ -242,6 +246,7 @@ export const Radiogram4 = () => {
         improperness of this opening scene strikes something hollow in me,
         ‘funny’ I remark. I will repeat this aloud and to myself.
       </p>
+      <br />
       <p
         className="italic-poem"
         style={{ width: isMobile ? "80%" : undefined }}
