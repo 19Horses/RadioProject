@@ -6,6 +6,7 @@ import { rpa1 } from '../assets/rpa1';
 import { rpa2 } from '../assets/rpa2';
 import { rpa3 } from '../assets/rpa3';
 import { rpa4 } from '../assets/rpa4';
+import { rpa6 } from '../assets/rpa6';
 import { Radiogram1 } from '../components/radiograms/radiogram1/Radiogram1';
 import { Radiogram2 } from '../components/radiograms/radiogram2/Radiogram2';
 import { Radiogram3 } from '../components/radiograms/radiogram3/Radiogram3';
@@ -435,9 +436,9 @@ export const djs = [
   {
     id: 9,
     "type": "radiogram",
-    "src": rpa4.p,
-    "src2": rpa4.pm,
-    "src3": rpa4.pd,
+    "src": rpa6.p,
+    "src2": rpa6.pm,
+    "src3": rpa6.pd,
     "rpCount": "RG2 ",
     "broadcastDay": "18",
     "broadcastMonth": "08",
