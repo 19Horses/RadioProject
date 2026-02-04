@@ -451,7 +451,7 @@ export const djs = [
     "title3": "occupation",
     "description": Radiogram6,
     "tag": "storytelling",
-    "summary": "v1.1",
+    "summary": "<span><a href='https://www.instagram.com/thenarrator_______/'>The Narrator</a> shares fragmented <b>“inanimates”</b> presented as a visual collage of monologue, memory and desire. Read and respond to hear excerpts from her project, <b>“Love is a Contact Sport”.</b></span>",
     "releaseDate": "18/8/25",
     "length": "05:30",
     "postLink": "https://www.instagram.com/",
