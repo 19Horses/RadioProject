@@ -354,7 +354,7 @@ export const djs = [
       { title: "Race Against The Time (MRD Remix)", artist: "u.r.trax" },
       { title: "Truth Without Pain", artist: "Primal" }
     ],
-    "dontShow": true,
+    "dontShow": false,
   },
   {
     "id": 6,
