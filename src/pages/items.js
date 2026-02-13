@@ -24,7 +24,8 @@ export const djs = [
     src3: rp1.pd,
     title: 'game arts',
     title2: "edenplus",
-    title3: "exxtralife founder",
+    title3: "Musician",
+    title4: "Mix + Interview",
     description:
       "<a href='https://www.instagram.com/ubiifuruuu/' target='_blank'>EDENPLUS</a> sits and talks with us about his <b>inspirations, video game soundtracks</b> and gives insight into his event organisation, <b>EXXTRALIFE.</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP1-ubi.wav",
@@ -34,7 +35,7 @@ export const djs = [
     npLink: "https://www.ninaprotocol.com/releases/rp1-ubi-games-that-touch-the-arts",
     broadcastDate: "5/4/25 15:00",
     releaseDate: "5/4/25",
-    length: "(1 Hour 26 Minutes)",
+    length: "01:26:06",
     genre: "DIGITAL PUNK",
     url: "edenplus",
     chapters: [
@@ -117,7 +118,7 @@ export const djs = [
     title2: "DVD",
     url: "dvd",
     title3: "Technologist",
-    title4: "DJ",
+    title4: "Mix + Interview",
     description:
       "<a href='https://www.instagram.com/david.chen02/' target='_blank'>DVD</a> touches on <b>listening experiences, his introductions into tech, music and DJing,</b> and his many <b>creative design projects</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp2-dvd.wav",
@@ -127,7 +128,7 @@ export const djs = [
     npLink: "https://www.ninaprotocol.com/releases/rp2-dvd-build",
     broadcastDate: "28/4/25 15:00",
     releaseDate: "28/4/25",
-    length: "1 Hour 26 Minutes",
+    length: "01:26:06",
     genre: "NEO JAZZ-FUNK REVIVAL",
     chapters: [
       { startTime: 0, title: "RADIO (a)" },
@@ -187,12 +188,13 @@ export const djs = [
     "url": "anouk",
     "title2": "Anouk Losleben",
     "title": "The Promise of Freedom in the Western Sphere",
-    "title3": "losleben founder",
+    "title3": "Textile Designer",
+    "title4": "Written by ",
     "description": Radiogram1,
     "tag": "Political Philosophy",
     "summary": "<span class='red'><a href='https://www.instagram.com/anouk_maj/' target='_blank'>ANOUK LOSLEBEN</a> writes that in today’s capitalist society, we’re made to believe we are free because we can choose things. But in reality, <b>we’re trapped in a system that uses consumption to control us and limit our true freedom.</b></span>",
     "releaseDate": "18/6/25",
-    "length": "07:00",
+    "length": "7 Minute Read",
     "igLink": "https://www.instagram.com/anouk_maj/",
     "postLink": "https://www.instagram.com/p/DLC1x7eN8Lr/?img_index=1",
   },
@@ -205,6 +207,7 @@ export const djs = [
     title2: "BEBELUNA",
     url: "bebeluna",
     title3: "Musician",
+    title4: "Mix + Interview",
     description:
       "<a href='https://www.instagram.com/itsbebeluna/ ' target='_blank'>BEBELUNA</a>, also known as <b><i>XYRAK47</i></b>, speaks about <b>her experience as a refugee in London and her love for composition in film and media.</b>",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/RP3-BEBE.wav",
@@ -214,7 +217,7 @@ export const djs = [
     npLink: "https://www.ninaprotocol.com/releases/rp3-bebeluna-ghost-in-the-shell",
     broadcastDate: "25/7/25 15:00",
     releaseDate: "25/7/25",
-    length: "1 Hour 26 Minutes",
+    length: "01:26:45",
     genre: "DIASPORIC BASS",
     chapters: [
       { startTime: 0, title: "RADIO (a)" },
@@ -279,17 +282,15 @@ export const djs = [
     "title2": "MANNY!",
     "title": "A Conversation with Manny",
     "title3": "Musician",
+    title4: "Responses from ",
     "description": Radiogram2,
     "tag": "Religious Commentary",
     "summary": "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with <b>London-based pop artist</b></span> <a href='https://www.instagram.com/pattibobi/'>MANNY!</a><span> They spoke about the personal themes presented in his upcoming work and the space he has carved in music, defined by <b>honesty, experimentation, and an openness about faith, sexuality, and identity.</b></span>",
     "releaseDate": "18/8/25",
-    "length": "05:30",
+    "length": "5 Minute Read",
     "postLink": "https://www.instagram.com/p/DNfoIyhsIfG/?img_index=1",
     "igLink": "https://www.instagram.com/pattibobi/"
   },
-
-  // UNPUBLISHED
-
   {
     id: 5,
     type: "mix",
@@ -298,13 +299,14 @@ export const djs = [
     title: 'Kitbash',
     title2: "St. Michel",
     url: "stmichel",
-    title3: "3d Designer",
+    title3: "3D Designer",
+    title4: "Mix + Interview",
     description:
       "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with </span> <a href='https://www.instagram.com/michael.adlj/'>St. Michel</a><span> about their journey as a 3D artist and how certain artists from the <b>early SoundCloud rap era influenced them.",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp3+total.wav",
     scLink: "http://soundcloud.com/radioproject_live/st-michel",
     releaseDate: "5/2/26",
-    length: "1 Hour 23 Minutes",
+    length: "01:22:50",
     genre: "AMBIENT TECHNO",
     chapters: [
       { startTime: 0, title: "RADIO (a)" },
@@ -356,6 +358,10 @@ export const djs = [
     ],
     "dontShow": false,
   },
+
+  // UNPUBLISHED
+
+  
   {
     "id": 6,
     "type": "radiogram",
