@@ -707,7 +707,9 @@ const Comments = ({
           commentsListVisible ? (
             <div
               style={{
-                opacity: 1,
+                animation: "blurIn 0.5s ease-in-out 0.5s forwards",
+
+                opacity: 0,
               }}
             >
               <CommentInputForm

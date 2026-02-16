@@ -9,6 +9,15 @@
   }
 }
 
+@keyframes blurIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
 /* Toggle Comments Button */
 .toggle-comments-button {
   background: none;
