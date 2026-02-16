@@ -33,6 +33,7 @@ export const CustomCursor = ({
   hovered,
   isMobile,
   hoveredPlay,
+  dimmed,
 }) => {
   const cursor = useRef(null);
   const [hasMousePosition, setHasMousePosition] = useState(false);
@@ -113,6 +114,8 @@ export const CustomCursor = ({
       style={{
         textAlign: isLeft ? "right" : "left",
         visibility: hasMousePosition ? "visible" : "hidden",
+        opacity: dimmed ? 0.5 : 1,
+        transition: "opacity 0.2s ease",
       }}
     >
       {/* Line 1 */}

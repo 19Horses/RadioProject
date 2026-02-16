@@ -290,6 +290,7 @@ export const LandingVertical = ({ isMobile }) => {
           hoveredGuest={hoveredGuest}
           isLeft={false}
           hovered={true}
+          dimmed={hoveredGuest !== filteredItems[focusedIndex]}
         />
       )}
 
