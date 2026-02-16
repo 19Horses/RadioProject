@@ -100,9 +100,9 @@
 .guest-mobile-play-button {
   font-family: "NeueBit-Regular";
   background-color: #434a47;
-  font-size: 20px;
+  font-size: 18px;
   color: #ececec;
-  padding: 6px 7.55px;
+  padding: 5px 5px 2px 5px;
   position: fixed;
   left: 50%;
   transform: translateX(-50%);
