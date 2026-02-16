@@ -120,6 +120,32 @@ body.mobile-menu-open .bookmark-mobile {
   pointer-events: auto !important;
 }
 
+/* Ensure Comments component is fully interactive when menu is open */
+body.mobile-menu-open .comments-container,
+body.mobile-menu-open .comments-container *,
+body.mobile-menu-open .comments-input-wrapper,
+body.mobile-menu-open .comments-input-wrapper * {
+  pointer-events: auto !important;
+  opacity: 1 !important;
+}
+
+/* Safari fix: prevent backdrop-filter blur from affecting Comments */
+.comments-container {
+  isolation: isolate;
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
+.comments-input-wrapper,
+.comments-input-wrapper input {
+  -webkit-transform: translateZ(0);
+  transform: translateZ(0);
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+}
+
 /* Specifically prevent clicks on RPGrid images when menu is open */
 body.mobile-menu-open .rpgrid-container img {
   pointer-events: none !important;

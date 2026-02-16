@@ -98,9 +98,10 @@
 }
 
 .guest-mobile-play-button {
-  background-color: rgb(217, 217, 217);
+  font-family: "NeueBit-Regular";
+  background-color: #434a47;
   font-size: 20px;
-  color: #434a47;
+  color: #ececec;
   padding: 6px 7.55px;
   position: fixed;
   left: 50%;

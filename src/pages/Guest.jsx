@@ -14,7 +14,9 @@ export const Guest = ({
 }) => {
   const { guestName } = useParams();
   const navigate = useNavigate();
-  const selectedGuest = djs.find((dj) => dj.url === guestName && dj.type === "mix");
+  const selectedGuest = djs.find(
+    (dj) => dj.url === guestName && dj.type === "mix",
+  );
   const { currentTimeSeconds, progress, audioRef } = useAudio() || {};
 
   // Redirect to home if item doesn't exist or is not a mix
@@ -105,7 +107,8 @@ export const Guest = ({
     if (selectedGuest?.tracklist) {
       console.log(
         `\n%c📻 ${selectedGuest.rpCount} ${selectedGuest.title2?.toUpperCase()} - ${selectedGuest.title?.toUpperCase()}\n`,
-        "font-weight: bold; font-size: 14px; color: " + (selectedGuest.themeColor || "#ff005a")
+        "font-weight: bold; font-size: 14px; color: " +
+          (selectedGuest.themeColor || "#ff005a"),
       );
 
       let output = "";
@@ -117,12 +120,19 @@ export const Guest = ({
 
         if (isSectionBreak) {
           const sectionLabel =
-            track.title === "RADIO (a)" ? "\n\n⟨a⟩\n" :
-            track.title === "PROJECT" ? "\n\n⟨+⟩\n" :
-            track.title === "RADIO (b)" ? "\n\n⟨b⟩\n" : track.title;
+            track.title === "RADIO (a)"
+              ? "\n\n⟨a⟩\n"
+              : track.title === "PROJECT"
+                ? "\n\n⟨+⟩\n"
+                : track.title === "RADIO (b)"
+                  ? "\n\n⟨b⟩\n"
+                  : track.title;
           output += sectionLabel;
         } else {
-          const superNum = String(index).split("").map(d => "⁰¹²³⁴⁵⁶⁷⁸⁹"[d]).join("");
+          const superNum = String(index)
+            .split("")
+            .map((d) => "⁰¹²³⁴⁵⁶⁷⁸⁹"[d])
+            .join("");
           const title = track.title || "";
           const artist = track.artist || "";
           output += `${superNum}${title} ${artist} `;
@@ -137,50 +147,53 @@ export const Guest = ({
   return (
     <>
       {/* Mobile play button - rendered via portal to bypass PageTransition transforms */}
-      {isMobile && selectedGuest && !isPlayingThisGuest && createPortal(
-        <span
-          className="guest-mobile-play-button"
-          onClick={() => setPlayingGuest(selectedGuest)}
-        >
-          ►
-        </span>,
-        document.body
-      )}
-      
-    <div
-      className={`guest-container ${
-        isMobile ? "guest-container-mobile" : "guest-container-desktop"
-      }`}
-    >
-      {/* Spacer for bookmark on desktop */}
-      {!isMobile && <div className="guest-bookmark-spacer" />}
+      {isMobile &&
+        selectedGuest &&
+        !isPlayingThisGuest &&
+        createPortal(
+          <span
+            className="guest-mobile-play-button"
+            onClick={() => setPlayingGuest(selectedGuest)}
+          >
+            PLAY
+          </span>,
+          document.body,
+        )}
 
-      {/* Tracklist content container */}
       <div
-        className={`guest-tracklist-container ${
-          isMobile
-            ? "guest-tracklist-container-mobile"
-            : "guest-tracklist-container-desktop"
-        } ${
-          !isMobile && playingGuest
-            ? "guest-tracklist-container-playing"
-            : "guest-tracklist-container-not-playing"
-        } ${
-          isMobile
-            ? hasPlayingGuest
-              ? "guest-tracklist-container-mobile-padding"
-              : "guest-tracklist-container-mobile-no-padding"
-            : ""
+        className={`guest-container ${
+          isMobile ? "guest-container-mobile" : "guest-container-desktop"
         }`}
       >
-        <Tracklist
-          selectedGuest={selectedGuest}
-          isMobile={isMobile}
-          isPlaying={isPlayingThisGuest}
-          currentSection={currentSection}
-        />
+        {/* Spacer for bookmark on desktop */}
+        {!isMobile && <div className="guest-bookmark-spacer" />}
+
+        {/* Tracklist content container */}
+        <div
+          className={`guest-tracklist-container ${
+            isMobile
+              ? "guest-tracklist-container-mobile"
+              : "guest-tracklist-container-desktop"
+          } ${
+            !isMobile && playingGuest
+              ? "guest-tracklist-container-playing"
+              : "guest-tracklist-container-not-playing"
+          } ${
+            isMobile
+              ? hasPlayingGuest
+                ? "guest-tracklist-container-mobile-padding"
+                : "guest-tracklist-container-mobile-no-padding"
+              : ""
+          }`}
+        >
+          <Tracklist
+            selectedGuest={selectedGuest}
+            isMobile={isMobile}
+            isPlaying={isPlayingThisGuest}
+            currentSection={currentSection}
+          />
+        </div>
       </div>
-    </div>
     </>
   );
 };

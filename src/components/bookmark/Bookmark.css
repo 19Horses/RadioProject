@@ -215,6 +215,14 @@
     height: auto;
   }
 
+  .article-summary-icon {
+    display: inline;
+    width: 6px;
+    height: 8px;
+    vertical-align: top;
+    margin-right: 2px; 
+  }
+
   .article-summary {
     display: block;
     line-height: 1;
@@ -222,9 +230,10 @@
   }
 
   .article-summary span {
+    
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
-    color: "#434a47";
+    color: "#837D7D";
     pointer-events: none;
   }
   
@@ -233,7 +242,7 @@
   }
 
   .article-summary b {
-    font-family: "NHaasGroteskDSPro-75Bd" !important;
+    font-family: "PPNeueBit-Bold" !important;
     font-weight: normal !important;
     box-decoration-break: clone;
     -webkit-box-decoration-break: clone;
@@ -241,11 +250,12 @@
     display: inline;
     line-height: .5;
     position: relative;
-    color: "#434a47";
+    color: "#837D7D";
+    font-size: 20px;
   }
 
   .article-summary a {
-    font-family: "NHaasGroteskDSPro-75Bd" !important;
+    font-family: "PPNeueBit-Bold" !important;
     font-weight: normal !important;
     text-decoration: none;
     color: inherit;
@@ -260,10 +270,7 @@
     transition: background-color 0.3s ease, box-shadow 0.3s ease;
   }
 
-  .article-summary a:hover {
-    cursor: pointer;
-    animation: pulse-bg .4s ease-in-out infinite;
-  }
+  
 
   /* Glitch blink animation for indicator */
   @keyframes glitchBlink {
@@ -359,8 +366,8 @@
 
   /* Article Summary */
   .article-summary-styled {
-    font-family: "NeueHaasDisplayRoman";
-    font-size: 14px;
+    font-family: "NeueBit-Regular";
+    font-size: 20px;
     position: relative;
     z-index: 1001;
     letter-spacing: -0.5px;
@@ -369,11 +376,11 @@
   }
 
   .article-summary-mobile {
-    line-height: 1.2;
+    line-height: 0.74;
   }
 
   .article-summary-desktop {
-    line-height: 1.1;
+    line-height: 0.74;
   }
 
   /* Content Container */

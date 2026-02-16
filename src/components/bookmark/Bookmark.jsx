@@ -523,8 +523,8 @@ const Bookmark = ({
 
       // After fade out completes, update the image source and fade in
       imageTimeoutRef.current = setTimeout(() => {
-        if (currentArticle?.src3) {
-          setCurrentImageSrc(currentArticle.src3);
+        if (currentArticle?.src) {
+          setCurrentImageSrc(currentArticle.src);
           // Small delay before fading in new image
           imageFadeInTimeoutRef.current = setTimeout(() => {
             setImageVisible(true);
@@ -533,9 +533,9 @@ const Bookmark = ({
           setCurrentImageSrc(null);
         }
       }, 600); // Wait for fade out to complete
-    } else if (currentArticle?.src3) {
+    } else if (currentArticle?.src) {
       // No previous image, just fade in the new one
-      setCurrentImageSrc(currentArticle.src3);
+      setCurrentImageSrc(currentArticle.src);
       imageTimeoutRef.current = setTimeout(() => {
         setImageVisible(true);
       }, 400);
@@ -695,8 +695,15 @@ const Bookmark = ({
         className={`article-summary article-summary-styled ${
           isMobile ? "article-summary-mobile" : "article-summary-desktop"
         }`}
-        dangerouslySetInnerHTML={{ __html: displayedSummary }}
-      />
+      >
+        <img
+          src="/super.svg"
+          alt=""
+          className="article-summary-icon"
+          aria-hidden="true"
+        />
+        <span dangerouslySetInnerHTML={{ __html: displayedSummary }} />
+      </div>
     );
   }, [displayedSummary, isMobile]);
 

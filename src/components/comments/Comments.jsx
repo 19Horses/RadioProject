@@ -120,7 +120,7 @@ const Comments = ({
       // Small delay to ensure DOM is ready after fade-in animation
       const scrollTimer = setTimeout(() => {
         const scrollContainer = document.querySelector(
-          ".comments-scroll-mobile"
+          ".comments-scroll-mobile",
         );
         if (scrollContainer) {
           scrollContainer.scrollTop = scrollContainer.scrollHeight;
@@ -174,7 +174,7 @@ const Comments = ({
           }
           return NodeFilter.FILTER_ACCEPT;
         },
-      }
+      },
     );
 
     let node;
@@ -263,7 +263,7 @@ const Comments = ({
           setTimeout(
             () =>
               highlight.scrollIntoView({ behavior: "smooth", block: "center" }),
-            100
+            100,
           );
           setupMobileAutoClear();
           return;
@@ -304,14 +304,14 @@ const Comments = ({
           range.setStart(textNode, actualStart);
           range.setEnd(
             textNode,
-            Math.min(actualStart + searchText.length + 10, originalText.length)
+            Math.min(actualStart + searchText.length + 10, originalText.length),
           );
           const highlight = createHighlight();
           range.surroundContents(highlight);
           setTimeout(
             () =>
               highlight.scrollIntoView({ behavior: "smooth", block: "center" }),
-            100
+            100,
           );
           setupMobileAutoClear();
           return;
@@ -324,7 +324,7 @@ const Comments = ({
     // Try 3: Partial match (first 20 chars) for when text spans elements
     const partialSearch = searchText.substring(
       0,
-      Math.min(20, searchText.length)
+      Math.min(20, searchText.length),
     );
     for (const textNode of textNodes) {
       const index = textNode.textContent.indexOf(partialSearch);
@@ -334,14 +334,14 @@ const Comments = ({
           range.setStart(textNode, index);
           range.setEnd(
             textNode,
-            Math.min(index + searchText.length, textNode.textContent.length)
+            Math.min(index + searchText.length, textNode.textContent.length),
           );
           const highlight = createHighlight();
           range.surroundContents(highlight);
           setTimeout(
             () =>
               highlight.scrollIntoView({ behavior: "smooth", block: "center" }),
-            100
+            100,
           );
           setupMobileAutoClear();
           return;
@@ -364,7 +364,7 @@ const Comments = ({
     if (highlightTouchListenerRef.current) {
       document.removeEventListener(
         "touchstart",
-        highlightTouchListenerRef.current
+        highlightTouchListenerRef.current,
       );
       highlightTouchListenerRef.current = null;
     }
@@ -431,7 +431,7 @@ const Comments = ({
     const q = query(
       collection(db, "comments"),
       where("itemId", "==", itemId),
-      orderBy("createdAt", "asc")
+      orderBy("createdAt", "asc"),
     );
 
     const unsubscribe = onSnapshot(q, (snapshot) => {
@@ -503,7 +503,10 @@ const Comments = ({
       return;
     }
 
-    if (containsLink(newComment) && chatUser?.trim().toUpperCase() !== "RADIOPROJECT2047") {
+    if (
+      containsLink(newComment) &&
+      chatUser?.trim().toUpperCase() !== "RADIOPROJECT2047"
+    ) {
       alert("NO LINKS ALLOWED");
       return;
     }
@@ -578,7 +581,10 @@ const Comments = ({
       alert("KEEP IT CLEAN");
       return;
     }
-    if (containsLink(trimmed) && trimmed.trim().toUpperCase() !== "RADIOPROJECT2047") {
+    if (
+      containsLink(trimmed) &&
+      trimmed.trim().toUpperCase() !== "RADIOPROJECT2047"
+    ) {
       alert("NO LINKS ALLOWED");
       return;
     }
@@ -638,10 +644,10 @@ const Comments = ({
             isMobile && menuOpen
               ? "auto"
               : isMobile
-              ? "340px"
-              : isExpanded
-              ? ""
-              : "",
+                ? "340px"
+                : isExpanded
+                  ? ""
+                  : "",
           maxHeight: isMobile && menuOpen ? "none" : isMobile ? "340px" : "",
           display: "relative",
           paddingTop: isMobile ? "" : "10px",
@@ -650,8 +656,8 @@ const Comments = ({
           filter: isMobile
             ? "blur(0px)"
             : isExpanded
-            ? "blur(0px)"
-            : "blur(8px)",
+              ? "blur(0px)"
+              : "blur(8px)",
           transition:
             isMobile && menuOpen
               ? "none"
@@ -671,7 +677,6 @@ const Comments = ({
           <div
             style={{
               opacity: 0,
-              filter: "blur(10px)",
               animation: "fadeBlurIn 0.5s ease-in-out 0.25s forwards",
               marginBottom: isMobile ? "10px" : "0",
             }}
@@ -702,9 +707,7 @@ const Comments = ({
           commentsListVisible ? (
             <div
               style={{
-                opacity: 0,
-                filter: "blur(10px)",
-                animation: "fadeBlurIn 0.5s ease-in-out 0.2s forwards",
+                opacity: 1,
               }}
             >
               <CommentInputForm
