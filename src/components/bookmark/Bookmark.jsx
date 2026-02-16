@@ -530,7 +530,7 @@ const Bookmark = ({
 
     // If there was a previous image, fade it out first
     if (
-      previousArticleRef.current?.src3 &&
+      previousArticleRef.current?.src &&
       previousArticleRef.current !== currentArticle
     ) {
       // Start fade out
@@ -1316,7 +1316,10 @@ const Bookmark = ({
               "--bookmark-mobile-width":
                 menuOpen || currentArticle || playingGuest ? "300px" : "35px",
               ...(menuOpen && stableHeight
-                ? { height: `${stableHeight * 0.95}px`, maxHeight: `${stableHeight - 2}px` }
+                ? {
+                    height: `${stableHeight * 0.95}px`,
+                    maxHeight: `${stableHeight - 2}px`,
+                  }
                 : {}),
             }}
             onClick={(e) => {
@@ -1380,10 +1383,8 @@ const Bookmark = ({
                   ? playingGuest
                   : currentArticle || playingGuest; // Fallback to playingGuest during navigation
                 const displayImage = showPlayingGuest
-                  ? playingGuest?.src3
-                  : currentImageSrc ||
-                    currentArticle?.src3 ||
-                    playingGuest?.src3; // Fallback chain
+                  ? playingGuest?.src
+                  : currentImageSrc || currentArticle?.src || playingGuest?.src; // Fallback chain
                 const showContent =
                   displayItem || showPlayingGuest || playingGuest; // Keep showing if playing
 
