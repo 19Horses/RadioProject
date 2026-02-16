@@ -666,7 +666,6 @@
     flex-direction: column;
     align-items: start;
     justify-content: flex-start;
-    bottom: 0;
     left: 50%;
     right: 3vw;
     gap: 0px;
@@ -694,7 +693,7 @@
   .bookmark-mobile-open {
     top: 1px;
     height: 95%;
-    max-height: calc(100dvh - 2px);
+    max-height: calc(100vh - 2px);
     padding: 3px;
     padding-bottom: max(3px, env(safe-area-inset-bottom, 0px));
     background-color: rgba(255, 255, 255, 0.4);

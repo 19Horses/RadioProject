@@ -119,6 +119,21 @@ const Bookmark = ({
     setIsClosing(false);
   }, [location]);
 
+  // Lock viewport height on mobile to prevent keyboard from resizing bookmark
+  const [stableHeight, setStableHeight] = useState(null);
+
+  useEffect(() => {
+    if (!isMobile) return;
+
+    const captureHeight = () => {
+      setStableHeight(window.innerHeight);
+    };
+
+    captureHeight();
+    window.addEventListener("orientationchange", captureHeight);
+    return () => window.removeEventListener("orientationchange", captureHeight);
+  }, [isMobile]);
+
   // Add body class when mobile menu is open to dim page content
   useEffect(() => {
     if (isMobile && menuOpen) {
@@ -1300,6 +1315,9 @@ const Bookmark = ({
             style={{
               "--bookmark-mobile-width":
                 menuOpen || currentArticle || playingGuest ? "300px" : "35px",
+              ...(menuOpen && stableHeight
+                ? { height: `${stableHeight * 0.95}px`, maxHeight: `${stableHeight - 2}px` }
+                : {}),
             }}
             onClick={(e) => {
               // Only allow opening the menu when it's closed
