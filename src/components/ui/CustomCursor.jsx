@@ -172,7 +172,7 @@ export const CustomCursor = ({
         >
           {isGuest ? (
             <>
-              {type === "mix" ? `${title4} w/ ` : `${title4} `}
+              {type === "mix" ? `${title4} with ` : `${title4} `}
               <span style={{ fontFamily: "NeueHaasDisplayMedium" }}>
                 {title3}
               </span>
