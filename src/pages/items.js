@@ -359,7 +359,7 @@ export const djs = [
     "dontShow": false,
   },
 
-  // UNPUBLISHED
+
 
   
   {
@@ -385,8 +385,9 @@ export const djs = [
     "length": "05:30",
     "postLink": "https://www.instagram.com/",
     "igLink": "https://www.instagram.com/najasurname/",
-    "dontShow": true,
+    "dontShow": false,
   },
+    // UNPUBLISHED
   {
     "id": 7,
     "type": "radiogram",
