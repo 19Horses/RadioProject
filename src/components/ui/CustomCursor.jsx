@@ -122,14 +122,14 @@ export const CustomCursor = ({
       <CursorTitle
         className={isPlaying ? "cursor-title-playing" : "cursor-title"}
         $hovered={hovered}
-        $bgcolor={isPlaying ? "black" : "#fcfcfc"}
+        $bgcolor={isPlaying ? "black" : "#eeeeee"}
         $delay={0.1}
-        fontSize={isGuest ? "3vh" : "1.9vh"}
+        fontSize={isGuest ? "1.9vh" : "1.9vh"}
         style={{
           fontFamily: isGuest
             ? "NHaasGroteskDSPro-75Bd"
             : "NeueHaasDisplayRoman",
-          lineHeight: isGuest ? "3.6vh" : "1.9vh",
+          lineHeight: isGuest ? "2.3vh" : "1.9vh",
           paddingRight: ".1vw",
           paddingLeft: isGuest ? "0" : ".2vw",
           textTransform: !isGuest ? "lowercase" : "",
@@ -138,8 +138,8 @@ export const CustomCursor = ({
       >
         <span
           style={{
-            backgroundColor: isGuest ? "#434a47" : "#fcfcfc",
-            color: isGuest ? "#fcfcfc" : "#434a47",
+            backgroundColor: isGuest ? "#434a47" : "#eeeeee",
+            color: isGuest ? "#eeeeee" : "#434a47",
             paddingLeft: isGuest ? ".2vw" : "0",
             paddingRight: isGuest ? ".2vw" : "0",
           }}
@@ -155,16 +155,16 @@ export const CustomCursor = ({
         <MainCursorTitle
           className="cursor-title"
           $hovered={hovered}
-          $bgcolor={isGuest ? "#fcfcfc" : "#434a47"}
-          color={isGuest ? "#837D7D" : "#fcfcfc"}
-          fontSize="1.9vh"
+          $bgcolor={isGuest ? "#eeeeee" : "#434a47"}
+          color={isGuest ? "#837D7D" : "#eeeeee"}
+          fontSize={isGuest ? "1.7vh" : "1.9vh"}
           $delay={0.1}
           style={{
             position: "relative",
             textTransform: isGuest ? "" : "lowercase",
             paddingLeft: ".2vw",
             paddingRight: ".3vw",
-            lineHeight: isGuest ? "2.3vh" : "1.9vh",
+            lineHeight: isGuest ? "2.1vh" : "1.9vh",
             paddingBottom: isGuest ? ".2vh" : "0",
             paddingTop: isGuest ? ".2vh" : "0",
           }}
@@ -190,9 +190,9 @@ export const CustomCursor = ({
           <MainCursorTitle
             className="cursor-title"
             $hovered={hovered}
-            $bgcolor="#fcfcfc"
+            $bgcolor="#eeeeee"
             color="#837D7D"
-            fontSize="1.9vh"
+            fontSize="1.7vh"
             $delay={0.1}
             style={{
               position: "relative",
