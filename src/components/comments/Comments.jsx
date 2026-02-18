@@ -187,11 +187,11 @@ const Comments = ({
       const highlight = document.createElement("mark");
       highlight.className = "comment-highlight";
       highlight.style.cssText = `
-          background: linear-gradient(90deg, rgb(255, 0, 90) 50%, transparent 50%);
+          background: linear-gradient(90deg, rgb(64, 64, 64) 50%, transparent 50%);
           background-size: 200% 100%;
           background-position: 100% 0;
           color: rgb(255, 255, 255);
-          animation: highlightSweep 0.5s ease-out forwards, highlightPulse 1.5s ease-in-out 0.5s infinite;
+          animation: highlightSweep 0.5s ease forwards, highlightPulse 1.5s ease 0.5s infinite;
           padding: 5px 0px;
           line-height: 1.6;
           box-decoration-break: clone;
