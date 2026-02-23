@@ -90,7 +90,7 @@ const LocationCursor = ({ location, mousePos, isFadingOut }) => {
         </div>
       </div>
     </div>,
-    document.body
+    document.body,
   );
 };
 
@@ -203,36 +203,35 @@ export const Radiogram4 = () => {
         </span>{" "}
         as the queues had melded into a mass. It would ease up and we’d be
         closer to the sunset here. It was marked by high drumsong collapsing
-        into human shouts. There are few sheep on the fields beneath, babies and
-        mothers, clips on their ears. I take pictures of Gaby and Luke in the
-        pink dusk turning lilac and indigo.{" "}
+        into human shouts. There were few sheep on the fields beneath, babies
+        and mothers, clipped ears. I took pictures of Gabby and Luke in the pink
+        dusk that turned lilac and indigo.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Dianne and George in heavy gear parked their e-bikes at the barrow’s
-        base. They wear white and red bandanas and do their best to tolerate us,
-        the newly high, just out of London. They have been to every such
+        base. They wore white and black bandanas and did their best to tolerate
+        us, the newly high, just out of London. They had been to every such
         landmark in England, pulling up a youtube video about a nearby valley of
         prehistoric stones, ‘worth a visit’. I asked if they were
-        archaeologists, ‘just old’ Diane offers ‘and nothing better to do than
+        archaeologists, ‘just old’ Diane offered ‘and nothing better to do than
         look at stones’.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        They are spending the night on the barrow, watching the solstice from
+        They were spending the night on the barrow, watching the solstice from
         outside Stonehenge, ‘not until we get our stones back’. In 1977
         Stonehenge was roped off, then formally fenced in 1978, with visitors
-        only allowed to walk up to them at pre-arranged dates and times. One
+        only allowed to walk up to them at pre-arranged dates and times. You
         used to be able to drive right up to the stones, touch them, carve
         pictures in their moss.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        The sun setting and rising, the importance of appointments, moments held
-        and missed, the difference being the sun, the movement of the earth.
-        Luke asks about the meaning. ‘That’s the point, no one knows, it’s all
-        conjecture at this point!’ George’s eyes widen behind sunglasses. Dianne
-        laughs when I tell her this is all I’ve worn.
+        Luke asked about the meaning. ‘That’s the point, no one knows, it’s all
+        conjecture at this point!’ George’s eyes widened behind sunglasses.
+        Dianne laughed when I told her I’d only brought the clothes I was
+        wearing.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined, textAlign: "center" }}>
@@ -240,27 +239,20 @@ export const Radiogram4 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        It feels like any other festival, a tent selling t-shirts and tote bags,
-        trucks with crepes and duck fat fries. There is no Momo truck yet, maybe
-        next year. Mapping where the nearest dark kitchen could be. The
-        improperness of this opening scene strikes something hollow in me,
-        ‘funny’ I remark. I will repeat this aloud and to myself.
+        It felt like any other festival, food trucks and merchandise. There was
+        no Momo truck, maybe next year. Mapping where the nearest dark kitchen
+        could be. The improperness of the opening scene struck something hollow
+        in me, ‘funny’, I’d repeat.
       </p>
       <br />
       <p
         className="italic-poem"
         style={{ width: isMobile ? "80%" : undefined }}
       >
-        A lone trumpet plays a standard, a couple with elven ears press their
+        A lone trumpet played a standard, a couple with elven ears pressed their
         heads against a stone
-        <br /> in silence. The stones hold heat from the day’s sun.
-        <br />
-        <br />
-        Twin women with big white curls and neon glasses claim a boulder.
-        <br />
-        Like mermaids with feathers in their hair, a leopard print picnic mat,
-        the crystal sea.
-        <br /> The stones are cast in a deep blue, like a UV.
+        <br /> in silence. The stones hold heat from the day’s sun. They were
+        cast in a deep blue, like a UV.
         <br />
         <br /> Drumming at the{" "}
         <span
@@ -273,14 +265,12 @@ export const Radiogram4 = () => {
           inner circle
         </span>
         ,
-        <br /> teenagers flirting on altar stones,
+        <br /> Lost Marys flirting on altar stones,
         <br /> a young man in an overly styled suit laughing 7ft above the
         ground,
         <br /> his legs swinging against the stars.
-        <br /> <br /> The drumming quickens,
-        <br /> the crowd hums a spontaneous baseline,
-        <br /> the slightest viola solo.
-        <br /> Large rocks around us,
+        <br />
+        <br /> Drums and large rocks around us,
         <br /> something fallen, something of a reminder.
         <br /> We are dancing on the dead.
         <br />
@@ -338,19 +328,22 @@ export const Radiogram4 = () => {
         I think she only came to me because I was dressed all in black,
         apparently black cats do that. I read somewhere that all cats think
         we're big cats who serve them. They think we must be stupid to share our
-        food. I live with a cat now and bless her, she's 13 years old, and she
-        never learned to retract her claws. So even when she's happy, even when
-        she's resting, her claws are out. She is laying on me as I write some of
-        these sentences, her head and tail curled into paws. Sometimes she sits
-        for a long time, bowing with her eyes shut.{" "}
+        food.{" "}
+      </p>
+      <br />
+      <p style={{ width: isMobile ? "80%" : undefined, textAlign: "center" }}>
+        - - -
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        There are three Buddhas in the backyard. I watch her from the kitchen
-        window, she sits there for hours in the afternoon sun, bowing to the
-        head of the Buddha. When she does this, I think she is preparing to die.
-        I remain open to the inevitability, keeping watch of her moods and
-        whereabouts.
+        I live with a cat now. She is 13 years old and never learned to retract
+        her claws. She is forgetful, reliving herself at the wrong end of the
+        house, waiting at open doors. Thrice out of nowhere, she has scratched
+        my feet and hissed. There are three Buddhas in the backyard. I watch her
+        from the kitchen window, she sits there for hours in the afternoon sun,
+        bowing to the head of the Buddha. When she does this, I think she is
+        preparing to die. I remain open to the inevitability, keeping watch of
+        her moods and whereabouts.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -396,11 +389,10 @@ export const Radiogram4 = () => {
         III
       </p>
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        In a potent mix of betrayal and hollowness, I decided I’d leave the
-        group. I turned this over in my heart as we exited Douniya’s room, where
-        the sun never shone directly through the cramped windows and the carpet
-        reminded me of a children’s play area, with spaceships and stars, down
-        the dim lift into the foyer of the{" "}
+        I decided I’d leave the group. I turned this over in my heart as we
+        exited Douniya’s room, where the sun never shone directly through the
+        cramped windows and the carpet reminded me of a children’s play area,
+        with spaceships and stars, down the dim lift into the foyer of the{" "}
         <span
           className="location-link"
           onMouseEnter={(e) => handleLocationEnter("wohnheim", e)}
@@ -419,10 +411,9 @@ export const Radiogram4 = () => {
         other way. I headed to the U-Bahn and walked past it. Through
         residential estates and ugly buildings, sun streaming through the
         leaves, past the canal bar onto the bridge where I started to cry
-        uncontrollably and wore my sunglasses resourcefully. It was 8 in the
-        morning, the first of May. I’d kept stopping along the pavement, me and
-        others, pair and trios, trying to discern where the sounds were coming
-        from.{" "}
+        uncontrollably and wore my sunglasses. It was 8 in the morning, the
+        first of May. I’d kept stopping along the pavement, me and others, pair
+        and trios, trying to discern where the sounds were coming from.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -479,10 +470,9 @@ export const Radiogram4 = () => {
         </span>
         , the South of Spain, live out the end of the world together. His name
         was Martin and he had been to London in 1972 with a past girlfriend
-        where they had made fun of his Polish name. He gave me his address to
-        write to him. He explained all the digits, meaning he lived down an
-        alley then a staircase, leading to an outbuilding where his was the
-        fourth door.{" "}
+        where they had made fun of his name. He gave me his address to write to
+        him. He explained all the digits, meaning he lived down an alley then a
+        staircase, leading to an outbuilding where his was the fourth door.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
