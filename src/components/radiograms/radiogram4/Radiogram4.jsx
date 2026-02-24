@@ -204,7 +204,7 @@ export const Radiogram4 = () => {
         as the queues had melded into a mass. It would ease up and we’d be
         closer to the sunset here. It was marked by high drumsong collapsing
         into human shouts. There were few sheep on the fields beneath, babies
-        and mothers, clipped ears. I took pictures of Gabby and Luke in the pink
+        and mothers, clipped ears. I took pictures of Gaby and Luke in the pink
         dusk that turned lilac and indigo.{" "}
       </p>
       <br />
@@ -324,7 +324,7 @@ export const Radiogram4 = () => {
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         I live with a cat now. She is 13 years old and never learned to retract
-        her claws. She is forgetful, reliving herself at the wrong end of the
+        her claws. She is forgetful, relieving herself at the wrong end of the
         house, waiting at open doors. Thrice out of nowhere, she has scratched
         my feet and hissed. There are three Buddhas in the backyard. I watch her
         from the kitchen window, she sits there for hours in the afternoon sun,
