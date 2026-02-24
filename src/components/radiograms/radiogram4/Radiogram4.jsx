@@ -245,16 +245,10 @@ export const Radiogram4 = () => {
         in me, ‘funny’, I’d repeat.
       </p>
       <br />
-      <p
-        className="italic-poem"
-        style={{ width: isMobile ? "80%" : undefined }}
-      >
+      <p style={{ width: isMobile ? "80%" : undefined }}>
         A lone trumpet played a standard, a couple with elven ears pressed their
-        heads against a stone
-        <br /> in silence. The stones hold heat from the day’s sun. They were
-        cast in a deep blue, like a UV.
-        <br />
-        <br /> Drumming at the{" "}
+        heads against a stone in silence. The stones hold heat from the day’s
+        sun. They were cast in a deep blue, like a UV. Drumming at the{" "}
         <span
           className="location-link"
           onMouseEnter={(e) => handleLocationEnter("innerCircle", e)}
@@ -264,17 +258,10 @@ export const Radiogram4 = () => {
         >
           inner circle
         </span>
-        ,
-        <br /> Lost Marys flirting on altar stones,
-        <br /> a young man in an overly styled suit laughing 7ft above the
-        ground,
-        <br /> his legs swinging against the stars.
-        <br />
-        <br /> Drums and large rocks around us,
-        <br /> something fallen, something of a reminder.
-        <br /> We are dancing on the dead.
-        <br />
-        We are playing drums on the dead.
+        , Lost Marys flirting on altar stones, a young man in an overly styled
+        suit laughing 7ft above the ground, his legs swinging against the stars.
+        Drums and large rocks around us, something fallen, something of a
+        reminder. We are dancing on the dead. We are playing drums on the dead.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
