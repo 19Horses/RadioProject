@@ -386,7 +386,7 @@ export const djs = [
     "length": "15 Minute Read",
     "postLink": "https://www.instagram.com/",
     "igLink": "https://www.instagram.com/najasurname/",
-    "dontShow": true,
+    "dontShow": false,
   },
     // UNPUBLISHED
   {
