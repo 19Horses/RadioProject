@@ -521,62 +521,71 @@ const Bookmark = ({
   // Blur fade effect for image
   useEffect(() => {
     // Clear any existing timeouts
-    if (imageTimeoutRef.current) {
-      clearTimeout(imageTimeoutRef.current);
-    }
-    if (imageFadeInTimeoutRef.current) {
+    if (imageTimeoutRef.current) clearTimeout(imageTimeoutRef.current);
+    if (imageFadeInTimeoutRef.current)
       clearTimeout(imageFadeInTimeoutRef.current);
-    }
+    if (crossfadeIntervalRef.current)
+      clearInterval(crossfadeIntervalRef.current);
 
-    // If there was a previous image, fade it out first
+    // Reset crossfade index on article change
+    setActiveImageIndex(0);
+
+    const newSrc = currentArticle?.src ?? null;
+
     if (
       previousArticleRef.current?.src &&
       previousArticleRef.current !== currentArticle
     ) {
-      // Start fade out
       setImageVisible(false);
 
-      // After fade out completes, update the image source and fade in
       imageTimeoutRef.current = setTimeout(() => {
-        if (currentArticle?.src) {
-          setCurrentImageSrc(currentArticle.src);
-          // Small delay before fading in new image
+        if (newSrc) {
+          setCurrentImageSrc(newSrc);
           imageFadeInTimeoutRef.current = setTimeout(() => {
             setImageVisible(true);
+            // Start crossfade if array
+            if (Array.isArray(newSrc) && newSrc.length === 2) {
+              crossfadeIntervalRef.current = setInterval(() => {
+                setActiveImageIndex((prev) => (prev === 0 ? 1 : 0));
+              }, 4000);
+            }
           }, 50);
         } else {
           setCurrentImageSrc(null);
         }
-      }, 600); // Wait for fade out to complete
-    } else if (currentArticle?.src) {
-      // No previous image, just fade in the new one
-      setCurrentImageSrc(currentArticle.src);
+      }, 600);
+    } else if (newSrc) {
+      setCurrentImageSrc(newSrc);
       imageTimeoutRef.current = setTimeout(() => {
         setImageVisible(true);
+        if (Array.isArray(newSrc) && newSrc.length === 2) {
+          crossfadeIntervalRef.current = setInterval(() => {
+            setActiveImageIndex((prev) => (prev === 0 ? 1 : 0));
+          }, 4000);
+        }
       }, 400);
     } else {
-      // No current article, fade out if visible
       setImageVisible(false);
       imageTimeoutRef.current = setTimeout(() => {
         setCurrentImageSrc(null);
       }, 600);
     }
 
-    // Update previous article reference
     previousArticleRef.current = currentArticle;
 
     return () => {
-      if (imageTimeoutRef.current) {
-        clearTimeout(imageTimeoutRef.current);
-      }
-      if (imageFadeInTimeoutRef.current) {
+      if (imageTimeoutRef.current) clearTimeout(imageTimeoutRef.current);
+      if (imageFadeInTimeoutRef.current)
         clearTimeout(imageFadeInTimeoutRef.current);
-      }
+      if (crossfadeIntervalRef.current)
+        clearInterval(crossfadeIntervalRef.current);
     };
   }, [currentArticle]);
 
   // Blur fade effect for content (title + summary) - fade OUT only
   const [skipTransition, setSkipTransition] = useState(false);
+  const [activeImageIndex, setActiveImageIndex] = useState(0);
+  const crossfadeIntervalRef = useRef(null);
 
   useEffect(() => {
     // Clear any existing timeouts
@@ -1117,13 +1126,52 @@ const Bookmark = ({
                       }
                     }}
                   >
-                    <img
-                      src={currentImageSrc}
-                      alt={currentArticle?.title || "Article image"}
-                      className={`article-image ${
-                        currentArticle?.type === "article" ? "icon-blink" : ""
-                      }`}
-                    />
+                    {Array.isArray(currentImageSrc) &&
+                    currentImageSrc.length === 2 ? (
+                      <div
+                        style={{
+                          position: "relative",
+                          width: "100%",
+                          height: "100%",
+                        }}
+                      >
+                        <img
+                          src={currentImageSrc[0]}
+                          alt={currentArticle?.title || "Article image"}
+                          className={`article-image ${currentArticle?.type === "article" ? "icon-blink" : ""}`}
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            transition: "opacity 1s ease",
+                            opacity: activeImageIndex === 0 ? 1 : 0,
+                          }}
+                        />
+                        <img
+                          src={currentImageSrc[1]}
+                          alt={currentArticle?.title || "Article image"}
+                          className={`article-image ${currentArticle?.type === "article" ? "icon-blink" : ""}`}
+                          style={{
+                            position: "absolute",
+                            inset: 0,
+                            transition: "opacity 1s ease",
+                            opacity: activeImageIndex === 1 ? 1 : 0,
+                          }}
+                        />
+                        <img
+                          src={currentImageSrc[0]}
+                          alt=""
+                          aria-hidden
+                          className="article-image"
+                          style={{ visibility: "hidden" }}
+                        />
+                      </div>
+                    ) : (
+                      <img
+                        src={currentImageSrc}
+                        alt={currentArticle?.title || "Article image"}
+                        className={`article-image ${currentArticle?.type === "article" ? "icon-blink" : ""}`}
+                      />
+                    )}
 
                     {/* Play button overlay for mixes */}
                     {currentArticle?.type === "mix" && imageVisible && (
@@ -1409,10 +1457,48 @@ const Bookmark = ({
                           }
                         }}
                       >
-                        <img
-                          src={displayImage}
-                          alt={displayItem?.title || "Article image"}
-                        />
+                        {Array.isArray(displayImage) &&
+                        displayImage.length === 2 ? (
+                          <div
+                            style={{
+                              position: "relative",
+                              width: "100%",
+                              height: "100%",
+                            }}
+                          >
+                            <img
+                              src={displayImage[0]}
+                              alt={displayItem?.title || "Article image"}
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                transition: "opacity 1s ease",
+                                opacity: activeImageIndex === 0 ? 1 : 0,
+                              }}
+                            />
+                            <img
+                              src={displayImage[1]}
+                              alt={displayItem?.title || "Article image"}
+                              style={{
+                                position: "absolute",
+                                inset: 0,
+                                transition: "opacity 1s ease",
+                                opacity: activeImageIndex === 1 ? 1 : 0,
+                              }}
+                            />
+                            <img
+                              src={displayImage[0]}
+                              alt=""
+                              aria-hidden
+                              style={{ visibility: "hidden" }}
+                            />
+                          </div>
+                        ) : (
+                          <img
+                            src={displayImage}
+                            alt={displayItem?.title || "Article image"}
+                          />
+                        )}
                       </div>
                     )}
 

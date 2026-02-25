@@ -161,7 +161,7 @@ export const LandingVertical = ({ isMobile }) => {
 
       // Quick estimate based on scroll position and gap
       const estimatedIndex = Math.round(
-        container.scrollLeft / (items[0]?.offsetWidth + 150 || 300)
+        container.scrollLeft / (items[0]?.offsetWidth + 150 || 300),
       );
 
       // Only check nearby items (±2) for accuracy
@@ -236,51 +236,90 @@ export const LandingVertical = ({ isMobile }) => {
         });
       }
     },
-    [navigate]
+    [navigate],
   );
 
   // Remove focusedIndex from dependency array to prevent component recreation
   const ImageItem = useCallback(
     ({ guest, isFocused }) => {
-      // Handlers defined inline to avoid re-creating them
       const handleMouseEnter = () => {
-        if (!isMobile) {
-          setHoveredGuest(guest);
-        }
+        if (!isMobile) setHoveredGuest(guest);
       };
-
       const handleMouseLeave = () => {
-        if (!isMobile) {
-          setHoveredGuest(null);
-        }
+        if (!isMobile) setHoveredGuest(null);
       };
 
-      // Create props object conditionally to avoid mouse events on mobile
-      const imageProps = {
-        src: guest.src,
+      const hasTwoSrcs = Array.isArray(guest.src) && guest.src.length === 2;
+      const [activeIndex, setActiveIndex] = useState(0);
+
+      useEffect(() => {
+        if (!hasTwoSrcs) return;
+        const interval = setInterval(() => {
+          setActiveIndex((prev) => (prev === 0 ? 1 : 0));
+        }, 4000);
+        return () => clearInterval(interval);
+      }, [hasTwoSrcs]);
+
+      const baseClassName = `image landing-vertical-image ${
+        isFocused
+          ? "landing-vertical-image-focused"
+          : "landing-vertical-image-unfocused"
+      }`;
+
+      const sharedProps = {
         alt: guest.title,
-        className: `image landing-vertical-image ${
-          isFocused
-            ? "landing-vertical-image-focused"
-            : "landing-vertical-image-unfocused"
-        }`,
         onClick: () => handleItemClick(guest),
-        loading: "lazy", // Lazy load images
+        loading: "lazy",
+        ...(!isMobile && {
+          onMouseEnter: handleMouseEnter,
+          onMouseLeave: handleMouseLeave,
+        }),
       };
-
-      // Only add mouse events on desktop to prevent double-tap on mobile
-      if (!isMobile) {
-        imageProps.onMouseEnter = handleMouseEnter;
-        imageProps.onMouseLeave = handleMouseLeave;
-      }
 
       return (
         <div className="landing-vertical-image-container">
-          <img {...imageProps} />
+          {hasTwoSrcs ? (
+            <div
+              style={{ position: "relative", width: "100%", height: "100%" }}
+            >
+              <img
+                {...sharedProps}
+                src={guest.src[0]}
+                className={baseClassName}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  transition: "opacity 1s ease",
+                  opacity: activeIndex === 0 ? 1 : 0,
+                }}
+              />
+              <img
+                {...sharedProps}
+                src={guest.src[1]}
+                className={baseClassName}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  transition: "opacity 1s ease",
+                  opacity: activeIndex === 1 ? 1 : 0,
+                }}
+              />
+              {/* Invisible placeholder to maintain container size */}
+              <img
+                src={guest.src[0]}
+                alt=""
+                aria-hidden
+                className={baseClassName}
+                style={{ visibility: "hidden" }}
+              />
+            </div>
+          ) : (
+            <img {...sharedProps} src={guest.src} className={baseClassName} />
+          )}
         </div>
       );
     },
-    [isMobile, handleItemClick] // Removed focusedIndex
+    [isMobile, handleItemClick],
   );
 
   return (
@@ -336,10 +375,10 @@ export const LandingVertical = ({ isMobile }) => {
                   {isMobile
                     ? `${item.title?.replaceAll(
                         " ",
-                        "_\u200B"
+                        "_\u200B",
                       )}_\u200Bby_\u200B${item.title2?.replaceAll(
                         " ",
-                        "_\u200B"
+                        "_\u200B",
                       )}_\u200B/_\u200B[${
                         item.type === "mix" ? "transmission" : "radiogram"
                       }]`
