@@ -401,7 +401,7 @@ export const djs = [
     title3: "DJs",
     title4: "Mix + Interview with",
     description:
-      "<span><a href='https://www.instagram.com/radio__project/'>RADIO Project</a> spoke with </span> <a href='https://www.instagram.com/michael.adlj/'>St. Michel</a><span> about their journey as a 3D artist and how certain artists from the <b>early SoundCloud rap era influenced them.",
+      "<span><a href='https://www.instagram.com/waawdj/'>WAAW</a><span> join us to talk about the process of learning to mix, their memorable gigs and how the <b>Nyege Nyege Festival in Uganda</b> was a pivotal moment for the duo. ",
     mixId: "https://d2rmb5ql8vpbx8.cloudfront.net/rp4+twins.wav",
     scLink: "http://soundcloud.com/radioproject_live/st-michel",
     releaseDate: "5/3/26",
