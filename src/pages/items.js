@@ -462,6 +462,7 @@ export const djs = [
       { title: "Outro Lado", artist: "Lokowat" },
       { title: "Scorpio (Halftime)", artist: "One Bok" },
       { title: "On The Run", artist: "Kelela, River Moon, ThugPop" },
+      { title: "Bikini", artist: "Erika de Casier, BokBok" },
     ],
     "dontShow": true,
   },
