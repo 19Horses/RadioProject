@@ -464,7 +464,7 @@ export const djs = [
       { title: "On The Run", artist: "Kelela, River Moon, ThugPop" },
       { title: "Bikini", artist: "Erika de Casier, BokBok" },
     ],
-    "dontShow": true,
+    "dontShow": false,
   },
     // UNPUBLISHED
   // {
