@@ -272,6 +272,23 @@ export const Tracklist = ({
     hoverTimeoutsRef.current[index] = lingerTimeout;
   };
 
+  // Build a map from array index -> track number (excluding section breaks)
+  const trackNumberMap = (() => {
+    const map = {};
+    let count = 1;
+    selectedGuest.tracklist.forEach((track, i) => {
+      const isSectionBreak =
+        track.title === "RADIO (a)" ||
+        track.title === "PROJECT" ||
+        track.title === "RADIO (b)";
+      if (!isSectionBreak) {
+        map[i] = count;
+        count++;
+      }
+    });
+    return map;
+  })();
+
   return (
     <div
       className={`tracklist-container ${
@@ -355,7 +372,7 @@ export const Tracklist = ({
                 }}
               >
                 {!isSectionBreak && (
-                  <span className="track-number">{index}</span>
+                  <span className="track-number">{trackNumberMap[index]}</span>
                 )}
 
                 <span
