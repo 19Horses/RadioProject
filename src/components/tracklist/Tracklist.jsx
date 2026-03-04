@@ -60,7 +60,7 @@ export const Tracklist = ({
   useEffect(() => {
     // Clear any pending hover timeouts when guest changes
     Object.values(hoverTimeoutsRef.current).forEach((timeout) =>
-      clearTimeout(timeout)
+      clearTimeout(timeout),
     );
     hoverTimeoutsRef.current = {};
     setHoverColors({});
@@ -98,7 +98,7 @@ export const Tracklist = ({
       clearInterval(interval);
       // Clean up timeouts on unmount
       Object.values(hoverTimeoutsRef.current).forEach((timeout) =>
-        clearTimeout(timeout)
+        clearTimeout(timeout),
       );
     };
   }, [selectedGuest]);
@@ -300,8 +300,10 @@ export const Tracklist = ({
 
           // Alternating font for PROJECT section
           const itemSection = getItemSection(index);
-          const projectIdx = itemSection === "+" ? getProjectSectionIndex(index) : -1;
-          const isProjectItem = itemSection === "+" && !isSectionBreak && projectIdx >= 0;
+          const projectIdx =
+            itemSection === "+" ? getProjectSectionIndex(index) : -1;
+          const isProjectItem =
+            itemSection === "+" && !isSectionBreak && projectIdx >= 0;
           const projectFont = isProjectItem
             ? projectIdx % 2 === 0
               ? "NeueHaasDisplayLight"
@@ -362,29 +364,28 @@ export const Tracklist = ({
                       ? hasColors
                         ? "track-title-section-break-hovered"
                         : isPlaying
-                        ? isDark
-                          ? "track-title-section-break"
-                          : "track-title-section-break-playing"
-                        : "track-title-section-break"
+                          ? isDark
+                            ? "track-title-section-break"
+                            : "track-title-section-break-playing"
+                          : "track-title-section-break"
                       : ""
                   }`}
                 >
                   {mixTrack.title === "RADIO (a)"
-                    ? "(a)"
+                    ? ""
                     : mixTrack.title === "PROJECT"
-                    ? "(+)"
-                    : mixTrack.title === "RADIO (b)"
-                    ? "(b)"
-                    : mixTrack.title}{" "}
+                      ? ""
+                      : mixTrack.title === "RADIO (b)"
+                        ? ""
+                        : mixTrack.title}{" "}
                 </span>
-                <span 
+                <span
                   className="track-artist"
                   style={projectFont ? { fontFamily: projectFont } : undefined}
                 >
                   {mixTrack.artist}
                 </span>
               </span>
-              {isSectionBreak && <br />}
             </span>
           );
         })}
