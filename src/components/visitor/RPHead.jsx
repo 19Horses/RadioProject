@@ -28,12 +28,8 @@ const questionAuthorInstagram = CURRENT_QUESTION_AUTHOR_INSTAGRAM;
 const questions = [CURRENT_QUESTION];
 
 export default function RPHead({ isMobile, isPlaying }) {
-  const [canvasSize, setCanvasSize] = useState({
-    width: 640, // Will be updated by camera
-    height: 480, // Will be updated by camera
-  });
-
   const canvasContainerRef = useRef(null);
+  const targetAspect = isMobile ? 3 / 4 : 4 / 3;
 
   const starSignIcons = {
     Aries: AriesIcon,
@@ -98,11 +94,13 @@ export default function RPHead({ isMobile, isPlaying }) {
   };
 
   const setup = (p5, canvasParentRef) => {
-    const canvas = p5.createCanvas(canvasSize.width, canvasSize.height);
+    // Canvas matches target aspect ratio: 3:4 mobile, 4:3 desktop
+    const w = isMobile ? 480 : 640;
+    const h = isMobile ? 640 : 480;
+    const canvas = p5.createCanvas(w, h);
     canvas.parent(canvasParentRef);
-
+    canvas.style("width", "100%");
     canvas.style("height", "100%");
-    canvas.style("width", "auto");
     p5.background(0);
 
     if (!videoRef.current) {
@@ -110,25 +108,33 @@ export default function RPHead({ isMobile, isPlaying }) {
         {
           video: {
             facingMode: "user",
-            // Let the device choose its native resolution
-            width: { ideal: isMobile ? 480 : 640 },
-            height: { ideal: isMobile ? 640 : 480 },
+            width: { ideal: 640 },
+            height: { ideal: 480 },
           },
         },
         () => {
           videoRef.current.hide();
-          let actualWidth = videoRef.current.width;
-          let actualHeight = videoRef.current.height;
-
-          setCanvasSize({
-            width: actualWidth,
-            height: actualHeight,
-          });
-          p5.resizeCanvas(actualWidth, actualHeight);
         }
       );
-      // Don't force resize the video - let it use native dimensions
     }
+  };
+
+  // Crop source video to target aspect, centered
+  const getSourceCrop = (srcW, srcH) => {
+    const videoAspect = srcW / srcH;
+    let sx, sy, sWidth, sHeight;
+    if (videoAspect > targetAspect) {
+      sHeight = srcH;
+      sWidth = srcH * targetAspect;
+      sx = (srcW - sWidth) / 2;
+      sy = 0;
+    } else {
+      sWidth = srcW;
+      sHeight = srcW / targetAspect;
+      sx = 0;
+      sy = (srcH - sHeight) / 2;
+    }
+    return { sx, sy, sWidth, sHeight };
   };
 
   const draw = (p5) => {
@@ -146,43 +152,17 @@ export default function RPHead({ isMobile, isPlaying }) {
       p5.scale(-1, 1);
     }
 
-    // Desired aspect ratio (square for mobile, landscape for desktop)
-    const targetAspect = isMobile ? 1 : 4 / 3;
-    let sx, sy, sWidth, sHeight;
-
-    if (video.width / video.height > targetAspect) {
-      // video too wide → crop sides
-      sHeight = video.height;
-      sWidth = sHeight * targetAspect;
-      sx = (video.width - sWidth) / 2;
-      sy = 0;
-    } else {
-      // video too tall → crop top/bottom
-      sWidth = video.width;
-      sHeight = sWidth / targetAspect;
-      sx = 0;
-      sy = (video.height - sHeight) / 2;
-    }
-
-    // How large to display the feed (without stretching)
-    const displayWidth = p5.height * targetAspect;
-    const displayHeight = p5.height;
-    const dx = (p5.width - displayWidth) / 2;
-    const dy = 0; // already fills vertically
+    const { sx, sy, sWidth, sHeight } = getSourceCrop(video.width, video.height);
 
     if (snapped) {
       const duration = 2000;
-      const now = Date.now();
-      const elapsed = now - animationStartTime.current;
+      const elapsed = Date.now() - animationStartTime.current;
       const t = Math.min(elapsed / duration, 1);
       const easedT = easeOutCubic(t);
 
       const minScale = 8;
       const maxScale = 15;
-      const clampedMouseX = Math.max(
-        0,
-        Math.min(smoothedMouseX, window.innerWidth)
-      );
+      const clampedMouseX = Math.max(0, Math.min(smoothedMouseX, window.innerWidth));
       const mouseScaleFactor =
         minScale + ((maxScale - minScale) * clampedMouseX) / window.innerWidth;
 
@@ -191,34 +171,12 @@ export default function RPHead({ isMobile, isPlaying }) {
       if (snapshotRef.current) {
         const img = snapshotRef.current.get();
         applyBayerDither(p5, img, scaleFactor);
-
-        p5.image(
-          img,
-          dx,
-          dy,
-          displayWidth,
-          displayHeight,
-          sx,
-          sy,
-          sWidth,
-          sHeight
-        );
+        p5.image(img, 0, 0, p5.width, p5.height, sx, sy, sWidth, sHeight);
       }
     } else {
       const frame = video.get();
       applyBayerDither(p5, frame, scaleFactor);
-
-      p5.image(
-        frame,
-        dx,
-        dy,
-        displayWidth,
-        displayHeight,
-        sx,
-        sy,
-        sWidth,
-        sHeight
-      );
+      p5.image(frame, 0, 0, p5.width, p5.height, sx, sy, sWidth, sHeight);
     }
 
     p5.pop();
@@ -339,31 +297,9 @@ export default function RPHead({ isMobile, isPlaying }) {
       const p5canvas = document.querySelector("canvas");
       if (!p5canvas) throw new Error("Canvas element not found");
 
-      const targetAspect = isMobile ? 1 : 4 / 3;
-      const displayWidth = p5canvas.height * targetAspect;
-      const displayHeight = p5canvas.height;
-      const dx = (p5canvas.width - displayWidth) / 2;
-      const dy = 0;
-
-      const cropCanvas = document.createElement("canvas");
-      cropCanvas.width = displayWidth;
-      cropCanvas.height = displayHeight;
-      const ctx = cropCanvas.getContext("2d");
-
-      ctx.drawImage(
-        p5canvas,
-        dx,
-        dy,
-        displayWidth,
-        displayHeight,
-        0,
-        0,
-        displayWidth,
-        displayHeight
-      );
-
+      // Canvas is already the correct aspect ratio, export it directly
       return new Promise((resolve) => {
-        cropCanvas.toBlob((blob) => resolve(blob), "image/png");
+        p5canvas.toBlob((blob) => resolve(blob), "image/png");
       });
     }
 
@@ -377,31 +313,12 @@ export default function RPHead({ isMobile, isPlaying }) {
       return;
     }
 
-    const originalWidth = originalCanvas.width;
-    const originalHeight = originalCanvas.height;
-
     const unditheredCanvas = document.createElement("canvas");
+    const { sx, sy, sWidth, sHeight } = getSourceCrop(
+      originalCanvas.width,
+      originalCanvas.height
+    );
 
-    // Set the target aspect ratio
-    const targetAspect = isMobile ? 1 : 4 / 3;
-
-    // Determine crop area from the original
-    let sx, sy, sWidth, sHeight;
-    if (originalWidth / originalHeight > targetAspect) {
-      // Too wide → crop sides
-      sHeight = originalHeight;
-      sWidth = sHeight * targetAspect;
-      sx = (originalWidth - sWidth) / 2;
-      sy = 0;
-    } else {
-      // Too tall → crop top/bottom
-      sWidth = originalWidth;
-      sHeight = sWidth / targetAspect;
-      sx = 0;
-      sy = (originalHeight - sHeight) / 2;
-    }
-
-    // Set canvas size to the cropped size
     unditheredCanvas.width = sWidth;
     unditheredCanvas.height = sHeight;
 
@@ -470,13 +387,6 @@ export default function RPHead({ isMobile, isPlaying }) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-  useEffect(() => {
-    const container = canvasContainerRef.current;
-
-    if (!container) return;
-
-    // Camera will set its own dimensions - no resize observer needed
-  }, []);
 
   useEffect(() => {
     let animationFrameId;
@@ -588,10 +498,6 @@ export default function RPHead({ isMobile, isPlaying }) {
                       ? "rphead-canvas-wrapper-snapped"
                       : "rphead-canvas-wrapper-not-snapped"
                   }`}
-                  style={{
-                    width: `${canvasSize.width}px`,
-                    height: `${canvasSize.height}px`,
-                  }}
                   onClick={handleSnap}
                 >
                   <Sketch setup={setup} draw={draw} className="rphead-sketch" />
