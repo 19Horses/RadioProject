@@ -120,13 +120,6 @@ export default function RPHead({ isMobile, isPlaying }) {
           let actualWidth = videoRef.current.width;
           let actualHeight = videoRef.current.height;
 
-          // On mobile, use a square canvas
-          if (isMobile) {
-            const size = Math.min(actualWidth, actualHeight);
-            actualWidth = size;
-            actualHeight = size;
-          }
-
           setCanvasSize({
             width: actualWidth,
             height: actualHeight,
