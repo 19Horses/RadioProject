@@ -120,9 +120,11 @@ export default function RPHead({ isMobile, isPlaying }) {
           let actualWidth = videoRef.current.width;
           let actualHeight = videoRef.current.height;
 
-          // On mobile, ensure canvas is portrait even if camera reports landscape
-          if (isMobile && actualWidth > actualHeight) {
-            [actualWidth, actualHeight] = [actualHeight, actualWidth];
+          // On mobile, use a square canvas
+          if (isMobile) {
+            const size = Math.min(actualWidth, actualHeight);
+            actualWidth = size;
+            actualHeight = size;
           }
 
           setCanvasSize({
@@ -151,8 +153,8 @@ export default function RPHead({ isMobile, isPlaying }) {
       p5.scale(-1, 1);
     }
 
-    // Desired aspect ratio (portrait for mobile, landscape for desktop)
-    const targetAspect = isMobile ? 3 / 4 : 4 / 3;
+    // Desired aspect ratio (square for mobile, landscape for desktop)
+    const targetAspect = isMobile ? 1 : 4 / 3;
     let sx, sy, sWidth, sHeight;
 
     if (video.width / video.height > targetAspect) {
@@ -344,7 +346,7 @@ export default function RPHead({ isMobile, isPlaying }) {
       const p5canvas = document.querySelector("canvas");
       if (!p5canvas) throw new Error("Canvas element not found");
 
-      const targetAspect = isMobile ? 3 / 4 : 4 / 3;
+      const targetAspect = isMobile ? 1 : 4 / 3;
       const displayWidth = p5canvas.height * targetAspect;
       const displayHeight = p5canvas.height;
       const dx = (p5canvas.width - displayWidth) / 2;
@@ -388,7 +390,7 @@ export default function RPHead({ isMobile, isPlaying }) {
     const unditheredCanvas = document.createElement("canvas");
 
     // Set the target aspect ratio
-    const targetAspect = isMobile ? 3 / 4 : 4 / 3;
+    const targetAspect = isMobile ? 1 : 4 / 3;
 
     // Determine crop area from the original
     let sx, sy, sWidth, sHeight;
