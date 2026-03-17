@@ -148,8 +148,8 @@ export default function RPHead({ isMobile, isPlaying }) {
       p5.scale(-1, 1);
     }
 
-    // Desired aspect ratio
-    const targetAspect = isMobile ? 4 / 3 : 4 / 3;
+    // Desired aspect ratio (portrait for mobile, landscape for desktop)
+    const targetAspect = isMobile ? 3 / 4 : 4 / 3;
     let sx, sy, sWidth, sHeight;
 
     if (video.width / video.height > targetAspect) {
@@ -169,9 +169,7 @@ export default function RPHead({ isMobile, isPlaying }) {
     // How large to display the feed (without stretching)
     const displayWidth = p5.height * targetAspect;
     const displayHeight = p5.height;
-    const dx = isMobile
-      ? (p5.width - displayWidth) / 2 + 140
-      : (p5.width - displayWidth) / 2; // ✅ push 20px right
+    const dx = (p5.width - displayWidth) / 2;
     const dy = 0; // already fills vertically
 
     if (snapped) {
@@ -344,19 +342,10 @@ export default function RPHead({ isMobile, isPlaying }) {
       if (!p5canvas) throw new Error("Canvas element not found");
 
       const targetAspect = isMobile ? 3 / 4 : 4 / 3;
-      let displayWidth = p5canvas.height * targetAspect;
+      const displayWidth = p5canvas.height * targetAspect;
       const displayHeight = p5canvas.height;
-      let dx = isMobile
-        ? (p5canvas.width - displayWidth) / 2 - 420
-        : (p5canvas.width - displayWidth) / 2;
+      const dx = (p5canvas.width - displayWidth) / 2;
       const dy = 0;
-
-      if (isMobile) {
-        // Crop extra from the right side (e.g., 40px)
-        const extraCrop = 0;
-        displayWidth -= extraCrop; // shrink the crop width
-        // dx stays the same so crop comes off the right side
-      }
 
       const cropCanvas = document.createElement("canvas");
       cropCanvas.width = displayWidth;
