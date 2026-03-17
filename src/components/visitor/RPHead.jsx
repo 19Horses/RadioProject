@@ -117,15 +117,18 @@ export default function RPHead({ isMobile, isPlaying }) {
         },
         () => {
           videoRef.current.hide();
-          // Update canvas to match camera's native resolution
-          const actualWidth = videoRef.current.width;
-          const actualHeight = videoRef.current.height;
+          let actualWidth = videoRef.current.width;
+          let actualHeight = videoRef.current.height;
+
+          // On mobile, ensure canvas is portrait even if camera reports landscape
+          if (isMobile && actualWidth > actualHeight) {
+            [actualWidth, actualHeight] = [actualHeight, actualWidth];
+          }
 
           setCanvasSize({
             width: actualWidth,
             height: actualHeight,
           });
-          // Resize canvas to match camera resolution
           p5.resizeCanvas(actualWidth, actualHeight);
         }
       );
