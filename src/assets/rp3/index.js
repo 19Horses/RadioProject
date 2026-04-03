@@ -1,9 +1,11 @@
  import pm from './2pp.png'
  import p from './p.jpg'
  import pd from './pd.png'
+ import pb from "./pb.png"
 
  export const rp3 = {
   p,
   pm,
-  pd
+  pd,
+  pb
  }

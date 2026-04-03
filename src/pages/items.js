@@ -21,7 +21,7 @@ export const djs = [
   {
     id: 0,
     type: "mix",
-    src: rp1.p,
+    src: rp1.pb,
     src3: rp1.pd,
     title: 'game arts',
     title2: "edenplus",
@@ -113,7 +113,7 @@ export const djs = [
   {
     id: 1,
     type: "mix",
-    src: rp2.p,
+    src: rp2.pb,
     src3: rp2.pd,
     title: 'BUILD!',
     title2: "DVD",
@@ -178,7 +178,7 @@ export const djs = [
   {
     "id": 2,
     "type": "radiogram",
-    "src": rpa1.p,
+    "src": rpa1.pb,
     "src3": rpa1.pd,
     "rpCount": "RG1",
     "broadcastDate": "18/6/25 17:00",
@@ -202,7 +202,7 @@ export const djs = [
   {
     id: 3,
     type: "mix",
-    src: rp3.p,
+    src: rp3.pb,
     src3: rp3.pd,
     title: 'Ghost in the Shell',
     title2: "BEBELUNA",
@@ -272,7 +272,7 @@ export const djs = [
 
     "id": 4,
     "type": "radiogram",
-    "src": rpa2.p,
+    "src": rpa2.pb,
     "src3": rpa2.pd,
     "broadcastDay": "18",
     "broadcastMonth": "08",
@@ -295,7 +295,7 @@ export const djs = [
   {
     id: 5,
     type: "mix",
-    src: rp5.p,
+    src: rp5.pb,
     src3: rp5.pd,
     title: 'Kitbash',
     title2: "St. Michel",
@@ -366,7 +366,7 @@ export const djs = [
   {
     "id": 6,
     "type": "radiogram",
-    "src": rpa4.p,
+    "src": rpa4.pb,
     "src2": rpa4.pm,
     "src3": rpa4.pd,
     "rpCount": "RG2 ",
@@ -393,7 +393,7 @@ export const djs = [
   {
     id: 7,
     type: "mix",
-    src: [rp4.p2, rp4.p],
+    src: [rp4.pb2, rp4.pb],
     src3: rp4.pd,
     title: 'Tension + Interplay',
     title2: "WAAW",
