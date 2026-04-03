@@ -11,7 +11,7 @@ import { CustomCursor } from "../components/ui/CustomCursor";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./LandingVertical.css";
 
-export const LandingVertical = ({ isMobile }) => {
+export const LandingVertical = ({ isMobile, gridView }) => {
   const flexContainer = useRef(null);
   const [hoveredGuest, setHoveredGuest] = useState();
   const navigate = useNavigate();
@@ -21,6 +21,20 @@ export const LandingVertical = ({ isMobile }) => {
   // const [isHoveringContainer, setIsHoveringContainer] = useState(false); // Not used
   const [focusedIndex, setFocusedIndex] = useState(0);
   const [isNavigating, setIsNavigating] = useState(false);
+  const [activeView, setActiveView] = useState(gridView);
+  const [viewVisible, setViewVisible] = useState(true);
+
+  useEffect(() => {
+    if (gridView === activeView) return;
+    setViewVisible(false);
+    const t = setTimeout(() => {
+      setActiveView(gridView);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => setViewVisible(true))
+      );
+    }, 250);
+    return () => clearTimeout(t);
+  }, [gridView, activeView]);
 
   const filteredItems = useMemo(() => {
     return items
@@ -32,22 +46,24 @@ export const LandingVertical = ({ isMobile }) => {
       .reverse();
   }, []);
 
-  // Prevent body scroll when component is mounted
+  // Prevent body scroll in carousel mode; allow it in grid mode
   useEffect(() => {
-    // Store original body overflow
     const originalOverflow = document.body.style.overflow;
     const originalHtmlOverflow = document.documentElement.style.overflow;
 
-    // Prevent body scrolling
-    document.body.style.overflow = "hidden";
-    document.documentElement.style.overflow = "hidden";
+    if (gridView) {
+      document.body.style.overflow = "";
+      document.documentElement.style.overflow = "";
+    } else {
+      document.body.style.overflow = "hidden";
+      document.documentElement.style.overflow = "hidden";
+    }
 
-    // Restore on unmount
     return () => {
       document.body.style.overflow = originalOverflow;
       document.documentElement.style.overflow = originalHtmlOverflow;
     };
-  }, []);
+  }, [gridView]);
 
   // Center first item on initial mount
   useEffect(() => {
@@ -322,6 +338,30 @@ export const LandingVertical = ({ isMobile }) => {
     [isMobile, handleItemClick],
   );
 
+  if (activeView) {
+    return (
+      <>
+        {hoveredGuest && !isMobile && (
+          <CustomCursor
+            hoveredGuest={hoveredGuest}
+            isLeft={false}
+            hovered={true}
+            dimmed={false}
+          />
+        )}
+        <div
+          className={`landing-grid-container${viewVisible ? " landing-grid-visible" : ""}`}
+        >
+          {filteredItems.map((guest, i) => (
+            <div key={i} className="landing-grid-cell" style={{ "--i": i }}>
+              <ImageItem guest={guest} isFocused={true} />
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
   return (
     <>
       {hoveredGuest && !isMobile && (
@@ -400,7 +440,10 @@ export const LandingVertical = ({ isMobile }) => {
         </div>
       </div>
 
-      <div className="landing-vertical-container total-container">
+      <div
+        className="landing-vertical-container total-container"
+        style={{ opacity: viewVisible ? 1 : 0, transition: "opacity 0.25s ease" }}
+      >
         <div className="landing-vertical-scroll-wrapper scroll-wrapper">
           <div
             ref={flexContainer}

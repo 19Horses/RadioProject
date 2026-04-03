@@ -207,3 +207,88 @@
   will-change: auto;
 }
 
+/* Grid view */
+@keyframes gridItemIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.landing-grid-container {
+  position: fixed;
+  top: 0;
+  right: 0;
+  bottom: 0;
+  left: calc(4vw + 284px);
+  overflow-y: auto;
+  overflow-x: hidden;
+  z-index: 1;
+  display: flex;
+  flex-wrap: wrap;
+  align-content: flex-start;
+  gap: 4px;
+  padding: 20px 4px 4px;
+  box-sizing: border-box;
+  scrollbar-width: none;
+  -ms-overflow-style: none;
+}
+
+.landing-grid-container::-webkit-scrollbar {
+  display: none;
+}
+
+@media (max-width: 768px) {
+  .landing-grid-container {
+    left: 0;
+  }
+}
+
+.landing-grid-cell {
+  flex: 0 0 calc(14% - 3.2px);
+  width: calc(14% - 3.2px);
+  height: 0;
+  padding-bottom: calc(14% - 3.2px);
+  position: relative;
+  opacity: 0;
+}
+
+.landing-grid-visible .landing-grid-cell {
+  animation: gridItemIn 0.35s ease forwards;
+  animation-delay: calc(var(--i) * 7ms);
+}
+
+@media (max-width: 768px) {
+  .landing-grid-cell {
+    flex: 0 0 calc(50% - 2px);
+    width: calc(50% - 2px);
+    padding-bottom: calc(50% - 2px);
+  }
+}
+
+.landing-grid-cell .landing-vertical-image-container {
+  position: absolute !important;
+  inset: 0 !important;
+  height: auto !important;
+  padding-bottom: 0 !important;
+  overflow: hidden;
+  outline: 0.5px solid #0000003e;
+}
+
+.landing-grid-container .landing-vertical-image-container > div {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+}
+
+.landing-grid-container .landing-vertical-image {
+  position: absolute !important;
+  inset: 0 !important;
+  width: 100% !important;
+  height: 100% !important;
+  object-fit: cover;
+}
+

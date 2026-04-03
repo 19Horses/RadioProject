@@ -481,6 +481,15 @@
     pointer-events: auto;
   }
 
+  .group-icon-svg {
+    width: 40px;
+    height: auto;
+    cursor: pointer;
+    color: rgb(255, 0, 90);
+    background-color: #efefef;
+    pointer-events: auto;
+  }
+
   /* Visitor Check Buttons Container */
   .visitor-check-buttons {
     width: 46%;

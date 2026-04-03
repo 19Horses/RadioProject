@@ -1,56 +1,50 @@
-/* Radiogram 6 - Container */
 .radiogram-6-container {
-  display: flex;
-  min-height: 100vh;
-  gap: 40px;
-  padding: 60px 40px;
-  position: relative;
-}
-
-/* Left side - Inanimates Gallery */
-.radiogram-6-grid-wrapper {
-  position: relative;
-}
-
-.radiogram-6-grid-wrapper::before,
-.radiogram-6-grid-wrapper::after {
-  content: '';
   position: fixed;
-  left: 0;
-  right: 0;
-  width: 100%;
-  height: 60px;
-  pointer-events: none;
-  z-index: 10;
-}
-
-.radiogram-6-grid-wrapper::before {
   top: 0;
-  background: linear-gradient(to bottom, #ececec, transparent);
-}
-
-.radiogram-6-grid-wrapper::after {
+  left: calc(4vw + 284px);
+  right: 0;
   bottom: 0;
-  background: linear-gradient(to top, #ececec, transparent);
+  overflow: hidden;
+  /* clip everything below the horizontal midpoint */
 }
 
-.radiogram-6-grid {
-  display: grid;
-  grid-template-columns: 1fr;
-  gap: 10px;
-  max-width: 200px;
-  contain: layout style paint;
-  align-content: start;
+/* Ring layout — only top half visible, anchored to bottom of viewport */
+.radiogram-6-ring {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 0;
+  height: 0;
+  transform: translate(-50%, 0) rotate(0deg);
+  will-change: transform;
 }
 
-/* Right side - Stacked images area */
+.inanimate-ring-item {
+  position: absolute;
+  width: 160px;
+  cursor: pointer;
+  transform-origin: center bottom;
+  will-change: transform;
+}
+
+.inanimate-ring-item img {
+  width: 100%;
+  height: auto;
+  display: block;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+}
+
+.inanimate-ring-item:hover img {
+  opacity: 0.85;
+}
+
+/* Stack */
 .radiogram-6-stack {
   position: fixed;
   top: 50%;
   transform: translateY(-50%);
   left: 45%;
   right: 0;
-  height: auto;
   pointer-events: none;
   overflow: visible;
 }
@@ -63,54 +57,24 @@
   font-family: "NeueHaasDisplayRoman", sans-serif;
   font-size: 14px;
   color: #888;
-  text-align: center;
   pointer-events: none;
 }
 
-/* Make stacked images show magnifying glass cursor */
-.stacked-image {
-  cursor:pointer;
-}
-
-.stacked-image.stacked-image-expanded {
-  cursor: pointer;
-}
-
-/* On click, center and enlarge the topmost image */
-.stacked-image.stacked-image-expanded {
-  transform: translate(-50%, -50%) rotate(0deg) scale(1.15) !important;
-}
-
-.inanimate-grid-item {
-  aspect-ratio: 1 / 1;
-  overflow: hidden;
-  cursor: pointer;
-}
-
-.inanimate-grid-item img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  transition: transform 0.2s ease;
-}
-
-.inanimate-grid-item:hover img {
-  transform: scale(1.08);
-}
-
-/* Stacked images */
 .stacked-image {
   position: absolute;
   top: 50%;
   left: 50%;
+  cursor: pointer;
   transform: translate(calc(-50% + var(--offset-x, 0px)), calc(-50% + var(--offset-y, 0px))) rotate(var(--rotation, 0deg));
   transition: transform 0.3s ease, opacity 0.3s ease;
   animation: placeImageFade 0.4s ease-out both;
   user-select: none;
   -webkit-user-select: none;
   padding: 20px;
-  overflow: visible;
+}
+
+.stacked-image.stacked-image-expanded {
+  transform: translate(-50%, -50%) rotate(0deg) scale(1.15) !important;
 }
 
 .stacked-image img {
@@ -122,100 +86,23 @@
   height: auto;
   object-fit: contain;
   display: block;
-  box-sizing: border-box;
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.25)) brightness(1.1) grayscale(0.1);
+  filter: drop-shadow(0 8px 12px rgba(0,0,0,0.25));
   transition: filter 0.3s ease;
 }
 
-/* Topmost item stays at full visibility */
-.stacked-image:last-child img {
-  filter: drop-shadow(0 8px 12px rgba(0, 0, 0, 0.25));
-}
-
-.stacked-image-caption {
-  font-family: "NeueBit-Regular", monospace;
-  font-size: 12px;
-  color: #434a47;
-  text-align: center;
-  padding: 8px;
-  border-top: 1px solid rgba(67, 74, 71, 0.1);
-}
-
-@keyframes placeImage {
-  from {
-    opacity: 0;
-    transform: translate(calc(-50% + var(--offset-x, 0px)), calc(-50% + var(--offset-y, 0px))) rotate(var(--rotation, 0deg)) scale(0.9);
-  }
-  to {
-    opacity: 1;
-    transform: translate(calc(-50% + var(--offset-x, 0px)), calc(-50% + var(--offset-y, 0px))) rotate(var(--rotation, 0deg)) scale(1);
-  }
-}
-
-/* Fade-only animation so transform can be transitioned */
 @keyframes placeImageFade {
-  from {
-    opacity: 0;
-  }
-  to {
-    opacity: 1;
-  }
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
-/* Mobile responsive */
+/* Mobile */
 @media (max-width: 768px) {
   .radiogram-6-container {
-    flex-direction: column;
-    padding: 80px 0 20px;
-    min-height: 100vh;
-  }
-
-  .radiogram-6-grid-wrapper {
-    width: 100%;
-  }
-
-  .radiogram-6-grid-wrapper::before,
-  .radiogram-6-grid-wrapper::after {
-    top: 0;
-    bottom: 0;
-    left: auto;
-    right: auto;
-    width: 40px;
-    height: 100vh;
-  }
-
-  .radiogram-6-grid-wrapper::before {
     left: 0;
-    background: linear-gradient(to right, #ececec, transparent);
   }
 
-  .radiogram-6-grid-wrapper::after {
-    right: 0;
-    bottom: auto;
-    background: linear-gradient(to left, #ececec, transparent);
-  }
-
-  .radiogram-6-grid {
-    display: flex;
-    flex-direction: row;
-    overflow-x: auto;
-    overflow-y: hidden;
-    gap: 10px;
-    width: 100%;
-    max-width: 100%;
-    padding: 0 10px 10px 10px;
-    -webkit-overflow-scrolling: touch;
-    scrollbar-width: none;
-  }
-
-  .radiogram-6-grid::-webkit-scrollbar {
-    display: none;
-  }
-
-  .inanimate-grid-item {
-    flex-shrink: 0;
-    width: 80px;
-    height: 80px;
+  .inanimate-ring-item {
+    width: 100px;
   }
 
   .radiogram-6-stack {
@@ -227,13 +114,6 @@
     display: flex;
     align-items: center;
     justify-content: center;
-  }
-
-  .stacked-image {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    padding: 10px;
   }
 
   .stacked-image img {

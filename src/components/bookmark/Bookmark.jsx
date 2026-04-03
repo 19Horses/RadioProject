@@ -753,7 +753,7 @@ const Bookmark = ({
             isMobile ? "bookmark-desktop-mobile-height" : ""
           } ${menuOpen ? "bookmark-desktop-menu-open" : ""}`}
         >
-          {location.pathname === "/visitorlog" ? (
+          {location.pathname === "/visitorlog" && (
             // Questions list for visitor log page
             <div
               className={`visitor-questions-list ${
@@ -964,25 +964,6 @@ const Bookmark = ({
                       </div>
                     );
                   })}
-              </div>
-            </div>
-          ) : (
-            // Regular marquee for other pages
-            <div
-              className={`vertical-marquee vertical-marquee-positioned ${
-                menuOpen || isClosing ? "marquee-hiding" : ""
-              } ${
-                marqueeAnimVisible && !menuOpen && !isClosing
-                  ? "vertical-marquee-visible"
-                  : "vertical-marquee-hidden"
-              }`}
-            >
-              <div className="vertical-marquee-content">
-                {[...Array(8)].map((_, i) => (
-                  <div key={i}>
-                    <img src="/side rp.svg" alt="RADIO Project" />
-                  </div>
-                ))}
               </div>
             </div>
           )}
@@ -1343,15 +1324,7 @@ const Bookmark = ({
           </div>
           {/* Footer */}
 
-          <div className="bookmark-footer">
-            <div className="bookmark-footer-inner">
-              <img
-                src={newLogo}
-                alt="Radio Project"
-                className="bookmark-footer-logo"
-              />
-            </div>
-          </div>
+          <div className="bookmark-footer"></div>
         </div>
       ) : (
         <>

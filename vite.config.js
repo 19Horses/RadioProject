@@ -5,4 +5,13 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   base: "./",
   plugins: [react()],
+  server: {
+    proxy: {
+      "/cdn-img": {
+        target: "https://d21zv5r7rdb0xb.cloudfront.net",
+        changeOrigin: true,
+        rewrite: (path) => path.replace(/^\/cdn-img/, ""),
+      },
+    },
+  },
 })

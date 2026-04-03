@@ -114,7 +114,7 @@ export default function RPHead({ isMobile, isPlaying }) {
         },
         () => {
           videoRef.current.hide();
-        }
+        },
       );
     }
   };
@@ -152,7 +152,10 @@ export default function RPHead({ isMobile, isPlaying }) {
       p5.scale(-1, 1);
     }
 
-    const { sx, sy, sWidth, sHeight } = getSourceCrop(video.width, video.height);
+    const { sx, sy, sWidth, sHeight } = getSourceCrop(
+      video.width,
+      video.height,
+    );
 
     if (snapped) {
       const duration = 2000;
@@ -162,7 +165,10 @@ export default function RPHead({ isMobile, isPlaying }) {
 
       const minScale = 8;
       const maxScale = 15;
-      const clampedMouseX = Math.max(0, Math.min(smoothedMouseX, window.innerWidth));
+      const clampedMouseX = Math.max(
+        0,
+        Math.min(smoothedMouseX, window.innerWidth),
+      );
       const mouseScaleFactor =
         minScale + ((maxScale - minScale) * clampedMouseX) / window.innerWidth;
 
@@ -316,7 +322,7 @@ export default function RPHead({ isMobile, isPlaying }) {
     const unditheredCanvas = document.createElement("canvas");
     const { sx, sy, sWidth, sHeight } = getSourceCrop(
       originalCanvas.width,
-      originalCanvas.height
+      originalCanvas.height,
     );
 
     unditheredCanvas.width = sWidth;
@@ -332,7 +338,7 @@ export default function RPHead({ isMobile, isPlaying }) {
       0,
       0,
       sWidth,
-      sHeight // destination
+      sHeight, // destination
     );
 
     const unditheredBlob = await canvasToBlob(unditheredCanvas);
@@ -387,7 +393,6 @@ export default function RPHead({ isMobile, isPlaying }) {
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, []);
 
-
   useEffect(() => {
     let animationFrameId;
 
@@ -432,7 +437,7 @@ export default function RPHead({ isMobile, isPlaying }) {
     window.dispatchEvent(
       new CustomEvent("formValidityChanged", {
         detail: { isValid: isFormValid },
-      })
+      }),
     );
   }, [inputs.username, inputs.profession, inputs.answer]);
 
@@ -471,8 +476,8 @@ export default function RPHead({ isMobile, isPlaying }) {
             isMobile && window.innerWidth <= 400
               ? "rphead-content-wrapper-mobile-scale-small"
               : isMobile
-              ? "rphead-content-wrapper-mobile-scale-medium"
-              : ""
+                ? "rphead-content-wrapper-mobile-scale-medium"
+                : ""
           }`}
         >
           <div className="visitor-log-form">
@@ -515,8 +520,8 @@ export default function RPHead({ isMobile, isPlaying }) {
                   ? "rphead-textform-mobile-snapped"
                   : "rphead-textform-mobile-not-snapped"
                 : snapped
-                ? "rphead-textform-desktop-snapped"
-                : "rphead-textform-desktop-not-snapped"
+                  ? "rphead-textform-desktop-snapped"
+                  : "rphead-textform-desktop-not-snapped"
             }`}
           >
             <form

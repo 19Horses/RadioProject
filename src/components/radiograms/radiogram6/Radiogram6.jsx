@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useRef, useMemo } from "react";
+import React, { useState, useMemo, useRef, useEffect } from "react";
 import "./Radiogram6.css";
 
-// CloudFront CDN base URL
 const CDN_BASE = "https://d21zv5r7rdb0xb.cloudfront.net";
 
 const inanimates = [
@@ -72,16 +71,6 @@ const inanimates = [
   { src: `${CDN_BASE}/WAX.webp`, alt: "WAX" },
 ];
 
-// Grid image component with lazy loading
-const GridImage = ({ src, alt, onClick }) => {
-  return (
-    <div className="inanimate-grid-item" onClick={onClick}>
-      <img src={src} alt={alt} loading="lazy" decoding="async" />
-    </div>
-  );
-};
-
-// Fisher-Yates shuffle
 const shuffleArray = (array) => {
   const shuffled = [...array];
   for (let i = shuffled.length - 1; i > 0; i--) {
@@ -92,69 +81,78 @@ const shuffleArray = (array) => {
 };
 
 export const Radiogram6 = () => {
-  const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [selectedImages, setSelectedImages] = useState([]);
   const [isTopExpanded, setIsTopExpanded] = useState(false);
-
-  // Randomize grid order on mount
   const shuffledInanimates = useMemo(() => shuffleArray(inanimates), []);
+  const rotationRef = useRef(0);
+  const velocityRef = useRef(0);
+  const itemRefsRef = useRef([]); // direct DOM refs to each ring item
+  const rafRef = useRef(null);
+  const isAnimatingRef = useRef(false);
+  const N = shuffledInanimates.length;
+  // Pre-compute each item's spread angle in radians once
+  const spreadAngles = useMemo(
+    () => shuffledInanimates.map((_, i) => (i / N) * 360),
+    [shuffledInanimates, N]
+  );
+  const RADIUS = 420;
 
-  // Disable scrolling on mount, restore on unmount
   useEffect(() => {
-    const originalOverflow = document.body.style.overflow;
-    document.body.style.overflow = "hidden";
-
-    return () => {
-      document.body.style.overflow = originalOverflow;
+    const onWheel = (e) => {
+      e.preventDefault();
+      velocityRef.current += (e.deltaY + e.deltaX) * 0.04;
+      if (!isAnimatingRef.current) startLoop();
     };
-  }, []);
+    window.addEventListener("wheel", onWheel, { passive: false });
+    return () => window.removeEventListener("wheel", onWheel);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
 
-  // Preload only on desktop (mobile bandwidth is limited)
-  useEffect(() => {
-    if (!isMobile) {
-      inanimates.forEach((image) => {
-        const img = new Image();
-        img.src = image.src;
-      });
-    }
-  }, [isMobile]);
+  const startLoop = () => {
+    isAnimatingRef.current = true;
+    const loop = () => {
+      velocityRef.current *= 0.92;
+      rotationRef.current += velocityRef.current;
+      const rot = rotationRef.current;
+      const items = itemRefsRef.current;
+
+      for (let i = 0; i < items.length; i++) {
+        if (!items[i]) continue;
+        const spread = spreadAngles[i];
+        // Full final transform computed in JS — no CSS variable inheritance
+        items[i].style.transform =
+          `rotate(${spread}deg) translateY(-${RADIUS}px) rotate(${-spread - rot}deg)`;
+      }
+
+      if (Math.abs(velocityRef.current) > 0.01) {
+        rafRef.current = requestAnimationFrame(loop);
+      } else {
+        isAnimatingRef.current = false;
+      }
+    };
+    rafRef.current = requestAnimationFrame(loop);
+  };
 
   const handleImageClick = (image, index) => {
-    // Prevent same item from being stacked twice in a row
     if (
       selectedImages.length > 0 &&
       selectedImages[selectedImages.length - 1].gridIndex === index
-    ) {
-      return;
-    }
+    ) return;
 
-    // Generate random offset and rotation for natural placement feel
-    const randomX = (Math.random() - 0.5) * 60; // -30px to +30px
-    const randomY = (Math.random() - 0.5) * 60; // -30px to +30px
-    const randomRotation = (Math.random() - 0.5) * 12; // -6deg to +6deg
-
-    // Reset expanded state when adding new image
     setIsTopExpanded(false);
-
-    setSelectedImages((prev) => {
-      const newStack = [
-        ...prev,
-        {
-          ...image,
-          id: Date.now(),
-          gridIndex: index,
-          offsetX: randomX,
-          offsetY: randomY,
-          rotation: randomRotation,
-        },
-      ];
-      // Keep only the last 20 items
-      return newStack.slice(-20);
-    });
+    setSelectedImages((prev) => [
+      ...prev,
+      {
+        ...image,
+        id: Date.now(),
+        gridIndex: index,
+        offsetX: (Math.random() - 0.5) * 60,
+        offsetY: (Math.random() - 0.5) * 60,
+        rotation: (Math.random() - 0.5) * 12,
+      },
+    ].slice(-20));
   };
 
   const handleStackClick = (stackIndex) => {
-    // Only toggle expand for the topmost image
     if (stackIndex === selectedImages.length - 1) {
       setIsTopExpanded((prev) => !prev);
     }
@@ -162,22 +160,23 @@ export const Radiogram6 = () => {
 
   return (
     <div className="radiogram-6-container">
-      {/* Left side - Grid of images */}
-      <div className="radiogram-6-grid-wrapper">
-        <div className="radiogram-6-grid">
-          {shuffledInanimates.map((image, index) => (
-            <GridImage
+      <div className="radiogram-6-ring">
+        {shuffledInanimates.map((image, index) => {
+          const angle = (index / shuffledInanimates.length) * 360;
+          return (
+            <div
               key={index}
-              src={image.src}
-              alt={image.alt}
+              className="inanimate-ring-item"
+              ref={(el) => { itemRefsRef.current[index] = el; }}
+              style={{ transform: `rotate(${angle}deg) translateY(-${RADIUS}px) rotate(${-angle}deg)` }}
               onClick={() => handleImageClick(image, index)}
-              index={index}
-            />
-          ))}
-        </div>
+            >
+              <img src={image.src} alt={image.alt} loading="lazy" decoding="async" />
+            </div>
+          );
+        })}
       </div>
 
-      {/* Right side - Stacked selected images */}
       <div className="radiogram-6-stack">
         {selectedImages.length === 0 && (
           <div className="stack-placeholder">click to inspect inanimates</div>
@@ -185,12 +184,8 @@ export const Radiogram6 = () => {
         {selectedImages.map((image, stackIndex) => {
           const isTopImage = stackIndex === selectedImages.length - 1;
           const isExpanded = isTopImage && isTopExpanded;
-
-          // Progressive opacity: top item = 1, items further down fade out
           const positionFromTop = selectedImages.length - 1 - stackIndex;
-          const opacity = isTopImage
-            ? 1
-            : Math.max(0.25, 1 - positionFromTop * 0.04);
+          const opacity = isTopImage ? 1 : Math.max(0.25, 1 - positionFromTop * 0.04);
 
           return (
             <div
@@ -201,16 +196,11 @@ export const Radiogram6 = () => {
                 "--offset-x": `${image.offsetX}px`,
                 "--offset-y": `${image.offsetY}px`,
                 "--rotation": `${image.rotation}deg`,
-                opacity: opacity,
+                opacity,
               }}
               onClick={() => handleStackClick(stackIndex)}
             >
-              <img
-                src={image.src}
-                alt={image.alt}
-                loading="eager"
-                decoding="async"
-              />
+              <img src={image.src} alt={image.alt} loading="eager" decoding="async" />
             </div>
           );
         })}
