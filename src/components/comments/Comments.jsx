@@ -653,15 +653,10 @@ const Comments = ({
           paddingTop: isMobile ? "" : "10px",
           overflow: isMobile && menuOpen ? "visible" : "visible",
           opacity: isMobile ? 1 : isExpanded ? 1 : 0,
-          filter: isMobile
-            ? "blur(0px)"
-            : isExpanded
-              ? "blur(0px)"
-              : "blur(8px)",
           transition:
             isMobile && menuOpen
               ? "none"
-              : "opacity 0.3s ease-out , filter 0.3s ease-out, height 0.3s ease-out, max-height 0.3s ease-out",
+              : "opacity 0.3s ease-out, height 0.3s ease-out, max-height 0.3s ease-out",
           pointerEvents: isMobile ? "auto" : isExpanded ? "auto" : "none",
         }}
         className="comments-container-wrapper"

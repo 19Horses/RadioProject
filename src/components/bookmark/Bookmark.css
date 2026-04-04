@@ -584,16 +584,10 @@
     width: 46%;
     position: relative;
     cursor: pointer;
-    opacity: 1;
-    filter: blur(0px);
-    transform: scale(1);
-    transition: opacity 0.6s ease-in-out, filter 0.6s ease-out, transform 0.6s ease-out;
   }
 
   .article-image-container-hidden {
-    opacity: 0;
-    filter: blur(10px);
-    transform: scale(0.95);
+    display: none;
   }
 
   .article-image {

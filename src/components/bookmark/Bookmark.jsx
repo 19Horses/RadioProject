@@ -313,99 +313,31 @@ const Bookmark = ({
       .padStart(2, "0")}`;
   };
 
-  // Typewriter effect for title
+  // Title — set immediately (no typewriter)
   useEffect(() => {
-    // Clear any existing timeout
-    if (titleTimeoutRef.current) {
-      clearTimeout(titleTimeoutRef.current);
-    }
-
-    // Reset completion state immediately when article changes
-    setTitleTypingComplete(false);
-
+    if (titleTimeoutRef.current) clearTimeout(titleTimeoutRef.current);
     if (!currentArticle?.title) {
-      // Delay clearing to allow fade-out
-      titleTimeoutRef.current = setTimeout(() => {
-        setDisplayedTitle("");
-      }, 400);
+      titleTimeoutRef.current = setTimeout(() => setDisplayedTitle(""), 400);
       return;
     }
-
-    // Delay reset to allow fade-out animation to complete
-    const resetDelay = previousContentArticleRef.current ? 450 : 0;
-
-    const fullTitle = currentArticle.title;
-
-    const startTyping = () => {
-      let currentCharIndex = 0;
-
-      const typeNextChar = () => {
-        if (currentCharIndex <= fullTitle.length) {
-          setDisplayedTitle(fullTitle.slice(0, currentCharIndex));
-          currentCharIndex++;
-          titleTimeoutRef.current = setTimeout(typeNextChar, 30);
-        } else {
-          setTimeout(() => {
-            setTitleTypingComplete(true);
-          }, 50);
-        }
-      };
-
-      typeNextChar();
-    };
-
-    // Wait for fade-out before starting new content
-    titleTimeoutRef.current = setTimeout(startTyping, resetDelay + 100);
-
+    setDisplayedTitle(currentArticle.title);
+    setTitleTypingComplete(true);
     return () => {
-      if (titleTimeoutRef.current) {
-        clearTimeout(titleTimeoutRef.current);
-      }
-      setTitleTypingComplete(false); // Reset on unmount
+      if (titleTimeoutRef.current) clearTimeout(titleTimeoutRef.current);
+      setTitleTypingComplete(false);
     };
   }, [currentArticle?.title]);
 
-  // Typewriter effect for title2
+  // Title2 — set immediately (no typewriter)
   useEffect(() => {
-    // Clear any existing timeout
-    if (title2TimeoutRef.current) {
-      clearTimeout(title2TimeoutRef.current);
-    }
-
+    if (title2TimeoutRef.current) clearTimeout(title2TimeoutRef.current);
     if (!currentArticle?.title2) {
-      // Delay clearing to allow fade-out
-      title2TimeoutRef.current = setTimeout(() => {
-        setDisplayedTitle2("");
-      }, 400);
+      title2TimeoutRef.current = setTimeout(() => setDisplayedTitle2(""), 400);
       return;
     }
-
-    // Delay reset to allow fade-out animation to complete
-    const resetDelay = previousContentArticleRef.current ? 450 : 0;
-
-    const fullTitle2 = currentArticle.title2;
-
-    const startTyping = () => {
-      let currentCharIndex = 0;
-
-      const typeNextChar = () => {
-        if (currentCharIndex <= fullTitle2.length) {
-          setDisplayedTitle2(fullTitle2.slice(0, currentCharIndex));
-          currentCharIndex++;
-          title2TimeoutRef.current = setTimeout(typeNextChar, 30);
-        }
-      };
-
-      typeNextChar();
-    };
-
-    // Wait for fade-out before starting new content
-    title2TimeoutRef.current = setTimeout(startTyping, resetDelay + 50);
-
+    setDisplayedTitle2(currentArticle.title2);
     return () => {
-      if (title2TimeoutRef.current) {
-        clearTimeout(title2TimeoutRef.current);
-      }
+      if (title2TimeoutRef.current) clearTimeout(title2TimeoutRef.current);
     };
   }, [currentArticle?.title2]);
 
@@ -640,75 +572,18 @@ const Bookmark = ({
     };
   }, [currentArticle]);
 
-  // Typewriter effect for article summary
+  // Summary — set immediately (no typewriter)
   useEffect(() => {
-    // Clear any existing timeout
-    if (summaryTimeoutRef.current) {
-      clearTimeout(summaryTimeoutRef.current);
-    }
-
-    // Reset completion state immediately when article changes
-    setSummaryTypingComplete(false);
-
+    if (summaryTimeoutRef.current) clearTimeout(summaryTimeoutRef.current);
     if (!currentArticle?.summary) {
-      // Delay clearing to allow fade-out
-      summaryTimeoutRef.current = setTimeout(() => {
-        setDisplayedSummary("");
-      }, 400);
+      summaryTimeoutRef.current = setTimeout(() => setDisplayedSummary(""), 400);
       return;
     }
-
-    // Delay reset to allow fade-out animation to complete
-    const resetDelay = previousContentArticleRef.current ? 450 : 0;
-
-    // Strip HTML tags for character counting but preserve the full HTML
-    const fullHTML = currentArticle.summary;
-    const textOnly = fullHTML.replace(/<[^>]*>/g, "");
-
-    const startTyping = () => {
-      let currentCharIndex = 0;
-
-      const typeNextChar = () => {
-        if (currentCharIndex <= textOnly.length) {
-          // Find the position in the HTML that corresponds to currentCharIndex in plain text
-          let htmlPos = 0;
-          let textPos = 0;
-          let insideTag = false;
-
-          while (htmlPos < fullHTML.length && textPos <= currentCharIndex) {
-            if (fullHTML[htmlPos] === "<") {
-              insideTag = true;
-            } else if (fullHTML[htmlPos] === ">") {
-              insideTag = false;
-            } else if (!insideTag) {
-              textPos++;
-            }
-            htmlPos++;
-          }
-
-          // Display the HTML up to this point
-          setDisplayedSummary(fullHTML.slice(0, htmlPos));
-          currentCharIndex++;
-          summaryTimeoutRef.current = setTimeout(typeNextChar, 10);
-        } else {
-          // Summary typing is complete
-          setTimeout(() => {
-            setSummaryTypingComplete(true);
-          }, 50);
-        }
-      };
-
-      typeNextChar();
-    };
-
-    // Wait for fade-out before starting new content
-    summaryTimeoutRef.current = setTimeout(startTyping, resetDelay + 300);
-
+    setDisplayedSummary(currentArticle.summary);
+    setSummaryTypingComplete(true);
     return () => {
-      if (summaryTimeoutRef.current) {
-        clearTimeout(summaryTimeoutRef.current);
-      }
-      setSummaryTypingComplete(false); // Reset on unmount
+      if (summaryTimeoutRef.current) clearTimeout(summaryTimeoutRef.current);
+      setSummaryTypingComplete(false);
     };
   }, [currentArticle?.summary]);
 

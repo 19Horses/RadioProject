@@ -1,12 +1,6 @@
 @keyframes fadeBlurIn {
-  0% {
-    opacity: 0;
-    filter: blur(10px);
-  }
-  100% {
-    opacity: 1;
-    filter: blur(0px);
-  }
+  0% { opacity: 0; }
+  100% { opacity: 1; }
 }
 
 @keyframes blurIn {

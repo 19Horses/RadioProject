@@ -4,7 +4,9 @@
       "Bash(npx react-scripts:*)",
       "Bash(npx eslint:*)",
       "Bash(npm install:*)",
-      "Bash(node -e \"const t = require\\(''three''\\); console.log\\(t.REVISION\\)\")"
+      "Bash(node -e \"const t = require\\(''three''\\); console.log\\(t.REVISION\\)\")",
+      "Bash(python3 -c \" with open\\('/Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/radio-project/src/assets/side tag.svg'\\) as f: lines = f.readlines\\(\\) for i, l in enumerate\\(lines\\): print\\(f'=== LINE {i+1} ==='\\) print\\(l\\) \")",
+      "Bash(python3)"
     ]
   }
 }
