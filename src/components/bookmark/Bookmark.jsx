@@ -5,14 +5,14 @@ import React, {
   useCallback,
   useMemo,
 } from "react";
-import { useLocation, useNavigate, Link } from "react-router-dom";
+import { useLocation, Link } from "react-router-dom";
 import "./Bookmark.css";
 import SymmetricalPattern from "../ui/SymmetricalPattern";
 import Watermark from "../ui/Watermark";
 import { useAudio } from "../../AudioContext";
 import Comments from "../comments/Comments";
 import MobileMenuTopBar from "./MobileMenuTopBar";
-import newLogo from "../../assets/new-logo.svg";
+
 import SideTagIcon from "../ui/SideTagIcon";
 import {
   DATA_API,
@@ -24,7 +24,6 @@ import { fetchJson } from "../../utils/arrayUtils";
 const Bookmark = ({
   currentArticle,
   onHoverMenuItem,
-  scrollPercentage,
   setPlayingGuest,
   playingGuest,
   isMobile = false,
@@ -39,25 +38,16 @@ const Bookmark = ({
   const [isClosing, setIsClosing] = useState(false);
   const [menuAnimationComplete, setMenuAnimationComplete] = useState(false);
   const bookmarkRef = useRef(null);
-  const [currentFrame, setCurrentFrame] = useState(0);
-  const [timeOnPage, setTimeOnPage] = useState(0);
-  const timerRef = useRef(null);
-  const [_scrollPercent, setScrollPercent] = useState(0);
-  const [mousePos, setMousePos] = useState({ x: 0, y: 0 });
-  const [_location, setLocation] = useState({ city: null, country: null });
-  const [watermarkHovered, setWatermarkHovered] = useState(false);
-  const navigate = useNavigate();
+
   const [displayedSummary, setDisplayedSummary] = useState("");
   const [displayedTitle, setDisplayedTitle] = useState("");
   const [displayedTitle2, setDisplayedTitle2] = useState("");
   const [imageVisible, setImageVisible] = useState(false);
   const [currentImageSrc, setCurrentImageSrc] = useState(null);
-  const [indicatorVisible, setIndicatorVisible] = useState(false);
-  const [isNavigating, setIsNavigating] = useState(false);
   const [titleTypingComplete, setTitleTypingComplete] = useState(false);
   const [summaryTypingComplete, setSummaryTypingComplete] = useState(false);
   const [marqueeAnimVisible, setMarqueeAnimVisible] = useState(false);
-  const [patternVisible, setPatternVisible] = useState(false);
+
   const [contentVisible, setContentVisible] = useState(false);
   const [photoTaken, setPhotoTaken] = useState(false);
   const [formValid, setFormValid] = useState(false);
@@ -72,8 +62,6 @@ const Bookmark = ({
   const imageTimeoutRef = useRef(null);
   const imageFadeInTimeoutRef = useRef(null);
   const previousArticleRef = useRef(null);
-  const indicatorTimeoutRef = useRef(null);
-  const patternTimeoutRef = useRef(null);
   const titleSummaryRef = useRef(null);
   const [bottomOffset, setBottomOffset] = useState(243); // Default fallback
   const [visitorQuestions, setVisitorQuestions] = useState([]);
@@ -113,9 +101,8 @@ const Bookmark = ({
     }
   }, [location.pathname, visitorQuestions.length]);
 
-  // Reset navigation state and close menu on location change
+  // Close menu on location change
   useEffect(() => {
-    setIsNavigating(false);
     setMenuOpen(false);
     setIsClosing(false);
   }, [location]);
@@ -175,23 +162,6 @@ const Bookmark = ({
       );
     };
   }, []);
-  // Animate frames when article/mix is selected
-  useEffect(() => {
-    if (!currentArticle) {
-      setCurrentFrame(0);
-      return;
-    }
-
-    // Reset frame and navigation state when switching between articles/mixes
-    setCurrentFrame(0);
-    setIsNavigating(false);
-
-    const interval = setInterval(() => {
-      setCurrentFrame((prev) => (prev + 1) % frames.length);
-    }, 800);
-
-    return () => clearInterval(interval);
-  }, [currentArticle]);
 
   const toggleMenu = useCallback(() => {
     if (menuOpen && !isClosing) {
@@ -225,93 +195,6 @@ const Bookmark = ({
     }
   }, [menuOpen, isClosing]);
 
-  // Prevent body scroll when menu is open on mobile
-  // useEffect(() => {
-  //   if (isMobile && menuOpen) {
-  //     // Store the current scroll position
-  //     const scrollY = window.scrollY;
-
-  //     // Store original styles
-  //     const originalPosition = document.documentElement.style.position;
-  //     const originalTop = document.documentElement.style.top;
-  //     const originalWidth = document.documentElement.style.width;
-  //     const originalOverflow = document.documentElement.style.overflow;
-
-  //     // Lock scroll using document element instead of body
-  //     document.documentElement.style.position = "fixed";
-  //     document.documentElement.style.top = `-${scrollY}px`;
-  //     document.documentElement.style.left = "0";
-  //     document.documentElement.style.right = "0";
-  //     document.documentElement.style.overflow = "visible";
-
-  //     return () => {
-  //       // Restore original styles
-  //       document.documentElement.style.position = originalPosition;
-  //       document.documentElement.style.top = originalTop;
-  //       document.documentElement.style.width = originalWidth;
-  //       document.documentElement.style.overflow = originalOverflow;
-  //       document.documentElement.style.left = "";
-  //       document.documentElement.style.right = "";
-
-  //       // Restore scroll position
-  //       window.scrollTo(0, scrollY);
-  //     };
-  //   }
-  // }, [isMobile, menuOpen]);
-
-  // Track time on page
-  useEffect(() => {
-    setTimeOnPage(0);
-    timerRef.current = setInterval(() => {
-      setTimeOnPage((prev) => prev + 1);
-    }, 1000);
-
-    return () => {
-      if (timerRef.current) {
-        clearInterval(timerRef.current);
-      }
-    };
-  }, [currentArticle]); // Reset timer when article/page changes
-
-  // Track scroll percentage
-  useEffect(() => {
-    const handleScroll = () => {
-      const scrollTop = window.scrollY;
-      const docHeight =
-        document.documentElement.scrollHeight - window.innerHeight;
-      const scrolled = docHeight > 0 ? (scrollTop / docHeight) * 100 : 0;
-      setScrollPercent(Math.round(scrolled));
-    };
-
-    window.addEventListener("scroll", handleScroll);
-    handleScroll(); // Initial calculation
-
-    return () => {
-      window.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  // Track mouse position
-  useEffect(() => {
-    const handleMouseMove = (e) => {
-      setMousePos({ x: e.clientX, y: e.clientY });
-    };
-
-    window.addEventListener("mousemove", handleMouseMove);
-
-    return () => {
-      window.removeEventListener("mousemove", handleMouseMove);
-    };
-  }, []);
-
-  // Format time as MM:SS
-  const _formatTime = (seconds) => {
-    const mins = Math.floor(seconds / 60);
-    const secs = seconds % 60;
-    return `${mins.toString().padStart(2, "0")}:${secs
-      .toString()
-      .padStart(2, "0")}`;
-  };
 
   // Title — set immediately (no typewriter)
   useEffect(() => {
@@ -341,39 +224,6 @@ const Bookmark = ({
     };
   }, [currentArticle?.title2]);
 
-  // Glitch blink effect for indicator - triggers after typing animations complete
-  useEffect(() => {
-    // Clear any existing timeout
-    if (indicatorTimeoutRef.current) {
-      clearTimeout(indicatorTimeoutRef.current);
-    }
-
-    // Always reset indicator when dependencies change
-    setIndicatorVisible(false);
-
-    if (currentArticle) {
-      // Determine if we should wait for typing animations
-      const shouldWaitForTitle = currentArticle.title && !titleTypingComplete;
-      const shouldWaitForSummary =
-        currentArticle.summary && !summaryTypingComplete;
-
-      // If either animation is still running, don't show indicator yet
-      if (shouldWaitForTitle || shouldWaitForSummary) {
-        return;
-      }
-
-      // Both animations are complete (or don't exist), show indicator after delay
-      indicatorTimeoutRef.current = setTimeout(() => {
-        setIndicatorVisible(true);
-      }, 700); // Substantial delay after typing completes
-    }
-
-    return () => {
-      if (indicatorTimeoutRef.current) {
-        clearTimeout(indicatorTimeoutRef.current);
-      }
-    };
-  }, [currentArticle, titleTypingComplete, summaryTypingComplete]);
 
   // Measure title + summary height for Comments component
   useEffect(() => {
@@ -396,29 +246,6 @@ const Bookmark = ({
     summaryTypingComplete,
   ]);
 
-  // Fade effect for SymmetricalPattern
-  useEffect(() => {
-    // Clear any existing timeout
-    if (patternTimeoutRef.current) {
-      clearTimeout(patternTimeoutRef.current);
-    }
-
-    if (currentArticle && !menuOpen) {
-      // Fade in after a short delay when article is present
-      patternTimeoutRef.current = setTimeout(() => {
-        setPatternVisible(true);
-      }, 500);
-    } else {
-      // Fade out immediately when no article or menu is open
-      setPatternVisible(false);
-    }
-
-    return () => {
-      if (patternTimeoutRef.current) {
-        clearTimeout(patternTimeoutRef.current);
-      }
-    };
-  }, [currentArticle, menuOpen]);
 
   // Blur fade effect for marquee based on route
   useEffect(() => {
@@ -600,9 +427,6 @@ const Bookmark = ({
       </div>
     );
   }, [displayedSummary, isMobile]);
-
-  const bookmarkHeight = isMobile ? "100dvh" : "100vh";
-  const [isExpanded, setIsExpanded] = useState(false);
 
   return (
     <div className="bookmark-container">
@@ -1229,10 +1053,7 @@ const Bookmark = ({
                   }
                 : {}),
             }}
-            onClick={(e) => {
-              // Only allow opening the menu when it's closed
-              // Don't close the menu when clicking on the bookmark container itself
-              // Menu items have their own onClick handlers to close the menu
+            onClick={() => {
               if (!menuOpen) {
                 setMenuOpen(true);
               }

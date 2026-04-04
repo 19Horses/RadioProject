@@ -418,34 +418,6 @@ export const Radiogram6 = () => {
         </div>
       )}
 
-      {/* <div className="radiogram-6-stack">
-        {selectedImages.length === 0 && (
-          <div className="stack-placeholder">click to inspect inanimates</div>
-        )}
-        {selectedImages.map((image, stackIndex) => {
-          const isTopImage = stackIndex === selectedImages.length - 1;
-          const isExpanded = isTopImage && isTopExpanded;
-          const positionFromTop = selectedImages.length - 1 - stackIndex;
-          const opacity = isTopImage ? 1 : Math.max(0.25, 1 - positionFromTop * 0.04);
-
-          return (
-            <div
-              key={image.id}
-              className={`stacked-image ${isExpanded ? "stacked-image-expanded" : ""}`}
-              style={{
-                zIndex: isExpanded ? 9999 : stackIndex,
-                "--offset-x": `${image.offsetX}px`,
-                "--offset-y": `${image.offsetY}px`,
-                "--rotation": `${image.rotation}deg`,
-                opacity,
-              }}
-              onClick={() => handleStackClick(stackIndex)}
-            >
-              <img src={image.src} alt={image.alt} loading="eager" decoding="async" />
-            </div>
-          );
-        })}
-      </div> */}
     </div>
   );
 };
