@@ -12,19 +12,19 @@
 
 @font-face {
   font-family: "NeueHaasDisplayRoman";
-  src: local("Neue Haas Grotesk Display"), url("./assets/NeueHaasDisplayRoman.woff") format("opentype");
+  src: local("Neue Haas Grotesk Display"), url("./assets/NHaasGroteskDSPro-55Rg.otf") format("opentype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "NeueHaasDisplayMedium";
-  src: local("Neue Haas Grotesk Display"), url("./assets/NeueHaasDisplayMediu.woff") format("opentype");
+  src: local("Neue Haas Grotesk Display"), url("./assets/NHaasGroteskDSPro-65Md.otf") format("opentype");
   font-style: normal;
 }
 
 @font-face {
   font-family: "NeueHaasDisplayLight";
-  src: local("NeueHaasDisplayLight"), url("./assets/NeueHaasDisplayLight.ttf") format("truetype");
+  src: local("NeueHaasDisplayLight"), url("./assets/NHaasGroteskDSPro-45Lt.otf") format("opentype");
   font-style: normal;
 }
 

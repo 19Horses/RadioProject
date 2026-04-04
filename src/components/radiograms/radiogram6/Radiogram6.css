@@ -8,34 +8,20 @@
   /* clip everything below the horizontal midpoint */
 }
 
-/* Ring layout — only top half visible, anchored to bottom of viewport */
-.radiogram-6-ring {
+/* p5 canvas — fills the container, transparent background */
+.radiogram-6-canvas {
   position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 0;
-  height: 0;
-  transform: translate(-50%, 0) rotate(0deg);
-  will-change: transform;
-}
-
-.inanimate-ring-item {
-  position: absolute;
-  width: 160px;
-  cursor: pointer;
-  transform-origin: center bottom;
-  will-change: transform;
-}
-
-.inanimate-ring-item img {
+  top: 0;
+  left: 0;
   width: 100%;
-  height: auto;
-  display: block;
-  box-shadow: 0 4px 20px rgba(0,0,0,0.18);
+  height: 100%;
 }
 
-.inanimate-ring-item:hover img {
-  opacity: 0.85;
+.radiogram-6-canvas canvas {
+  display: block;
+  position: absolute;
+  top: 0;
+  left: 0;
 }
 
 /* Stack */
@@ -93,6 +79,38 @@
 @keyframes placeImageFade {
   from { opacity: 0; }
   to   { opacity: 1; }
+}
+
+.radiogram-6-letter-wrap {
+  position: absolute;
+  bottom: 24px;
+  left: 20px;
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  user-select: none;
+  cursor: pointer;
+}
+
+.radiogram-6-letter-label {
+  font-family: "NeueHaasDisplayRoman", sans-serif;
+  font-size: 13px;
+  letter-spacing: -3%;
+  background-color: #D9D9D9;
+  color: #837D7D;
+  display: inline-block;
+  transform: translateY(-5px) scale(1);
+  transform-origin: left bottom;
+  transition: transform 0.3s ease;
+}
+
+.radiogram-6-letter-wrap:hover .radiogram-6-letter-label {
+  transform: translateY(-5px) scale(1.54);
+}
+
+.radiogram-6-letter {
+  width: 100px;
+  height: auto;
 }
 
 /* Mobile */
