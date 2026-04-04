@@ -1,33 +1,5 @@
 import React, { useRef, useState, useEffect } from "react";
 import { createPortal } from "react-dom";
-import AriesIcon from "../../assets/starsigns/aries.svg";
-import TaurusIcon from "../../assets/starsigns/taurus.svg";
-import GeminiIcon from "../../assets/starsigns/gemini.svg";
-import CancerIcon from "../../assets/starsigns/cancer.svg";
-import LeoIcon from "../../assets/starsigns/leo.svg";
-import VirgoIcon from "../../assets/starsigns/virgo.svg";
-import LibraIcon from "../../assets/starsigns/libra.svg";
-import ScorpioIcon from "../../assets/starsigns/scorpio.svg";
-import SagittariusIcon from "../../assets/starsigns/sagitarrius.svg";
-import CapricornIcon from "../../assets/starsigns/capricorn.svg";
-import AquariusIcon from "../../assets/starsigns/aquarius.svg";
-import PiscesIcon from "../../assets/starsigns/pisces.svg";
-import DitheredImageCanvas from "../utils/DitheredImageCanvas";
-
-const starSignIcons = {
-  Aries: AriesIcon,
-  Taurus: TaurusIcon,
-  Gemini: GeminiIcon,
-  Cancer: CancerIcon,
-  Leo: LeoIcon,
-  Virgo: VirgoIcon,
-  Libra: LibraIcon,
-  Scorpio: ScorpioIcon,
-  Sagittarius: SagittariusIcon,
-  Capricorn: CapricornIcon,
-  Aquarius: AquariusIcon,
-  Pisces: PiscesIcon,
-};
 
 export function VisitorModal({
   clickedImage,

@@ -195,7 +195,6 @@ const Bookmark = ({
     }
   }, [menuOpen, isClosing]);
 
-
   // Title — set immediately (no typewriter)
   useEffect(() => {
     if (titleTimeoutRef.current) clearTimeout(titleTimeoutRef.current);
@@ -224,7 +223,6 @@ const Bookmark = ({
     };
   }, [currentArticle?.title2]);
 
-
   // Measure title + summary height for Comments component
   useEffect(() => {
     if (
@@ -246,7 +244,6 @@ const Bookmark = ({
     summaryTypingComplete,
   ]);
 
-
   // Blur fade effect for marquee based on route
   useEffect(() => {
     // Clear any existing timeout
@@ -258,8 +255,7 @@ const Bookmark = ({
     const shouldShowMarquee =
       location.pathname === "/" ||
       location.pathname === "/archive" ||
-      location.pathname === "/visitorlog" ||
-      location.pathname === "/proposals";
+      location.pathname === "/visitorlog";
 
     if (shouldShowMarquee) {
       // Delay fade in for smooth transition
@@ -403,7 +399,10 @@ const Bookmark = ({
   useEffect(() => {
     if (summaryTimeoutRef.current) clearTimeout(summaryTimeoutRef.current);
     if (!currentArticle?.summary) {
-      summaryTimeoutRef.current = setTimeout(() => setDisplayedSummary(""), 400);
+      summaryTimeoutRef.current = setTimeout(
+        () => setDisplayedSummary(""),
+        400,
+      );
       return;
     }
     setDisplayedSummary(currentArticle.summary);
@@ -922,24 +921,7 @@ const Bookmark = ({
                   >
                     Visitor Log
                   </Link>
-                  <Link
-                    to="/proposals"
-                    className="icon-blink menu-item-glitch menu-link"
-                    onClick={toggleMenu}
-                    onMouseEnter={() =>
-                      onHoverMenuItem && onHoverMenuItem("contact")
-                    }
-                    onMouseLeave={() =>
-                      onHoverMenuItem && onHoverMenuItem(null)
-                    }
-                    style={{
-                      opacity: 0,
-                      animation: "fadeIn 0.7s ease-out forwards",
-                      animationDelay: "0.7s",
-                    }}
-                  >
-                    Proposals
-                  </Link>
+
                   <a
                     href="https://soundcloud.com/radioproject_live"
                     target="_blank"
@@ -1318,19 +1300,7 @@ const Bookmark = ({
                       >
                         Visitor Log
                       </Link>
-                      <Link
-                        to="/proposals"
-                        className="icon-blink menu-item-glitch menu-link"
-                        onClick={toggleMenu}
-                        onMouseEnter={() =>
-                          onHoverMenuItem && onHoverMenuItem("contact")
-                        }
-                        onMouseLeave={() =>
-                          onHoverMenuItem && onHoverMenuItem(null)
-                        }
-                      >
-                        Proposals
-                      </Link>
+
                       <a
                         href="https://soundcloud.com/radioproject_live"
                         target="_blank"
