@@ -698,7 +698,8 @@ const Bookmark = ({
                 >
                   {displayedTitle && displayedTitle2 && (
                     <div className="article-title">
-                      {displayedTitle2} → {displayedTitle}
+                      {displayedTitle2} <span className="arrow">→</span>{" "}
+                      {displayedTitle}
                     </div>
                   )}
 

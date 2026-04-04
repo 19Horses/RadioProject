@@ -28,6 +28,11 @@
     font-style: normal;
   }
 
+  @font-face {
+    font-family: "Rigid Square";
+    src: url("../../assets/RigidSquare-Regular.otf");
+  }
+
   @keyframes scroll-vertical {
     0% {
       transform: translateY(0);
@@ -485,6 +490,11 @@
     justify-content: space-between;
     margin-top: 10px;
     margin-bottom: 10px;
+  }
+
+  .arrow{
+    font-family: "Rigid Square", sans-serif;
+
   }
 
   .article-tags-pills {
