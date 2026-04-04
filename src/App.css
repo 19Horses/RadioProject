@@ -40,6 +40,11 @@
   font-style: normal;
 }
 
+@font-face {
+  font-family: "Fraktion";
+  src: url("./assets/PPFraktionMono-Regular-BF675904a6a1564.otf") format("opentype");
+}
+
 @keyframes fadeIn {
   0% {
     opacity: 0;

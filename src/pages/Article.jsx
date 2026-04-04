@@ -42,7 +42,22 @@ export const Article = ({
 
   useEffect(() => {
     if (articleSelected && setCurrentArticle) {
-      setCurrentArticle(articleSelected);
+      const formatDesc = (desc) => {
+        if (!Array.isArray(desc)) return desc;
+        return desc
+          .map((sentence) => {
+            const spaceIdx = sentence.indexOf(" ");
+            if (spaceIdx === -1) return `<p class="desc-row"><span class="desc-plus">+</span><span><strong>${sentence}</strong></span></p>`;
+            const first = sentence.slice(0, spaceIdx);
+            const rest = sentence.slice(spaceIdx);
+            return `<p class="desc-row"><span class="desc-plus">+</span><span><strong>${first}</strong>${rest}</span></p>`;
+          })
+          .join("");
+      };
+      setCurrentArticle({
+        ...articleSelected,
+        summary: formatDesc(articleSelected.summary),
+      });
     }
     return () => {
       if (setCurrentArticle) {

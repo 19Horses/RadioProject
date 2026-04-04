@@ -13,6 +13,7 @@ import { useAudio } from "../../AudioContext";
 import Comments from "../comments/Comments";
 import MobileMenuTopBar from "./MobileMenuTopBar";
 import newLogo from "../../assets/new-logo.svg";
+import SideTagIcon from "../ui/SideTagIcon";
 import {
   DATA_API,
   CURRENT_QUESTION,
@@ -720,12 +721,6 @@ const Bookmark = ({
           isMobile ? "article-summary-mobile" : "article-summary-desktop"
         }`}
       >
-        <img
-          src="/super.svg"
-          alt=""
-          className="article-summary-icon"
-          aria-hidden="true"
-        />
         <span dangerouslySetInnerHTML={{ __html: displayedSummary }} />
       </div>
     );
@@ -1003,11 +998,27 @@ const Bookmark = ({
                       : ""
                   }`}
                 >
-                  {displayedTitle2 && (
-                    <div className="article-title2">{displayedTitle2}</div>
+                  {displayedTitle && displayedTitle2 && (
+                    <div className="article-title">
+                      {displayedTitle2} → {displayedTitle}
+                    </div>
                   )}
-                  {displayedTitle && (
-                    <div className="article-title">{displayedTitle}</div>
+
+                  {currentArticle?.tags?.length > 0 && (
+                    <div className="article-tags">
+                      <div className="article-tags-pills">
+                        {currentArticle.tags.map((tag) => (
+                          <span key={tag} className="article-tag">
+                            {tag}
+                          </span>
+                        ))}
+                      </div>
+                      <SideTagIcon
+                        color1={currentArticle.hexCodes?.[0] || "#B2ABAB"}
+                        color2={currentArticle.hexCodes?.[1] || "#D9D9D9"}
+                        height={20}
+                      />
+                    </div>
                   )}
 
                   {articleSummary}

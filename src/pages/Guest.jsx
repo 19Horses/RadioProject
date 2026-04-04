@@ -33,7 +33,17 @@ export const Guest = ({
       // Create a summary-compatible object for mixes
       const mixWithSummary = {
         ...selectedGuest,
-        summary: selectedGuest.description, // Use description as summary
+        summary: Array.isArray(selectedGuest.description)
+          ? selectedGuest.description
+              .map((sentence) => {
+                const spaceIdx = sentence.indexOf(" ");
+                if (spaceIdx === -1) return `<p class="desc-row"><span class="desc-plus">+</span><span><strong>${sentence}</strong></span></p>`;
+                const first = sentence.slice(0, spaceIdx);
+                const rest = sentence.slice(spaceIdx);
+                return `<p class="desc-row"><span class="desc-plus">+</span><span><strong>${first}</strong>${rest}</span></p>`;
+              })
+              .join("")
+          : selectedGuest.description, // Use description as summary
       };
       setCurrentArticle(mixWithSummary);
     }
