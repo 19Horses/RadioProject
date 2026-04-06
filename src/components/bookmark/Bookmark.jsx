@@ -713,8 +713,8 @@ const Bookmark = ({
                         ))}
                       </div>
                       <SideTagIcon
-                        color1={currentArticle.hexCodes?.[0] || "#B2ABAB"}
-                        color2={currentArticle.hexCodes?.[1] || "#D9D9D9"}
+                        color1={"#B2ABAB"}
+                        color2={"#D9D9D9"}
                         height={20}
                       />
                     </div>
