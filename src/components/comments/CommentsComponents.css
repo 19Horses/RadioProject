@@ -481,7 +481,7 @@
   padding-left: 3px;
   padding-right: 3px;
   font-family: "NeueBit-Regular";
-  font-size: 22px;
+  font-size: 19px;
   line-height: 0.8;
   color: #575757;
   margin: 0;
@@ -492,9 +492,9 @@
 .reply-button {
   background: none;
   border: none;
-  font-family: "dot", "VCR", monospace;
-  letter-spacing: -0.3px;
-  font-size: 12px;
+  font-family: "Fraktion", "VCR", monospace;
+  letter-spacing: -0.7px;
+  font-size: 10px;
   padding: 0;
   color: rgba(67, 74, 71, 0.4);
   cursor: pointer;

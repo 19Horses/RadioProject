@@ -11,6 +11,13 @@ function GridToggleButton({ gridView, setGridView }) {
   const location = useLocation();
   const [mounted, setMounted] = useState(false);
   const [visible, setVisible] = useState(false);
+  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
+
+  useEffect(() => {
+    const handler = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handler);
+    return () => window.removeEventListener("resize", handler);
+  }, []);
   const prevPathnameRef = useRef(location.pathname);
 
   useEffect(() => {
@@ -37,25 +44,32 @@ function GridToggleButton({ gridView, setGridView }) {
   if (!mounted) return null;
 
   return (
-    <img
-      src={gridView ? "/timeline-sel.svg" : "/group-sel.svg"}
-      alt="Toggle grid view"
-      aria-hidden="false"
-      className="group-icon-svg"
-      onClick={() => setGridView((v) => !v)}
+    <div
       style={{
         position: "fixed",
-        left: "50%",
-        bottom: "10px",
         zIndex: 1000,
-        border: "0.5px solid #9D9D9D",
-        opacity: visible ? 1 : 0,
-        filter: visible ? "blur(0px)" : "blur(20px)",
-        transform: `translateX(-50%) scale(${visible ? 1 : 0.95})`,
-        transition:
-          "opacity 0.7s ease-in-out, filter 0.7s ease-in-out, transform 0.7s ease-in-out",
+        display: "flex",
+        gap: "10px",
+        left: isMobile ? "30px" : "calc(3vw + 304px)",
+        bottom: isMobile ? "30px" : "20px",
       }}
-    />
+    >
+      <img
+        src={gridView ? "/timeline-sel.svg" : "/group-sel.svg"}
+        alt="Toggle grid view"
+        aria-hidden="false"
+        className="group-icon-svg"
+        onClick={() => setGridView((v) => !v)}
+        style={{
+          border: "0.5px solid #c8c8c8",
+          opacity: visible ? 1 : 0,
+          filter: visible ? "blur(0px)" : "blur(20px)",
+          transform: ` scale(${visible ? 1 : 0.95})`,
+          transition:
+            "opacity 0.7s ease-in-out, filter 0.7s ease-in-out, transform 0.7s ease-in-out",
+        }}
+      />{" "}
+    </div>
   );
 }
 import { AnimatePresence } from "framer-motion";

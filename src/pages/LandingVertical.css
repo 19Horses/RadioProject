@@ -243,6 +243,8 @@
 @media (max-width: 768px) {
   .landing-grid-container {
     left: 0;
+    padding-top: calc(20px + env(safe-area-inset-top));
+    padding-bottom: calc(4px + env(safe-area-inset-bottom));
   }
 }
 
@@ -274,7 +276,6 @@
   height: auto !important;
   padding-bottom: 0 !important;
   overflow: hidden;
-  outline: 0.5px solid #0000003e;
 }
 
 .landing-grid-container .landing-vertical-image-container > div {
