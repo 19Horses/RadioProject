@@ -1261,15 +1261,6 @@ const Bookmark = ({
                 />
                 {menuAnimationComplete && (
                   <div className="mobile-menu-bottom-section">
-                    {currentArticle && (
-                      <div
-                        className={`mobile-article-summary ${
-                          isClosing ? "menu-contracting" : "menu-expanding"
-                        }`}
-                      >
-                        {articleSummary}
-                      </div>
-                    )}
                     <div
                       className={`mobile-menu-container ${
                         isClosing ? "menu-contracting" : "menu-expanding"
