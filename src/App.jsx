@@ -7,71 +7,6 @@ import {
   useLocation,
 } from "react-router-dom";
 
-function GridToggleButton({ gridView, setGridView }) {
-  const location = useLocation();
-  const [mounted, setMounted] = useState(false);
-  const [visible, setVisible] = useState(false);
-  const [isMobile, setIsMobile] = useState(() => window.innerWidth < 768);
-
-  useEffect(() => {
-    const handler = () => setIsMobile(window.innerWidth < 768);
-    window.addEventListener("resize", handler);
-    return () => window.removeEventListener("resize", handler);
-  }, []);
-  const prevPathnameRef = useRef(location.pathname);
-
-  useEffect(() => {
-    const prev = prevPathnameRef.current;
-    prevPathnameRef.current = location.pathname;
-
-    if (location.pathname !== "/") {
-      setVisible(false);
-      const t = setTimeout(() => setMounted(false), 700);
-      return () => clearTimeout(t);
-    }
-    const comingFromContent =
-      prev.startsWith("/mix/") || prev.startsWith("/article/");
-    const delay = comingFromContent ? 700 : 0;
-    const t = setTimeout(() => {
-      setMounted(true);
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => setVisible(true)),
-      );
-    }, delay);
-    return () => clearTimeout(t);
-  }, [location.pathname]);
-
-  if (!mounted) return null;
-
-  return (
-    <div
-      style={{
-        position: "fixed",
-        zIndex: 1000,
-        display: "flex",
-        gap: "10px",
-        left: isMobile ? "30px" : "calc(3vw + 304px)",
-        bottom: isMobile ? "30px" : "20px",
-      }}
-    >
-      <img
-        src={gridView ? "/timeline-sel.svg" : "/group-sel.svg"}
-        alt="Toggle grid view"
-        aria-hidden="false"
-        className="group-icon-svg"
-        onClick={() => setGridView((v) => !v)}
-        style={{
-          border: "0.5px solid #c8c8c8",
-          opacity: visible ? 1 : 0,
-          filter: visible ? "blur(0px)" : "blur(20px)",
-          transform: ` scale(${visible ? 1 : 0.95})`,
-          transition:
-            "opacity 0.7s ease-in-out, filter 0.7s ease-in-out, transform 0.7s ease-in-out",
-        }}
-      />{" "}
-    </div>
-  );
-}
 import { AnimatePresence } from "framer-motion";
 import "./App.css";
 import "./styles/pageTransitions.css";
@@ -392,7 +327,6 @@ function App() {
         {/* Online visitor counter */}
         <OnlineCount onlineCount={onlineCount} isMobile={isMobile} />
         <CornerFrames />
-        <GridToggleButton gridView={gridView} setGridView={setGridView} />
 
         <AudioProvider>
           <Bookmark

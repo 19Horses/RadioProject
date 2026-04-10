@@ -30,7 +30,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
     const t = setTimeout(() => {
       setActiveView(gridView);
       requestAnimationFrame(() =>
-        requestAnimationFrame(() => setViewVisible(true))
+        requestAnimationFrame(() => setViewVisible(true)),
       );
     }, 250);
     return () => clearTimeout(t);
@@ -338,30 +338,6 @@ export const LandingVertical = ({ isMobile, gridView }) => {
     [isMobile, handleItemClick],
   );
 
-  if (activeView) {
-    return (
-      <>
-        {hoveredGuest && !isMobile && (
-          <CustomCursor
-            hoveredGuest={hoveredGuest}
-            isLeft={false}
-            hovered={true}
-            dimmed={false}
-          />
-        )}
-        <div
-          className={`landing-grid-container${viewVisible ? " landing-grid-visible" : ""}`}
-        >
-          {filteredItems.map((guest, i) => (
-            <div key={i} className="landing-grid-cell" style={{ "--i": i }}>
-              <ImageItem guest={guest} isFocused={true} />
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  }
-
   return (
     <>
       {hoveredGuest && !isMobile && (
@@ -442,7 +418,10 @@ export const LandingVertical = ({ isMobile, gridView }) => {
 
       <div
         className="landing-vertical-container total-container"
-        style={{ opacity: viewVisible ? 1 : 0, transition: "opacity 0.25s ease" }}
+        style={{
+          opacity: viewVisible ? 1 : 0,
+          transition: "opacity 0.25s ease",
+        }}
       >
         <div className="landing-vertical-scroll-wrapper scroll-wrapper">
           <div
