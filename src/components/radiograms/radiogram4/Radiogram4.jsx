@@ -207,7 +207,6 @@ export const Radiogram4 = () => {
         and mothers, clipped ears. I took pictures of Gaby and Luke in the pink
         dusk that turned lilac and indigo.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Dianne and George in heavy gear parked their e-bikes at the barrow’s
         base. They wore white and black bandanas and did their best to tolerate
@@ -217,7 +216,6 @@ export const Radiogram4 = () => {
         archaeologists, ‘just old’ Diane offered ‘and nothing better to do than
         look at stones’.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         They were spending the night on the barrow, watching the solstice from
         outside Stonehenge, ‘not until we get our stones back’. In 1977
@@ -226,7 +224,6 @@ export const Radiogram4 = () => {
         used to be able to drive right up to the stones, touch them, carve
         pictures in their moss.
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Luke asked about the meaning. ‘That’s the point, no one knows, it’s all
         conjecture at this point!’ George’s eyes widened behind sunglasses.
@@ -244,7 +241,6 @@ export const Radiogram4 = () => {
         could be. The improperness of the opening scene struck something hollow
         in me, ‘funny’, I’d repeat.
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         A lone trumpet played a standard, a couple with elven ears pressed their
         heads against a stone in silence. The stones hold heat from the day’s
@@ -263,7 +259,6 @@ export const Radiogram4 = () => {
         Drums and large rocks around us, something fallen, something of a
         reminder. We are dancing on the dead. We are playing drums on the dead.
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         We kept close watch of the sky, stargazing, shutting our eyes at the
         same time, making sounds to find each other. The mound has filled up
@@ -271,7 +266,6 @@ export const Radiogram4 = () => {
         sorries. I’m lying down when I overhear two men talking about war,
         insisting they will never let their sons go.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         The sky, a continuation of dark and light. I think to ask if it has
         happened yet. My hair is caught in the dried moss of a stone which has
@@ -308,7 +302,6 @@ export const Radiogram4 = () => {
         glimpse firework shows between buildings, in the distance over treetops,
         pyrochemical smell upon leaving the house.
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         On bonfire night, I met a black cat, her back curved into a frightened
         shape, she kept grazing past me, back and forth, she couldn't sit still.
@@ -332,7 +325,6 @@ export const Radiogram4 = () => {
         preparing to die. I remain open to the inevitability, keeping watch of
         her moods and whereabouts.
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         My 20-year-old cat stopped eating because all her teeth had fallen out.
         Her claws too, were weakened, some of them ripped from her paws, leaving
@@ -340,7 +332,6 @@ export const Radiogram4 = () => {
         fish for breakfast. Over the course of the meal, I’d go looking for her,
         squidging up some fish meat so she could suck on it.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         The third time I went to find her, she was on our sheep wool rug. She
         was dead and stretched out frozen, the fish from my last visit splayed
@@ -350,7 +341,6 @@ export const Radiogram4 = () => {
         brought her to the front garden. She was so stiff and straightened as my
         father put her in the ground.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         She had a chunk of marble as a tombstone. I dug up yellow wildflowers to
         plant at her grave. Today I learn they are called Singapore Daisies. We
@@ -392,7 +382,6 @@ export const Radiogram4 = () => {
         , with the crisp foosball table, mineral water vending machines, faux
         tungsten bulbs strung up.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         In a mix of wrong and right, I said I was going home and turned the
         other way. I headed to the U-Bahn and walked past it. Through
@@ -402,7 +391,6 @@ export const Radiogram4 = () => {
         first of May. I’d kept stopping along the pavement, me and others, pair
         and trios, trying to discern where the sounds were coming from.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         May Day and Kreuzberg was empty, two large police vans were parked
         neatly in the deserted street. I must have missed it. The houses were
@@ -443,7 +431,6 @@ export const Radiogram4 = () => {
         a nuclear power plant for our world to be non. When I look around,
         everyone is already dead.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         When this happened, he said we would reunite and go to{" "}
         <span
@@ -461,7 +448,6 @@ export const Radiogram4 = () => {
         him. He explained all the digits, meaning he lived down an alley then a
         staircase, leading to an outbuilding where his was the fourth door.{" "}
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         When I got up to leave, he stood up as well, and he was twice my height
         and smiled so kindly that I hugged him and cried, pressing my face into
