@@ -11,6 +11,7 @@ import { AnimatePresence } from "framer-motion";
 import "./App.css";
 import "./styles/pageTransitions.css";
 import { AudioProvider } from "./AudioContext";
+import { ItemsProvider } from "./ItemsContext";
 import { Header } from "./components/ui/Header";
 import SoundCloudPlayer from "./components/player/SoundcloudPlayer";
 import { Guest } from "./pages/Guest";
@@ -320,6 +321,7 @@ function App() {
   }, [hoveredMenuItem]);
 
   return (
+    <ItemsProvider>
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <BrowserRouter>
         <DynamicTitle />
@@ -376,6 +378,7 @@ function App() {
         </AudioProvider>
       </BrowserRouter>
     </ThemeProvider>
+    </ItemsProvider>
   );
 }
 

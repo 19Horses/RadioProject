@@ -2,7 +2,8 @@ import React, { useEffect, useRef } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import "./Article.css";
 
-import { djs } from "./items";
+import { useItems } from "../ItemsContext";
+import { radiogramMap } from "../components/radiograms/radiogramMap";
 
 export const Article = ({
   isMobile,
@@ -10,18 +11,21 @@ export const Article = ({
   setCurrentArticle,
   setScrollPercentage,
 }) => {
+  const djs = useItems();
   const { articleName } = useParams();
   const navigate = useNavigate();
 
   const articleSelected = djs.find((article) => article.url === articleName && article.type === "radiogram");
+  const RadiogramComponent = articleSelected ? radiogramMap[articleSelected.url] : null;
 
   // Redirect to home if item doesn't exist or is not a radiogram/article
   useEffect(() => {
+    if (djs.length === 0) return;
     const item = djs.find((article) => article.url === articleName);
     if (!item || item.type !== "radiogram") {
       navigate("/", { replace: true });
     }
-  }, [articleName, navigate]);
+  }, [djs, articleName, navigate]);
 
   // Smooth scroll refs and state
   const scrollContainerRef = useRef(null);
@@ -197,8 +201,8 @@ export const Article = ({
               }`}
             >
               <div className="article-description-wrapper">
-                {typeof articleSelected?.description === "function" ? (
-                  <articleSelected.description />
+                {RadiogramComponent ? (
+                  <RadiogramComponent />
                 ) : (
                   <p
                     className="article-description-paragraph"
@@ -219,8 +223,8 @@ export const Article = ({
                 : "article-content-description__mobile-not-playing"
             }`}
           >
-            {typeof articleSelected?.description === "function" ? (
-              <articleSelected.description />
+            {RadiogramComponent ? (
+              <RadiogramComponent />
             ) : (
               <p
                 dangerouslySetInnerHTML={{

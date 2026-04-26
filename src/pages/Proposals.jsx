@@ -1,8 +1,9 @@
 import React, { useMemo, useEffect } from "react";
-import { djs as items } from "./items";
+import { useItems } from "../ItemsContext";
 import "./Proposals.css";
 
 export const Proposals = ({ isMobile }) => {
+  const items = useItems();
   // Disable scrolling on desktop only
   useEffect(() => {
     if (isMobile) return;
@@ -22,7 +23,7 @@ export const Proposals = ({ isMobile }) => {
         return false;
       })
       .reverse();
-  }, []);
+  }, [items]);
 
   return (
     <div className="proposals-container">

@@ -2,7 +2,7 @@ import React, { useEffect, useMemo, useRef } from "react";
 import { createPortal } from "react-dom";
 import { Tracklist } from "../components/tracklist/Tracklist";
 import { useParams, useNavigate } from "react-router-dom";
-import { djs } from "./items";
+import { useItems } from "../ItemsContext";
 import { useAudio } from "../AudioContext";
 import "./Guest.css";
 
@@ -12,6 +12,7 @@ export const Guest = ({
   playingGuest,
   setPlayingGuest,
 }) => {
+  const djs = useItems();
   const { guestName } = useParams();
   const navigate = useNavigate();
   const selectedGuest = djs.find(
@@ -25,7 +26,7 @@ export const Guest = ({
     if (!item || item.type !== "mix") {
       navigate("/", { replace: true });
     }
-  }, [guestName, navigate]);
+  }, [djs, guestName, navigate]);
   const prevSectionRef = useRef(null);
 
   useEffect(() => {

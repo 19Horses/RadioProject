@@ -1,10 +1,11 @@
 import { useEffect } from "react";
 import { useLocation } from "react-router-dom";
-import { djs } from "../pages/items";
+import { useItems } from "../ItemsContext";
 
 export function DynamicTitle() {
   const location = useLocation();
   const path = location.pathname;
+  const djs = useItems();
 
   useEffect(() => {
     // Static pages
@@ -43,7 +44,7 @@ export function DynamicTitle() {
     }
 
     document.title = "RADIO Project";
-  }, [path]);
+  }, [path, djs]);
 
   return null;
 }

@@ -5,13 +5,14 @@ import React, {
   useEffect,
   useMemo,
 } from "react";
-import { djs as items } from "./items";
+import { useItems } from "../ItemsContext";
 import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
 import { CustomCursor } from "../components/ui/CustomCursor";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./LandingVertical.css";
 
 export const LandingVertical = ({ isMobile, gridView }) => {
+  const items = useItems();
   const flexContainer = useRef(null);
   const [hoveredGuest, setHoveredGuest] = useState();
   const navigate = useNavigate();
@@ -44,7 +45,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
         return false;
       })
       .reverse();
-  }, []);
+  }, [items]);
 
   // Prevent body scroll in carousel mode; allow it in grid mode
   useEffect(() => {
