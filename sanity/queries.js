@@ -49,7 +49,7 @@ function transformRadiogram(item) {
 const MIX_FIELDS = `
   "id": _id,
   "type": "mix",
-  "src": coverImage.asset->url,
+  "src": select(count(coverImages) > 0 => coverImages[].asset->url, coverImage.asset->url),
   "src3": coverImageDesktop.asset->url,
   title,
   "title2": artistName,

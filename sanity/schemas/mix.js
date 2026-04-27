@@ -40,6 +40,13 @@ export default {
     },
     { name: 'genre', title: 'Genre', type: 'string', description: 'e.g. "DIGITAL PUNK"' },
     { name: 'coverImage', title: 'Cover Image', type: 'image' },
+    {
+      name: 'coverImages',
+      title: 'Cover Images (slideshow)',
+      type: 'array',
+      of: [{ type: 'image' }],
+      description: 'Upload 2+ images to enable a crossfading slideshow. If set, overrides Cover Image.',
+    },
     { name: 'audioUrl', title: 'Audio URL', type: 'url' },
     { name: 'soundcloudLink', title: 'SoundCloud Link', type: 'url' },
     {

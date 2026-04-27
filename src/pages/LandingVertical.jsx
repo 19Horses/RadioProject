@@ -266,16 +266,21 @@ export const LandingVertical = ({ isMobile, gridView }) => {
         if (!isMobile) setHoveredGuest(null);
       };
 
-      const hasTwoSrcs = Array.isArray(guest.src) && guest.src.length === 2;
+      const srcArray = Array.isArray(guest.src)
+        ? guest.src
+        : guest.src
+          ? [guest.src]
+          : [];
+      const hasMultipleSrcs = srcArray.length > 1;
       const [activeIndex, setActiveIndex] = useState(0);
 
       useEffect(() => {
-        if (!hasTwoSrcs) return;
+        if (!hasMultipleSrcs) return;
         const interval = setInterval(() => {
-          setActiveIndex((prev) => (prev === 0 ? 1 : 0));
+          setActiveIndex((prev) => (prev + 1) % srcArray.length);
         }, 4000);
         return () => clearInterval(interval);
-      }, [hasTwoSrcs]);
+      }, [hasMultipleSrcs, srcArray.length]);
 
       const baseClassName = `image landing-vertical-image ${
         isFocused
@@ -295,35 +300,27 @@ export const LandingVertical = ({ isMobile, gridView }) => {
 
       return (
         <div className="landing-vertical-image-container">
-          {hasTwoSrcs ? (
+          {hasMultipleSrcs ? (
             <div
               style={{ position: "relative", width: "100%", height: "100%" }}
             >
-              <img
-                {...sharedProps}
-                src={guest.src[0]}
-                className={baseClassName}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  transition: "opacity 1s ease",
-                  opacity: activeIndex === 0 ? 1 : 0,
-                }}
-              />
-              <img
-                {...sharedProps}
-                src={guest.src[1]}
-                className={baseClassName}
-                style={{
-                  position: "absolute",
-                  inset: 0,
-                  transition: "opacity 1s ease",
-                  opacity: activeIndex === 1 ? 1 : 0,
-                }}
-              />
+              {srcArray.map((imgSrc, idx) => (
+                <img
+                  key={idx}
+                  {...sharedProps}
+                  src={imgSrc}
+                  className={baseClassName}
+                  style={{
+                    position: "absolute",
+                    inset: 0,
+                    transition: "opacity 1s ease",
+                    opacity: activeIndex === idx ? 1 : 0,
+                  }}
+                />
+              ))}
               {/* Invisible placeholder to maintain container size */}
               <img
-                src={guest.src[0]}
+                src={srcArray[0]}
                 alt=""
                 aria-hidden
                 className={baseClassName}
@@ -331,7 +328,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
               />
             </div>
           ) : (
-            <img {...sharedProps} src={guest.src} className={baseClassName} />
+            <img {...sharedProps} src={srcArray[0]} className={baseClassName} />
           )}
         </div>
       );
