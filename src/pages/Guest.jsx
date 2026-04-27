@@ -38,7 +38,8 @@ export const Guest = ({
           ? selectedGuest.description
               .map((sentence) => {
                 const spaceIdx = sentence.indexOf(" ");
-                if (spaceIdx === -1) return `<p class="desc-row"><span class="desc-plus">+</span><span><strong>${sentence}</strong></span></p>`;
+                if (spaceIdx === -1)
+                  return `<p class="desc-row"><span class="desc-plus">+</span><span><strong>${sentence}</strong></span></p>`;
                 const first = sentence.slice(0, spaceIdx);
                 const rest = sentence.slice(spaceIdx);
                 return `<p class="desc-row"><span class="desc-plus">+</span><span><strong>${first}</strong>${rest}</span></p>`;
@@ -103,12 +104,7 @@ export const Guest = ({
         progress && audioRef?.current?.duration
           ? (progress / 100) * audioRef.current.duration
           : null;
-      console.log(`🎵 Entered section: ${currentSection}`, {
-        currentTimeSeconds,
-        progress,
-        calculatedTime: calculatedTime?.toFixed(1),
-        duration: audioRef?.current?.duration,
-      });
+
       prevSectionRef.current = currentSection;
     }
   }, [currentSection, currentTimeSeconds, progress, audioRef]);
@@ -116,12 +112,6 @@ export const Guest = ({
   // Output tracklist to console when guest page loads
   useEffect(() => {
     if (selectedGuest?.tracklist) {
-      console.log(
-        `\n%c📻 ${selectedGuest.rpCount} ${selectedGuest.title2?.toUpperCase()} - ${selectedGuest.title?.toUpperCase()}\n`,
-        "font-weight: bold; font-size: 14px; color: " +
-          (selectedGuest.themeColor || "#ff005a"),
-      );
-
       let output = "";
       selectedGuest.tracklist.forEach((track, index) => {
         const isSectionBreak =
@@ -149,9 +139,6 @@ export const Guest = ({
           output += `${superNum}${title} ${artist} `;
         }
       });
-
-      console.log(output.trim());
-      console.log("\n");
     }
   }, [selectedGuest]);
 

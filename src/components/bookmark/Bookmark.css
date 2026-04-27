@@ -380,6 +380,7 @@
   .article-summary p.desc-row {
     display: grid;
     grid-template-columns: 20px 1fr;
+    padding-bottom: 3px;
     gap: 0;
     margin: 0;
     line-height: inherit;
