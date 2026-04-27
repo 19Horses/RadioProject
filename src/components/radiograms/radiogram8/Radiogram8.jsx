@@ -29,7 +29,9 @@ export const Radiogram8 = () => {
     }, observerOptions);
 
     const paragraphs = containerRef.current?.querySelectorAll("p");
-    const listItems = containerRef.current?.querySelectorAll(".references-section li");
+    const listItems = containerRef.current?.querySelectorAll(
+      ".references-section li",
+    );
 
     requestAnimationFrame(() => {
       paragraphs?.forEach((p) => {
@@ -70,7 +72,9 @@ export const Radiogram8 = () => {
     const anchor = e.target.closest('a[href^="#"]');
     if (!anchor) return;
     e.preventDefault();
-    const target = document.getElementById(anchor.getAttribute("href").slice(1));
+    const target = document.getElementById(
+      anchor.getAttribute("href").slice(1),
+    );
     if (!target) return;
     setActiveRef(anchor.getAttribute("href").slice(1));
     const scrollContainer = document.querySelector(".article-scroll-container");
@@ -80,12 +84,19 @@ export const Radiogram8 = () => {
     }
     const containerRect = scrollContainer.getBoundingClientRect();
     const targetRect = target.getBoundingClientRect();
-    const scrollTop = scrollContainer.scrollTop + targetRect.top - containerRect.top - 80;
-    scrollContainer.dispatchEvent(new CustomEvent("smoothScrollTo", { detail: { scrollTop } }));
+    const scrollTop =
+      scrollContainer.scrollTop + targetRect.top - containerRect.top - 80;
+    scrollContainer.dispatchEvent(
+      new CustomEvent("smoothScrollTo", { detail: { scrollTop } }),
+    );
   };
 
   return (
-    <div className="radiogram-8" ref={containerRef} onClick={handleCitationClick}>
+    <div
+      className="radiogram-8"
+      ref={containerRef}
+      onClick={handleCitationClick}
+    >
       <p style={{ width: isMobile ? "80%" : undefined }}>
         Culture is never neutral. What we laugh at, cry over and talk about
         reflects the economic and sociopolitical conditions we live within;
@@ -106,12 +117,12 @@ export const Radiogram8 = () => {
         In the era of digital platforms where the foundation of the media
         landscape is based on algorithms, the task of analysing pop culture
         becomes increasingly necessary. Using the case of the internet
-        personality IShowSpeed, this essay argues that linking critique to
+        personality iShowSpeed, this essay argues that linking critique to
         social change means moving beyond individual moral judgement and towards
         structural analysis of how participation itself is organised by platform
         power. Drawing on John Fiske’s theory of popular culture, José van
         Dijck’s concept of ‘platformisation’, and Frantz Fanon’s account of
-        racialised visibility, IShowSpeed demonstrates how contemporary culture
+        racialised visibility, iShowSpeed demonstrates how contemporary culture
         is shaped at the intersection of audience agency, infrastructure and
         race, and why critical theory still matters for engaging culture today.
       </p>
@@ -258,7 +269,7 @@ export const Radiogram8 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        At the same time, IShowSpeed is part of the first generation of digital
+        At the same time, iShowSpeed is part of the first generation of digital
         natives - a term first written by American Educator Marc Prensky.
       </p>
       <br />
@@ -328,7 +339,7 @@ export const Radiogram8 = () => {
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        IShowSpeed’s fame sits at the cross section of audience agency,
+        iShowSpeed’s fame sits at the cross section of audience agency,
         algorithmic governance and long running debates about racialisation. To
         link critique with social change is to insist that any serious
         engagement with contemporary culture must also be an engagement with the
@@ -339,21 +350,67 @@ export const Radiogram8 = () => {
 
       <div className="references-section">
         <ol>
-          <li id="ref-1" className={activeRef === "ref-1" ? "active-ref" : ""}><a href="https://www.itu.int/itu-d/reports/statistics/facts-figures-2025/" target="_blank" rel="noopener noreferrer">Itu.int. (2025). Statistics. [online]</a></li>
+          <li id="ref-1" className={activeRef === "ref-1" ? "active-ref" : ""}>
+            <a
+              href="https://www.itu.int/itu-d/reports/statistics/facts-figures-2025/"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Itu.int. (2025). Statistics. [online]
+            </a>
+          </li>
           <li id="ref-2" className={activeRef === "ref-2" ? "active-ref" : ""}>
-            <a href="https://www.routledge.com/Understanding-Popular-Culture/Fiske/p/book/9780415596534" target="_blank" rel="noopener noreferrer">Fiske, J. (2010). <em>Understanding Popular Culture</em>. 2nd ed. London: Routledge.</a>
+            <a
+              href="https://www.routledge.com/Understanding-Popular-Culture/Fiske/p/book/9780415596534"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Fiske, J. (2010). <em>Understanding Popular Culture</em>. 2nd ed.
+              London: Routledge.
+            </a>
           </li>
           <li id="ref-3" className={activeRef === "ref-3" ? "active-ref" : ""}>
-            <a href="https://academic.oup.com/book/9914" target="_blank" rel="noopener noreferrer">Van Dijck, J. (2013). <em>The culture of connectivity: a critical history of social media</em>. Oxford University Press.</a>
+            <a
+              href="https://academic.oup.com/book/9914"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Van Dijck, J. (2013).{" "}
+              <em>
+                The culture of connectivity: a critical history of social media
+              </em>
+              . Oxford University Press.
+            </a>
           </li>
           <li id="ref-4" className={activeRef === "ref-4" ? "active-ref" : ""}>
-            <a href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-adults/gen-z-swerves-traditional-broadcast-tv-as-less-than-half-tune-in-weekly" target="_blank" rel="noopener noreferrer">Ofcom (2024). Gen Z Swerves Traditional Broadcast TV as Less than Half Tune in Weekly. [online]</a>
+            <a
+              href="https://www.ofcom.org.uk/media-use-and-attitudes/media-habits-adults/gen-z-swerves-traditional-broadcast-tv-as-less-than-half-tune-in-weekly"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Ofcom (2024). Gen Z Swerves Traditional Broadcast TV as Less than
+              Half Tune in Weekly. [online]
+            </a>
           </li>
           <li id="ref-5" className={activeRef === "ref-5" ? "active-ref" : ""}>
-            <a href="https://www.penguin.co.uk/books/313127/black-skin-white-masks-by-fanon-frantz/9780241396667" target="_blank" rel="noopener noreferrer">Fanon, F. (2021). <em>Black Skin, White Masks</em>. London: Penguin Books.</a>
+            <a
+              href="https://www.penguin.co.uk/books/313127/black-skin-white-masks-by-fanon-frantz/9780241396667"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Fanon, F. (2021). <em>Black Skin, White Masks</em>. London:
+              Penguin Books.
+            </a>
           </li>
           <li id="ref-6" className={activeRef === "ref-6" ? "active-ref" : ""}>
-            <a href="https://doi.org/10.1108/10748120110424816" target="_blank" rel="noopener noreferrer">Prensky, M. (2001). Digital natives, Digital Immigrants. <em>On the Horizon</em>, 9(5).</a>
+            <a
+              href="https://doi.org/10.1108/10748120110424816"
+              target="_blank"
+              rel="noopener noreferrer"
+            >
+              Prensky, M. (2001). Digital natives, Digital Immigrants.{" "}
+              <em>On the Horizon</em>, 9(5).
+            </a>
           </li>
         </ol>
       </div>
