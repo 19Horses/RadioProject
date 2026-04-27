@@ -14,11 +14,8 @@ import Comments from "../comments/Comments";
 import MobileMenuTopBar from "./MobileMenuTopBar";
 
 import SideTagIcon from "../ui/SideTagIcon";
-import {
-  DATA_API,
-  CURRENT_QUESTION,
-  CURRENT_QUESTION_AUTHOR,
-} from "../../utils/constants";
+import { DATA_API } from "../../utils/constants";
+import { useSiteSettings } from "../../SiteSettingsContext";
 import { fetchJson } from "../../utils/arrayUtils";
 
 const Bookmark = ({
@@ -33,6 +30,7 @@ const Bookmark = ({
   selectedQuestion,
   setSelectedQuestion,
 }) => {
+  const { currentQuestion: CURRENT_QUESTION, currentQuestionAuthor: CURRENT_QUESTION_AUTHOR } = useSiteSettings();
   const { audioRef, isPlaying, setIsPlaying, progress } = useAudio();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);

@@ -5,17 +5,14 @@ import Sketch from "react-p5";
 import { uploadToBackend } from "../../utils/s3Upload";
 import { useNavigate } from "react-router-dom";
 import "./RPHead.css";
-import {
-  CURRENT_QUESTION,
-  CURRENT_QUESTION_AUTHOR,
-  CURRENT_QUESTION_AUTHOR_INSTAGRAM,
-} from "../../utils/constants";
-
-const questionAuthor = CURRENT_QUESTION_AUTHOR;
-const questionAuthorInstagram = CURRENT_QUESTION_AUTHOR_INSTAGRAM;
-const questions = [CURRENT_QUESTION];
+import { useSiteSettings } from "../../SiteSettingsContext";
 
 export default function RPHead({ isMobile, isPlaying }) {
+  const { currentQuestion, currentQuestionAuthor, currentQuestionAuthorInstagram } = useSiteSettings();
+  const questionAuthor = currentQuestionAuthor;
+  const questionAuthorInstagram = currentQuestionAuthorInstagram;
+  const questions = [currentQuestion];
+
   const canvasContainerRef = useRef(null);
   const targetAspect = isMobile ? 3 / 4 : 4 / 3;
 

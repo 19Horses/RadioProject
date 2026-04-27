@@ -12,6 +12,7 @@ import "./App.css";
 import "./styles/pageTransitions.css";
 import { AudioProvider } from "./AudioContext";
 import { ItemsProvider } from "./ItemsContext";
+import { SiteSettingsProvider } from "./SiteSettingsContext";
 import { Header } from "./components/ui/Header";
 import SoundCloudPlayer from "./components/player/SoundcloudPlayer";
 import { Guest } from "./pages/Guest";
@@ -321,6 +322,7 @@ function App() {
   }, [hoveredMenuItem]);
 
   return (
+    <SiteSettingsProvider>
     <ItemsProvider>
     <ThemeProvider theme={darkMode ? darkTheme : lightTheme}>
       <BrowserRouter>
@@ -379,6 +381,7 @@ function App() {
       </BrowserRouter>
     </ThemeProvider>
     </ItemsProvider>
+    </SiteSettingsProvider>
   );
 }
 

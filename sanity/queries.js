@@ -115,6 +115,14 @@ export async function getItems() {
   })
 }
 
+export async function getSiteSettings() {
+  return client.fetch(`*[_type == "siteSettings"][0] {
+    currentQuestion,
+    currentQuestionAuthor,
+    "currentQuestionAuthorInstagram": currentQuestionAuthorInstagram
+  }`)
+}
+
 export async function getItemBySlug(slug) {
   const [mix, radiogram] = await Promise.all([
     client.fetch(`*[_type == "mix" && slug.current == $slug][0] { ${MIX_FIELDS} }`, { slug }),
