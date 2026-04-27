@@ -1,0 +1,162 @@
+/* Radiogram 1 - Anouk's "The Promise of Freedom in the Western Sphere" */
+.radiogram-8 {
+  position: relative;
+  color: #434a47;
+  padding-top: 60px;
+}
+
+/* Blur and fade animation - optimized for performance */
+.radiogram-8 p.fade-blur {
+  opacity: 0;
+  filter: blur(8px);
+  transform: translate3d(0, 20px, 0);
+  transition: opacity 2s ease-out, filter 1s ease-out, transform 1s ease-out;
+  will-change: opacity, filter, transform;
+  contain: layout style paint;
+}
+
+.radiogram-8 p.fade-blur.visible {
+  opacity: 1;
+  filter: blur(0);
+  transform: translate3d(0, 0, 0);
+  will-change: auto;
+}
+
+.radiogram-8 p {
+  font-family: "NeueHaasDisplayRoman";
+  font-size: 1rem;
+  margin-top: 0;
+  margin-bottom: 0.3rem;
+  margin-left: auto;
+  margin-right: auto;
+  width: 60%;
+  line-height: 1.6;
+  letter-spacing: -0.2px;
+  backface-visibility: hidden;
+  -webkit-font-smoothing: antialiased;
+}
+
+.radiogram-8 strong {
+  font-family: "NeueHaasDisplayMedium";
+  
+}
+
+/* Two column paragraph */
+.radiogram-8 p.two-column {
+  column-count: 2;
+  column-gap: 3rem;
+  width: 60%;
+}
+
+
+.radiogram-8 p.markedFor{
+  position: relative;
+  font-family: "NeueHaasDisplayMedium";
+  font-size: 2.1rem;
+  width: 75%;
+  line-height: 1; 
+  letter-spacing: -1.1px;
+  margin-bottom: 50px;
+  margin-top: 50px;
+}
+
+
+/* Last paragraph styling - kept for future use */
+/* .radiogram-8 p:last-child {
+} */
+
+.radiogram-8 .cite-highlight {
+  background-color: #d9d9d9;
+  font-family: "NeueHaasDisplayMedium";
+  padding: 0 1px;
+  transition: color 0.2s ease;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.radiogram-8 .cite-highlight:hover {
+  color: rgb(255, 0, 90);
+}
+
+.radiogram-8 sup {
+  font-family: "NeueHaasDisplayRoman";
+  color: rgb(255, 0, 90);
+  font-size: 0.65em;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 1px;
+}
+
+.radiogram-8 .references-section {
+  margin-top: 3rem;
+  padding-top: 1.5rem;
+  padding-bottom: 3rem;
+}
+
+.radiogram-8 .references-section p.references-heading {
+  width: 60%;
+  font-family: "NeueHaasDisplayMedium";
+  font-size: 0.85rem;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+  margin-bottom: 1rem;
+  color: rgba(67, 74, 71, 0.5);
+}
+
+.radiogram-8 .references-section ol {
+  width: 60%;
+  margin: 0 auto;
+  padding-left: 1.2rem;
+  list-style: none;
+  counter-reset: ref-counter;
+}
+
+.radiogram-8 .references-section li {
+  font-family: "NeueHaasDisplayRoman";
+  font-size: 0.88rem;
+  line-height: 1.6;
+  margin-bottom: 0.5rem;
+  color: rgba(67, 74, 71, 0.5);
+  counter-increment: ref-counter;
+  transition: color 0.3s ease;
+}
+
+.radiogram-8 .references-section li::before {
+  content: counter(ref-counter);
+  font-size: 0.65em;
+  vertical-align: super;
+  line-height: 0;
+  margin-right: 0.4em;
+  color: rgb(255, 0, 90);
+  font-family: "NeueHaasDisplayRoman";
+}
+
+.radiogram-8 .references-section li.active-ref {
+  color: rgba(67, 74, 71, 1);
+}
+
+.radiogram-8 .references-section li a {
+  color: inherit;
+  text-decoration: none;
+  transition: color 0.2s ease;
+
+
+}
+
+.radiogram-8 .references-section li a:hover {
+  color: #434a47;
+}
+
+.radiogram-8 .references-section ol:has(a:hover) li.active-ref {
+  color: rgba(67, 74, 71, 0.5);
+}
+
+/* Mobile responsive adjustments */
+@media (max-width: 768px) {
+  .radiogram-8 p {
+    line-height: 1.5;
+    margin-top: 0;
+    margin-bottom: 0;
+  }
+}

@@ -47,22 +47,22 @@ export const Radiogram7 = () => {
   }, []);
 
   return (
-    <div className="radiogram-4" ref={containerRef}>
+    <div className="radiogram-7" ref={containerRef}>
       <p style={{ width: isMobile ? "80%" : undefined }}>
         I could count on one hand the number of things I’ve actually paid for
         online.
-        <br /> The Bliss Foster Patreon. A comic, maybe. Some albums. And every
-        time I typed in my card details, I caught myself thinking, why am I even
-        doing this?
+        <br /> <strong>The Bliss Foster Patreon.</strong> A comic, maybe. Some
+        albums. And every time I typed in my card details, I caught myself
+        thinking, why am I even doing this?
         <br /> Maybe that sounds entitled, but for most of my life I’ve believed
         everything should be available for free.{" "}
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
-        I’m not a cheapskate… maybe. On Sundays, my dad used to buy Hollywood
-        DVDs from street vendors. Hell, we’d come home with a bundle of 28 Jim
-        Carrey movies on a single disc, from Ace Ventura to I Love You Phillip
-        Morris.
+        I’m not a cheapskate… maybe. On Sundays, my dad used to buy{" "}
+        <strong>Hollywood DVDs</strong> from street vendors. Hell, we’d come
+        home with a bundle of 28 Jim Carrey movies on a single disc, from Ace
+        Ventura to I Love You Phillip Morris.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
@@ -72,6 +72,7 @@ export const Radiogram7 = () => {
         felt normal. Watching 30 movies starring Eddie Murphy, Anne Hathaway, or
         Vince Vaughn in one sitting didn’t seem like theft.
       </p>
+      <br />
 
       <p style={{ width: isMobile ? "80%" : undefined }}>
         I didn’t question it until my cousins came over from Ireland with
@@ -104,18 +105,19 @@ export const Radiogram7 = () => {
       <p style={{ width: isMobile ? "80%" : undefined }}>
         12. First spots of puberty forming across my face. Bumps on my nose that
         never left.
-        <br /> Clicking between PirateBay, kickasstorrents, and God forbid,
-        putlocker, downloading films by Jean Vigo, listening to my cracked copy
-        of Bound 2; reading Batman comics. The only real hiccup was my Wi-Fi.
-        I’d leave the download running overnight, wake up to the entire Odd
-        Future discography waiting in the morning.
+        <br /> Clicking between <strong>PirateBay, kickasstorrents,</strong> and
+        God forbid, <strong>putlocker,</strong> downloading{" "}
+        <strong>films by Jean Vigo,</strong> listening to my cracked copy of{" "}
+        <strong>Bound 2;</strong> reading <strong>Batman comics.</strong> The
+        only real hiccup was my Wi-Fi. I’d leave the download running overnight,
+        wake up to the entire Odd Future discography waiting in the morning.
       </p>
       <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         14. They gave us school laptops, and we built a whole network for
         ourselves.
-        <br /> GTA San Andreas cheat codes on 1GB RAM Lenovo's. It felt like the
-        world was finally turning in our direction.
+        <br /> <strong>GTA San Andreas cheat codes</strong> on 1GB RAM Lenovo's.
+        It felt like the world was finally turning in our direction.
         <br /> All music on SoundCloud was already free. If it wasn’t, maybe it
         was on DatPiff. If it wasn’t there, we found a way.
         <br /> I was one of the first 10,000 people to listen to Safe House by
@@ -180,7 +182,8 @@ export const Radiogram7 = () => {
         We didn’t just lose video shops. We lost the clerks, the shelves, the
         feeling of finding something by accident. It’s depressing. I grew up
         yearning what was already lost to time.
-        <br /> All things fair, I needed to drive the Infernus in GTA Vice City.
+        <br /> All things fair,{" "}
+        <strong>I needed to drive the Infernus in GTA Vice City.</strong>
       </p>
     </div>
   );

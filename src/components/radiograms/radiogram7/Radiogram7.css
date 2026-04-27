@@ -1,11 +1,15 @@
 /* Radiogram 1 - Anouk's "The Promise of Freedom in the Western Sphere" */
-.radiogram-4 {
+.radiogram-7 {
   position: relative;
   color: #434a47;
+  padding-top: 60px;
+
 }
 
+
+
 /* Blur and fade animation - optimized for performance */
-.radiogram-4 p.fade-blur {
+.radiogram-7 p.fade-blur {
   opacity: 0;
   filter: blur(8px);
   transform: translate3d(0, 20px, 0);
@@ -14,18 +18,18 @@
   contain: layout style paint;
 }
 
-.radiogram-4 p.fade-blur.visible {
+.radiogram-7 p.fade-blur.visible {
   opacity: 1;
   filter: blur(0);
   transform: translate3d(0, 0, 0);
   will-change: auto;
 }
 
-.radiogram-4 p {
+.radiogram-7 p {
   font-family: "NeueHaasDisplayRoman";
   font-size: 1rem;
   margin-top: 0;
-  margin-bottom: 1.3rem;
+  margin-bottom: 0.3rem;
   margin-left: auto;
   margin-right: auto;
   width: 60%;
@@ -35,20 +39,22 @@
   -webkit-font-smoothing: antialiased;
 }
 
-.radiogram-4 strong {
+
+
+.radiogram-7 strong {
   font-family: "NeueHaasDisplayMedium";
   
 }
 
 /* Two column paragraph */
-.radiogram-4 p.two-column {
+.radiogram-7 p.two-column {
   column-count: 2;
   column-gap: 3rem;
   width: 60%;
 }
 
 
-.radiogram-4 p.markedFor{
+.radiogram-7 p.markedFor{
   position: relative;
   font-family: "NeueHaasDisplayMedium";
   font-size: 2.1rem;
@@ -66,7 +72,7 @@
 
 /* Mobile responsive adjustments */
 @media (max-width: 768px) {
-  .radiogram-4 p {
+  .radiogram-7 p {
     line-height: 1.5;
     margin-top: 0;
     margin-bottom: 0;

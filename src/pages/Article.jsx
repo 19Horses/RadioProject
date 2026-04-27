@@ -155,12 +155,23 @@ export const Article = ({
     // Add passive: false to allow preventDefault
     scrollContainer.addEventListener("wheel", handleWheel, { passive: false });
 
+    // Handle smooth scroll requests from child components
+    const handleSmoothScrollTo = (e) => {
+      const maxScroll = scrollContainer.scrollHeight - scrollContainer.clientHeight;
+      targetScrollRef.current = Math.max(0, Math.min(e.detail.scrollTop, maxScroll));
+      if (!animationFrameRef.current) {
+        animationFrameRef.current = requestAnimationFrame(animateScroll);
+      }
+    };
+    scrollContainer.addEventListener("smoothScrollTo", handleSmoothScrollTo);
+
     // Initialize current scroll position
     currentScrollRef.current = scrollContainer.scrollTop;
     targetScrollRef.current = scrollContainer.scrollTop;
 
     return () => {
       scrollContainer.removeEventListener("wheel", handleWheel);
+      scrollContainer.removeEventListener("smoothScrollTo", handleSmoothScrollTo);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }
