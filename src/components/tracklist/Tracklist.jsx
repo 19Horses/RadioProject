@@ -66,6 +66,8 @@ export const Tracklist = ({
     setHoverColors({});
     setActiveHovers(new Set());
 
+    if (!selectedGuest) return;
+
     // Create randomized order of indices when guest changes
     const indices = selectedGuest.tracklist.map((_, i) => i);
     const shuffled = [...indices].sort(() => Math.random() - 0.5);
@@ -271,6 +273,8 @@ export const Tracklist = ({
 
     hoverTimeoutsRef.current[index] = lingerTimeout;
   };
+
+  if (!selectedGuest) return null;
 
   // Build a map from array index -> track number (excluding section breaks)
   const trackNumberMap = (() => {

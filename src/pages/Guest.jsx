@@ -22,6 +22,7 @@ export const Guest = ({
 
   // Redirect to home if item doesn't exist or is not a mix
   useEffect(() => {
+    if (djs.length === 0) return; // still loading
     const item = djs.find((dj) => dj.url === guestName);
     if (!item || item.type !== "mix") {
       navigate("/", { replace: true });
