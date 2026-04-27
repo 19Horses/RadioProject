@@ -28,21 +28,23 @@ export const Radiogram8 = () => {
       });
     }, observerOptions);
 
-    // Observe all paragraphs
     const paragraphs = containerRef.current?.querySelectorAll("p");
+    const listItems = containerRef.current?.querySelectorAll(".references-section li");
 
-    // Batch DOM updates with requestAnimationFrame
     requestAnimationFrame(() => {
       paragraphs?.forEach((p) => {
         p.classList.add("fade-blur");
         observer.observe(p);
       });
+      listItems?.forEach((li) => {
+        li.classList.add("fade-blur");
+        observer.observe(li);
+      });
     });
 
     return () => {
-      paragraphs?.forEach((p) => {
-        observer.unobserve(p);
-      });
+      paragraphs?.forEach((p) => observer.unobserve(p));
+      listItems?.forEach((li) => observer.unobserve(li));
       observer.disconnect();
     };
   }, []);
