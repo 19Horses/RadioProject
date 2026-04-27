@@ -122,14 +122,14 @@ export const CustomCursor = ({
       <CursorTitle
         className={isPlaying ? "cursor-title-playing" : "cursor-title"}
         $hovered={hovered}
-        $bgcolor={isPlaying ? "black" : "#eeeeee"}
+        $bgcolor={isPlaying ? "black" : "#ffffff"}
         $delay={0.1}
         fontSize={isGuest ? "1.9vh" : "1.9vh"}
         style={{
           fontFamily: isGuest
             ? "NHaasGroteskDSPro-75Bd"
             : "NeueHaasDisplayRoman",
-          lineHeight: isGuest ? "2.3vh" : "1.9vh",
+          lineHeight: isGuest ? "2.6vh" : "1.9vh",
           paddingRight: ".1vw",
           paddingLeft: isGuest ? "0" : ".2vw",
           textTransform: !isGuest ? "lowercase" : "",
@@ -138,8 +138,8 @@ export const CustomCursor = ({
       >
         <span
           style={{
-            backgroundColor: isGuest ? "#434a47" : "#eeeeee",
-            color: isGuest ? "#eeeeee" : "#434a47",
+            backgroundColor: isGuest ? "#434a47" : "#ffffff",
+            color: isGuest ? "#ffffff" : "#434a47",
             paddingLeft: isGuest ? ".2vw" : "0",
             paddingRight: isGuest ? ".2vw" : "0",
           }}
@@ -155,7 +155,7 @@ export const CustomCursor = ({
         <MainCursorTitle
           className="cursor-title"
           $hovered={hovered}
-          $bgcolor={isGuest ? "#eeeeee" : "#434a47"}
+          $bgcolor={isGuest ? "#ffffff" : "#434a47"}
           color={isGuest ? "#837D7D" : "#eeeeee"}
           fontSize={isGuest ? "1.7vh" : "1.9vh"}
           $delay={0.1}
@@ -190,7 +190,7 @@ export const CustomCursor = ({
           <MainCursorTitle
             className="cursor-title"
             $hovered={hovered}
-            $bgcolor="#eeeeee"
+            $bgcolor="#ffffff"
             color="#837D7D"
             fontSize="1.7vh"
             $delay={0.1}
