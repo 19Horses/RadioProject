@@ -129,7 +129,7 @@ export const CustomCursor = ({
           fontFamily: isGuest
             ? "NHaasGroteskDSPro-75Bd"
             : "NeueHaasDisplayRoman",
-          lineHeight: isGuest ? "2.6vh" : "1.9vh",
+          lineHeight: isGuest ? "2.3vh" : "1.9vh",
           paddingRight: ".1vw",
           paddingLeft: isGuest ? "0" : ".2vw",
           textTransform: !isGuest ? "lowercase" : "",
