@@ -307,11 +307,11 @@ export function VisitorModal({
               >
                 <div
                   style={{
-                    fontSize: "15px",
-                    fontFamily: "dot",
+                    fontSize: "24px",
+                    fontFamily: "NeueBit-Regular",
                     fontStyle: "italic",
-                    color: "black",
-                    textTransform: "uppercase",
+                    color: "#434a47",
+                    textTransform: "lowercase",
                     paddingLeft: "10px",
                     paddingRight: "10px",
                   }}
@@ -321,11 +321,11 @@ export function VisitorModal({
                 <div
                   style={{
                     paddingBottom: "0",
-                    fontSize: "15px",
-                    fontFamily: "dot",
+                    fontSize: "24px",
+                    fontFamily: "NeueBit-Regular",
                     fontStyle: "italic",
                     color: ditherMode ? "lightgray" : "gray",
-                    textTransform: "uppercase",
+                    textTransform: "lowercase",
                     paddingLeft: "10px",
                     paddingRight: "10px",
                   }}
@@ -535,22 +535,22 @@ export function VisitorModal({
             >
               <div
                 style={{
-                  fontFamily: "dot",
-                  fontSize: "14px",
+                  fontFamily: "NeueBit-Regular",
+                  fontSize: "24px",
                   fontStyle: "italic",
-                  color: "black",
-                  textTransform: "uppercase",
+                  color: "#434a47",
+                  textTransform: "lowercase",
                 }}
               >
                 {clickedFormData.username}
               </div>
               <div
                 style={{
-                  fontFamily: "dot",
-                  fontSize: "14px",
+                  fontFamily: "NeueBit-Regular",
+                  fontSize: "24px",
                   fontStyle: "italic",
                   color: "gray",
-                  textTransform: "uppercase",
+                  textTransform: "lowercase",
                 }}
               >
                 {clickedFormData.profession}
