@@ -23,6 +23,7 @@ import { Article } from "./pages/Article";
 import RPHead, { RPGrid } from "./pages/rphead";
 import { Proposals } from "./pages/Proposals";
 import { DynamicTitle } from "./utils/useDynamicTitle";
+import { useAnalytics } from "./utils/useAnalytics";
 
 import { ThemeProvider } from "styled-components";
 import { lightTheme, darkTheme } from "./utils/theme";
@@ -39,6 +40,7 @@ const SENTENCES = ["static holds its own language"];
 // Component to handle routes with animations
 function RoutesWithAnimation({ mobileMenuOpen, setMobileMenuOpen, ...props }) {
   const location = useLocation();
+  useAnalytics();
 
   return (
     <AnimatePresence mode="wait">
