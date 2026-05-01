@@ -32,6 +32,7 @@ export const Article = ({
   const targetScrollRef = useRef(0);
   const currentScrollRef = useRef(0);
   const animationFrameRef = useRef(null);
+  const hasReachedEndRef = useRef(false);
 
   useEffect(() => {
     if (articleSelected && setCurrentArticle) {
@@ -70,10 +71,20 @@ export const Article = ({
       if (setScrollPercentage) {
         setScrollPercentage(Math.min(100, Math.max(0, scrollPercent)));
       }
+
+      if (scrollPercent >= 90 && !hasReachedEndRef.current && articleSelected) {
+        hasReachedEndRef.current = true;
+        if (typeof window.gtag === "function") {
+          window.gtag("event", "article_read", {
+            article_title: articleSelected.title,
+            article_id: articleSelected.url,
+          });
+        }
+      }
     };
     window.addEventListener("scroll", handleMobileScroll);
     return () => window.removeEventListener("scroll", handleMobileScroll);
-  }, [isMobile, setScrollPercentage]);
+  }, [isMobile, setScrollPercentage, articleSelected]);
 
   // Reset scroll on article change
   useEffect(() => {
@@ -83,6 +94,7 @@ export const Article = ({
       currentScrollRef.current = 0;
     }
     if (setScrollPercentage) setScrollPercentage(0);
+    hasReachedEndRef.current = false;
   }, [articleName, setScrollPercentage]);
 
   // Smooth scroll lerping effect
@@ -126,6 +138,16 @@ export const Article = ({
             (scrollContainer.scrollHeight - scrollContainer.clientHeight)) *
           100;
         setScrollPercentage(Math.min(100, Math.max(0, scrollPercent)));
+
+        if (scrollPercent >= 90 && !hasReachedEndRef.current && articleSelected) {
+          hasReachedEndRef.current = true;
+          if (typeof window.gtag === "function") {
+            window.gtag("event", "article_read", {
+              article_title: articleSelected.title,
+              article_id: articleSelected.url,
+            });
+          }
+        }
       }
     };
 

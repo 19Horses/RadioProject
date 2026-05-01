@@ -199,6 +199,14 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
       setCurrentTime("--:--");
       setIsPlaying(true);
 
+      if (typeof window.gtag === "function") {
+        window.gtag("event", "play_mix", {
+          mix_title: title,
+          mix_artist: artist,
+          mix_id: playingGuest.url,
+        });
+      }
+
       if (audioRef.current) {
         const audio = audioRef.current;
         audio.load();

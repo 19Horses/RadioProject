@@ -300,6 +300,14 @@ export function RPGrid({
                             setClickedImage(unditheredImage.url); // Set undithered image as main
                             setClickedImageDithered(url); // Set dithered image
                             setClickedFormData(formData);
+
+                            if (typeof window.gtag === "function") {
+                              window.gtag("event", "visitor_card_view", {
+                                card_id: baseName,
+                                card_name: formData?.name || baseName,
+                                card_question: formData?.question || null,
+                              });
+                            }
                           } else {
                             console.warn("No undithered image found for", key);
                           }
