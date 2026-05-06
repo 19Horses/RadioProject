@@ -204,6 +204,7 @@ export default function SoundCloudPlayer({ playingGuest, isMobile, darkMode }) {
           mix_title: title,
           mix_artist: artist,
           mix_id: playingGuest.url,
+          article_id: playingGuest.url,
         });
       }
 

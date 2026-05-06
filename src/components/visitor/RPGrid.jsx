@@ -306,6 +306,7 @@ export function RPGrid({
                                 card_id: baseName,
                                 card_name: formData?.name || baseName,
                                 card_question: formData?.question || null,
+                                article_id: baseName,
                               });
                             }
                           } else {
