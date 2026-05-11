@@ -1095,8 +1095,8 @@ const Bookmark = ({
                   ? playingGuest
                   : currentArticle || playingGuest; // Fallback to playingGuest during navigation
                 const displayImage = showPlayingGuest
-                  ? (playingGuest?.mobileSrc || playingGuest?.src)
-                  : (displayItem?.mobileSrc || displayItem?.src);
+                  ? (playingGuest?.mobileSrc || playingGuest?.src2 || playingGuest?.src)
+                  : (displayItem?.mobileSrc || displayItem?.src2 || displayItem?.src);
                 const showContent =
                   displayItem || showPlayingGuest || playingGuest; // Keep showing if playing
 
