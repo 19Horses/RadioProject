@@ -170,7 +170,7 @@ const Bookmark = ({
       setIsClosing(true);
       setMenuAnimationComplete(false);
       // Desktop has longer animation, mobile is quick
-      const closeDelay = isMobile ? 100 : 700;
+      const closeDelay = isMobile ? 50 : 700;
       setTimeout(() => {
         setMenuOpen(false);
         setIsClosing(false);
