@@ -189,7 +189,6 @@ export const Radiogram4 = () => {
       >
         I
       </p>
-      <br />
       <p style={{ width: isMobile ? "80%" : undefined }}>
         We waited on a{" "}
         <span
