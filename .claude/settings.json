@@ -17,7 +17,11 @@
       "WebFetch(domain:doi.org)",
       "WebFetch(domain:www.emerald.com)",
       "WebFetch(domain:academic.oup.com)",
-      "WebFetch(domain:www.penguin.co.uk)"
+      "WebFetch(domain:www.penguin.co.uk)",
+      "Bash(find \"/Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects\" -name \"*.js\" -o -name \"*.ts\" 2>/dev/null | xargs grep -l \"defineType\\\\|defineField\\\\|schema\" 2>/dev/null | grep -v node_modules | head -20)",
+      "Read(//Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/**)",
+      "Bash(find \"/Users/palmreader/My Documents/WEB Development\" -maxdepth 4 -name \"sanity.config*\" -o -name \"schema*\" 2>/dev/null | grep -v node_modules | head -20)",
+      "Read(//Users/palmreader/My Documents/WEB Development/**)"
     ]
   }
 }

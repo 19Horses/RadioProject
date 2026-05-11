@@ -47,6 +47,14 @@ export default {
       of: [{ type: 'image' }],
       description: 'Upload 2+ images to enable a crossfading slideshow. If set, overrides Cover Image.',
     },
+    { name: 'mobileCoverImage', title: 'Mobile Cover Image', type: 'image', description: 'Image shown in the mobile top bar. Falls back to Cover Image if not set.' },
+    {
+      name: 'mobileCoverImages',
+      title: 'Mobile Cover Images (slideshow)',
+      type: 'array',
+      of: [{ type: 'image' }],
+      description: 'Upload 2+ images for a crossfading slideshow in the mobile top bar. Overrides Mobile Cover Image.',
+    },
     { name: 'audioUrl', title: 'Audio URL', type: 'url' },
     { name: 'soundcloudLink', title: 'SoundCloud Link', type: 'url' },
     {

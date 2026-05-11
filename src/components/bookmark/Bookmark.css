@@ -815,7 +815,7 @@
     display: flex;
     align-items: center;
     overflow: hidden;
-    transition: width 0.3s ease-out;
+    transition: width 0.3s ease-out, background-color 0.4s ease;
   }
 
   .mobile-title-container-playing {
@@ -824,6 +824,20 @@
 
   .mobile-title-container-default {
     width: 220px;
+  }
+
+  .mobile-title-container-unplayed {
+    background-color: #434a47;
+  }
+
+  .mobile-title-container-unplayed .mobile-title-text {
+    color: rgba(217, 217, 217);
+    animation: mobile-title-pulse 2s ease-in-out infinite;
+  }
+
+  @keyframes mobile-title-pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.4; }
   }
 
   .mobile-title-text {
@@ -838,6 +852,7 @@
     white-space: nowrap;
     padding-left: 10px;
     padding-right: 10px;
+    transition: color 0.4s ease;
   }
 
   .mobile-title-text-roman {
@@ -870,7 +885,7 @@
   .mobile-play-pause-icon {
     font-size: 25px;
     position: absolute;
-    color: black;
+    color: #434A47;
     font-family: "Arial, sans-serif";
     animation: fadeIn 1s ease forwards;
   }

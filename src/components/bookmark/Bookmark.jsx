@@ -30,7 +30,10 @@ const Bookmark = ({
   selectedQuestion,
   setSelectedQuestion,
 }) => {
-  const { currentQuestion: CURRENT_QUESTION, currentQuestionAuthor: CURRENT_QUESTION_AUTHOR } = useSiteSettings();
+  const {
+    currentQuestion: CURRENT_QUESTION,
+    currentQuestionAuthor: CURRENT_QUESTION_AUTHOR,
+  } = useSiteSettings();
   const { audioRef, isPlaying, setIsPlaying, progress } = useAudio();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
@@ -1092,8 +1095,8 @@ const Bookmark = ({
                   ? playingGuest
                   : currentArticle || playingGuest; // Fallback to playingGuest during navigation
                 const displayImage = showPlayingGuest
-                  ? playingGuest?.src
-                  : currentImageSrc || currentArticle?.src || playingGuest?.src; // Fallback chain
+                  ? (playingGuest?.mobileSrc || playingGuest?.src)
+                  : (displayItem?.mobileSrc || displayItem?.src);
                 const showContent =
                   displayItem || showPlayingGuest || playingGuest; // Keep showing if playing
 
@@ -1103,9 +1106,10 @@ const Bookmark = ({
                     {displayImage && (
                       <div
                         className="mobile-image-thumbnail"
-                        onClick={() => {
+                        onClick={(e) => {
                           if (!displayItem) return;
                           if (displayItem.type === "mix" && setPlayingGuest) {
+                            e.stopPropagation();
                             setPlayingGuest(displayItem);
                           } else {
                             const link =
@@ -1169,7 +1173,22 @@ const Bookmark = ({
                         playingGuest
                           ? "mobile-title-container-playing"
                           : "mobile-title-container-default"
+                      }${
+                        displayItem?.type === "mix" &&
+                        playingGuest?.url !== displayItem?.url
+                          ? " mobile-title-container-unplayed"
+                          : ""
                       }`}
+                      onClick={(e) => {
+                        if (
+                          displayItem?.type === "mix" &&
+                          playingGuest?.url !== displayItem?.url &&
+                          setPlayingGuest
+                        ) {
+                          e.stopPropagation();
+                          setPlayingGuest(displayItem);
+                        }
+                      }}
                     >
                       <p className="mobile-title-text">
                         {showPlayingGuest && (
@@ -1188,6 +1207,10 @@ const Bookmark = ({
                         )}
                         {!showPlayingGuest && (
                           <span>
+                            {displayItem?.type === "mix" &&
+                              playingGuest?.url !== displayItem?.url && (
+                                <span className="mobile-title-text-roman">play </span>
+                              )}
                             {displayItem?.title}
                             <span className="mobile-title-text-roman">
                               {" "}

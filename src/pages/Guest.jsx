@@ -1,5 +1,4 @@
 import React, { useEffect, useMemo, useRef } from "react";
-import { createPortal } from "react-dom";
 import { Tracklist } from "../components/tracklist/Tracklist";
 import { useParams, useNavigate } from "react-router-dom";
 import { useItems } from "../ItemsContext";
@@ -10,7 +9,6 @@ export const Guest = ({
   isMobile,
   setCurrentArticle,
   playingGuest,
-  setPlayingGuest,
 }) => {
   const djs = useItems();
   const { guestName } = useParams();
@@ -145,19 +143,6 @@ export const Guest = ({
 
   return (
     <>
-      {/* Mobile play button - rendered via portal to bypass PageTransition transforms */}
-      {isMobile &&
-        selectedGuest &&
-        !isPlayingThisGuest &&
-        createPortal(
-          <span
-            className="guest-mobile-play-button"
-            onClick={() => setPlayingGuest(selectedGuest)}
-          >
-            PLAY
-          </span>,
-          document.body,
-        )}
 
       <div
         className={`guest-container ${

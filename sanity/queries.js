@@ -50,6 +50,7 @@ const MIX_FIELDS = `
   "id": _id,
   "type": "mix",
   "src": select(count(coverImages) > 0 => coverImages[].asset->url, coverImage.asset->url),
+  "mobileSrc": select(count(mobileCoverImages) > 0 => mobileCoverImages[].asset->url, mobileCoverImage.asset->url),
   "src3": coverImageDesktop.asset->url,
   title,
   "title2": artistName,
