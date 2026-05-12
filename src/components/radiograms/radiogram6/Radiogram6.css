@@ -18,7 +18,7 @@
 
 .radiogram-6-surface {
   position: absolute;
-  will-change: transform;
+  inset: 0;
 }
 
 .radiogram-6-cell {
@@ -26,6 +26,12 @@
   display: flex;
   align-items: center;
   justify-content: center;
+  animation: rg6-cell-in 0.5s ease both;
+}
+
+@keyframes rg6-cell-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
 }
 
 .radiogram-6-card {
@@ -50,27 +56,47 @@
   transition: opacity 1s ease;
 }
 .radiogram-6-surface.dimmed {
-  opacity: 0.08;
+  opacity: 0.35;
 }
 
-.radiogram-6-overlay {
+.radiogram-6-stack {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 320px;
+  height: 416px;
+  z-index: 50;
+}
+
+.radiogram-6-stack-card {
+  position: absolute;
+  inset: 0;
+  cursor: pointer;
+  animation: rg6-stack-in 0.4s ease both;
+}
+
+@keyframes rg6-stack-in {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+.radiogram-6-stack-card img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
+  pointer-events: none;
+}
+
+.radiogram-6-expanded {
   position: fixed;
   top: 0;
   left: calc(4vw + 284px);
   right: 0;
   bottom: 0;
   z-index: 999;
-  display: flex;
-  align-items: center;
-  justify-content: center;
   cursor: pointer;
-}
-
-.radiogram-6-overlay-img {
-  height: 90vh;
-  width: auto;
-  max-width: 90%;
-  object-fit: contain;
 }
 
 .radiogram-6-edge {
@@ -95,12 +121,40 @@
   background: linear-gradient(to top, var(--radiogram-6-bg), transparent);
 }
 
+.radiogram-6-filters {
+  position: absolute;
+  top: 24px;
+  left: 24px;
+  display: flex;
+  gap: 12px;
+  z-index: 20;
+}
+
+.radiogram-6-filter-btn {
+  font-family: Helvetica, Arial, sans-serif;
+  font-size: 0.7rem;
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  padding: 5px 16px;
+  border: 1px solid currentColor;
+  background: transparent;
+  cursor: pointer;
+  color: inherit;
+  opacity: 0.35;
+  transition: opacity 0.2s;
+}
+
+.radiogram-6-filter-btn:hover,
+.radiogram-6-filter-btn--active {
+  opacity: 1;
+}
+
 @media (max-width: 768px) {
   .radiogram-6-container {
     left: 0;
   }
 
-  .radiogram-6-overlay {
+  .radiogram-6-expanded {
     left: 0;
   }
 }

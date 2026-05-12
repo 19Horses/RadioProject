@@ -69,26 +69,19 @@ const inanimates = [
     alt: "TWO BIRDS ONE KISS",
   },
   { src: `${CDN_BASE}/WAX.webp`, alt: "WAX" },
-];
+].map((item, i) => ({ ...item, cat: ["a", "b", "c"][i % 3] }));
 
-const FREE_COLS = 6;
-const CARD_W = 180;
-const CARD_H = 234;
-const GAP = 60;
+const CARD_W = 100;
+const CARD_H = 130;
 const MAX_TILT = 15;
 const LERP = 0.06;
-const FRICTION = 0.001;
-const WHEEL_MULT = 0.5;
+const SPIN_FRICTION = 0.95;
+const WHEEL_SPIN = 0.001;
 
-const TiltCard = ({
-  src,
-  alt,
-  isSelected,
-  onSelect,
-  col,
-  dragRef,
-  isMobile,
-}) => {
+const STACK_ROTS = [8, -12, 5, -9, 13, -6, 10, -14, 3, -7, 11, -4];
+const stackRot = (i) => STACK_ROTS[i % STACK_ROTS.length];
+
+const TiltCard = ({ src, alt, isSelected, onSelect, isMobile }) => {
   const cardRef = useRef(null);
   const stateRef = useRef({
     rotX: 0,
@@ -100,8 +93,6 @@ const TiltCard = ({
     rafId: null,
     active: false,
   });
-  const originX =
-    col === 0 ? "left" : col === FREE_COLS - 1 ? "right" : "center";
 
   const runLoop = () => {
     const s = stateRef.current;
@@ -152,7 +143,7 @@ const TiltCard = ({
   }, [isSelected]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const handleMouseMove = (e) => {
-    if (isMobile || isSelected || dragRef.current.active) return;
+    if (isMobile || isSelected) return;
     const { left, top, width, height } =
       cardRef.current.getBoundingClientRect();
     const nx = ((e.clientX - left) / width) * 2 - 1;
@@ -175,51 +166,224 @@ const TiltCard = ({
     <div
       ref={cardRef}
       className={`radiogram-6-card${isSelected ? " radiogram-6-card--selected" : ""}`}
-      style={{ transformOrigin: `${originX} center` }}
+      style={{ transformOrigin: "center center" }}
       onMouseMove={handleMouseMove}
       onMouseLeave={handleMouseLeave}
-      onClick={() => {
-        if (!dragRef.current.moved)
-          onSelect(cardRef.current.getBoundingClientRect());
-      }}
+      onClick={onSelect}
     >
       <img src={src} alt={alt} />
     </div>
   );
 };
 
-const OverlayImage = ({ src, alt }) => {
+const ExpandedCard = ({ src, alt, from, getToRect, onClose }) => {
   const imgRef = useRef(null);
+  const closingRef = useRef(false);
+  const ease = "cubic-bezier(0.4, 0, 0.2, 1)";
 
   useEffect(() => {
     const img = imgRef.current;
     if (!img) return;
-    img.style.opacity = "0";
+
+    const sidebarLeft =
+      window.innerWidth > 768 ? window.innerWidth * 0.04 + 284 : 0;
+    const availW = window.innerWidth - sidebarLeft;
+    const availH = window.innerHeight;
+    const aspect = from.width / from.height;
+    const targetH = Math.min(availH * 0.9, (availW * 0.9) / aspect);
+    const targetW = targetH * aspect;
+    const targetTop = (availH - targetH) / 2;
+    const targetLeft = sidebarLeft + (availW - targetW) / 2;
+
+    // Initial position already applied via JSX style prop — just start the transition
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
-        img.style.transition = "opacity 1s ease";
-        img.style.opacity = "1";
+        const tr = `top 0.52s ${ease}, left 0.52s ${ease}, width 0.52s ${ease}, height 0.52s ${ease}, transform 0.52s ${ease}`;
+        Object.assign(img.style, {
+          transition: tr,
+          top: `${targetTop}px`,
+          left: `${targetLeft}px`,
+          width: `${targetW}px`,
+          height: `${targetH}px`,
+          transform: "none",
+        });
       });
     });
-  }, []);
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  const handleClose = () => {
+    if (closingRef.current) return;
+    closingRef.current = true;
+    const img = imgRef.current;
+    if (!img) {
+      onClose();
+      return;
+    }
+    const to = getToRect();
+    // Fade to invisible in the last 80ms so the unmount pop is invisible
+    const tr = `top 0.45s ${ease}, left 0.45s ${ease}, width 0.45s ${ease}, height 0.45s ${ease}, transform 0.45s ${ease}, opacity 0.08s ease 0.37s`;
+    Object.assign(img.style, {
+      transition: tr,
+      top: `${to.top}px`,
+      left: `${to.left}px`,
+      width: `${to.width}px`,
+      height: `${to.height}px`,
+      transform: `rotate(${to.rotation}deg)`,
+      opacity: "0",
+    });
+    setTimeout(onClose, 450);
+  };
 
   return (
-    <img ref={imgRef} src={src} alt={alt} className="radiogram-6-overlay-img" />
+    <div className="radiogram-6-expanded" onClick={handleClose}>
+      <img
+        ref={imgRef}
+        src={src}
+        alt={alt}
+        style={{
+          position: "fixed",
+          top: `${from.top}px`,
+          left: `${from.left}px`,
+          width: `${from.width}px`,
+          height: `${from.height}px`,
+          transform: `rotate(${from.rotation}deg)`,
+          objectFit: "contain",
+          maxWidth: "none",
+          margin: "0",
+        }}
+      />
+    </div>
   );
 };
 
 export const Radiogram6 = () => {
   const containerRef = useRef(null);
-  const surfaceRef = useRef(null);
-  const [selected, setSelected] = useState(null);
-
-  const selectedRef = useRef(null);
+  const cellRefs = useRef([]);
+  const [stack, setStack] = useState([]);
+  const [expanded, setExpanded] = useState(false);
+  const [expandedFrom, setExpandedFrom] = useState(null);
+  const topCardRef = useRef(null);
+  const selectedRef = useRef(false);
   useEffect(() => {
-    selectedRef.current = selected;
-  }, [selected]);
+    selectedRef.current = expanded;
+  }, [expanded]);
 
+  const [dims, setDims] = useState({ w: 0, h: 0 });
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
+  // Spin state — all in refs so RAF closures always see current values
+  const angleRef = useRef(0);
+  const velocityRef = useRef(0);
+  const spinRafRef = useRef(null);
+  // Layout metrics — updated on resize, read by RAF and render
+  const layoutRef = useRef({
+    cx: 0,
+    cy: 0,
+    radius: 0,
+    cardW: CARD_W,
+    cardH: CARD_H,
+  });
+
+  const [activeCategory, setActiveCategory] = useState(null);
+  const [filterGen, setFilterGen] = useState(0);
+  const filterTimeoutRef = useRef(null);
+
+  const pickCards = (cat) => {
+    const pool = cat ? inanimates.filter((img) => img.cat === cat) : inanimates;
+    return [...pool].sort(() => Math.random() - 0.5).slice(0, 12);
+  };
+
+  const [cards, setCards] = useState(() => pickCards(null));
+
+  // Moves every cell to match the current angle without a React re-render
+  const applyPositions = (angle) => {
+    const { cx, cy, radius, cardW, cardH } = layoutRef.current;
+    cellRefs.current.forEach((cell, i) => {
+      if (!cell) return;
+      const a = (i / 12) * 2 * Math.PI - Math.PI / 2 + angle;
+      cell.style.left = `${cx + radius * Math.cos(a) - cardW / 2}px`;
+      cell.style.top = `${cy + radius * Math.sin(a) - cardH / 2}px`;
+    });
+  };
+
+  const startSpin = () => {
+    if (spinRafRef.current) return;
+    const loop = () => {
+      velocityRef.current *= SPIN_FRICTION;
+      angleRef.current += velocityRef.current;
+      applyPositions(angleRef.current);
+      if (Math.abs(velocityRef.current) > 0.0001) {
+        spinRafRef.current = requestAnimationFrame(loop);
+      } else {
+        velocityRef.current = 0;
+        spinRafRef.current = null;
+      }
+    };
+    spinRafRef.current = requestAnimationFrame(loop);
+  };
+
+  // Resize observer
+  useEffect(() => {
+    const update = () => {
+      if (!containerRef.current) return;
+      const r = containerRef.current.getBoundingClientRect();
+      const isMob = r.width <= 768;
+      const cardW = isMob ? 120 : CARD_W;
+      const cardH = isMob ? 156 : CARD_H;
+      const radius = (r.height * 0.95 - cardH) / 2;
+      layoutRef.current = {
+        cx: r.width / 2,
+        cy: r.height / 2,
+        radius,
+        cardW,
+        cardH,
+      };
+      setDims({ w: r.width, h: r.height });
+    };
+    update();
+    window.addEventListener("resize", update);
+    return () => window.removeEventListener("resize", update);
+  }, []);
+
+  // Wheel + touch spin
+  useEffect(() => {
+    const container = containerRef.current;
+    if (!container) return;
+
+    const onWheel = (e) => {
+      if (selectedRef.current) return;
+      e.preventDefault();
+      velocityRef.current += e.deltaY * WHEEL_SPIN;
+      startSpin();
+    };
+
+    let touchLastY = 0;
+    const onTouchStart = (e) => {
+      touchLastY = e.touches[0].clientY;
+    };
+    const onTouchMove = (e) => {
+      if (selectedRef.current) return;
+      const dy = touchLastY - e.touches[0].clientY;
+      touchLastY = e.touches[0].clientY;
+      velocityRef.current += dy * WHEEL_SPIN;
+      startSpin();
+    };
+
+    container.addEventListener("wheel", onWheel, { passive: false });
+    container.addEventListener("touchstart", onTouchStart, { passive: true });
+    container.addEventListener("touchmove", onTouchMove, { passive: true });
+    return () => {
+      container.removeEventListener("wheel", onWheel);
+      container.removeEventListener("touchstart", onTouchStart);
+      container.removeEventListener("touchmove", onTouchMove);
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  useEffect(() => {
+    return () => cancelAnimationFrame(spinRafRef.current);
+  }, []);
+
+  // Preload all images once up front
   useEffect(() => {
     let cancelled = false;
     Promise.all(
@@ -239,209 +403,65 @@ export const Radiogram6 = () => {
     };
   }, []);
 
-  const panRef = useRef({ x: 0, y: 0, vx: 0, vy: 0 });
-  const dragRef = useRef({
-    active: false,
-    moved: false,
-    startX: 0,
-    startY: 0,
-    lastX: 0,
-    lastY: 0,
-  });
-  const rafRef = useRef(null);
-
-  const isMobile = window.innerWidth <= 768;
-  const cardW = isMobile ? 110 : CARD_W;
-  const cardH = isMobile ? 143 : CARD_H;
-  const gap = GAP;
-
+  // Reset spin when cards change
   useEffect(() => {
-    const container = containerRef.current;
-    const surface = surfaceRef.current;
-    if (!container || !surface) return;
+    cancelAnimationFrame(spinRafRef.current);
+    spinRafRef.current = null;
+    angleRef.current = 0;
+    velocityRef.current = 0;
+  }, [cards]);
 
-    const ROWS = Math.ceil(inanimates.length / FREE_COLS);
-    const totalW = FREE_COLS * (cardW + gap) - gap;
-    const totalH = ROWS * (cardH + gap) - gap;
+  const isMobile = dims.w > 0 && dims.w <= 768;
+  const { cx, cy, radius, cardW, cardH } = layoutRef.current;
 
-    const TOP_PAD = isMobile ? 50 : 30;
-    const P = 30;
+  const handleCategoryClick = (cat) => {
+    if (filterTimeoutRef.current) clearTimeout(filterTimeoutRef.current);
+    const stagger = 20;
+    const fadeDur = 250;
 
-    const initialX = (container.clientWidth - totalW) / 2;
-    const initialY = Math.min(TOP_PAD, (container.clientHeight - totalH) / 2);
-    panRef.current.x = initialX;
-    panRef.current.y = initialY;
-    surface.style.transform = `translate(${initialX}px, ${initialY}px)`;
+    // CSS animation (fill-mode:both) blocks transitions on the same property —
+    // cancel it and pin opacity:1 first, then force a reflow so the browser
+    // registers the explicit value before we start transitioning to 0.
+    cellRefs.current.forEach((cell) => {
+      if (!cell) return;
+      cell.style.animation = "none";
+      cell.style.opacity = "1";
+    });
+    void containerRef.current?.offsetHeight;
 
-    const getBounds = () => {
-      const cW = container.clientWidth;
-      const cH = container.clientHeight;
-      return {
-        maxX: Math.max(P, (cW - totalW) / 2),
-        minX: Math.min(-P, cW - totalW - P),
-        maxY: Math.max(TOP_PAD, (cH - totalH) / 2),
-        minY: Math.min(-P, cH - totalH - P),
-      };
-    };
+    cellRefs.current.forEach((cell, i) => {
+      if (!cell) return;
+      cell.style.transition = `opacity ${fadeDur}ms ease ${i * stagger}ms`;
+      cell.style.opacity = "0";
+    });
 
-    const tick = () => {
-      const { maxX, minX, maxY, minY } = getBounds();
-      const p = panRef.current;
-      p.vx *= FRICTION;
-      p.vy *= FRICTION;
-      p.x += p.vx;
-      p.y += p.vy;
-      let dirty = Math.abs(p.vx) > 0.01 || Math.abs(p.vy) > 0.01;
-      if (p.x > maxX) {
-        p.x = maxX;
-        p.vx = 0;
-        dirty = true;
-      }
-      if (p.x < minX) {
-        p.x = minX;
-        p.vx = 0;
-        dirty = true;
-      }
-      if (p.y > maxY) {
-        p.y = maxY;
-        p.vy = 0;
-        dirty = true;
-      }
-      if (p.y < minY) {
-        p.y = minY;
-        p.vy = 0;
-        dirty = true;
-      }
-      if (dirty) {
-        surface.style.transform = `translate(${p.x}px, ${p.y}px)`;
-        rafRef.current = requestAnimationFrame(tick);
-      } else {
-        rafRef.current = null;
-      }
-    };
+    const delay = (cards.length - 1) * stagger + fadeDur + 50;
+    filterTimeoutRef.current = setTimeout(() => {
+      filterTimeoutRef.current = null;
+      setActiveCategory(cat);
+      setCards(pickCards(cat));
+      setExpanded(false);
+      setFilterGen((g) => g + 1);
+    }, delay);
+  };
 
-    const startTick = () => {
-      if (!rafRef.current) rafRef.current = requestAnimationFrame(tick);
-    };
-
-    startTick();
-
-    const getXY = (e) =>
-      e.touches
-        ? { x: e.touches[0].clientX, y: e.touches[0].clientY }
-        : { x: e.clientX, y: e.clientY };
-
-    const onDown = (e) => {
-      if (selectedRef.current) return;
-      cancelAnimationFrame(rafRef.current);
-      rafRef.current = null;
-      const { x, y } = getXY(e);
-      dragRef.current = {
-        active: true,
-        moved: false,
-        startX: x,
-        startY: y,
-        lastX: x,
-        lastY: y,
-      };
-      panRef.current.vx = 0;
-      panRef.current.vy = 0;
-      container.style.cursor = "grabbing";
-    };
-
-    const onMove = (e) => {
-      if (!dragRef.current.active) return;
-      if (e.type === "mousemove" && e.buttons === 0) {
-        onUp();
-        return;
-      }
-      const { x, y } = getXY(e);
-      const dx = x - dragRef.current.lastX;
-      const dy = y - dragRef.current.lastY;
-      const { maxX, minX, maxY, minY } = getBounds();
-      const newX = Math.min(maxX, Math.max(minX, panRef.current.x + dx));
-      const newY = Math.min(maxY, Math.max(minY, panRef.current.y + dy));
-      panRef.current.vx = newX - panRef.current.x;
-      panRef.current.vy = newY - panRef.current.y;
-      panRef.current.x = newX;
-      panRef.current.y = newY;
-      surface.style.transform = `translate(${panRef.current.x}px, ${panRef.current.y}px)`;
-      dragRef.current.lastX = x;
-      dragRef.current.lastY = y;
-      if (
-        Math.abs(x - dragRef.current.startX) > 4 ||
-        Math.abs(y - dragRef.current.startY) > 4
-      ) {
-        dragRef.current.moved = true;
-      }
-    };
-
-    const onUp = () => {
-      dragRef.current.active = false;
-      container.style.cursor = "grab";
-      startTick();
-      setTimeout(() => {
-        dragRef.current.moved = false;
-      }, 50);
-    };
-
-    container.addEventListener("mousedown", onDown);
-    window.addEventListener("mousemove", onMove);
-    window.addEventListener("mouseup", onUp);
-    container.addEventListener("touchstart", onDown, { passive: true });
-    window.addEventListener("touchmove", onMove, { passive: true });
-    window.addEventListener("touchend", onUp);
-
-    const stopWheel = (e) => {
-      if (dragRef.current.active || selectedRef.current) return;
-      e.stopPropagation();
-      const { maxX, minX, maxY, minY } = getBounds();
-      const newX = Math.min(
-        maxX,
-        Math.max(minX, panRef.current.x - e.deltaX * WHEEL_MULT),
-      );
-      const newY = Math.min(
-        maxY,
-        Math.max(minY, panRef.current.y - e.deltaY * WHEEL_MULT),
-      );
-      panRef.current.vx = newX - panRef.current.x;
-      panRef.current.vy = newY - panRef.current.y;
-      panRef.current.x = newX;
-      panRef.current.y = newY;
-      surface.style.transform = `translate(${panRef.current.x}px, ${panRef.current.y}px)`;
-      startTick();
-    };
-    container.addEventListener("wheel", stopWheel, { passive: true });
-
-    return () => {
-      cancelAnimationFrame(rafRef.current);
-      container.removeEventListener("mousedown", onDown);
-      window.removeEventListener("mousemove", onMove);
-      window.removeEventListener("mouseup", onUp);
-      container.removeEventListener("touchstart", onDown);
-      window.removeEventListener("touchmove", onMove);
-      window.removeEventListener("touchend", onUp);
-      container.removeEventListener("wheel", stopWheel);
-    };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleSelect = (i, rect) => {
-    if (dragRef.current.moved) return;
-    setSelected((prev) =>
-      prev?.src === inanimates[i].src ? null : { ...inanimates[i], rect },
-    );
+  const handleSelect = (src) => {
+    const item = cards.find((c) => c.src === src);
+    setStack((prev) => {
+      if (prev.some((c) => c.src === src))
+        return prev.filter((c) => c.src !== src);
+      const next = [...prev, item];
+      return next.length > 12 ? next.slice(next.length - 12) : next;
+    });
   };
 
   return (
-    <div
-      ref={containerRef}
-      className="radiogram-6-container"
-      style={{ cursor: "grab" }}
-    >
+    <div ref={containerRef} className="radiogram-6-container">
       <div className="radiogram-6-edge radiogram-6-edge--left" />
       <div className="radiogram-6-edge radiogram-6-edge--right" />
       <div className="radiogram-6-edge radiogram-6-edge--top" />
       <div className="radiogram-6-edge radiogram-6-edge--bottom" />
+
       {!imagesLoaded && (
         <div
           style={{
@@ -458,43 +478,102 @@ export const Radiogram6 = () => {
           </p>
         </div>
       )}
-      <div
-        ref={surfaceRef}
-        className={`radiogram-6-surface${selected ? " dimmed" : ""}`}
-        style={!imagesLoaded ? { visibility: "hidden" } : undefined}
-      >
-        {inanimates.map((img, i) => {
-          const col = i % FREE_COLS;
-          const row = Math.floor(i / FREE_COLS);
-          return (
-            <div
-              key={i}
-              className="radiogram-6-cell"
-              style={{
-                left: col * (cardW + gap),
-                top: row * (cardH + gap),
-                width: cardW,
-                height: cardH,
-              }}
-            >
-              <TiltCard
-                src={img.src}
-                alt={img.alt}
-                isSelected={selected?.src === img.src}
-                onSelect={(rect) => handleSelect(i, rect)}
-                col={col}
-                dragRef={dragRef}
-                isMobile={isMobile}
-              />
-            </div>
-          );
-        })}
+
+      <div className="radiogram-6-filters">
+        {["a", "b", "c"].map((cat) => (
+          <button
+            key={cat}
+            className={`radiogram-6-filter-btn${activeCategory === cat ? " radiogram-6-filter-btn--active" : ""}`}
+            onClick={() => handleCategoryClick(cat)}
+          >
+            {cat}
+          </button>
+        ))}
       </div>
 
-      {selected && (
-        <div className="radiogram-6-overlay" onClick={() => setSelected(null)}>
-          <OverlayImage src={selected.src} alt={selected.alt} />
+      <div
+        className={`radiogram-6-surface${expanded ? " dimmed" : ""}`}
+        style={!imagesLoaded ? { visibility: "hidden" } : undefined}
+      >
+        {dims.w > 0 &&
+          cards.map((img, i) => {
+            const a = (i / 12) * 2 * Math.PI - Math.PI / 2 + angleRef.current;
+            const x = cx + radius * Math.cos(a) - cardW / 2;
+            const y = cy + radius * Math.sin(a) - cardH / 2;
+            return (
+              <div
+                key={`${filterGen}-${img.src}`}
+                ref={(el) => {
+                  cellRefs.current[i] = el;
+                }}
+                className="radiogram-6-cell"
+                style={{
+                  left: x,
+                  top: y,
+                  width: cardW,
+                  height: cardH,
+                  animationDelay: `${i * 30}ms`,
+                }}
+              >
+                <TiltCard
+                  src={img.src}
+                  alt={img.alt}
+                  isSelected={stack.some((c) => c.src === img.src)}
+                  onSelect={() => handleSelect(img.src)}
+                  isMobile={isMobile}
+                />
+              </div>
+            );
+          })}
+      </div>
+
+      {stack.length > 0 && (
+        <div
+          className="radiogram-6-stack"
+          onClick={() => {
+            if (!topCardRef.current) return;
+            const { top, left, width, height } =
+              topCardRef.current.getBoundingClientRect();
+            const rot = stackRot(stack.length - 1);
+            setExpandedFrom({ top, left, width, height, rotation: rot });
+            setExpanded(true);
+          }}
+        >
+          {stack.map((item, i) => {
+            const rot = stackRot(i);
+            const tx = ((i * 37) % 21) - 10;
+            const ty = ((i * 29) % 17) - 8;
+            return (
+              <div
+                key={item.src}
+                ref={i === stack.length - 1 ? topCardRef : null}
+                className="radiogram-6-stack-card"
+                style={{
+                  transform: `rotate(${rot}deg) translate(${tx}px, ${ty}px)`,
+                  zIndex: i + 1,
+                }}
+              >
+                <img src={item.src} alt={item.alt} />
+              </div>
+            );
+          })}
         </div>
+      )}
+
+      {expanded && expandedFrom && stack.length > 0 && (
+        <ExpandedCard
+          src={stack[stack.length - 1].src}
+          alt={stack[stack.length - 1].alt}
+          from={expandedFrom}
+          getToRect={() => {
+            if (!topCardRef.current) return expandedFrom;
+            const { top, left, width, height } =
+              topCardRef.current.getBoundingClientRect();
+            const rotation = stackRot(stack.length - 1);
+            return { top, left, width, height, rotation };
+          }}
+          onClose={() => setExpanded(false)}
+        />
       )}
     </div>
   );
