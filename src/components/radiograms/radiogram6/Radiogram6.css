@@ -87,6 +87,7 @@
   object-fit: contain;
   display: block;
   pointer-events: none;
+  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
 }
 
 .radiogram-6-expanded {
@@ -135,7 +136,7 @@
   font-size: 0.7rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  padding: 5px 16px;
+  padding: 5px 5px;
   border: 1px solid currentColor;
   background: transparent;
   cursor: pointer;

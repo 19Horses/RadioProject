@@ -176,7 +176,7 @@ const TiltCard = ({ src, alt, isSelected, onSelect, isMobile }) => {
   );
 };
 
-const ExpandedCard = ({ src, alt, from, getToRect, onClose }) => {
+const ExpandedCard = ({ src, alt, from, getToRect, onClose, onStartClose }) => {
   const imgRef = useRef(null);
   const closingRef = useRef(false);
   const ease = "cubic-bezier(0.4, 0, 0.2, 1)";
@@ -214,6 +214,7 @@ const ExpandedCard = ({ src, alt, from, getToRect, onClose }) => {
   const handleClose = () => {
     if (closingRef.current) return;
     closingRef.current = true;
+    onStartClose();
     const img = imgRef.current;
     if (!img) {
       onClose();
@@ -283,6 +284,8 @@ export const Radiogram6 = () => {
     cardW: CARD_W,
     cardH: CARD_H,
   });
+  const baseRadiusRef = useRef(0);
+  const radiusAnimRafRef = useRef(null);
 
   const [activeCategory, setActiveCategory] = useState(null);
   const [filterGen, setFilterGen] = useState(0);
@@ -331,6 +334,7 @@ export const Radiogram6 = () => {
       const cardW = isMob ? 120 : CARD_W;
       const cardH = isMob ? 156 : CARD_H;
       const radius = (r.height * 0.95 - cardH) / 2;
+      baseRadiusRef.current = radius;
       layoutRef.current = {
         cx: r.width / 2,
         cy: r.height / 2,
@@ -402,6 +406,32 @@ export const Radiogram6 = () => {
       cancelled = true;
     };
   }, []);
+
+  const animateRadius = (toExpanded, doubleRaf = false) => {
+    cancelAnimationFrame(radiusAnimRafRef.current);
+    const target = toExpanded ? baseRadiusRef.current * 1.4 : baseRadiusRef.current;
+    const start = () => {
+      const loop = () => {
+        const cur = layoutRef.current.radius;
+        const next = cur + (target - cur) * 0.07;
+        layoutRef.current.radius = next;
+        applyPositions(angleRef.current);
+        if (Math.abs(target - next) > 0.3) {
+          radiusAnimRafRef.current = requestAnimationFrame(loop);
+        } else {
+          layoutRef.current.radius = target;
+          applyPositions(angleRef.current);
+          radiusAnimRafRef.current = null;
+        }
+      };
+      radiusAnimRafRef.current = requestAnimationFrame(loop);
+    };
+    if (doubleRaf) {
+      radiusAnimRafRef.current = requestAnimationFrame(() => requestAnimationFrame(start));
+    } else {
+      start();
+    }
+  };
 
   // Reset spin when cards change
   useEffect(() => {
@@ -529,14 +559,18 @@ export const Radiogram6 = () => {
 
       {stack.length > 0 && (
         <div
-          className="radiogram-6-stack"
+          className={`radiogram-6-stack${expanded ? " radiogram-6-stack--expanded" : ""}`}
           onClick={() => {
             if (!topCardRef.current) return;
-            const { top, left, width, height } =
-              topCardRef.current.getBoundingClientRect();
+            const rect = topCardRef.current.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const w = topCardRef.current.offsetWidth;
+            const h = topCardRef.current.offsetHeight;
             const rot = stackRot(stack.length - 1);
-            setExpandedFrom({ top, left, width, height, rotation: rot });
+            setExpandedFrom({ top: cy - h / 2, left: cx - w / 2, width: w, height: h, rotation: rot });
             setExpanded(true);
+            animateRadius(true, true);
           }}
         >
           {stack.map((item, i) => {
@@ -567,11 +601,15 @@ export const Radiogram6 = () => {
           from={expandedFrom}
           getToRect={() => {
             if (!topCardRef.current) return expandedFrom;
-            const { top, left, width, height } =
-              topCardRef.current.getBoundingClientRect();
+            const rect = topCardRef.current.getBoundingClientRect();
+            const cx = rect.left + rect.width / 2;
+            const cy = rect.top + rect.height / 2;
+            const w = topCardRef.current.offsetWidth;
+            const h = topCardRef.current.offsetHeight;
             const rotation = stackRot(stack.length - 1);
-            return { top, left, width, height, rotation };
+            return { top: cy - h / 2, left: cx - w / 2, width: w, height: h, rotation };
           }}
+          onStartClose={() => animateRadius(false)}
           onClose={() => setExpanded(false)}
         />
       )}
