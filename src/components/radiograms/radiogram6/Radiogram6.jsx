@@ -345,9 +345,11 @@ export const Radiogram6 = () => {
       if (!containerRef.current) return;
       const r = containerRef.current.getBoundingClientRect();
       const isMob = r.width <= 768;
-      const cardW = isMob ? 120 : CARD_W;
-      const cardH = isMob ? 156 : CARD_H;
-      const radius = (r.height * 0.95 - cardH) / 2;
+      const cardW = isMob ? Math.min(120, r.width * 0.18) : CARD_W;
+      const cardH = cardW * (CARD_H / CARD_W);
+      const radiusH = (r.height * 0.9 - cardH) / 2;
+      const radiusW = (r.width * 0.9 - cardW) / 2;
+      const radius = isMob ? Math.min(radiusH, radiusW) : radiusH;
       baseRadiusRef.current = radius;
       layoutRef.current = {
         cx: r.width / 2,
@@ -584,6 +586,7 @@ export const Radiogram6 = () => {
       {stack.length > 0 && (
         <div
           className={`radiogram-6-stack${expanded ? " radiogram-6-stack--expanded" : ""}${snailMailOpen ? " dimmed" : ""}`}
+          style={isMobile ? { width: cardW * 3.2, height: cardH * 3.2 } : undefined}
           onClick={() => {
             if (!topCardRef.current) return;
             const rect = topCardRef.current.getBoundingClientRect();
@@ -657,7 +660,7 @@ export const Radiogram6 = () => {
         <img src={receiveALetter} alt="Snail Mail" />
       </button>
 
-      {btnHovered && (
+      {btnHovered && !isMobile && (
         <div
           className="radiogram-6-btn-label"
           style={{ left: btnMousePos.x + 12, top: btnMousePos.y - 8 }}

@@ -296,4 +296,22 @@
   .radiogram-6-snailmail-overlay {
     left: 0;
   }
+
+  .radiogram-6-filters {
+    top: auto;
+    bottom: 24px;
+    left: 24px;
+  }
+
+  .radiogram-6-snailmail-btn {
+    bottom: 24px;
+    left: auto;
+    right: 24px;
+    transform-origin: bottom right;
+    transition: none;
+  }
+
+  .radiogram-6-snailmail-btn:hover {
+    transform: none;
+  }
 }

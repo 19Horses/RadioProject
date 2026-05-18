@@ -37,6 +37,8 @@ const Bookmark = ({
   const { audioRef, isPlaying, setIsPlaying, progress } = useAudio();
   const [menuOpen, setMenuOpen] = useState(false);
   const [isClosing, setIsClosing] = useState(false);
+  const [playerBarExpanded, setPlayerBarExpanded] = useState(false);
+  const [dragPosition, setDragPosition] = useState(null);
   const [menuAnimationComplete, setMenuAnimationComplete] = useState(false);
   const bookmarkRef = useRef(null);
 
@@ -107,6 +109,17 @@ const Bookmark = ({
     setMenuOpen(false);
     setIsClosing(false);
   }, [location]);
+
+  useEffect(() => {
+    if (!playerBarExpanded) return;
+    const handler = () => setPlayerBarExpanded(false);
+    document.addEventListener("click", handler);
+    document.addEventListener("touchend", handler);
+    return () => {
+      document.removeEventListener("click", handler);
+      document.removeEventListener("touchend", handler);
+    };
+  }, [playerBarExpanded]);
 
   // Lock viewport height on mobile to prevent keyboard from resizing bookmark
   const [stableHeight, setStableHeight] = useState(null);
@@ -1101,15 +1114,19 @@ const Bookmark = ({
                   displayItem || showPlayingGuest || playingGuest; // Keep showing if playing
 
                 return showContent ? (
-                  <div className="mobile-content-display">
+                  <div className={`mobile-content-display${playerBarExpanded && playingGuest ? " mobile-content-display--expanded" : ""}`}>
                     {/* Image thumbnail */}
                     {displayImage && (
                       <div
                         className="mobile-image-thumbnail"
                         onClick={(e) => {
+                          e.stopPropagation();
+                          if (playingGuest) {
+                            setPlayerBarExpanded((v) => !v);
+                            return;
+                          }
                           if (!displayItem) return;
                           if (displayItem.type === "mix" && setPlayingGuest) {
-                            e.stopPropagation();
                             setPlayingGuest(displayItem);
                           } else {
                             const link =
@@ -1180,12 +1197,16 @@ const Bookmark = ({
                           : ""
                       }`}
                       onClick={(e) => {
+                        e.stopPropagation();
+                        if (playingGuest) {
+                          setPlayerBarExpanded((v) => !v);
+                          return;
+                        }
                         if (
                           displayItem?.type === "mix" &&
                           playingGuest?.url !== displayItem?.url &&
                           setPlayingGuest
                         ) {
-                          e.stopPropagation();
                           setPlayingGuest(displayItem);
                         }
                       }}
@@ -1252,15 +1273,49 @@ const Bookmark = ({
 
                     {/* Progress bar when playing */}
                     {playingGuest && (
-                      <div className="mobile-progress-bar-container">
+                      <div
+                        className="mobile-progress-bar-container"
+                        onClick={(e) => {
+                          if (!playerBarExpanded || !audioRef.current?.duration) return;
+                          e.stopPropagation();
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          const fraction = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
+                          audioRef.current.currentTime = fraction * audioRef.current.duration;
+                        }}
+                        onTouchStart={(e) => {
+                          if (!playerBarExpanded) return;
+                          e.stopPropagation();
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          const fraction = Math.max(0, Math.min(1, (e.touches[0].clientX - rect.left) / rect.width));
+                          setDragPosition(fraction * 100);
+                        }}
+                        onTouchMove={(e) => {
+                          if (!playerBarExpanded) return;
+                          e.stopPropagation();
+                          const rect = e.currentTarget.getBoundingClientRect();
+                          const fraction = Math.max(0, Math.min(1, (e.touches[0].clientX - rect.left) / rect.width));
+                          setDragPosition(fraction * 100);
+                        }}
+                        onTouchEnd={(e) => {
+                          if (!playerBarExpanded) return;
+                          e.stopPropagation();
+                          if (dragPosition !== null && audioRef.current?.duration) {
+                            audioRef.current.currentTime = (dragPosition / 100) * audioRef.current.duration;
+                          }
+                          setDragPosition(null);
+                        }}
+                        style={playerBarExpanded ? { cursor: "col-resize" } : undefined}
+                      >
                         <div
                           className="mobile-progress-bar"
                           style={{
-                            "--progress-width": `${progress || 0}%`,
-                            backgroundColor:
-                              playingGuest?.themeColor || "rgb(255, 0, 90)",
-                            transition:
-                              "width 0.1s linear, background-color 0.5s ease-in-out",
+                            "--progress-width": `${dragPosition !== null ? dragPosition : (progress || 0)}%`,
+                            backgroundColor: dragPosition !== null
+                              ? "rgba(67,74,71,0.4)"
+                              : (playingGuest?.themeColor || "rgb(255, 0, 90)"),
+                            transition: (playerBarExpanded && dragPosition === null)
+                              ? "width 0.1s linear, background-color 0.2s ease"
+                              : "none",
                           }}
                         />
                       </div>
