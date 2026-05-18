@@ -235,7 +235,7 @@ export const Article = ({
             >
               <div className="article-description-wrapper">
                 {RadiogramComponent ? (
-                  <RadiogramComponent />
+                  <RadiogramComponent isPlaying={isPlaying} />
                 ) : (
                   <p
                     className="article-description-paragraph"

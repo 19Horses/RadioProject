@@ -1,7 +1,6 @@
 import React, { useEffect, useRef, useState } from "react";
 import ReactDOM from "react-dom";
 import "./Radiogram5.css";
-import { useAudio } from "../../../AudioContext";
 
 const content = {
   en: [
@@ -43,12 +42,14 @@ const content = {
   ],
 };
 
-export const Radiogram5 = () => {
+export const Radiogram5 = ({ isPlaying }) => {
   const containerRef = useRef(null);
+  const videoRef = useRef(null);
   const [isMobile, setIsMobile] = useState(window.innerWidth <= 768);
   const [language, setLanguage] = useState("en");
   const [isTransitioning, setIsTransitioning] = useState(false);
-  const { isPlaying: isMixPlaying } = useAudio();
+  const [videoPaused, setVideoPaused] = useState(false);
+  const [videoMuted, setVideoMuted] = useState(true);
 
   useEffect(() => {
     const observerOptions = {
@@ -124,14 +125,46 @@ export const Radiogram5 = () => {
       {ReactDOM.createPortal(
         <>
           <div className="video-underlay" />
-          <div className="video-embed">
-            <iframe
-              src={`https://player.vimeo.com/video/1117416036?h=b495e488c4&title=0&byline=0&portrait=0&sidedock=0&pip=0&dnt=1&autoplay=1${isMixPlaying ? "&muted=1" : ""}`}
-              frameBorder="0"
-              allow="autoplay; fullscreen; picture-in-picture"
-              allowFullScreen
-              title="Bunny Leap Music Video"
+          <div
+            className={`video-embed${isPlaying != null ? " video-embed--mix-playing" : ""}`}
+          >
+            <video
+              ref={videoRef}
+              src="https://radiogram-6-bucket.s3.eu-west-2.amazonaws.com/No+Exit+MV.m4v"
+              autoPlay
+              loop
+              muted
+              playsInline
             />
+            <div className="video-controls">
+              <button
+                className="video-btn"
+                onClick={() => {
+                  const v = videoRef.current;
+                  if (!v) return;
+                  if (v.paused) {
+                    v.play();
+                    setVideoPaused(false);
+                  } else {
+                    v.pause();
+                    setVideoPaused(true);
+                  }
+                }}
+              >
+                {videoPaused ? "play" : "pause"}
+              </button>
+              <button
+                className="video-btn"
+                onClick={() => {
+                  const v = videoRef.current;
+                  if (!v) return;
+                  v.muted = !v.muted;
+                  setVideoMuted(v.muted);
+                }}
+              >
+                {videoMuted ? "unmute" : "mute"}
+              </button>
+            </div>
           </div>
         </>,
         document.body,
