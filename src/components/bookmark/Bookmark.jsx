@@ -1051,6 +1051,10 @@ const Bookmark = ({
                 : {}),
             }}
             onClick={() => {
+              if (playerBarExpanded) {
+                setPlayerBarExpanded(false);
+                return;
+              }
               if (!menuOpen) {
                 setMenuOpen(true);
               }
@@ -1112,16 +1116,18 @@ const Bookmark = ({
                   : (displayItem?.mobileSrc || displayItem?.src2 || displayItem?.src);
                 const showContent =
                   displayItem || showPlayingGuest || playingGuest; // Keep showing if playing
+                const isUnplayed = displayItem?.type === "mix" && playingGuest?.url !== displayItem?.url;
+                const canExpand = !!playingGuest && !isUnplayed;
 
                 return showContent ? (
-                  <div className={`mobile-content-display${playerBarExpanded && playingGuest ? " mobile-content-display--expanded" : ""}`}>
+                  <div className={`mobile-content-display${playerBarExpanded && canExpand ? " mobile-content-display--expanded" : ""}`}>
                     {/* Image thumbnail */}
                     {displayImage && (
                       <div
                         className="mobile-image-thumbnail"
                         onClick={(e) => {
                           e.stopPropagation();
-                          if (playingGuest) {
+                          if (canExpand) {
                             setPlayerBarExpanded((v) => !v);
                             return;
                           }
@@ -1198,7 +1204,7 @@ const Bookmark = ({
                       }`}
                       onClick={(e) => {
                         e.stopPropagation();
-                        if (playingGuest) {
+                        if (canExpand) {
                           setPlayerBarExpanded((v) => !v);
                           return;
                         }
@@ -1258,6 +1264,10 @@ const Bookmark = ({
                           }
                         }}
                         className="mobile-play-pause-button"
+                        style={{
+                          backgroundColor: isUnplayed ? "#434a47" : "rgba(217,217,217)",
+                          transition: "background-color 0.4s ease",
+                        }}
                       >
                         <span
                           className={`mobile-play-pause-icon ${
@@ -1265,6 +1275,10 @@ const Bookmark = ({
                               ? "mobile-play-pause-icon-paused"
                               : "mobile-play-pause-icon-played"
                           }`}
+                          style={{
+                            color: isUnplayed ? "rgba(217,217,217)" : "#434a47",
+                            transition: "color 0.4s ease",
+                          }}
                         >
                           {isPlaying ? "■" : "►"}
                         </span>
