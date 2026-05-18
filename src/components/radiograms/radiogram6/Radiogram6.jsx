@@ -1,7 +1,9 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./Radiogram6.css";
+import receiveALetter from "./RECEIVE A LETTER.webp";
 
 const CDN_BASE = "https://d21zv5r7rdb0xb.cloudfront.net";
+const FORMSPREE_ID = "mnjrqrqz";
 
 const inanimates = [
   {
@@ -73,7 +75,7 @@ const inanimates = [
 
 const CARD_W = 100;
 const CARD_H = 130;
-const MAX_TILT = 15;
+const MAX_TILT = 30;
 const LERP = 0.06;
 const SPIN_FRICTION = 0.95;
 const WHEEL_SPIN = 0.001;
@@ -263,6 +265,18 @@ export const Radiogram6 = () => {
   const [stack, setStack] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [expandedFrom, setExpandedFrom] = useState(null);
+  const [snailMailOpen, setSnailMailOpen] = useState(false);
+  const [btnHovered, setBtnHovered] = useState(false);
+  const [btnMousePos, setBtnMousePos] = useState({ x: 0, y: 0 });
+  const [snailMailForm, setSnailMailForm] = useState({
+    name: "",
+    street: "",
+    city: "",
+    state: "",
+    postcode: "",
+    country: "",
+  });
+  const [submitState, setSubmitState] = useState(null); // null | 'sending' | 'sent' | 'error'
   const topCardRef = useRef(null);
   const selectedRef = useRef(false);
   useEffect(() => {
@@ -409,7 +423,9 @@ export const Radiogram6 = () => {
 
   const animateRadius = (toExpanded, doubleRaf = false) => {
     cancelAnimationFrame(radiusAnimRafRef.current);
-    const target = toExpanded ? baseRadiusRef.current * 1.4 : baseRadiusRef.current;
+    const target = toExpanded
+      ? baseRadiusRef.current * 1.4
+      : baseRadiusRef.current;
     const start = () => {
       const loop = () => {
         const cur = layoutRef.current.radius;
@@ -427,7 +443,9 @@ export const Radiogram6 = () => {
       radiusAnimRafRef.current = requestAnimationFrame(loop);
     };
     if (doubleRaf) {
-      radiusAnimRafRef.current = requestAnimationFrame(() => requestAnimationFrame(start));
+      radiusAnimRafRef.current = requestAnimationFrame(() =>
+        requestAnimationFrame(start),
+      );
     } else {
       start();
     }
@@ -478,9 +496,15 @@ export const Radiogram6 = () => {
   const handleSelect = (src) => {
     const item = cards.find((c) => c.src === src);
     setStack((prev) => {
-      if (prev.some((c) => c.src === src))
-        return prev.filter((c) => c.src !== src);
-      const next = [...prev, item];
+      const existing = prev.find((c) => c.src === src);
+      const without = prev.filter((c) => c.src !== src);
+      const stackItem = existing ?? {
+        ...item,
+        rot: stackRot(without.length),
+        tx: ((without.length * 37) % 21) - 10,
+        ty: ((without.length * 29) % 17) - 8,
+      };
+      const next = [...without, stackItem];
       return next.length > 12 ? next.slice(next.length - 12) : next;
     });
   };
@@ -522,7 +546,7 @@ export const Radiogram6 = () => {
       </div>
 
       <div
-        className={`radiogram-6-surface${expanded ? " dimmed" : ""}`}
+        className={`radiogram-6-surface${expanded || snailMailOpen ? " dimmed" : ""}`}
         style={!imagesLoaded ? { visibility: "hidden" } : undefined}
       >
         {dims.w > 0 &&
@@ -559,7 +583,7 @@ export const Radiogram6 = () => {
 
       {stack.length > 0 && (
         <div
-          className={`radiogram-6-stack${expanded ? " radiogram-6-stack--expanded" : ""}`}
+          className={`radiogram-6-stack${expanded ? " radiogram-6-stack--expanded" : ""}${snailMailOpen ? " dimmed" : ""}`}
           onClick={() => {
             if (!topCardRef.current) return;
             const rect = topCardRef.current.getBoundingClientRect();
@@ -567,23 +591,26 @@ export const Radiogram6 = () => {
             const cy = rect.top + rect.height / 2;
             const w = topCardRef.current.offsetWidth;
             const h = topCardRef.current.offsetHeight;
-            const rot = stackRot(stack.length - 1);
-            setExpandedFrom({ top: cy - h / 2, left: cx - w / 2, width: w, height: h, rotation: rot });
+            const rot = stack[stack.length - 1].rot;
+            setExpandedFrom({
+              top: cy - h / 2,
+              left: cx - w / 2,
+              width: w,
+              height: h,
+              rotation: rot,
+            });
             setExpanded(true);
             animateRadius(true, true);
           }}
         >
           {stack.map((item, i) => {
-            const rot = stackRot(i);
-            const tx = ((i * 37) % 21) - 10;
-            const ty = ((i * 29) % 17) - 8;
             return (
               <div
                 key={item.src}
                 ref={i === stack.length - 1 ? topCardRef : null}
                 className="radiogram-6-stack-card"
                 style={{
-                  transform: `rotate(${rot}deg) translate(${tx}px, ${ty}px)`,
+                  transform: `rotate(${item.rot}deg) translate(${item.tx}px, ${item.ty}px)`,
                   zIndex: i + 1,
                 }}
               >
@@ -606,12 +633,126 @@ export const Radiogram6 = () => {
             const cy = rect.top + rect.height / 2;
             const w = topCardRef.current.offsetWidth;
             const h = topCardRef.current.offsetHeight;
-            const rotation = stackRot(stack.length - 1);
-            return { top: cy - h / 2, left: cx - w / 2, width: w, height: h, rotation };
+            const rotation = stack[stack.length - 1].rot;
+            return {
+              top: cy - h / 2,
+              left: cx - w / 2,
+              width: w,
+              height: h,
+              rotation,
+            };
           }}
           onStartClose={() => animateRadius(false)}
           onClose={() => setExpanded(false)}
         />
+      )}
+
+      <button
+        className="radiogram-6-snailmail-btn"
+        onClick={() => setSnailMailOpen(true)}
+        onMouseEnter={() => setBtnHovered(true)}
+        onMouseLeave={() => setBtnHovered(false)}
+        onMouseMove={(e) => setBtnMousePos({ x: e.clientX, y: e.clientY })}
+      >
+        <img src={receiveALetter} alt="Snail Mail" />
+      </button>
+
+      {btnHovered && (
+        <div
+          className="radiogram-6-btn-label"
+          style={{ left: btnMousePos.x + 12, top: btnMousePos.y - 8 }}
+        >
+          → receive a letter
+        </div>
+      )}
+
+      {snailMailOpen && (
+        <div
+          className="radiogram-6-snailmail-overlay"
+          onClick={() => setSnailMailOpen(false)}
+        >
+          <div
+            className="radiogram-6-snailmail-dialog"
+            onClick={(e) => e.stopPropagation()}
+          >
+            <div className="radiogram-6-snailmail-fields">
+              {[
+                { key: "name", label: "name..." },
+                { key: "street", label: "street address..." },
+                { key: "city", label: "city..." },
+                { key: "state", label: "state / region..." },
+                { key: "postcode", label: "postcode..." },
+                { key: "country", label: "country..." },
+              ].map(({ key, label }) => (
+                <input
+                  key={key}
+                  className="radiogram-6-snailmail-input"
+                  type="text"
+                  placeholder={label}
+                  value={snailMailForm[key]}
+                  onChange={(e) =>
+                    setSnailMailForm((prev) => ({
+                      ...prev,
+                      [key]: e.target.value,
+                    }))
+                  }
+                />
+              ))}
+            </div>
+            <div className="radiogram-6-snailmail-footer">
+              <span className="radiogram-6-snailmail-tagline">
+                sign up to the narrator's snail mail mailing list
+              </span>
+              <button
+                className="radiogram-6-snailmail-send"
+                disabled={submitState === "sending" || submitState === "sent"}
+                onClick={async () => {
+                  setSubmitState("sending");
+                  try {
+                    const res = await fetch(
+                      `https://formspree.io/f/${FORMSPREE_ID}`,
+                      {
+                        method: "POST",
+                        headers: {
+                          "Content-Type": "application/json",
+                          Accept: "application/json",
+                        },
+                        body: JSON.stringify(snailMailForm),
+                      },
+                    );
+                    if (res.ok) {
+                      setSubmitState("sent");
+                      setTimeout(() => {
+                        setSnailMailOpen(false);
+                        setSubmitState(null);
+                        setSnailMailForm({
+                          name: "",
+                          street: "",
+                          city: "",
+                          state: "",
+                          postcode: "",
+                          country: "",
+                        });
+                      }, 1500);
+                    } else {
+                      setSubmitState("error");
+                    }
+                  } catch {
+                    setSubmitState("error");
+                  }
+                }}
+              >
+                {submitState === "sending"
+                  ? "sending..."
+                  : submitState === "sent"
+                    ? "sent"
+                    : submitState === "error"
+                      ? "error"
+                      : "send"}
+              </button>
+            </div>
+          </div>
+        </div>
       )}
     </div>
   );
