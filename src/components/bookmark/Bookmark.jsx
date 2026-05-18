@@ -300,10 +300,10 @@ const Bookmark = ({
     // Reset crossfade index on article change
     setActiveImageIndex(0);
 
-    const newSrc = currentArticle?.src ?? null;
+    const newSrc = currentArticle?.mobileSrc || currentArticle?.src2 || currentArticle?.src || null;
 
     if (
-      previousArticleRef.current?.src &&
+      (previousArticleRef.current?.mobileSrc || previousArticleRef.current?.src2 || previousArticleRef.current?.src) &&
       previousArticleRef.current !== currentArticle
     ) {
       setImageVisible(false);

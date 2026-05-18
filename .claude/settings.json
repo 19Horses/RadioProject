@@ -21,7 +21,8 @@
       "Bash(find \"/Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects\" -name \"*.js\" -o -name \"*.ts\" 2>/dev/null | xargs grep -l \"defineType\\\\|defineField\\\\|schema\" 2>/dev/null | grep -v node_modules | head -20)",
       "Read(//Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/**)",
       "Bash(find \"/Users/palmreader/My Documents/WEB Development\" -maxdepth 4 -name \"sanity.config*\" -o -name \"schema*\" 2>/dev/null | grep -v node_modules | head -20)",
-      "Read(//Users/palmreader/My Documents/WEB Development/**)"
+      "Read(//Users/palmreader/My Documents/WEB Development/**)",
+      "Bash(awk 'NR>=380 && NR<=430')"
     ]
   }
 }

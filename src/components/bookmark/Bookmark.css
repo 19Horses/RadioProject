@@ -523,12 +523,12 @@
   /* Button Container */
   .button-container {
     display: flex;
-    gap: 8%;
+    gap: 3%;
   }
 
   /* Menu Icon SVG */
   .menu-icon-svg {
-    width: 46%;
+    width: 48.5%;
     height: auto;
     cursor: pointer;
     color: rgb(255, 0, 90);
@@ -547,7 +547,7 @@
 
   /* Visitor Check Buttons Container */
   .visitor-check-buttons {
-    width: 46%;
+    width: 48.5%;
     display: flex;
     flex-direction: column;
     gap: 6px;
@@ -592,7 +592,7 @@
 
   /* Image Container */
   .article-image-container {
-    width: 46%;
+    width: 48.5%;
     position: relative;
     cursor: pointer;
   }
