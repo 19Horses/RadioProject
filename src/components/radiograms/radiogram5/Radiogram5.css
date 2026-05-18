@@ -144,6 +144,24 @@
   display: block;
 }
 
+.video-lyrics {
+  position: absolute;
+  top: 10px;
+  left: 8px;
+  padding-left: 50px;
+  font-family: "NeueBit-Regular";
+  font-size: 18px;
+  color: #fff;
+  pointer-events: none;
+  text-shadow: 0 1px 4px rgba(0, 0, 0, 0.8);
+  opacity: 0;
+  transition: opacity 0.4s ease;
+}
+
+.video-lyrics--visible {
+  opacity: 1;
+}
+
 .video-controls {
   position: absolute;
   bottom: 8px;

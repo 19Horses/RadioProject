@@ -42,6 +42,80 @@ const content = {
   ],
 };
 
+const t = (m, s) => m * 60 + s;
+
+const LYRICS = [
+  { start: t(0, 9), end: t(0, 15), text: "bunny Leap" },
+  { start: t(0, 18), end: t(0, 26), text: "no Exit" },
+  { start: t(0, 35), end: t(0, 41), text: "the skyline cuts my view in half" },
+  { start: t(0, 43), end: t(0, 50), text: "as I lean into the noise" },
+  { start: t(0, 53), end: t(1, 0), text: "autumn lights on busy streets" },
+  {
+    start: t(1, 1),
+    end: t(1, 8),
+    text: "don't know where this night will land",
+  },
+  { start: t(1, 28), end: t(1, 32), text: "shoulders passing, out of time" },
+  {
+    start: t(1, 33),
+    end: t(1, 38),
+    text: "speed it up, slow it down, how far I try",
+  },
+  { start: t(1, 39), end: t(1, 41), text: "keep away from wondering eyes" },
+  {
+    start: t(1, 42),
+    end: t(1, 47),
+    text: "in my steps, by roadside, hold tight to glow",
+  },
+  { start: t(1, 48), end: t(1, 52), text: "will you ever come my way" },
+  { start: t(1, 52), end: t(1, 56), text: "come my way again" },
+  { start: t(1, 57), end: t(2, 0), text: "we're afraid of missing the beat" },
+  { start: t(2, 1), end: t(2, 5), text: "we miss it all the time" },
+  { start: t(2, 6), end: t(2, 10), text: "am I still running faster" },
+  { start: t(2, 11), end: t(2, 14), text: "running faster now and then" },
+  { start: t(2, 15), end: t(2, 18), text: "when no one ever leaves" },
+  { start: t(2, 19), end: t(2, 26), text: "no exit" },
+  { start: t(2, 41), end: t(2, 47), text: "dawn breaks across the ground" },
+  {
+    start: t(2, 49),
+    end: t(2, 56),
+    text: "light is falling through the cracks",
+  },
+  { start: t(2, 59), end: t(3, 5), text: "i pull myself back into shape" },
+  { start: t(3, 6), end: t(3, 14), text: "looking for a place to stop" },
+  { start: t(3, 17), end: t(3, 20), text: "sunglasses on, reading signs" },
+  { start: t(3, 21), end: t(3, 25), text: "run a little wild tonight" },
+  { start: t(3, 26), end: t(3, 29), text: "every warning in my head" },
+  {
+    start: t(3, 30),
+    end: t(3, 35),
+    text: "says slow it down, slow it down, I'm losing ground",
+  },
+  { start: t(3, 36), end: t(3, 40), text: "will you ever come my way" },
+  { start: t(3, 40), end: t(3, 44), text: "come my way again" },
+  { start: t(3, 45), end: t(3, 49), text: "we're afraid of missing the beat" },
+  { start: t(3, 49), end: t(3, 53), text: "we miss it every time" },
+  { start: t(3, 54), end: t(3, 58), text: "am I still running faster" },
+  { start: t(3, 58), end: t(4, 2), text: "running faster now" },
+  { start: t(4, 3), end: t(4, 7), text: "when no one ever leaves" },
+  { start: t(4, 7), end: t(4, 11), text: "no exit" },
+  { start: t(4, 12), end: t(4, 16), text: "a crowded room, a rising sound" },
+  { start: t(4, 16), end: t(4, 20), text: "i'm spinning just to stay around" },
+  { start: t(4, 21), end: t(4, 25), text: "wide awake inside the pull" },
+  {
+    start: t(4, 25),
+    end: t(4, 32),
+    text: "right at the center, going nowhere",
+  },
+  {
+    start: t(5, 5),
+    end: t(5, 12),
+    text: "there'll always be, roads that never end.",
+  },
+  { start: t(5, 13), end: t(5, 19), text: "keep walking" },
+  { start: t(5, 20), end: t(5, 25), text: "as they fade" },
+];
+
 export const Radiogram5 = ({ isPlaying }) => {
   const containerRef = useRef(null);
   const videoRef = useRef(null);
@@ -50,6 +124,7 @@ export const Radiogram5 = ({ isPlaying }) => {
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [videoPaused, setVideoPaused] = useState(false);
   const [videoMuted, setVideoMuted] = useState(true);
+  const [videoTime, setVideoTime] = useState(0);
 
   useEffect(() => {
     const observerOptions = {
@@ -86,6 +161,18 @@ export const Radiogram5 = ({ isPlaying }) => {
       observer.disconnect();
     };
   }, [language]);
+
+  useEffect(() => {
+    const v = videoRef.current;
+    if (!v) return;
+    const onTimeUpdate = () => setVideoTime(v.currentTime);
+    v.addEventListener("timeupdate", onTimeUpdate);
+    return () => v.removeEventListener("timeupdate", onTimeUpdate);
+  }, []);
+
+  const activeLyric = LYRICS.find(
+    (l) => videoTime >= l.start && videoTime < l.end,
+  );
 
   const toggleLanguage = () => {
     setIsTransitioning(true);
@@ -136,6 +223,9 @@ export const Radiogram5 = ({ isPlaying }) => {
               muted
               playsInline
             />
+            <div className={`video-lyrics${activeLyric ? " video-lyrics--visible" : ""}`}>
+              {activeLyric?.text}
+            </div>
             <div className="video-controls">
               <button
                 className="video-btn"
