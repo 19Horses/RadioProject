@@ -205,4 +205,8 @@
   .video-underlay {
     display: none;
   }
+
+  .video-controls {
+    opacity: 1;
+  }
 }
