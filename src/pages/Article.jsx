@@ -33,6 +33,7 @@ export const Article = ({
   const currentScrollRef = useRef(0);
   const animationFrameRef = useRef(null);
   const hasReachedEndRef = useRef(false);
+  const isSelectingRef = useRef(false);
 
   useEffect(() => {
     if (articleSelected && setCurrentArticle) {
@@ -106,8 +107,27 @@ export const Article = ({
     const scrollSpeed = 0.08; // Adjust for smoother/snappier scroll (0.05-0.15 recommended)
     const wheelMultiplier = 1.5; // Adjust scroll sensitivity
 
+    // Pause animation during mouse-drag text selection
+    const handleMouseDown = () => {
+      isSelectingRef.current = true;
+      if (animationFrameRef.current) {
+        cancelAnimationFrame(animationFrameRef.current);
+        animationFrameRef.current = null;
+      }
+      targetScrollRef.current = currentScrollRef.current;
+    };
+    const handleMouseUp = () => {
+      isSelectingRef.current = false;
+    };
+    scrollContainer.addEventListener("mousedown", handleMouseDown);
+    document.addEventListener("mouseup", handleMouseUp);
+
     // Animation loop
     const animateScroll = () => {
+      if (isSelectingRef.current) {
+        animationFrameRef.current = null;
+        return;
+      }
       if (scrollContainer) {
         currentScrollRef.current = lerp(
           currentScrollRef.current,
@@ -194,6 +214,8 @@ export const Article = ({
     return () => {
       scrollContainer.removeEventListener("wheel", handleWheel);
       scrollContainer.removeEventListener("smoothScrollTo", handleSmoothScrollTo);
+      scrollContainer.removeEventListener("mousedown", handleMouseDown);
+      document.removeEventListener("mouseup", handleMouseUp);
       if (animationFrameRef.current) {
         cancelAnimationFrame(animationFrameRef.current);
       }

@@ -223,7 +223,9 @@ export const Radiogram5 = ({ isPlaying }) => {
               muted
               playsInline
             />
-            <div className={`video-lyrics${activeLyric ? " video-lyrics--visible" : ""}`}>
+            <div
+              className={`video-lyrics${activeLyric ? " video-lyrics--visible" : ""}`}
+            >
               {activeLyric?.text}
             </div>
             <div className="video-controls">
