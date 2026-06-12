@@ -90,7 +90,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
     setTimeout(centerFirstItem, 100);
     setTimeout(centerFirstItem, 500);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []); // Run only on mount
+  }, []); // Run only on mount1
 
   // Reset when navigating to archive
   useEffect(() => {
@@ -314,7 +314,8 @@ export const LandingVertical = ({ isMobile, gridView }) => {
                     position: "absolute",
                     inset: 0,
                     transition: "opacity 1s ease",
-                    opacity: activeIndex === idx ? 1 : 0,
+                    opacity:
+                      (activeIndex === idx ? 1 : 0) * (isFocused ? 1 : 0.4),
                   }}
                 />
               ))}

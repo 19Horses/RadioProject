@@ -1,6 +1,43 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./Radiogram6.css";
 import receiveALetter from "./RECEIVE A LETTER.webp";
+import handFilter from "./hand-filter.png";
+
+// Finger hotspots as % of image dimensions (width x height)
+// Left hand, palm facing viewer: from right to left — thumb, index, middle, ring, pinky
+const FINGER_ZONES = [
+  { cat: "a", label: "a", cx: 83, cy: 54 }, // thumb (lower-right)
+  { cat: "b", label: "b", cx: 70, cy:  8 }, // pointer / index finger
+  { cat: "c", label: "c", cx: 53, cy:  4 }, // middle finger
+];
+
+const HandFilter = ({ activeCategory, onCategoryClick }) => {
+  const [hovered, setHovered] = useState(null);
+  return (
+    <div className="radiogram-6-hand-filter">
+      <img src={handFilter} alt="filter hand" className="radiogram-6-hand-img" draggable={false} />
+      {FINGER_ZONES.map(({ cat, label, cx, cy }) => {
+        const isActive = activeCategory === cat;
+        const isHovered = hovered === cat;
+        return (
+          <button
+            key={cat}
+            className={`radiogram-6-finger-btn${isActive ? " radiogram-6-finger-btn--active" : ""}${isHovered ? " radiogram-6-finger-btn--hovered" : ""}`}
+            style={{ left: `${cx}%`, top: `${cy}%` }}
+            onClick={() => onCategoryClick(cat)}
+            onMouseEnter={() => setHovered(cat)}
+            onMouseLeave={() => setHovered(null)}
+            title={label}
+          >
+            {(isActive || isHovered) && (
+              <span className="radiogram-6-finger-label">{label}</span>
+            )}
+          </button>
+        );
+      })}
+    </div>
+  );
+};
 
 const CDN_BASE = "https://d21zv5r7rdb0xb.cloudfront.net";
 const FORMSPREE_ID = "mnjrqrqz";
@@ -535,17 +572,7 @@ export const Radiogram6 = () => {
         </div>
       )}
 
-      <div className="radiogram-6-filters">
-        {["a", "b", "c"].map((cat) => (
-          <button
-            key={cat}
-            className={`radiogram-6-filter-btn${activeCategory === cat ? " radiogram-6-filter-btn--active" : ""}`}
-            onClick={() => handleCategoryClick(cat)}
-          >
-            {cat}
-          </button>
-        ))}
-      </div>
+      <HandFilter activeCategory={activeCategory} onCategoryClick={handleCategoryClick} />
 
       <div
         className={`radiogram-6-surface${expanded || snailMailOpen ? " dimmed" : ""}`}

@@ -22,7 +22,16 @@
       "Read(//Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/**)",
       "Bash(find \"/Users/palmreader/My Documents/WEB Development\" -maxdepth 4 -name \"sanity.config*\" -o -name \"schema*\" 2>/dev/null | grep -v node_modules | head -20)",
       "Read(//Users/palmreader/My Documents/WEB Development/**)",
-      "Bash(awk 'NR>=380 && NR<=430')"
+      "Bash(awk 'NR>=380 && NR<=430')",
+      "Bash(find \"/Users/palmreader\" -name \"*.png\" -o -name \"*.jpg\" -o -name \"*.webp\" 2>/dev/null | grep -i hand | head -20)",
+      "Read(//Users/palmreader/**)",
+      "Bash(find \"/Users/palmreader/Downloads\" \"/Users/palmreader/Desktop\" \"/Users/palmreader/Documents\" -maxdepth 3 \\\\\\( -name \"*.png\" -o -name \"*.jpg\" -o -name \"*.webp\" \\\\\\) 2>/dev/null | head -20)",
+      "Read(//Users/palmreader/Downloads/**)",
+      "Bash(xargs ls -lt)",
+      "Bash(cp \"/Users/palmreader/Downloads/696267943_2055936201653827_8383826388599671155_n.png\" \"/Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/radio-project/src/components/radiograms/radiogram6/hand-filter.png\")"
+    ],
+    "additionalDirectories": [
+      "/Users/palmreader/Downloads"
     ]
   }
 }
