@@ -274,7 +274,7 @@
 /* Slightly blur unfocused items on desktop */
 @media (min-width: 768px) {
   .landing-vertical-image-unfocused {
-    filter: blur(2px);
+    filter: blur(3px);
     /* Don't clip the blur to the box edge (contain: paint on the base rule
        does), otherwise the blur leaves a hard, lightened seam at each image's
        edges that reads as a white line. */
