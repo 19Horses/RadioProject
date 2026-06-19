@@ -142,7 +142,7 @@
 
 @media (min-width: 768px) {
   .landing-vertical-container::before {
-    opacity: 0.5;
+    opacity: 0;
   }
 }
 
@@ -250,7 +250,8 @@
 }
 
 .landing-vertical-image {
-  transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+  transition: transform 0.5s ease-out, opacity 0.3s ease-out,
+    filter 0.3s ease-out;
   height: 100%;
   width: auto;
   display: block;
@@ -268,6 +269,22 @@
 .landing-vertical-image-unfocused {
   opacity: 0.4;
   will-change: auto;
+}
+
+/* Slightly blur unfocused items on desktop */
+@media (min-width: 768px) {
+  .landing-vertical-image-unfocused {
+    filter: blur(2px);
+    /* Don't clip the blur to the box edge (contain: paint on the base rule
+       does), otherwise the blur leaves a hard, lightened seam at each image's
+       edges that reads as a white line. */
+    contain: layout;
+    /* Promote to a single compositing layer so WebKit doesn't render the blur
+       in tiles, which leaves faint seam lines across large elements. */
+    transform: translateZ(0);
+    -webkit-transform: translateZ(0);
+    will-change: filter;
+  }
 }
 
 /* Grid view */
