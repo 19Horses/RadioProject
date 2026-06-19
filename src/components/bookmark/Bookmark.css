@@ -532,7 +532,7 @@
     height: auto;
     cursor: pointer;
     color: rgb(255, 0, 90);
-    background-color: #efefef;
+    background-color: transparent;
     pointer-events: auto;
   }
 
