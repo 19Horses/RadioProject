@@ -23,6 +23,21 @@ export default {
     { name: 'coverImage', title: 'Cover Image', type: 'image' },
     { name: 'coverImageMobile', title: 'Cover Image (Mobile)', type: 'image' },
     { name: 'coverImageDesktop', title: 'Cover Image (Desktop)', type: 'image' },
+    { name: 'fullScreenImage', title: 'Full Screen Picture', type: 'image', description: 'Image shown full screen.' },
+    {
+      name: 'fullScreenImages',
+      title: 'Full Screen Pictures (slideshow)',
+      type: 'array',
+      of: [{ type: 'image' }],
+      description: 'Upload 2+ images for a crossfading full screen slideshow. If set, overrides Full Screen Picture.',
+    },
+    {
+      name: 'dualFullScreen',
+      title: 'Dual Full Screen',
+      type: 'boolean',
+      description: 'Show the full screen image at 90vw instead of 45vw on desktop.',
+      initialValue: false,
+    },
     { name: 'tag', title: 'Tag (single display)', type: 'string', description: 'e.g. "Political Philosophy"' },
     {
       name: 'tags',

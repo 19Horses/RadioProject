@@ -176,14 +176,19 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       const scrollPosition = container.scrollLeft + container.clientWidth / 2;
       const items = container.children;
 
-      // Quick estimate based on scroll position and gap
-      const estimatedIndex = Math.round(
-        container.scrollLeft / (items[0]?.offsetWidth + 150 || 300),
-      );
+      // Quick estimate based on scroll position and the actual per-item step.
+      // Derive the step from real layout so it stays correct with any gap or
+      // negative-margin overlap between items.
+      const step =
+        items.length > 1
+          ? items[1].offsetLeft - items[0].offsetLeft
+          : items[0]?.offsetWidth || 300;
+      const estimatedIndex =
+        step > 0 ? Math.round(container.scrollLeft / step) : 0;
 
-      // Only check nearby items (±2) for accuracy
-      const startCheck = Math.max(0, estimatedIndex - 2);
-      const endCheck = Math.min(items.length - 1, estimatedIndex + 2);
+      // Only check nearby items (±3) for accuracy
+      const startCheck = Math.max(0, estimatedIndex - 3);
+      const endCheck = Math.min(items.length - 1, estimatedIndex + 3);
 
       let currentIndex = estimatedIndex;
       let minDistance = Infinity;
@@ -266,10 +271,13 @@ export const LandingVertical = ({ isMobile, gridView }) => {
         if (!isMobile) setHoveredGuest(null);
       };
 
-      const srcArray = Array.isArray(guest.src)
-        ? guest.src
-        : guest.src
-          ? [guest.src]
+      // Desktop: prefer full screen picture(s); mobile: use the normal cover image.
+      // Either way fall back to the cover image when no full screen picture is set.
+      const rawSrc = isMobile ? guest.src : (guest.fullScreenSrc ?? guest.src);
+      const srcArray = Array.isArray(rawSrc)
+        ? rawSrc
+        : rawSrc
+          ? [rawSrc]
           : [];
       const hasMultipleSrcs = srcArray.length > 1;
       const [activeIndex, setActiveIndex] = useState(0);
@@ -299,8 +307,26 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       };
 
       return (
-        <div className="landing-vertical-image-container">
-          {hasMultipleSrcs ? (
+        <div
+          className={`landing-vertical-image-container ${
+            guest.dualFullScreen
+              ? "landing-vertical-image-container-dual"
+              : ""
+          }`}
+        >
+          {!isMobile && guest.dualFullScreen && hasMultipleSrcs ? (
+            // Dual full screen on desktop: show all images at once, side by side.
+            // Each image keeps its own 45vw footprint (overflowing, centred).
+            srcArray.map((imgSrc, idx) => (
+              <div key={idx} className="landing-vertical-dual-cell">
+                <img
+                  {...sharedProps}
+                  src={imgSrc}
+                  className={baseClassName}
+                />
+              </div>
+            ))
+          ) : hasMultipleSrcs ? (
             <div
               style={{ position: "relative", width: "100%", height: "100%" }}
             >
@@ -312,7 +338,11 @@ export const LandingVertical = ({ isMobile, gridView }) => {
                   className={baseClassName}
                   style={{
                     position: "absolute",
-                    inset: 0,
+                    top: 0,
+                    left: "50%",
+                    height: "100%",
+                    width: "auto",
+                    transform: "translateX(-50%)",
                     transition: "opacity 1s ease",
                     opacity:
                       (activeIndex === idx ? 1 : 0) * (isFocused ? 1 : 0.4),
@@ -436,6 +466,8 @@ export const LandingVertical = ({ isMobile, gridView }) => {
                 key={i}
                 className={`landing-vertical-item-wrapper ${
                   isMobile ? "landing-vertical-item-wrapper-mobile" : ""
+                } ${
+                  i === focusedIndex ? "landing-vertical-item-wrapper-focused" : ""
                 }`}
               >
                 <ImageItem guest={guest} isFocused={i === focusedIndex} />

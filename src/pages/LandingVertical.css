@@ -19,6 +19,12 @@
   height: 100vh;
 }
 
+@media (min-width: 768px) {
+  .vertical-indicator-container {
+    display: none;
+  }
+}
+
 .vertical-indicator-wrapper {
   display: flex;
   flex-direction: column;
@@ -168,11 +174,32 @@
 }
 
 .landing-vertical-flex-container-desktop {
-  gap: 150px;
+  gap: 0;
+  align-items: flex-end;
+}
+
+/* Negative margin to overlap items (gap can't go negative) */
+.landing-vertical-flex-container-desktop .landing-vertical-item-wrapper:not(:first-child) {
+  margin-left: -10px;
+  margin-right: -10px;
+
 }
 
 .landing-vertical-item-wrapper {
   height: 50%;
+  position: relative;
+  z-index: 1;
+}
+
+/* Focused item sits on top of the overlapping neighbours */
+.landing-vertical-item-wrapper-focused {
+  z-index: 10;
+}
+
+@media (min-width: 768px) {
+  .landing-vertical-item-wrapper {
+    height: 110vh;
+  }
 }
 
 .landing-vertical-item-wrapper-mobile {
@@ -184,6 +211,42 @@
   scroll-snap-align: center;
   scroll-snap-stop: normal;
   height: 100%;
+}
+
+/* Desktop: reserve only 100px of layout width per image. The image keeps its
+   real size and overflows the box, centred — so spacing/overlap is based on
+   100px rather than the image's natural width. */
+@media (min-width: 768px) {
+  .landing-vertical-flex-container-desktop .landing-vertical-image-container {
+    width: 45vw;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  /* "Dual Full Screen" items show their slideshow images at once, side by side.
+     Width is auto so it's the sum of the per-image 45vw cells. */
+  .landing-vertical-flex-container-desktop
+    .landing-vertical-image-container.landing-vertical-image-container-dual {
+    width: auto;
+    gap: 0;
+  }
+
+  /* Each dual image keeps the same 45vw footprint as a single image:
+     centred within its box, overflowing it. */
+  .landing-vertical-dual-cell {
+    flex: 0 0 auto;
+    width: 45vw;
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    overflow: visible;
+  }
+
+  /* Pull the cells together so the images overlap more */
+  .landing-vertical-dual-cell:not(:first-child) {
+    margin-left: -15vw;
+  }
 }
 
 .landing-vertical-image {
