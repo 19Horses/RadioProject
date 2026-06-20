@@ -108,7 +108,7 @@ export const CursorTitle = styled.p`
   opacity: 0;
   margin: 0vh;
   padding-right: .3vh;
-  padding-left: .2vh;
+  padding-left: 0;
   font-family: NeueHaasDisplayRoman;
   -webkit-box-decoration-break: clone;
   box-decoration-break: clone;

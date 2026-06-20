@@ -116,13 +116,16 @@ export const CustomCursor = ({
         visibility: hasMousePosition ? "visible" : "hidden",
         opacity: dimmed ? 0.5 : 1,
         transition: "opacity 0.2s ease",
+        // Hanging indent: first line (name) flush, every following line
+        // (wrapped title + meta lines) shares this left edge.
+        ...(!isLeft && { paddingLeft: ".2vw", textIndent: "-.2vw" }),
       }}
     >
       {/* Line 1 */}
       <CursorTitle
         className={isPlaying ? "cursor-title-playing" : "cursor-title"}
         $hovered={hovered}
-        $bgcolor={isPlaying ? "black" : "#ffffff"}
+        $bgcolor={isPlaying ? "black" : isGuest ? "transparent" : "#ffffff"}
         $delay={0.1}
         fontSize={isGuest ? "1.9vh" : "1.9vh"}
         style={{
@@ -142,11 +145,42 @@ export const CustomCursor = ({
             color: isGuest ? "#ffffff" : "#434a47",
             paddingLeft: isGuest ? ".2vw" : "0",
             paddingRight: isGuest ? ".2vw" : "0",
+            marginLeft: isGuest ? "0.5vh" : "0",
           }}
         >
-          {isGuest ? `${title2}` : username}
+          {isGuest ? (
+            <>
+              <span
+                style={{
+                  fontFamily: "NeueBit-Regular",
+                  fontSize: "1.6em",
+                  paddingLeft: type === "mix" ? "0.03em" : "0",
+                  paddingRight: type === "mix" ? "0.075em" : "0",
+                }}
+              >
+                {type === "mix" ? "♬" : "⚖"}
+              </span>{" "}
+              {title2}
+            </>
+          ) : (
+            username
+          )}
         </span>
-        <span>{isGuest && `  →  ${title}`}</span>
+        <span
+          style={
+            isGuest
+              ? {
+                  backgroundColor: "#ffffff",
+                  paddingLeft: "0.5vh",
+                  paddingRight: ".1vw",
+                  WebkitBoxDecorationBreak: "clone",
+                  boxDecorationBreak: "clone",
+                }
+              : undefined
+          }
+        >
+          {isGuest && `  →  ${title}`}
+        </span>
       </CursorTitle>
       <br />
 
@@ -162,7 +196,7 @@ export const CustomCursor = ({
           style={{
             position: "relative",
             textTransform: isGuest ? "" : "lowercase",
-            paddingLeft: ".2vw",
+            paddingLeft: ".5vh",
             paddingRight: ".3vw",
             lineHeight: isGuest ? "2.1vh" : "1.9vh",
             paddingBottom: isGuest ? ".2vh" : "0",
@@ -196,7 +230,7 @@ export const CustomCursor = ({
             $delay={0.1}
             style={{
               position: "relative",
-              paddingLeft: ".2vw",
+              paddingLeft: "0.5vh",
               paddingRight: ".3vw",
               paddingBottom: ".2vh",
               paddingTop: ".2vh",
