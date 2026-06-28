@@ -55,7 +55,7 @@ export const Proposals = ({ isMobile }) => {
         <h1>Proposals</h1>
         <p>
           Thank you for your interest in collaborating with us. We’re always
-          happy to discuss opportunities to participate in RADIO Project.
+          happy to discuss opportunities to participate in RADIOproject.
         </p>
         <p>
           You’re welcome to:
@@ -99,7 +99,7 @@ export const Proposals = ({ isMobile }) => {
           <br />
           Elisha,{" "}
           <span style={{ color: "#acacac" }}>
-            RADIO Project HEAD.
+            RADIOproject HEAD.
             <br />
             Start the conversation!
           </span>

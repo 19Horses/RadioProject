@@ -10,10 +10,10 @@ export function DynamicTitle() {
   useEffect(() => {
     // Static pages
     const staticTitles = {
-      "/": "RADIO Project",
-      "/visitorlog": "Visitor Log | RADIO Project",
-      "/visitorcheck": "Visitor Check | RADIO Project",
-      "/proposals": "Proposals | RADIO Project",
+      "/": "RADIOproject",
+      "/visitorlog": "Visitor Log | RADIOproject",
+      "/visitorcheck": "Visitor Check | RADIOproject",
+      "/proposals": "Proposals | RADIOproject",
     };
 
     if (staticTitles[path]) {
@@ -29,8 +29,8 @@ export function DynamicTitle() {
       const slug = mixMatch[1];
       const item = djs.find((d) => d.url === slug && d.type === "mix");
       document.title = item
-        ? `${item.title} | Listen on RADIO Project`
-        : "RADIO Project";
+        ? `${item.title} | Listen on RADIOproject`
+        : "RADIOproject";
       return;
     }
 
@@ -38,12 +38,12 @@ export function DynamicTitle() {
       const slug = articleMatch[1];
       const item = djs.find((d) => d.url === slug && d.type === "radiogram");
       document.title = item
-        ? `${item.title} | Read on RADIO Project`
-        : "RADIO Project";
+        ? `${item.title} | Read on RADIOproject`
+        : "RADIOproject";
       return;
     }
 
-    document.title = "RADIO Project";
+    document.title = "RADIOproject";
   }, [path, djs]);
 
   return null;

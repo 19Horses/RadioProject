@@ -311,7 +311,7 @@ const mixes = [
     length: '01:22:50',
     description: [
       '<b>St. Michel</b> is a 3D modeller and artist based in London.',
-      '<b>RADIO Project</b> spoke with <b>St. Michel</b> about their journey as a 3D artist and how certain artists from the <b>early SoundCloud rap era influenced them.</b>',
+      '<b>RADIOproject</b> spoke with <b>St. Michel</b> about their journey as a 3D artist and how certain artists from the <b>early SoundCloud rap era influenced them.</b>',
     ],
     chapters: [
       { startTime: 0, title: 'RADIO (a)' },

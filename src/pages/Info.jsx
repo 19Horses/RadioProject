@@ -3,7 +3,7 @@ import React from "react";
 export const Info = ({ isMobile }) => (
   <div className={`info-container ${isMobile ? "info-mob-addon" : ""}`}>
     <p>
-      <b>RADIO PROJECT</b> is a space for auditory, verbal and written agency.
+      <b>RADIOPROJECT</b> is a space for auditory, verbal and written agency.
     </p>
     <p>
       We aim to spotlight individuals by broadcasting mixes and conducting

@@ -378,7 +378,7 @@ export function VisitorModal({
                         e.target.style.backgroundColor = "transparent";
                       }}
                     >
-                      {clickedFormData.questionAuthor || "RADIO Project"}
+                      {clickedFormData.questionAuthor || "RADIOproject"}
                     </a>{" "}
                     asked...
                   </span>
@@ -628,7 +628,7 @@ export function VisitorModal({
                     color: "rgba(67, 74, 71, 0.7)",
                   }}
                 >
-                  {clickedFormData.questionAuthor || "RADIO Project"}
+                  {clickedFormData.questionAuthor || "RADIOproject"}
                 </span>{" "}
                 asked...
               </span>

@@ -87,7 +87,7 @@ const Bookmark = ({
               if (json?.question && !questionsMap.has(json.question)) {
                 questionsMap.set(json.question, {
                   question: json.question,
-                  author: json.questionAuthor || "RADIO Project",
+                  author: json.questionAuthor || "RADIOproject",
                   authorInstagram: json.questionAuthorInstagram,
                 });
               }
@@ -300,10 +300,16 @@ const Bookmark = ({
     // Reset crossfade index on article change
     setActiveImageIndex(0);
 
-    const newSrc = currentArticle?.mobileSrc || currentArticle?.src2 || currentArticle?.src || null;
+    const newSrc =
+      currentArticle?.mobileSrc ||
+      currentArticle?.src2 ||
+      currentArticle?.src ||
+      null;
 
     if (
-      (previousArticleRef.current?.mobileSrc || previousArticleRef.current?.src2 || previousArticleRef.current?.src) &&
+      (previousArticleRef.current?.mobileSrc ||
+        previousArticleRef.current?.src2 ||
+        previousArticleRef.current?.src) &&
       previousArticleRef.current !== currentArticle
     ) {
       setImageVisible(false);
@@ -957,26 +963,7 @@ const Bookmark = ({
                   >
                     SoundCloud
                   </a>
-                  <a
-                    href="https://www.ninaprotocol.com/profiles/radioproject-live"
-                    target="_blank"
-                    className="icon-blink menu-item-glitch menu-link"
-                    onClick={toggleMenu}
-                    onMouseEnter={() =>
-                      onHoverMenuItem && onHoverMenuItem("nina")
-                    }
-                    onMouseLeave={() =>
-                      onHoverMenuItem && onHoverMenuItem(null)
-                    }
-                    style={{
-                      opacity: 0,
-                      animation: "fadeIn 0.7s ease-out forwards",
-                      animationDelay: "0.6s",
-                      color: "#a3a3a3",
-                    }}
-                  >
-                    Nina Protocol
-                  </a>
+
                   <a
                     href="https://www.instagram.com/radio__project/"
                     target="_blank"
@@ -1021,7 +1008,7 @@ const Bookmark = ({
                 </div>
               )}
               <div className="bookmark-description">
-                <span className="bookmark-description-bold">RADIO Project</span>{" "}
+                <span className="bookmark-description-bold">RADIOproject</span>{" "}
                 strives to empower users with their own visual, auditory, +
                 verbal agency. Aiming to engage the populace in discourse,
                 disagreement and debate without the reliance on current social
@@ -1112,15 +1099,23 @@ const Bookmark = ({
                   ? playingGuest
                   : currentArticle || playingGuest; // Fallback to playingGuest during navigation
                 const displayImage = showPlayingGuest
-                  ? (playingGuest?.mobileSrc || playingGuest?.src2 || playingGuest?.src)
-                  : (displayItem?.mobileSrc || displayItem?.src2 || displayItem?.src);
+                  ? playingGuest?.mobileSrc ||
+                    playingGuest?.src2 ||
+                    playingGuest?.src
+                  : displayItem?.mobileSrc ||
+                    displayItem?.src2 ||
+                    displayItem?.src;
                 const showContent =
                   displayItem || showPlayingGuest || playingGuest; // Keep showing if playing
-                const isUnplayed = displayItem?.type === "mix" && playingGuest?.url !== displayItem?.url;
+                const isUnplayed =
+                  displayItem?.type === "mix" &&
+                  playingGuest?.url !== displayItem?.url;
                 const canExpand = !!playingGuest && !isUnplayed;
 
                 return showContent ? (
-                  <div className={`mobile-content-display${playerBarExpanded && canExpand ? " mobile-content-display--expanded" : ""}`}>
+                  <div
+                    className={`mobile-content-display${playerBarExpanded && canExpand ? " mobile-content-display--expanded" : ""}`}
+                  >
                     {/* Image thumbnail */}
                     {displayImage && (
                       <div
@@ -1236,7 +1231,9 @@ const Bookmark = ({
                           <span>
                             {displayItem?.type === "mix" &&
                               playingGuest?.url !== displayItem?.url && (
-                                <span className="mobile-title-text-roman">play </span>
+                                <span className="mobile-title-text-roman">
+                                  play{" "}
+                                </span>
                               )}
                             {displayItem?.title}
                             <span className="mobile-title-text-roman">
@@ -1265,7 +1262,9 @@ const Bookmark = ({
                         }}
                         className="mobile-play-pause-button"
                         style={{
-                          backgroundColor: isUnplayed ? "#434a47" : "rgba(217,217,217)",
+                          backgroundColor: isUnplayed
+                            ? "#434a47"
+                            : "rgba(217,217,217)",
                           transition: "background-color 0.4s ease",
                         }}
                       >
@@ -1290,46 +1289,73 @@ const Bookmark = ({
                       <div
                         className="mobile-progress-bar-container"
                         onClick={(e) => {
-                          if (!playerBarExpanded || !audioRef.current?.duration) return;
+                          if (!playerBarExpanded || !audioRef.current?.duration)
+                            return;
                           e.stopPropagation();
                           const rect = e.currentTarget.getBoundingClientRect();
-                          const fraction = Math.max(0, Math.min(1, (e.clientX - rect.left) / rect.width));
-                          audioRef.current.currentTime = fraction * audioRef.current.duration;
+                          const fraction = Math.max(
+                            0,
+                            Math.min(1, (e.clientX - rect.left) / rect.width),
+                          );
+                          audioRef.current.currentTime =
+                            fraction * audioRef.current.duration;
                         }}
                         onTouchStart={(e) => {
                           if (!playerBarExpanded) return;
                           e.stopPropagation();
                           const rect = e.currentTarget.getBoundingClientRect();
-                          const fraction = Math.max(0, Math.min(1, (e.touches[0].clientX - rect.left) / rect.width));
+                          const fraction = Math.max(
+                            0,
+                            Math.min(
+                              1,
+                              (e.touches[0].clientX - rect.left) / rect.width,
+                            ),
+                          );
                           setDragPosition(fraction * 100);
                         }}
                         onTouchMove={(e) => {
                           if (!playerBarExpanded) return;
                           e.stopPropagation();
                           const rect = e.currentTarget.getBoundingClientRect();
-                          const fraction = Math.max(0, Math.min(1, (e.touches[0].clientX - rect.left) / rect.width));
+                          const fraction = Math.max(
+                            0,
+                            Math.min(
+                              1,
+                              (e.touches[0].clientX - rect.left) / rect.width,
+                            ),
+                          );
                           setDragPosition(fraction * 100);
                         }}
                         onTouchEnd={(e) => {
                           if (!playerBarExpanded) return;
                           e.stopPropagation();
-                          if (dragPosition !== null && audioRef.current?.duration) {
-                            audioRef.current.currentTime = (dragPosition / 100) * audioRef.current.duration;
+                          if (
+                            dragPosition !== null &&
+                            audioRef.current?.duration
+                          ) {
+                            audioRef.current.currentTime =
+                              (dragPosition / 100) * audioRef.current.duration;
                           }
                           setDragPosition(null);
                         }}
-                        style={playerBarExpanded ? { cursor: "col-resize" } : undefined}
+                        style={
+                          playerBarExpanded
+                            ? { cursor: "col-resize" }
+                            : undefined
+                        }
                       >
                         <div
                           className="mobile-progress-bar"
                           style={{
-                            "--progress-width": `${dragPosition !== null ? dragPosition : (progress || 0)}%`,
-                            backgroundColor: dragPosition !== null
-                              ? "rgba(67,74,71,0.4)"
-                              : (playingGuest?.themeColor || "rgb(255, 0, 90)"),
-                            transition: (playerBarExpanded && dragPosition === null)
-                              ? "width 0.1s linear, background-color 0.2s ease"
-                              : "none",
+                            "--progress-width": `${dragPosition !== null ? dragPosition : progress || 0}%`,
+                            backgroundColor:
+                              dragPosition !== null
+                                ? "rgba(67,74,71,0.4)"
+                                : playingGuest?.themeColor || "rgb(255, 0, 90)",
+                            transition:
+                              playerBarExpanded && dragPosition === null
+                                ? "width 0.1s linear, background-color 0.2s ease"
+                                : "none",
                           }}
                         />
                       </div>
@@ -1398,21 +1424,7 @@ const Bookmark = ({
                       >
                         SoundCloud
                       </a>
-                      <a
-                        href="https://www.ninaprotocol.com/profiles/radioproject-live"
-                        target="_blank"
-                        className="icon-blink menu-item-glitch menu-link"
-                        onClick={toggleMenu}
-                        onMouseEnter={() =>
-                          onHoverMenuItem && onHoverMenuItem("nina")
-                        }
-                        onMouseLeave={() =>
-                          onHoverMenuItem && onHoverMenuItem(null)
-                        }
-                        style={{ color: "#a3a3a3" }}
-                      >
-                        Nina Protocol
-                      </a>
+
                       <a
                         href="https://www.instagram.com/radio__project/"
                         target="_blank"

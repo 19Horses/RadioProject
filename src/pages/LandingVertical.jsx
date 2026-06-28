@@ -246,8 +246,8 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       if (guest.type === "mix" && "mediaSession" in navigator) {
         navigator.mediaSession.metadata = new MediaMetadata({
           title: guest?.title,
-          artist: "RADIO Project • " + guest?.title2,
-          album: "RADIO Project",
+          artist: "RADIOproject • " + guest?.title2,
+          album: "RADIOproject",
           artwork: [
             {
               src: guest?.ipSrc,
@@ -274,11 +274,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       // Desktop: prefer full screen picture(s); mobile: use the normal cover image.
       // Either way fall back to the cover image when no full screen picture is set.
       const rawSrc = isMobile ? guest.src : (guest.fullScreenSrc ?? guest.src);
-      const srcArray = Array.isArray(rawSrc)
-        ? rawSrc
-        : rawSrc
-          ? [rawSrc]
-          : [];
+      const srcArray = Array.isArray(rawSrc) ? rawSrc : rawSrc ? [rawSrc] : [];
       const hasMultipleSrcs = srcArray.length > 1;
       const [activeIndex, setActiveIndex] = useState(0);
 
@@ -309,9 +305,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       return (
         <div
           className={`landing-vertical-image-container ${
-            guest.dualFullScreen
-              ? "landing-vertical-image-container-dual"
-              : ""
+            guest.dualFullScreen ? "landing-vertical-image-container-dual" : ""
           }`}
         >
           {!isMobile && guest.dualFullScreen && hasMultipleSrcs ? (
@@ -319,11 +313,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
             // Each image keeps its own 45vw footprint (overflowing, centred).
             srcArray.map((imgSrc, idx) => (
               <div key={idx} className="landing-vertical-dual-cell">
-                <img
-                  {...sharedProps}
-                  src={imgSrc}
-                  className={baseClassName}
-                />
+                <img {...sharedProps} src={imgSrc} className={baseClassName} />
               </div>
             ))
           ) : hasMultipleSrcs ? (
@@ -467,7 +457,9 @@ export const LandingVertical = ({ isMobile, gridView }) => {
                 className={`landing-vertical-item-wrapper ${
                   isMobile ? "landing-vertical-item-wrapper-mobile" : ""
                 } ${
-                  i === focusedIndex ? "landing-vertical-item-wrapper-focused" : ""
+                  i === focusedIndex
+                    ? "landing-vertical-item-wrapper-focused"
+                    : ""
                 }`}
               >
                 <ImageItem guest={guest} isFocused={i === focusedIndex} />
