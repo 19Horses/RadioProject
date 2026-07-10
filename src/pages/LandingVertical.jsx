@@ -8,6 +8,7 @@ import React, {
 import { useItems } from "../ItemsContext";
 import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
 import { CustomCursor } from "../components/ui/CustomCursor";
+import DitheredImage from "../components/utils/DitheredImage";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./LandingVertical.css";
 
@@ -313,7 +314,13 @@ export const LandingVertical = ({ isMobile, gridView }) => {
             // Each image keeps its own 45vw footprint (overflowing, centred).
             srcArray.map((imgSrc, idx) => (
               <div key={idx} className="landing-vertical-dual-cell">
-                <img {...sharedProps} src={imgSrc} className={baseClassName} />
+                <DitheredImage
+                  {...sharedProps}
+                  src={imgSrc}
+                  className={baseClassName}
+                  isFocused={isFocused}
+                  isMobile={isMobile}
+                />
               </div>
             ))
           ) : hasMultipleSrcs ? (
@@ -349,7 +356,13 @@ export const LandingVertical = ({ isMobile, gridView }) => {
               />
             </div>
           ) : (
-            <img {...sharedProps} src={srcArray[0]} className={baseClassName} />
+            <DitheredImage
+              {...sharedProps}
+              src={srcArray[0]}
+              className={baseClassName}
+              isFocused={isFocused}
+              isMobile={isMobile}
+            />
           )}
         </div>
       );
