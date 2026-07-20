@@ -28,7 +28,8 @@
       "Bash(find \"/Users/palmreader/Downloads\" \"/Users/palmreader/Desktop\" \"/Users/palmreader/Documents\" -maxdepth 3 \\\\\\( -name \"*.png\" -o -name \"*.jpg\" -o -name \"*.webp\" \\\\\\) 2>/dev/null | head -20)",
       "Read(//Users/palmreader/Downloads/**)",
       "Bash(xargs ls -lt)",
-      "Bash(cp \"/Users/palmreader/Downloads/696267943_2055936201653827_8383826388599671155_n.png\" \"/Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/radio-project/src/components/radiograms/radiogram6/hand-filter.png\")"
+      "Bash(cp \"/Users/palmreader/Downloads/696267943_2055936201653827_8383826388599671155_n.png\" \"/Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/radio-project/src/components/radiograms/radiogram6/hand-filter.png\")",
+      "Bash(git log *)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

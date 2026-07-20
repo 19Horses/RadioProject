@@ -272,10 +272,11 @@ export const LandingVertical = ({ isMobile, gridView }) => {
         if (!isMobile) setHoveredGuest(null);
       };
 
-      // Desktop: prefer full screen picture(s); mobile: use the normal cover image.
-      // Either way fall back to the cover image when no full screen picture is set.
-      const rawSrc = isMobile ? guest.src : (guest.fullScreenSrc ?? guest.src);
-      const srcArray = Array.isArray(rawSrc) ? rawSrc : rawSrc ? [rawSrc] : [];
+      const srcArray = Array.isArray(guest.src)
+        ? guest.src
+        : guest.src
+          ? [guest.src]
+          : [];
       const hasMultipleSrcs = srcArray.length > 1;
       const [activeIndex, setActiveIndex] = useState(0);
 
@@ -304,26 +305,8 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       };
 
       return (
-        <div
-          className={`landing-vertical-image-container ${
-            guest.dualFullScreen ? "landing-vertical-image-container-dual" : ""
-          }`}
-        >
-          {!isMobile && guest.dualFullScreen && hasMultipleSrcs ? (
-            // Dual full screen on desktop: show all images at once, side by side.
-            // Each image keeps its own 45vw footprint (overflowing, centred).
-            srcArray.map((imgSrc, idx) => (
-              <div key={idx} className="landing-vertical-dual-cell">
-                <DitheredImage
-                  {...sharedProps}
-                  src={imgSrc}
-                  className={baseClassName}
-                  isFocused={isFocused}
-                  isMobile={isMobile}
-                />
-              </div>
-            ))
-          ) : hasMultipleSrcs ? (
+        <div className="landing-vertical-image-container">
+          {hasMultipleSrcs ? (
             <div
               style={{ position: "relative", width: "100%", height: "100%" }}
             >
@@ -335,11 +318,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
                   className={baseClassName}
                   style={{
                     position: "absolute",
-                    top: 0,
-                    left: "50%",
-                    height: "100%",
-                    width: "auto",
-                    transform: "translateX(-50%)",
+                    inset: 0,
                     transition: "opacity 1s ease",
                     opacity:
                       (activeIndex === idx ? 1 : 0) * (isFocused ? 1 : 0.4),
@@ -469,10 +448,6 @@ export const LandingVertical = ({ isMobile, gridView }) => {
                 key={i}
                 className={`landing-vertical-item-wrapper ${
                   isMobile ? "landing-vertical-item-wrapper-mobile" : ""
-                } ${
-                  i === focusedIndex
-                    ? "landing-vertical-item-wrapper-focused"
-                    : ""
                 }`}
               >
                 <ImageItem guest={guest} isFocused={i === focusedIndex} />

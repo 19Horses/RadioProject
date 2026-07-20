@@ -19,12 +19,6 @@
   height: 100vh;
 }
 
-@media (min-width: 768px) {
-  .vertical-indicator-container {
-    display: none;
-  }
-}
-
 .vertical-indicator-wrapper {
   display: flex;
   flex-direction: column;
@@ -142,7 +136,7 @@
 
 @media (min-width: 768px) {
   .landing-vertical-container::before {
-    opacity: 0;
+    opacity: 0.5;
   }
 }
 
@@ -174,32 +168,11 @@
 }
 
 .landing-vertical-flex-container-desktop {
-  gap: 0;
-  align-items: flex-end;
-}
-
-/* Negative margin to overlap items (gap can't go negative) */
-.landing-vertical-flex-container-desktop .landing-vertical-item-wrapper:not(:first-child) {
-  margin-left: -10px;
-  margin-right: -10px;
-
+  gap: 150px;
 }
 
 .landing-vertical-item-wrapper {
-  height: 50%;
-  position: relative;
-  z-index: 1;
-}
-
-/* Focused item sits on top of the overlapping neighbours */
-.landing-vertical-item-wrapper-focused {
-  z-index: 10;
-}
-
-@media (min-width: 768px) {
-  .landing-vertical-item-wrapper {
-    height: 105vh;
-  }
+  height: 60%;
 }
 
 .landing-vertical-item-wrapper-mobile {
@@ -213,45 +186,8 @@
   height: 100%;
 }
 
-/* Desktop: reserve only 100px of layout width per image. The image keeps its
-   real size and overflows the box, centred — so spacing/overlap is based on
-   100px rather than the image's natural width. */
-@media (min-width: 768px) {
-  .landing-vertical-flex-container-desktop .landing-vertical-image-container {
-    width: 45vw;
-    display: flex;
-    justify-content: center;
-    overflow: visible;
-  }
-
-  /* "Dual Full Screen" items show their slideshow images at once, side by side.
-     Width is auto so it's the sum of the per-image 45vw cells. */
-  .landing-vertical-flex-container-desktop
-    .landing-vertical-image-container.landing-vertical-image-container-dual {
-    width: auto;
-    gap: 0;
-  }
-
-  /* Each dual image keeps the same 45vw footprint as a single image:
-     centred within its box, overflowing it. */
-  .landing-vertical-dual-cell {
-    flex: 0 0 auto;
-    width: 45vw;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    overflow: visible;
-  }
-
-  /* Pull the cells together so the images overlap more */
-  .landing-vertical-dual-cell:not(:first-child) {
-    margin-left: -15vw;
-  }
-}
-
 .landing-vertical-image {
-  transition: transform 0.5s ease-out, opacity 0.3s ease-out,
-    filter 0.3s ease-out;
+  transition: transform 0.5s ease-out, opacity 0.3s ease-out;
   height: 100%;
   width: auto;
   display: block;
@@ -269,22 +205,6 @@
 .landing-vertical-image-unfocused {
   opacity: 0.4;
   will-change: auto;
-}
-
-/* Slightly blur unfocused items on desktop */
-@media (min-width: 768px) {
-  .landing-vertical-image-unfocused {
-    filter: saturate(0.5);
-    /* Don't clip the blur to the box edge (contain: paint on the base rule
-       does), otherwise the blur leaves a hard, lightened seam at each image's
-       edges that reads as a white line. */
-    contain: layout;
-    /* Promote to a single compositing layer so WebKit doesn't render the blur
-       in tiles, which leaves faint seam lines across large elements. */
-    transform: translateZ(0);
-    -webkit-transform: translateZ(0);
-    will-change: filter;
-  }
 }
 
 /* Grid view */
