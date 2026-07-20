@@ -29,7 +29,9 @@
       "Read(//Users/palmreader/Downloads/**)",
       "Bash(xargs ls -lt)",
       "Bash(cp \"/Users/palmreader/Downloads/696267943_2055936201653827_8383826388599671155_n.png\" \"/Users/palmreader/My Documents/WEB Development/WEB Yogi/CODING Projects/radio-project/src/components/radiograms/radiogram6/hand-filter.png\")",
-      "Bash(git log *)"
+      "Bash(git log *)",
+      "Bash(git rm *)",
+      "Bash(rm -f src/components/utils/DitheredImage.jsx)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

@@ -8,7 +8,6 @@ import React, {
 import { useItems } from "../ItemsContext";
 import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
 import { CustomCursor } from "../components/ui/CustomCursor";
-import DitheredImage from "../components/utils/DitheredImage";
 import { useNavigate, useLocation } from "react-router-dom";
 import "./LandingVertical.css";
 
@@ -335,13 +334,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
               />
             </div>
           ) : (
-            <DitheredImage
-              {...sharedProps}
-              src={srcArray[0]}
-              className={baseClassName}
-              isFocused={isFocused}
-              isMobile={isMobile}
-            />
+            <img {...sharedProps} src={srcArray[0]} className={baseClassName} />
           )}
         </div>
       );
