@@ -3,7 +3,9 @@ import react from '@vitejs/plugin-react'
 
 // https://vite.dev/config/
 export default defineConfig({
-  base: "./",
+  // Absolute so assets resolve correctly from nested prerendered routes
+  // (e.g. /mix/<slug>/index.html). Requires serving from the domain root.
+  base: "/",
   plugins: [react()],
   server: {
     proxy: {

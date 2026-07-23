@@ -1,6 +1,13 @@
 name: Actions
 
-on: [push]
+on:
+  push:
+  # Fired by the Sanity webhook when content is published, so newly published
+  # mixes/radiograms get their share (Open Graph) metadata prerendered.
+  repository_dispatch:
+    types: [sanity-publish]
+  # Manual "Run workflow" button, for forcing a rebuild.
+  workflow_dispatch:
 
 permissions:
   contents: write
@@ -8,7 +15,8 @@ permissions:
 jobs:
   build-and-deploy:
     name: build and deploy
-    if: github.ref == 'refs/heads/main'
+    # Only gate pushes to main; dispatch events always run on the default branch.
+    if: github.event_name != 'push' || github.ref == 'refs/heads/main'
     concurrency: ci-${{ github.ref }}
     runs-on: ubuntu-latest
 
