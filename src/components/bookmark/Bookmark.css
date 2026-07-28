@@ -372,7 +372,7 @@
     font-size: 20px;
     position: relative;
     z-index: 1001;
-    letter-spacing: -3%;
+    letter-spacing: -1%;
     color: #837D7D;
     pointer-events: auto;
   }

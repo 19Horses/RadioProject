@@ -58,7 +58,12 @@
       "Bash(curl -sL \"https://www.kellerstoecklarchitektur.at/index.html\" -o ks.html)",
       "Bash(curl -sL \"https://www.kellerstoecklarchitektur.at/main.js\" -o ks-main.js)",
       "Bash(curl -sL \"https://www.kellerstoecklarchitektur.at/style.css\" -o ks-style.css)",
-      "Bash(npx eslint *)"
+      "Bash(npx eslint *)",
+      "Bash(echo \"exit:$?\")",
+      "Bash(python3 -)",
+      "Bash(awk 'NR<=380 && /@media/ {line=NR; q=$0} END{}' src/components/bookmark/Bookmark.css)",
+      "Bash(awk -F: '$1<380')",
+      "Bash(awk '{n=gsub\\(/{/,\"{\"\\); m=gsub\\(/}/,\"}\"\\); print \"open:\"n\" close:\"m}')"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

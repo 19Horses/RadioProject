@@ -57,7 +57,7 @@
   align-items: center;
   justify-content: center;
   cursor: pointer;
-  transition: opacity 0.35s ease;
+  transition: opacity 0.5s ease;
 }
 
 .radiogram-6-tile-img {
@@ -80,51 +80,6 @@
   opacity: 0.35;
 }
 
-.radiogram-6-stack {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 320px;
-  height: 416px;
-  z-index: 50;
-  transition: opacity 1s ease;
-}
-.radiogram-6-stack.dimmed {
-  opacity: 0.35;
-}
-
-.radiogram-6-stack-card {
-  position: absolute;
-  inset: 0;
-  cursor: pointer;
-  animation: rg6-stack-in 0.4s ease both;
-}
-
-@keyframes rg6-stack-in {
-  from { opacity: 0; }
-  to   { opacity: 1; }
-}
-
-.radiogram-6-stack-card img {
-  width: 100%;
-  height: 100%;
-  object-fit: contain;
-  display: block;
-  pointer-events: none;
-  filter: drop-shadow(0 8px 20px rgba(0, 0, 0, 0.25));
-}
-
-.radiogram-6-expanded {
-  position: fixed;
-  top: 0;
-  left: calc(4vw + 284px);
-  right: 0;
-  bottom: 0;
-  z-index: 999;
-  cursor: pointer;
-}
-
 .radiogram-6-edge {
   position: absolute;
   pointer-events: none;
@@ -145,74 +100,6 @@
 .radiogram-6-edge--bottom {
   bottom: 0; left: 0; right: 0; height: 30px;
   background: linear-gradient(to top, var(--radiogram-6-bg), transparent);
-}
-
-.radiogram-6-hand-filter {
-  position: absolute;
-  top: 16px;
-  left: 16px;
-  width: 110px;
-  z-index: 20;
-}
-
-.radiogram-6-hand-img {
-  width: 100%;
-  height: auto;
-  display: block;
-  pointer-events: none;
-  user-select: none;
-  opacity: 0.5;
-  transition: opacity 0.2s;
-}
-
-.radiogram-6-hand-filter:hover .radiogram-6-hand-img {
-  opacity: 0.85;
-}
-
-.radiogram-6-finger-btn {
-  position: absolute;
-  width: 22px;
-  height: 22px;
-  transform: translate(-50%, -50%);
-  border-radius: 50%;
-  border: none;
-  background: transparent;
-  cursor: pointer;
-  padding: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  transition: background 0.15s;
-}
-
-.radiogram-6-finger-btn--hovered {
-  background: rgba(0, 0, 0, 0.12);
-}
-
-.radiogram-6-finger-btn--active {
-  background: rgba(0, 0, 0, 0.18);
-}
-
-.radiogram-6-finger-label {
-  position: absolute;
-  top: 100%;
-  left: 50%;
-  transform: translateX(-50%);
-  margin-top: 3px;
-  font-family: Helvetica, Arial, sans-serif;
-  font-size: 0.6rem;
-  letter-spacing: 0.12em;
-  color: inherit;
-  white-space: nowrap;
-  pointer-events: none;
-}
-
-:root.dark .radiogram-6-finger-btn--hovered {
-  background: rgba(255, 255, 255, 0.15);
-}
-
-:root.dark .radiogram-6-finger-btn--active {
-  background: rgba(255, 255, 255, 0.22);
 }
 
 .radiogram-6-snailmail-btn {
@@ -351,18 +238,8 @@
     left: 0;
   }
 
-  .radiogram-6-expanded {
-    left: 0;
-  }
-
   .radiogram-6-snailmail-overlay {
     left: 0;
-  }
-
-  .radiogram-6-filters {
-    top: auto;
-    bottom: 24px;
-    left: 24px;
   }
 
   .radiogram-6-snailmail-btn {

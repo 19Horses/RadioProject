@@ -1,43 +1,6 @@
 import React, { useRef, useEffect, useState } from "react";
 import "./Radiogram6.css";
 import receiveALetter from "./RECEIVE A LETTER.webp";
-import handFilter from "./hand-filter.png";
-
-// Finger hotspots as % of image dimensions (width x height)
-// Left hand, palm facing viewer: from right to left — thumb, index, middle, ring, pinky
-const FINGER_ZONES = [
-  { cat: "a", label: "a", cx: 83, cy: 54 }, // thumb (lower-right)
-  { cat: "b", label: "b", cx: 70, cy:  8 }, // pointer / index finger
-  { cat: "c", label: "c", cx: 53, cy:  4 }, // middle finger
-];
-
-const HandFilter = ({ activeCategory, onCategoryClick }) => {
-  const [hovered, setHovered] = useState(null);
-  return (
-    <div className="radiogram-6-hand-filter">
-      <img src={handFilter} alt="filter hand" className="radiogram-6-hand-img" draggable={false} />
-      {FINGER_ZONES.map(({ cat, label, cx, cy }) => {
-        const isActive = activeCategory === cat;
-        const isHovered = hovered === cat;
-        return (
-          <button
-            key={cat}
-            className={`radiogram-6-finger-btn${isActive ? " radiogram-6-finger-btn--active" : ""}${isHovered ? " radiogram-6-finger-btn--hovered" : ""}`}
-            style={{ left: `${cx}%`, top: `${cy}%` }}
-            onClick={() => onCategoryClick(cat)}
-            onMouseEnter={() => setHovered(cat)}
-            onMouseLeave={() => setHovered(null)}
-            title={label}
-          >
-            {(isActive || isHovered) && (
-              <span className="radiogram-6-finger-label">{label}</span>
-            )}
-          </button>
-        );
-      })}
-    </div>
-  );
-};
 
 const CDN_BASE = "https://d21zv5r7rdb0xb.cloudfront.net";
 const FORMSPREE_ID = "mnjrqrqz";
@@ -108,10 +71,7 @@ const inanimates = [
     alt: "TWO BIRDS ONE KISS",
   },
   { src: `${CDN_BASE}/WAX.webp`, alt: "WAX" },
-].map((item, i) => ({ ...item, cat: ["a", "b", "c"][i % 3] }));
-
-const STACK_ROTS = [8, -12, 5, -9, 13, -6, 10, -14, 3, -7, 11, -4];
-const stackRot = (i) => STACK_ROTS[i % STACK_ROTS.length];
+];
 
 // ── Infinite lerp grid ──────────────────────────────────────────────────
 // A fixed pool of tiles lives inside a translated layer. Panning only moves
@@ -121,6 +81,7 @@ const TILE_DESKTOP = { w: 150, h: 195, gapX: 132, gapY: 108 };
 const TILE_MOBILE = { w: 104, h: 135, gapX: 72, gapY: 58 };
 const BUFFER = 1; // extra ring of tiles kept just outside the viewport
 const PAN_LERP = 0.075; // how heavily the grid trails the pointer
+const CENTER_LERP = 0.12; // snappier, for the programmatic glide to centre
 const ZOOM_LERP = 0.07;
 const WHEEL_MULT = 1.1;
 const FLICK = 130; // px of glide per (px/ms) of release velocity
@@ -129,8 +90,7 @@ const DRAG_SLOP = 5; // px of travel before a press stops counting as a click
 const EXPAND_ZOOM = 1.18; // grid pushes outward while a letter is open
 const MAX_TILT = 26;
 const HOVER_SCALE = 1.24;
-const FADE_MS = 260;
-const FADE_STAGGER = 22;
+const COLLAPSE_MS = 480; // matches the tile-image transform transition
 
 const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 
@@ -145,92 +105,10 @@ const strideFor = (n) => {
 
 const shuffled = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
-const ExpandedCard = ({ src, alt, from, getToRect, onClose, onStartClose }) => {
-  const imgRef = useRef(null);
-  const closingRef = useRef(false);
-  const ease = "cubic-bezier(0.4, 0, 0.2, 1)";
-
-  useEffect(() => {
-    const img = imgRef.current;
-    if (!img) return;
-
-    const sidebarLeft =
-      window.innerWidth > 768 ? window.innerWidth * 0.04 + 284 : 0;
-    const availW = window.innerWidth - sidebarLeft;
-    const availH = window.innerHeight;
-    const aspect = from.width / from.height;
-    const targetH = Math.min(availH * 0.9, (availW * 0.9) / aspect);
-    const targetW = targetH * aspect;
-    const targetTop = (availH - targetH) / 2;
-    const targetLeft = sidebarLeft + (availW - targetW) / 2;
-
-    // Initial position already applied via JSX style prop — just start the transition
-    requestAnimationFrame(() => {
-      requestAnimationFrame(() => {
-        const tr = `top 0.52s ${ease}, left 0.52s ${ease}, width 0.52s ${ease}, height 0.52s ${ease}, transform 0.52s ${ease}`;
-        Object.assign(img.style, {
-          transition: tr,
-          top: `${targetTop}px`,
-          left: `${targetLeft}px`,
-          width: `${targetW}px`,
-          height: `${targetH}px`,
-          transform: "none",
-        });
-      });
-    });
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleClose = () => {
-    if (closingRef.current) return;
-    closingRef.current = true;
-    onStartClose();
-    const img = imgRef.current;
-    if (!img) {
-      onClose();
-      return;
-    }
-    const to = getToRect();
-    // Fade to invisible in the last 80ms so the unmount pop is invisible
-    const tr = `top 0.45s ${ease}, left 0.45s ${ease}, width 0.45s ${ease}, height 0.45s ${ease}, transform 0.45s ${ease}, opacity 0.08s ease 0.37s`;
-    Object.assign(img.style, {
-      transition: tr,
-      top: `${to.top}px`,
-      left: `${to.left}px`,
-      width: `${to.width}px`,
-      height: `${to.height}px`,
-      transform: `rotate(${to.rotation}deg)`,
-      opacity: "0",
-    });
-    setTimeout(onClose, 450);
-  };
-
-  return (
-    <div className="radiogram-6-expanded" onClick={handleClose}>
-      <img
-        ref={imgRef}
-        src={src}
-        alt={alt}
-        style={{
-          position: "fixed",
-          top: `${from.top}px`,
-          left: `${from.left}px`,
-          width: `${from.width}px`,
-          height: `${from.height}px`,
-          transform: `rotate(${from.rotation}deg)`,
-          objectFit: "contain",
-          maxWidth: "none",
-          margin: "0",
-        }}
-      />
-    </div>
-  );
-};
 
 export const Radiogram6 = () => {
   const containerRef = useRef(null);
-  const [stack, setStack] = useState([]);
-  const [expanded, setExpanded] = useState(false);
-  const [expandedFrom, setExpandedFrom] = useState(null);
+  const [expanded, setExpanded] = useState(null); // the { src, alt } being viewed
   const [snailMailOpen, setSnailMailOpen] = useState(false);
   const [btnHovered, setBtnHovered] = useState(false);
   const [btnMousePos, setBtnMousePos] = useState({ x: 0, y: 0 });
@@ -243,13 +121,18 @@ export const Radiogram6 = () => {
     country: "",
   });
   const [submitState, setSubmitState] = useState(null); // null | 'sending' | 'sent' | 'error'
-  const topCardRef = useRef(null);
-  const selectedRef = useRef(false);
-  useEffect(() => {
-    selectedRef.current = expanded;
-  }, [expanded]);
 
-  const [dims, setDims] = useState({ w: 0, h: 0, tileW: TILE_DESKTOP.w, tileH: TILE_DESKTOP.h });
+  // Locks out panning/hover from the moment a letter is clicked until it closes
+  const lockRef = useRef(false);
+  // The letter waiting for the centring glide to land before it blooms
+  const pendingRef = useRef(null);
+  // Lattice cell of the letter currently blown up, once it has landed
+  const focusCellRef = useRef(null);
+  // The tile element holding it, and the one currently shrinking back
+  const focusTileRef = useRef(null);
+  const collapsingRef = useRef(null);
+
+  const [dims, setDims] = useState({ w: 0, h: 0 });
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
   // Grid state — all in refs so the RAF closure always sees current values
@@ -266,6 +149,7 @@ export const Radiogram6 = () => {
   });
   const posRef = useRef({ x: 0, y: 0 });
   const targetRef = useRef({ x: 0, y: 0 });
+  const lerpRef = useRef(PAN_LERP);
   const zoomRef = useRef({ cur: 1, target: 1 });
   const lastStartRef = useRef({ col: null, row: null });
   const rafRef = useRef(null);
@@ -286,19 +170,25 @@ export const Radiogram6 = () => {
   // Delegated tile clicks fire from a listener bound once, so route them
   // through a ref that always points at the latest handleSelect
   const selectRef = useRef(() => {});
+  const closeRef = useRef(() => {});
+  const closeTimerRef = useRef(null);
   const imagesRef = useRef(shuffled(inanimates));
   const strideRef = useRef(strideFor(inanimates.length));
-  const selectedSrcsRef = useRef(new Set());
-
-  const [activeCategory, setActiveCategory] = useState(null);
-  const filterTimeoutRef = useRef(null);
 
   // ── Tile plumbing ─────────────────────────────────────────────────────
   const resetTileArt = (tile) => {
     tile.hovered = false;
+    tile.styled = false;
+    tile.focusK = 0;
     tile.el.style.zIndex = "";
+    tile.el.style.opacity = "";
     tile.img.style.transform = "";
     tile.img.style.filter = "";
+    // Layout overrides left behind by a bloom
+    tile.img.style.width = "";
+    tile.img.style.height = "";
+    tile.img.style.maxWidth = "";
+    tile.img.style.maxHeight = "";
   };
 
   // Points a pooled tile at a new lattice cell. Only touches the DOM for the
@@ -324,8 +214,8 @@ export const Radiogram6 = () => {
       tile.src = item.src;
     }
 
-    if (tile.hovered) resetTileArt(tile);
-    tile.el.style.opacity = selectedSrcsRef.current.has(item.src) ? "0.4" : "1";
+    // A recycled tile must never carry hover or focus art to its new cell
+    if (tile.styled) resetTileArt(tile);
   };
 
   const reposition = (force) => {
@@ -351,6 +241,100 @@ export const Radiogram6 = () => {
     }
   };
 
+  // Blows a tile up in place. Rather than scaling a small image up — which
+  // rasterises at the tile size and stretches that texture, softening the
+  // handwriting — the image is laid out at its final size and the transform
+  // *inverted*, then animated away. It is only ever downscaled, so it stays
+  // crisp for the whole bloom and lands pixel-exact at scale(1).
+  const blowUp = (tile) => {
+    const c = containerRef.current?.getBoundingClientRect();
+    if (!c) return;
+    const img = tile.img;
+
+    // Measure at the resting layout, so a re-focus never compounds
+    img.style.transition = "none";
+    img.style.width = "";
+    img.style.height = "";
+    img.style.maxWidth = "";
+    img.style.maxHeight = "";
+    img.style.transform = "";
+    const w = img.offsetWidth;
+    const h = img.offsetHeight;
+
+    // The tile sits on the zoom layer's origin, so divide that factor back out
+    const z = zoomRef.current.target || 1;
+    const k = Math.min((c.width * 0.86) / (w * z), (c.height * 0.86) / (h * z));
+    if (!w || !h || !(k > 1)) {
+      img.style.transition = ""; // never leave transitions switched off
+      return;
+    }
+
+    img.style.maxWidth = "none";
+    img.style.maxHeight = "none";
+    img.style.width = `${w * k}px`;
+    img.style.height = `${h * k}px`;
+    img.style.transform = `scale(${(1 / k).toFixed(5)})`;
+    void img.offsetWidth; // flush the inverted state before animating out of it
+
+    img.style.transition = "";
+    img.style.transform = "scale(1)";
+    img.style.filter = "drop-shadow(0 24px 60px rgba(0,0,0,0.32))";
+    tile.el.style.zIndex = "100";
+    tile.el.style.opacity = "1";
+    tile.styled = true;
+    tile.focusK = k;
+    focusTileRef.current = tile;
+  };
+
+  // Shrinks the blown-up tile back, then hands its layout to the stylesheet
+  const collapse = () => {
+    const tile = focusTileRef.current;
+    focusTileRef.current = null;
+    if (!tile) return;
+    collapsingRef.current = tile;
+    tile.img.style.transform = `scale(${(1 / (tile.focusK || 1)).toFixed(5)})`;
+    tile.img.style.filter = "";
+    tile.el.style.zIndex = "";
+    tile.el.style.opacity = "";
+
+    clearTimeout(closeTimerRef.current);
+    closeTimerRef.current = setTimeout(() => {
+      collapsingRef.current = null;
+      lockRef.current = false;
+      if (focusTileRef.current === tile) return; // re-focused in the meantime
+      // Swap the oversized layout back for the transform in one flush, or the
+      // untransitioned width change would pop against the animating scale
+      tile.img.style.transition = "none";
+      resetTileArt(tile);
+      void tile.img.offsetWidth;
+      tile.img.style.transition = "";
+    }, COLLAPSE_MS);
+  };
+
+  const applyFocus = () => {
+    const cell = focusCellRef.current;
+    const pool = poolRef.current;
+    const target =
+      cell && pool.find((t) => t.col === cell.col && t.row === cell.row);
+
+    if (!cell) collapse();
+
+    pool.forEach((tile) => {
+      if (tile === target || tile === collapsingRef.current) return;
+      if (cell) {
+        tile.styled = true;
+        tile.el.style.zIndex = "";
+        tile.el.style.opacity = "0.28";
+        tile.img.style.transform = "";
+        tile.img.style.filter = "";
+      } else {
+        resetTileArt(tile);
+      }
+    });
+
+    if (target) blowUp(target);
+  };
+
   const applyTransform = () => {
     if (gridRef.current) {
       gridRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`;
@@ -367,10 +351,23 @@ export const Radiogram6 = () => {
       const p = posRef.current;
       const t = targetRef.current;
       const z = zoomRef.current;
-      p.x += (t.x - p.x) * PAN_LERP;
-      p.y += (t.y - p.y) * PAN_LERP;
+      p.x += (t.x - p.x) * lerpRef.current;
+      p.y += (t.y - p.y) * lerpRef.current;
       z.cur += (z.target - z.cur) * ZOOM_LERP;
       applyTransform();
+
+      // Once the centring glide is all but landed, snap the last sub-pixel and
+      // let the letter bloom. Waiting until here means the pan has stopped
+      // recycling tiles, so the focused tile keeps its identity while it grows.
+      const pend = pendingRef.current;
+      if (pend && Math.abs(t.x - p.x) < 1 && Math.abs(t.y - p.y) < 1) {
+        pendingRef.current = null;
+        p.x = t.x;
+        p.y = t.y;
+        applyTransform();
+        focusCellRef.current = { col: pend.col, row: pend.row };
+        setExpanded(pend.item);
+      }
 
       const moving =
         dragRef.current.active ||
@@ -385,6 +382,7 @@ export const Radiogram6 = () => {
         p.y = t.y;
         z.cur = z.target;
         applyTransform();
+        lerpRef.current = PAN_LERP;
         rafRef.current = null;
       }
     };
@@ -413,6 +411,20 @@ export const Radiogram6 = () => {
     const update = () => {
       const r = container.getBoundingClientRect();
       if (!r.width || !r.height) return;
+
+      // A resize resizes and recycles the pool, which would strand the blown-up
+      // tile — and with it the lock. Drop back to the grid first.
+      if (focusCellRef.current || pendingRef.current) {
+        clearTimeout(closeTimerRef.current);
+        if (focusTileRef.current) resetTileArt(focusTileRef.current);
+        focusCellRef.current = null;
+        pendingRef.current = null;
+        focusTileRef.current = null;
+        collapsingRef.current = null;
+        lockRef.current = false;
+        setExpanded(null);
+      }
+
       const t = r.width <= 768 ? TILE_MOBILE : TILE_DESKTOP;
       const stepX = t.w + t.gapX;
       const stepY = t.h + t.gapY;
@@ -440,7 +452,7 @@ export const Radiogram6 = () => {
 
       lastStartRef.current = { col: null, row: null };
       applyTransform();
-      setDims({ w: r.width, h: r.height, tileW: t.w, tileH: t.h });
+      setDims({ w: r.width, h: r.height });
     };
 
     update();
@@ -473,6 +485,7 @@ export const Radiogram6 = () => {
 
     const beginDrag = (x, y) => {
       const d = dragRef.current;
+      lerpRef.current = PAN_LERP;
       d.active = true;
       d.moved = false;
       d.startX = x;
@@ -514,7 +527,7 @@ export const Radiogram6 = () => {
     };
 
     const onMouseDown = (e) => {
-      if (selectedRef.current || e.button !== 0) return;
+      if (lockRef.current || e.button !== 0) return;
       clearHover();
       beginDrag(e.clientX, e.clientY);
     };
@@ -522,8 +535,9 @@ export const Radiogram6 = () => {
     const onMouseUp = () => endDrag();
 
     const onWheel = (e) => {
-      if (selectedRef.current) return;
+      if (lockRef.current) return;
       e.preventDefault();
+      lerpRef.current = PAN_LERP;
       const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 100 : 1;
       targetRef.current.x -= e.deltaX * unit * WHEEL_MULT;
       targetRef.current.y -= e.deltaY * unit * WHEEL_MULT;
@@ -531,7 +545,7 @@ export const Radiogram6 = () => {
     };
 
     const onTouchStart = (e) => {
-      if (selectedRef.current || e.touches.length !== 1) return;
+      if (lockRef.current || e.touches.length !== 1) return;
       beginDrag(e.touches[0].clientX, e.touches[0].clientY);
     };
     const onTouchMove = (e) => {
@@ -556,7 +570,7 @@ export const Radiogram6 = () => {
     };
 
     const onGridMove = (e) => {
-      if (dragRef.current.active || selectedRef.current || dims.w <= 768) return;
+      if (dragRef.current.active || lockRef.current || dims.w <= 768) return;
       const tile = tileFor(e.target);
       if (!tile) {
         clearHover();
@@ -565,6 +579,7 @@ export const Radiogram6 = () => {
       if (hoverRef.current && hoverRef.current !== tile) resetTileArt(hoverRef.current);
       hoverRef.current = tile;
       tile.hovered = true;
+      tile.styled = true;
       tile.el.style.zIndex = "3";
 
       const r = tile.el.getBoundingClientRect();
@@ -577,11 +592,18 @@ export const Radiogram6 = () => {
     const onGridLeave = () => clearHover();
 
     const onGridClick = (e) => {
-      if (dragRef.current.moved) return;
+      if (dragRef.current.moved || lockRef.current) return;
       const tile = tileFor(e.target);
-      if (tile?.src) selectRef.current(tile.src);
+      if (tile?.src) selectRef.current(tile);
     };
 
+    // Anywhere on the surface closes an open letter. Only armed once it has
+    // actually bloomed, so the click that opened it can't immediately close it.
+    const onSurfaceClick = () => {
+      if (focusCellRef.current) closeRef.current();
+    };
+
+    container.addEventListener("click", onSurfaceClick);
     container.addEventListener("mousedown", onMouseDown);
     window.addEventListener("mousemove", onMouseMove);
     window.addEventListener("mouseup", onMouseUp);
@@ -595,6 +617,7 @@ export const Radiogram6 = () => {
     grid.addEventListener("click", onGridClick);
 
     return () => {
+      container.removeEventListener("click", onSurfaceClick);
       container.removeEventListener("mousedown", onMouseDown);
       window.removeEventListener("mousemove", onMouseMove);
       window.removeEventListener("mouseup", onMouseUp);
@@ -612,22 +635,15 @@ export const Radiogram6 = () => {
   useEffect(() => {
     return () => {
       cancelAnimationFrame(rafRef.current);
-      clearTimeout(filterTimeoutRef.current);
+      clearTimeout(closeTimerRef.current);
     };
   }, []);
 
-  // Dim every copy of a letter that is already sitting in the stack
-  useEffect(() => {
-    selectedSrcsRef.current = new Set(stack.map((c) => c.src));
-    poolRef.current.forEach((tile) => {
-      if (!tile.src) return;
-      tile.el.style.opacity = selectedSrcsRef.current.has(tile.src) ? "0.4" : "1";
-    });
-  }, [stack]);
-
-  // Opening a letter pushes the grid outward, closing it settles back
+  // Opening a letter pushes the grid outward, closing it settles back.
+  // The zoom target is set first — applyFocus divides it out of the scale.
   useEffect(() => {
     zoomRef.current.target = expanded ? EXPAND_ZOOM : 1;
+    applyFocus();
     startLoop();
   }, [expanded]); // eslint-disable-line react-hooks/exhaustive-deps
 
@@ -653,66 +669,37 @@ export const Radiogram6 = () => {
 
   const isMobile = dims.w > 0 && dims.w <= 768;
 
-  // Diagonal wave outward from the top-left of the viewport
-  const fadeDelayFor = (tile) => {
-    const start = lastStartRef.current;
-    if (start.col === null || tile.col === null) return 0;
-    return (tile.col - start.col + (tile.row - start.row)) * FADE_STAGGER;
-  };
+  const handleSelect = (tile) => {
+    const item = inanimates.find((c) => c.src === tile.src);
+    if (!item || !containerRef.current) return;
 
-  const handleCategoryClick = (cat) => {
-    if (filterTimeoutRef.current) clearTimeout(filterTimeoutRef.current);
-    const pool = poolRef.current;
     const g = geomRef.current;
+    const c = containerRef.current.getBoundingClientRect();
 
-    pool.forEach((tile) => {
-      tile.el.style.transition = `opacity ${FADE_MS}ms ease ${fadeDelayFor(tile)}ms`;
-      tile.el.style.opacity = "0";
-    });
-
-    const maxDelay = (g.cols + g.rows) * FADE_STAGGER;
-    filterTimeoutRef.current = setTimeout(() => {
-      filterTimeoutRef.current = null;
-      const next = cat ? inanimates.filter((img) => img.cat === cat) : inanimates;
-      imagesRef.current = shuffled(next);
-      strideRef.current = strideFor(imagesRef.current.length);
-      setActiveCategory(cat);
-      setExpanded(false);
-
-      // Re-point every tile at the new set, then wave them back in
-      reposition(true);
-      pool.forEach((tile) => {
-        tile.el.style.opacity = "0";
-      });
-      void containerRef.current?.offsetHeight;
-      pool.forEach((tile) => {
-        tile.el.style.transition = `opacity ${FADE_MS}ms ease ${fadeDelayFor(tile)}ms`;
-        tile.el.style.opacity = "1";
-      });
-      setTimeout(() => {
-        pool.forEach((tile) => {
-          tile.el.style.transition = "";
-        });
-      }, maxDelay + FADE_MS + 50);
-    }, maxDelay + FADE_MS);
-  };
-
-  const handleSelect = (src) => {
-    const item = inanimates.find((c) => c.src === src);
-    setStack((prev) => {
-      const existing = prev.find((c) => c.src === src);
-      const without = prev.filter((c) => c.src !== src);
-      const stackItem = existing ?? {
-        ...item,
-        rot: stackRot(without.length),
-        tx: ((without.length * 37) % 21) - 10,
-        ty: ((without.length * 29) % 17) - 8,
-      };
-      const next = [...without, stackItem];
-      return next.length > 12 ? next.slice(next.length - 12) : next;
-    });
+    // Glide the lattice until the clicked letter sits dead centre, then let the
+    // loop bloom it once it lands. Locking now keeps the pan — and so the tile
+    // recycling — still for the whole of the glide and the bloom.
+    lockRef.current = true;
+    lerpRef.current = CENTER_LERP;
+    hoverRef.current = null;
+    resetTileArt(tile);
+    targetRef.current = {
+      x: c.width / 2 - (tile.col * g.stepX + g.tileW / 2),
+      y: c.height / 2 - (tile.row * g.stepY + g.tileH / 2),
+    };
+    pendingRef.current = { col: tile.col, row: tile.row, item };
+    startLoop();
   };
   selectRef.current = handleSelect;
+
+  // The lock is released by collapse() once the letter has finished shrinking,
+  // so a quick drag can't recycle the tile out from under it
+  const handleClose = () => {
+    focusCellRef.current = null;
+    pendingRef.current = null;
+    setExpanded(null);
+  };
+  closeRef.current = handleClose;
 
   return (
     <div ref={containerRef} className="radiogram-6-container">
@@ -738,10 +725,9 @@ export const Radiogram6 = () => {
         </div>
       )}
 
-      <HandFilter activeCategory={activeCategory} onCategoryClick={handleCategoryClick} />
-
+      {/* The blown-up letter is just one of these tiles, scaled in place */}
       <div
-        className={`radiogram-6-surface${expanded || snailMailOpen ? " dimmed" : ""}`}
+        className={`radiogram-6-surface${snailMailOpen ? " dimmed" : ""}`}
         style={!imagesLoaded ? { visibility: "hidden" } : undefined}
       >
         <div ref={zoomLayerRef} className="radiogram-6-zoom">
@@ -749,81 +735,6 @@ export const Radiogram6 = () => {
           <div ref={gridRef} className="radiogram-6-grid" />
         </div>
       </div>
-
-      {stack.length > 0 && (
-        <div
-          className={`radiogram-6-stack${expanded ? " radiogram-6-stack--expanded" : ""}${snailMailOpen ? " dimmed" : ""}`}
-          style={
-            isMobile
-              ? { width: dims.tileW * 3.2, height: dims.tileH * 3.2 }
-              : undefined
-          }
-          onClick={() => {
-            if (!topCardRef.current) return;
-            const rect = topCardRef.current.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            const w = topCardRef.current.offsetWidth;
-            const h = topCardRef.current.offsetHeight;
-            const rot = stack[stack.length - 1].rot;
-            setExpandedFrom({
-              top: cy - h / 2,
-              left: cx - w / 2,
-              width: w,
-              height: h,
-              rotation: rot,
-            });
-            setExpanded(true);
-          }}
-        >
-          {stack.map((item, i) => {
-            return (
-              <div
-                key={item.src}
-                ref={i === stack.length - 1 ? topCardRef : null}
-                className="radiogram-6-stack-card"
-                style={{
-                  transform: `rotate(${item.rot}deg) translate(${item.tx}px, ${item.ty}px)`,
-                  zIndex: i + 1,
-                }}
-              >
-                <img src={item.src} alt={item.alt} />
-              </div>
-            );
-          })}
-        </div>
-      )}
-
-      {expanded && expandedFrom && stack.length > 0 && (
-        <ExpandedCard
-          src={stack[stack.length - 1].src}
-          alt={stack[stack.length - 1].alt}
-          from={expandedFrom}
-          getToRect={() => {
-            if (!topCardRef.current) return expandedFrom;
-            const rect = topCardRef.current.getBoundingClientRect();
-            const cx = rect.left + rect.width / 2;
-            const cy = rect.top + rect.height / 2;
-            const w = topCardRef.current.offsetWidth;
-            const h = topCardRef.current.offsetHeight;
-            const rotation = stack[stack.length - 1].rot;
-            return {
-              top: cy - h / 2,
-              left: cx - w / 2,
-              width: w,
-              height: h,
-              rotation,
-            };
-          }}
-          onStartClose={() => {
-            // Settle the grid straight away rather than waiting for the
-            // unmount at the end of the fly-back
-            zoomRef.current.target = 1;
-            startLoop();
-          }}
-          onClose={() => setExpanded(false)}
-        />
-      )}
 
       <button
         className="radiogram-6-snailmail-btn"
