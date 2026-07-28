@@ -17,5 +17,5 @@ export const radiogramMap = {
   thenarrator: Radiogram6,
   ivory: Radiogram7,
   effua: Radiogram8,
-  jacoblastnayme: Radiogram9,
+  jacobeardley: Radiogram9,
 }

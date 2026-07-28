@@ -53,7 +53,12 @@
       "Bash(python3 -m json.tool)",
       "Bash(curl -s \"http://localhost:5199/src/components/radiograms/radiogram9/Radiogram9.jsx\")",
       "Bash(pkill -f \"vite --port 5199\")",
-      "Bash(echo \"exit: $?\")"
+      "Bash(echo \"exit: $?\")",
+      "WebFetch(domain:www.kellerstoecklarchitektur.at)",
+      "Bash(curl -sL \"https://www.kellerstoecklarchitektur.at/index.html\" -o ks.html)",
+      "Bash(curl -sL \"https://www.kellerstoecklarchitektur.at/main.js\" -o ks-main.js)",
+      "Bash(curl -sL \"https://www.kellerstoecklarchitektur.at/style.css\" -o ks-style.css)",
+      "Bash(npx eslint *)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

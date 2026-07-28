@@ -110,110 +110,40 @@ const inanimates = [
   { src: `${CDN_BASE}/WAX.webp`, alt: "WAX" },
 ].map((item, i) => ({ ...item, cat: ["a", "b", "c"][i % 3] }));
 
-const CARD_W = 100;
-const CARD_H = 130;
-const MAX_TILT = 30;
-const LERP = 0.06;
-const SPIN_FRICTION = 0.95;
-const WHEEL_SPIN = 0.001;
-
 const STACK_ROTS = [8, -12, 5, -9, 13, -6, 10, -14, 3, -7, 11, -4];
 const stackRot = (i) => STACK_ROTS[i % STACK_ROTS.length];
 
-const TiltCard = ({ src, alt, isSelected, onSelect, isMobile }) => {
-  const cardRef = useRef(null);
-  const stateRef = useRef({
-    rotX: 0,
-    rotY: 0,
-    tX: 0,
-    tY: 0,
-    scale: 1,
-    shadow: 0,
-    rafId: null,
-    active: false,
-  });
+// ── Infinite lerp grid ──────────────────────────────────────────────────
+// A fixed pool of tiles lives inside a translated layer. Panning only moves
+// that layer; whenever the pan crosses a cell boundary the tiles that fell
+// off one edge are recycled to the opposite one, so the lattice never ends.
+const TILE_DESKTOP = { w: 150, h: 195, gapX: 132, gapY: 108 };
+const TILE_MOBILE = { w: 104, h: 135, gapX: 72, gapY: 58 };
+const BUFFER = 1; // extra ring of tiles kept just outside the viewport
+const PAN_LERP = 0.075; // how heavily the grid trails the pointer
+const ZOOM_LERP = 0.07;
+const WHEEL_MULT = 1.1;
+const FLICK = 130; // px of glide per (px/ms) of release velocity
+const FLICK_MAX = 1100;
+const DRAG_SLOP = 5; // px of travel before a press stops counting as a click
+const EXPAND_ZOOM = 1.18; // grid pushes outward while a letter is open
+const MAX_TILT = 26;
+const HOVER_SCALE = 1.24;
+const FADE_MS = 260;
+const FADE_STAGGER = 22;
 
-  const runLoop = () => {
-    const s = stateRef.current;
-    const card = cardRef.current;
-    if (!card) return;
+const gcd = (a, b) => (b ? gcd(b, a % b) : a);
 
-    s.rotX += (s.tX - s.rotX) * LERP;
-    s.rotY += (s.tY - s.rotY) * LERP;
-    s.scale += ((s.active ? 1.28 : 1) - s.scale) * LERP;
-    s.shadow += ((s.active ? 1 : 0) - s.shadow) * LERP;
-
-    card.style.transform = `perspective(600px) rotateX(${s.rotX}deg) rotateY(${s.rotY}deg) scale(${s.scale})`;
-    card.style.filter = `drop-shadow(0 ${s.shadow * 16}px ${s.shadow * 32}px rgba(0,0,0,${s.shadow * 0.35}))`;
-
-    const stillMoving =
-      Math.abs(s.tX - s.rotX) > 0.05 ||
-      Math.abs(s.tY - s.rotY) > 0.05 ||
-      Math.abs((s.active ? 1.28 : 1) - s.scale) > 0.0005 ||
-      Math.abs((s.active ? 1 : 0) - s.shadow) > 0.005;
-
-    if (stillMoving) {
-      s.rafId = requestAnimationFrame(runLoop);
-    } else {
-      s.rafId = null;
-    }
-  };
-
-  const startLoop = () => {
-    if (!stateRef.current.rafId) {
-      stateRef.current.rafId = requestAnimationFrame(runLoop);
-    }
-  };
-
-  useEffect(() => {
-    const state = stateRef.current;
-    return () => {
-      cancelAnimationFrame(state.rafId);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (isSelected) {
-      stateRef.current.tX = 0;
-      stateRef.current.tY = 0;
-      stateRef.current.active = false;
-      startLoop();
-    }
-  }, [isSelected]); // eslint-disable-line react-hooks/exhaustive-deps
-
-  const handleMouseMove = (e) => {
-    if (isMobile || isSelected) return;
-    const { left, top, width, height } =
-      cardRef.current.getBoundingClientRect();
-    const nx = ((e.clientX - left) / width) * 2 - 1;
-    const ny = ((e.clientY - top) / height) * 2 - 1;
-    stateRef.current.tX = -ny * MAX_TILT;
-    stateRef.current.tY = nx * MAX_TILT;
-    stateRef.current.active = true;
-    startLoop();
-  };
-
-  const handleMouseLeave = () => {
-    if (isMobile || isSelected) return;
-    stateRef.current.tX = 0;
-    stateRef.current.tY = 0;
-    stateRef.current.active = false;
-    startLoop();
-  };
-
-  return (
-    <div
-      ref={cardRef}
-      className={`radiogram-6-card${isSelected ? " radiogram-6-card--selected" : ""}`}
-      style={{ transformOrigin: "center center" }}
-      onMouseMove={handleMouseMove}
-      onMouseLeave={handleMouseLeave}
-      onClick={onSelect}
-    >
-      <img src={src} alt={alt} />
-    </div>
-  );
+// Row-to-row stride through the image list. Coprime with the list length so a
+// column walks the whole set before repeating — stops the lattice banding.
+const strideFor = (n) => {
+  for (let k = Math.round(Math.sqrt(n)) + 1; k < n; k++) {
+    if (gcd(k, n) === 1) return k;
+  }
+  return 1;
 };
+
+const shuffled = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
 const ExpandedCard = ({ src, alt, from, getToRect, onClose, onStartClose }) => {
   const imgRef = useRef(null);
@@ -298,7 +228,6 @@ const ExpandedCard = ({ src, alt, from, getToRect, onClose, onStartClose }) => {
 
 export const Radiogram6 = () => {
   const containerRef = useRef(null);
-  const cellRefs = useRef([]);
   const [stack, setStack] = useState([]);
   const [expanded, setExpanded] = useState(false);
   const [expandedFrom, setExpandedFrom] = useState(null);
@@ -320,125 +249,387 @@ export const Radiogram6 = () => {
     selectedRef.current = expanded;
   }, [expanded]);
 
-  const [dims, setDims] = useState({ w: 0, h: 0 });
+  const [dims, setDims] = useState({ w: 0, h: 0, tileW: TILE_DESKTOP.w, tileH: TILE_DESKTOP.h });
   const [imagesLoaded, setImagesLoaded] = useState(false);
 
-  // Spin state — all in refs so RAF closures always see current values
-  const angleRef = useRef(0);
-  const velocityRef = useRef(0);
-  const spinRafRef = useRef(null);
-  // Layout metrics — updated on resize, read by RAF and render
-  const layoutRef = useRef({
-    cx: 0,
-    cy: 0,
-    radius: 0,
-    cardW: CARD_W,
-    cardH: CARD_H,
+  // Grid state — all in refs so the RAF closure always sees current values
+  const zoomLayerRef = useRef(null);
+  const gridRef = useRef(null);
+  const poolRef = useRef([]);
+  const geomRef = useRef({
+    tileW: TILE_DESKTOP.w,
+    tileH: TILE_DESKTOP.h,
+    stepX: TILE_DESKTOP.w + TILE_DESKTOP.gapX,
+    stepY: TILE_DESKTOP.h + TILE_DESKTOP.gapY,
+    cols: 0,
+    rows: 0,
   });
-  const baseRadiusRef = useRef(0);
-  const radiusAnimRafRef = useRef(null);
+  const posRef = useRef({ x: 0, y: 0 });
+  const targetRef = useRef({ x: 0, y: 0 });
+  const zoomRef = useRef({ cur: 1, target: 1 });
+  const lastStartRef = useRef({ col: null, row: null });
+  const rafRef = useRef(null);
+  const dragRef = useRef({
+    active: false,
+    moved: false,
+    startX: 0,
+    startY: 0,
+    originX: 0,
+    originY: 0,
+    lastX: 0,
+    lastY: 0,
+    lastT: 0,
+    vx: 0,
+    vy: 0,
+  });
+  const hoverRef = useRef(null);
+  // Delegated tile clicks fire from a listener bound once, so route them
+  // through a ref that always points at the latest handleSelect
+  const selectRef = useRef(() => {});
+  const imagesRef = useRef(shuffled(inanimates));
+  const strideRef = useRef(strideFor(inanimates.length));
+  const selectedSrcsRef = useRef(new Set());
 
   const [activeCategory, setActiveCategory] = useState(null);
-  const [filterGen, setFilterGen] = useState(0);
   const filterTimeoutRef = useRef(null);
 
-  const pickCards = (cat) => {
-    const pool = cat ? inanimates.filter((img) => img.cat === cat) : inanimates;
-    return [...pool].sort(() => Math.random() - 0.5).slice(0, 12);
+  // ── Tile plumbing ─────────────────────────────────────────────────────
+  const resetTileArt = (tile) => {
+    tile.hovered = false;
+    tile.el.style.zIndex = "";
+    tile.img.style.transform = "";
+    tile.img.style.filter = "";
   };
 
-  const [cards, setCards] = useState(() => pickCards(null));
+  // Points a pooled tile at a new lattice cell. Only touches the DOM for the
+  // properties that actually changed — this runs for every tile that crosses
+  // an edge, so it stays on the hot path.
+  const assignTile = (tile, col, row) => {
+    const images = imagesRef.current;
+    if (!images.length) return;
+    const { stepX, stepY } = geomRef.current;
 
-  // Moves every cell to match the current angle without a React re-render
-  const applyPositions = (angle) => {
-    const { cx, cy, radius, cardW, cardH } = layoutRef.current;
-    cellRefs.current.forEach((cell, i) => {
-      if (!cell) return;
-      const a = (i / 12) * 2 * Math.PI - Math.PI / 2 + angle;
-      cell.style.left = `${cx + radius * Math.cos(a) - cardW / 2}px`;
-      cell.style.top = `${cy + radius * Math.sin(a) - cardH / 2}px`;
-    });
+    if (tile.col !== col || tile.row !== row) {
+      tile.el.style.transform = `translate3d(${col * stepX}px, ${row * stepY}px, 0)`;
+      tile.col = col;
+      tile.row = row;
+    }
+
+    const n = images.length;
+    const idx = (((row * strideRef.current + col) % n) + n) % n;
+    const item = images[idx];
+    if (tile.src !== item.src) {
+      tile.img.src = item.src;
+      tile.img.alt = item.alt;
+      tile.src = item.src;
+    }
+
+    if (tile.hovered) resetTileArt(tile);
+    tile.el.style.opacity = selectedSrcsRef.current.has(item.src) ? "0.4" : "1";
   };
 
-  const startSpin = () => {
-    if (spinRafRef.current) return;
-    const loop = () => {
-      velocityRef.current *= SPIN_FRICTION;
-      angleRef.current += velocityRef.current;
-      applyPositions(angleRef.current);
-      if (Math.abs(velocityRef.current) > 0.0001) {
-        spinRafRef.current = requestAnimationFrame(loop);
+  const reposition = (force) => {
+    const g = geomRef.current;
+    const pool = poolRef.current;
+    if (!pool.length) return;
+    const startCol = Math.floor(-posRef.current.x / g.stepX) - BUFFER;
+    const startRow = Math.floor(-posRef.current.y / g.stepY) - BUFFER;
+    if (
+      !force &&
+      startCol === lastStartRef.current.col &&
+      startRow === lastStartRef.current.row
+    ) {
+      return;
+    }
+    lastStartRef.current = { col: startCol, row: startRow };
+    let i = 0;
+    for (let r = 0; r < g.rows; r++) {
+      for (let c = 0; c < g.cols; c++) {
+        const tile = pool[i++];
+        if (tile) assignTile(tile, startCol + c, startRow + r);
+      }
+    }
+  };
+
+  const applyTransform = () => {
+    if (gridRef.current) {
+      gridRef.current.style.transform = `translate3d(${posRef.current.x}px, ${posRef.current.y}px, 0)`;
+    }
+    if (zoomLayerRef.current) {
+      zoomLayerRef.current.style.transform = `scale(${zoomRef.current.cur})`;
+    }
+    reposition(false);
+  };
+
+  const startLoop = () => {
+    if (rafRef.current) return;
+    const step = () => {
+      const p = posRef.current;
+      const t = targetRef.current;
+      const z = zoomRef.current;
+      p.x += (t.x - p.x) * PAN_LERP;
+      p.y += (t.y - p.y) * PAN_LERP;
+      z.cur += (z.target - z.cur) * ZOOM_LERP;
+      applyTransform();
+
+      const moving =
+        dragRef.current.active ||
+        Math.abs(t.x - p.x) > 0.05 ||
+        Math.abs(t.y - p.y) > 0.05 ||
+        Math.abs(z.target - z.cur) > 0.0004;
+
+      if (moving) {
+        rafRef.current = requestAnimationFrame(step);
       } else {
-        velocityRef.current = 0;
-        spinRafRef.current = null;
+        p.x = t.x;
+        p.y = t.y;
+        z.cur = z.target;
+        applyTransform();
+        rafRef.current = null;
       }
     };
-    spinRafRef.current = requestAnimationFrame(loop);
+    rafRef.current = requestAnimationFrame(step);
   };
 
-  // Resize observer
-  useEffect(() => {
-    const update = () => {
-      if (!containerRef.current) return;
-      const r = containerRef.current.getBoundingClientRect();
-      const isMob = r.width <= 768;
-      const cardW = isMob ? Math.min(120, r.width * 0.18) : CARD_W;
-      const cardH = cardW * (CARD_H / CARD_W);
-      const radiusH = (r.height * 0.9 - cardH) / 2;
-      const radiusW = (r.width * 0.9 - cardW) / 2;
-      const radius = isMob ? Math.min(radiusH, radiusW) : radiusH;
-      baseRadiusRef.current = radius;
-      layoutRef.current = {
-        cx: r.width / 2,
-        cy: r.height / 2,
-        radius,
-        cardW,
-        cardH,
-      };
-      setDims({ w: r.width, h: r.height });
-    };
-    update();
-    window.addEventListener("resize", update);
-    return () => window.removeEventListener("resize", update);
-  }, []);
-
-  // Wheel + touch spin
+  // ── Pool construction / resize ────────────────────────────────────────
   useEffect(() => {
     const container = containerRef.current;
-    if (!container) return;
+    const grid = gridRef.current;
+    if (!container || !grid) return;
+
+    const pool = poolRef.current;
+
+    const makeTile = () => {
+      const el = document.createElement("div");
+      el.className = "radiogram-6-tile";
+      const img = document.createElement("img");
+      img.className = "radiogram-6-tile-img";
+      img.draggable = false;
+      el.appendChild(img);
+      grid.appendChild(el);
+      return { el, img, col: null, row: null, src: null, hovered: false };
+    };
+
+    const update = () => {
+      const r = container.getBoundingClientRect();
+      if (!r.width || !r.height) return;
+      const t = r.width <= 768 ? TILE_MOBILE : TILE_DESKTOP;
+      const stepX = t.w + t.gapX;
+      const stepY = t.h + t.gapY;
+      const cols = Math.ceil(r.width / stepX) + BUFFER * 2 + 1;
+      const rows = Math.ceil(r.height / stepY) + BUFFER * 2 + 1;
+      const first = geomRef.current.cols === 0;
+      geomRef.current = { tileW: t.w, tileH: t.h, stepX, stepY, cols, rows };
+
+      const need = cols * rows;
+      while (pool.length > need) {
+        const gone = pool.pop();
+        gone.el.remove();
+      }
+      while (pool.length < need) pool.push(makeTile());
+      pool.forEach((tile) => {
+        tile.el.style.width = `${t.w}px`;
+        tile.el.style.height = `${t.h}px`;
+      });
+
+      // Start with a letter centred rather than a cell corner at the origin
+      if (first) {
+        posRef.current = { x: (r.width - t.w) / 2, y: (r.height - t.h) / 2 };
+        targetRef.current = { ...posRef.current };
+      }
+
+      lastStartRef.current = { col: null, row: null };
+      applyTransform();
+      setDims({ w: r.width, h: r.height, tileW: t.w, tileH: t.h });
+    };
+
+    update();
+    window.addEventListener("resize", update);
+    return () => {
+      window.removeEventListener("resize", update);
+      pool.forEach((tile) => tile.el.remove());
+      pool.length = 0;
+    };
+  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+
+  // ── Pan: drag, wheel, touch ───────────────────────────────────────────
+  useEffect(() => {
+    const container = containerRef.current;
+    const grid = gridRef.current;
+    if (!container || !grid) return;
+
+    const sampleVelocity = (x, y) => {
+      const d = dragRef.current;
+      const now = performance.now();
+      const dt = now - d.lastT;
+      if (dt > 0 && dt < 80) {
+        d.vx = d.vx * 0.5 + ((x - d.lastX) / dt) * 0.5;
+        d.vy = d.vy * 0.5 + ((y - d.lastY) / dt) * 0.5;
+      }
+      d.lastX = x;
+      d.lastY = y;
+      d.lastT = now;
+    };
+
+    const beginDrag = (x, y) => {
+      const d = dragRef.current;
+      d.active = true;
+      d.moved = false;
+      d.startX = x;
+      d.startY = y;
+      d.originX = targetRef.current.x;
+      d.originY = targetRef.current.y;
+      d.lastX = x;
+      d.lastY = y;
+      d.lastT = performance.now();
+      d.vx = 0;
+      d.vy = 0;
+      container.classList.add("radiogram-6-container--grabbing");
+      startLoop();
+    };
+
+    const moveDrag = (x, y) => {
+      const d = dragRef.current;
+      if (!d.active) return;
+      sampleVelocity(x, y);
+      if (Math.abs(x - d.startX) > DRAG_SLOP || Math.abs(y - d.startY) > DRAG_SLOP) {
+        d.moved = true;
+      }
+      targetRef.current.x = d.originX + (x - d.startX);
+      targetRef.current.y = d.originY + (y - d.startY);
+      startLoop();
+    };
+
+    const endDrag = () => {
+      const d = dragRef.current;
+      if (!d.active) return;
+      d.active = false;
+      container.classList.remove("radiogram-6-container--grabbing");
+      // Flick: fold the release velocity into the target and let the lerp glide
+      const fx = Math.max(-FLICK_MAX, Math.min(FLICK_MAX, d.vx * FLICK));
+      const fy = Math.max(-FLICK_MAX, Math.min(FLICK_MAX, d.vy * FLICK));
+      targetRef.current.x += fx;
+      targetRef.current.y += fy;
+      startLoop();
+    };
+
+    const onMouseDown = (e) => {
+      if (selectedRef.current || e.button !== 0) return;
+      clearHover();
+      beginDrag(e.clientX, e.clientY);
+    };
+    const onMouseMove = (e) => moveDrag(e.clientX, e.clientY);
+    const onMouseUp = () => endDrag();
 
     const onWheel = (e) => {
       if (selectedRef.current) return;
       e.preventDefault();
-      velocityRef.current += e.deltaY * WHEEL_SPIN;
-      startSpin();
+      const unit = e.deltaMode === 1 ? 16 : e.deltaMode === 2 ? 100 : 1;
+      targetRef.current.x -= e.deltaX * unit * WHEEL_MULT;
+      targetRef.current.y -= e.deltaY * unit * WHEEL_MULT;
+      startLoop();
     };
 
-    let touchLastY = 0;
     const onTouchStart = (e) => {
-      touchLastY = e.touches[0].clientY;
+      if (selectedRef.current || e.touches.length !== 1) return;
+      beginDrag(e.touches[0].clientX, e.touches[0].clientY);
     };
     const onTouchMove = (e) => {
-      if (selectedRef.current) return;
-      const dy = touchLastY - e.touches[0].clientY;
-      touchLastY = e.touches[0].clientY;
-      velocityRef.current += dy * WHEEL_SPIN;
-      startSpin();
+      if (!dragRef.current.active || e.touches.length !== 1) return;
+      e.preventDefault();
+      moveDrag(e.touches[0].clientX, e.touches[0].clientY);
+    };
+    const onTouchEnd = () => endDrag();
+
+    // ── Hover tilt, delegated so the pool can stay plain DOM ─────────────
+    const clearHover = () => {
+      if (hoverRef.current) {
+        resetTileArt(hoverRef.current);
+        hoverRef.current = null;
+      }
     };
 
+    const tileFor = (target) => {
+      const el = target?.closest?.(".radiogram-6-tile");
+      if (!el) return null;
+      return poolRef.current.find((tile) => tile.el === el) || null;
+    };
+
+    const onGridMove = (e) => {
+      if (dragRef.current.active || selectedRef.current || dims.w <= 768) return;
+      const tile = tileFor(e.target);
+      if (!tile) {
+        clearHover();
+        return;
+      }
+      if (hoverRef.current && hoverRef.current !== tile) resetTileArt(hoverRef.current);
+      hoverRef.current = tile;
+      tile.hovered = true;
+      tile.el.style.zIndex = "3";
+
+      const r = tile.el.getBoundingClientRect();
+      const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
+      const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
+      tile.img.style.transform = `perspective(600px) rotateX(${(-ny * MAX_TILT).toFixed(2)}deg) rotateY(${(nx * MAX_TILT).toFixed(2)}deg) scale(${HOVER_SCALE})`;
+      tile.img.style.filter = "drop-shadow(0 16px 32px rgba(0,0,0,0.35))";
+    };
+
+    const onGridLeave = () => clearHover();
+
+    const onGridClick = (e) => {
+      if (dragRef.current.moved) return;
+      const tile = tileFor(e.target);
+      if (tile?.src) selectRef.current(tile.src);
+    };
+
+    container.addEventListener("mousedown", onMouseDown);
+    window.addEventListener("mousemove", onMouseMove);
+    window.addEventListener("mouseup", onMouseUp);
     container.addEventListener("wheel", onWheel, { passive: false });
     container.addEventListener("touchstart", onTouchStart, { passive: true });
-    container.addEventListener("touchmove", onTouchMove, { passive: true });
+    container.addEventListener("touchmove", onTouchMove, { passive: false });
+    container.addEventListener("touchend", onTouchEnd, { passive: true });
+    container.addEventListener("touchcancel", onTouchEnd, { passive: true });
+    grid.addEventListener("mousemove", onGridMove);
+    grid.addEventListener("mouseleave", onGridLeave);
+    grid.addEventListener("click", onGridClick);
+
     return () => {
+      container.removeEventListener("mousedown", onMouseDown);
+      window.removeEventListener("mousemove", onMouseMove);
+      window.removeEventListener("mouseup", onMouseUp);
       container.removeEventListener("wheel", onWheel);
       container.removeEventListener("touchstart", onTouchStart);
       container.removeEventListener("touchmove", onTouchMove);
+      container.removeEventListener("touchend", onTouchEnd);
+      container.removeEventListener("touchcancel", onTouchEnd);
+      grid.removeEventListener("mousemove", onGridMove);
+      grid.removeEventListener("mouseleave", onGridLeave);
+      grid.removeEventListener("click", onGridClick);
     };
-  }, []); // eslint-disable-line react-hooks/exhaustive-deps
+  }, [dims.w]); // eslint-disable-line react-hooks/exhaustive-deps
 
   useEffect(() => {
-    return () => cancelAnimationFrame(spinRafRef.current);
+    return () => {
+      cancelAnimationFrame(rafRef.current);
+      clearTimeout(filterTimeoutRef.current);
+    };
   }, []);
+
+  // Dim every copy of a letter that is already sitting in the stack
+  useEffect(() => {
+    selectedSrcsRef.current = new Set(stack.map((c) => c.src));
+    poolRef.current.forEach((tile) => {
+      if (!tile.src) return;
+      tile.el.style.opacity = selectedSrcsRef.current.has(tile.src) ? "0.4" : "1";
+    });
+  }, [stack]);
+
+  // Opening a letter pushes the grid outward, closing it settles back
+  useEffect(() => {
+    zoomRef.current.target = expanded ? EXPAND_ZOOM : 1;
+    startLoop();
+  }, [expanded]); // eslint-disable-line react-hooks/exhaustive-deps
 
   // Preload all images once up front
   useEffect(() => {
@@ -460,80 +651,54 @@ export const Radiogram6 = () => {
     };
   }, []);
 
-  const animateRadius = (toExpanded, doubleRaf = false) => {
-    cancelAnimationFrame(radiusAnimRafRef.current);
-    const target = toExpanded
-      ? baseRadiusRef.current * 1.4
-      : baseRadiusRef.current;
-    const start = () => {
-      const loop = () => {
-        const cur = layoutRef.current.radius;
-        const next = cur + (target - cur) * 0.07;
-        layoutRef.current.radius = next;
-        applyPositions(angleRef.current);
-        if (Math.abs(target - next) > 0.3) {
-          radiusAnimRafRef.current = requestAnimationFrame(loop);
-        } else {
-          layoutRef.current.radius = target;
-          applyPositions(angleRef.current);
-          radiusAnimRafRef.current = null;
-        }
-      };
-      radiusAnimRafRef.current = requestAnimationFrame(loop);
-    };
-    if (doubleRaf) {
-      radiusAnimRafRef.current = requestAnimationFrame(() =>
-        requestAnimationFrame(start),
-      );
-    } else {
-      start();
-    }
-  };
-
-  // Reset spin when cards change
-  useEffect(() => {
-    cancelAnimationFrame(spinRafRef.current);
-    spinRafRef.current = null;
-    angleRef.current = 0;
-    velocityRef.current = 0;
-  }, [cards]);
-
   const isMobile = dims.w > 0 && dims.w <= 768;
-  const { cx, cy, radius, cardW, cardH } = layoutRef.current;
+
+  // Diagonal wave outward from the top-left of the viewport
+  const fadeDelayFor = (tile) => {
+    const start = lastStartRef.current;
+    if (start.col === null || tile.col === null) return 0;
+    return (tile.col - start.col + (tile.row - start.row)) * FADE_STAGGER;
+  };
 
   const handleCategoryClick = (cat) => {
     if (filterTimeoutRef.current) clearTimeout(filterTimeoutRef.current);
-    const stagger = 20;
-    const fadeDur = 250;
+    const pool = poolRef.current;
+    const g = geomRef.current;
 
-    // CSS animation (fill-mode:both) blocks transitions on the same property —
-    // cancel it and pin opacity:1 first, then force a reflow so the browser
-    // registers the explicit value before we start transitioning to 0.
-    cellRefs.current.forEach((cell) => {
-      if (!cell) return;
-      cell.style.animation = "none";
-      cell.style.opacity = "1";
-    });
-    void containerRef.current?.offsetHeight;
-
-    cellRefs.current.forEach((cell, i) => {
-      if (!cell) return;
-      cell.style.transition = `opacity ${fadeDur}ms ease ${i * stagger}ms`;
-      cell.style.opacity = "0";
+    pool.forEach((tile) => {
+      tile.el.style.transition = `opacity ${FADE_MS}ms ease ${fadeDelayFor(tile)}ms`;
+      tile.el.style.opacity = "0";
     });
 
-    const delay = (cards.length - 1) * stagger + fadeDur + 50;
+    const maxDelay = (g.cols + g.rows) * FADE_STAGGER;
     filterTimeoutRef.current = setTimeout(() => {
       filterTimeoutRef.current = null;
+      const next = cat ? inanimates.filter((img) => img.cat === cat) : inanimates;
+      imagesRef.current = shuffled(next);
+      strideRef.current = strideFor(imagesRef.current.length);
       setActiveCategory(cat);
-      setCards(pickCards(cat));
       setExpanded(false);
-      setFilterGen((g) => g + 1);
-    }, delay);
+
+      // Re-point every tile at the new set, then wave them back in
+      reposition(true);
+      pool.forEach((tile) => {
+        tile.el.style.opacity = "0";
+      });
+      void containerRef.current?.offsetHeight;
+      pool.forEach((tile) => {
+        tile.el.style.transition = `opacity ${FADE_MS}ms ease ${fadeDelayFor(tile)}ms`;
+        tile.el.style.opacity = "1";
+      });
+      setTimeout(() => {
+        pool.forEach((tile) => {
+          tile.el.style.transition = "";
+        });
+      }, maxDelay + FADE_MS + 50);
+    }, maxDelay + FADE_MS);
   };
 
   const handleSelect = (src) => {
-    const item = cards.find((c) => c.src === src);
+    const item = inanimates.find((c) => c.src === src);
     setStack((prev) => {
       const existing = prev.find((c) => c.src === src);
       const without = prev.filter((c) => c.src !== src);
@@ -547,6 +712,7 @@ export const Radiogram6 = () => {
       return next.length > 12 ? next.slice(next.length - 12) : next;
     });
   };
+  selectRef.current = handleSelect;
 
   return (
     <div ref={containerRef} className="radiogram-6-container">
@@ -578,42 +744,20 @@ export const Radiogram6 = () => {
         className={`radiogram-6-surface${expanded || snailMailOpen ? " dimmed" : ""}`}
         style={!imagesLoaded ? { visibility: "hidden" } : undefined}
       >
-        {dims.w > 0 &&
-          cards.map((img, i) => {
-            const a = (i / 12) * 2 * Math.PI - Math.PI / 2 + angleRef.current;
-            const x = cx + radius * Math.cos(a) - cardW / 2;
-            const y = cy + radius * Math.sin(a) - cardH / 2;
-            return (
-              <div
-                key={`${filterGen}-${img.src}`}
-                ref={(el) => {
-                  cellRefs.current[i] = el;
-                }}
-                className="radiogram-6-cell"
-                style={{
-                  left: x,
-                  top: y,
-                  width: cardW,
-                  height: cardH,
-                  animationDelay: `${i * 30}ms`,
-                }}
-              >
-                <TiltCard
-                  src={img.src}
-                  alt={img.alt}
-                  isSelected={stack.some((c) => c.src === img.src)}
-                  onSelect={() => handleSelect(img.src)}
-                  isMobile={isMobile}
-                />
-              </div>
-            );
-          })}
+        <div ref={zoomLayerRef} className="radiogram-6-zoom">
+          {/* Tiles are created and recycled imperatively — see the pool effect */}
+          <div ref={gridRef} className="radiogram-6-grid" />
+        </div>
       </div>
 
       {stack.length > 0 && (
         <div
           className={`radiogram-6-stack${expanded ? " radiogram-6-stack--expanded" : ""}${snailMailOpen ? " dimmed" : ""}`}
-          style={isMobile ? { width: cardW * 3.2, height: cardH * 3.2 } : undefined}
+          style={
+            isMobile
+              ? { width: dims.tileW * 3.2, height: dims.tileH * 3.2 }
+              : undefined
+          }
           onClick={() => {
             if (!topCardRef.current) return;
             const rect = topCardRef.current.getBoundingClientRect();
@@ -630,7 +774,6 @@ export const Radiogram6 = () => {
               rotation: rot,
             });
             setExpanded(true);
-            animateRadius(true, true);
           }}
         >
           {stack.map((item, i) => {
@@ -672,7 +815,12 @@ export const Radiogram6 = () => {
               rotation,
             };
           }}
-          onStartClose={() => animateRadius(false)}
+          onStartClose={() => {
+            // Settle the grid straight away rather than waiting for the
+            // unmount at the end of the fly-back
+            zoomRef.current.target = 1;
+            startLoop();
+          }}
           onClose={() => setExpanded(false)}
         />
       )}
