@@ -105,7 +105,6 @@ const strideFor = (n) => {
 
 const shuffled = (arr) => [...arr].sort(() => Math.random() - 0.5);
 
-
 export const Radiogram6 = () => {
   const containerRef = useRef(null);
   const [expanded, setExpanded] = useState(null); // the { src, alt } being viewed
@@ -505,7 +504,10 @@ export const Radiogram6 = () => {
       const d = dragRef.current;
       if (!d.active) return;
       sampleVelocity(x, y);
-      if (Math.abs(x - d.startX) > DRAG_SLOP || Math.abs(y - d.startY) > DRAG_SLOP) {
+      if (
+        Math.abs(x - d.startX) > DRAG_SLOP ||
+        Math.abs(y - d.startY) > DRAG_SLOP
+      ) {
         d.moved = true;
       }
       targetRef.current.x = d.originX + (x - d.startX);
@@ -576,7 +578,8 @@ export const Radiogram6 = () => {
         clearHover();
         return;
       }
-      if (hoverRef.current && hoverRef.current !== tile) resetTileArt(hoverRef.current);
+      if (hoverRef.current && hoverRef.current !== tile)
+        resetTileArt(hoverRef.current);
       hoverRef.current = tile;
       tile.hovered = true;
       tile.styled = true;
@@ -586,7 +589,7 @@ export const Radiogram6 = () => {
       const nx = ((e.clientX - r.left) / r.width) * 2 - 1;
       const ny = ((e.clientY - r.top) / r.height) * 2 - 1;
       tile.img.style.transform = `perspective(600px) rotateX(${(-ny * MAX_TILT).toFixed(2)}deg) rotateY(${(nx * MAX_TILT).toFixed(2)}deg) scale(${HOVER_SCALE})`;
-      tile.img.style.filter = "drop-shadow(0 16px 32px rgba(0,0,0,0.35))";
+      tile.img.style.filter = "drop-shadow(0 16px 32px rgba(0,0,0,0.15))";
     };
 
     const onGridLeave = () => clearHover();
