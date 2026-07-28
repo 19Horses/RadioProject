@@ -103,6 +103,11 @@ export const Article = ({
     if (isMobile || !scrollContainerRef.current) return;
 
     const scrollContainer = scrollContainerRef.current;
+
+    // Photo-gallery articles use native CSS scroll-snap; skip the custom
+    // wheel-lerp so JS-driven scrollTop doesn't fight the snapping.
+    if (scrollContainer.querySelector(".radiogram-9-gallery")) return;
+
     const lerp = (start, end, factor) => start + (end - start) * factor;
     const scrollSpeed = 0.08; // Adjust for smoother/snappier scroll (0.05-0.15 recommended)
     const wheelMultiplier = 1.5; // Adjust scroll sensitivity

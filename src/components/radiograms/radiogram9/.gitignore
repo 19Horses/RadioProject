@@ -1,0 +1,5 @@
+# Raw camera exports — huge (10-35MB each). The web-optimized WebP versions
+# in opt/ are what the component imports and what gets committed.
+*.png
+tmp_resize/
+.DS_Store

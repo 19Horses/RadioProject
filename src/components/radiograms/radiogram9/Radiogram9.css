@@ -1,0 +1,48 @@
+/* Radiogram 9 — full-screen snapping image gallery (Jacob) */
+.radiogram-9 {
+  position: relative;
+  color: #434a47;
+}
+
+.radiogram-9-gallery {
+  width: 100%;
+  margin: 0;
+}
+
+/* Each image is centred in a full-height slide that snaps into place. */
+.radiogram-9-tile {
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  scroll-snap-align: center;
+  scroll-snap-stop: always;
+  /* Fade in as it enters view */
+  opacity: 0;
+  transition: opacity 1s ease-out;
+  will-change: opacity;
+}
+
+.radiogram-9-tile.visible {
+  opacity: 1;
+  will-change: auto;
+}
+
+/* Fit within the slide (up to 80dvh tall / 92% wide) preserving aspect ratio.
+   Using max-* with auto dimensions lets whichever limit binds first cap the
+   image without ever squashing it (a fixed height + max-width would distort). */
+.radiogram-9-tile img {
+  max-height: 80dvh;
+  max-width: 92%;
+  width: auto;
+  height: auto;
+  display: block;
+}
+
+/* Make the article's scroller (desktop) and the page (mobile) snap — but only
+   while this gallery is on screen, so other articles are unaffected. The
+   desktop custom wheel-lerp is disabled for this gallery in Article.jsx. */
+:root:has(.radiogram-9-gallery),
+.article-scroll-container:has(.radiogram-9-gallery) {
+  scroll-snap-type: y mandatory;
+}

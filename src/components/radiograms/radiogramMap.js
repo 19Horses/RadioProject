@@ -6,6 +6,7 @@ import { Radiogram5 } from './radiogram5/Radiogram5'
 import { Radiogram6 } from './radiogram6/Radiogram6'
 import { Radiogram7 } from './radiogram7/Radiogram7'
 import { Radiogram8 } from './radiogram8/Radiogram8'
+import { Radiogram9 } from './radiogram9/Radiogram9'
 
 // Keys must match the slug.current value in Sanity
 export const radiogramMap = {
@@ -16,4 +17,5 @@ export const radiogramMap = {
   thenarrator: Radiogram6,
   ivory: Radiogram7,
   effua: Radiogram8,
+  jacoblastnayme: Radiogram9,
 }
