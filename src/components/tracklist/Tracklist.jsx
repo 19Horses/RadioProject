@@ -27,10 +27,22 @@ const initialsFor = (name) => {
 
 const TRANSCRIPT_MS = 450; // matches the grid-template-rows transition
 
-// Keyed off the index so a subject's transcript stays put between renders
-const transcriptFor = (index, guestInitials) => {
+// Authored in Sanity as { speaker: "RP" | "guest", text }. "guest" resolves to
+// the artist's initials here so the label never has to be retyped per mix.
+// Falls back to placeholder copy for topics that have not been written up yet.
+const transcriptFor = (track, index, guestInitials) => {
+  const authored = track?.transcript?.filter((turn) => turn?.text);
+  if (authored?.length) {
+    return authored.map((turn, i) => ({
+      key: turn._key ?? i,
+      speaker: turn.speaker === "guest" ? guestInitials : "RP",
+      text: turn.text,
+    }));
+  }
+
   const turns = 4 + (index % 3); // 4–6 exchanges
   return Array.from({ length: turns }, (_, i) => ({
+    key: i,
     speaker: i % 2 === 0 ? "RP" : guestInitials,
     text: LOREM_LINES[(index * 3 + i) % LOREM_LINES.length],
   }));
@@ -48,6 +60,10 @@ export const Tracklist = ({
   // own line. `mounted` outlives `open` so the collapse can animate before it
   // leaves the DOM.
   const [mountedTranscript, setMountedTranscript] = useState(null);
+  // Which subject is highlighted. Tracked apart from `mountedTranscript`
+  // because switching lines delays the mount until the old panel has collapsed
+  // — the highlight has to move the instant it is clicked.
+  const [selectedSubject, setSelectedSubject] = useState(null);
   // Where the transcript is rendered. Not necessarily after the clicked item —
   // it goes at the end of that item's visual line so the line stays intact.
   // { anchor: render after this item, split: cut this item's title at `at` and
@@ -116,6 +132,7 @@ export const Tracklist = ({
     setActiveHovers(new Set());
     clearTimeout(transcriptTimerRef.current);
     setMountedTranscript(null);
+    setSelectedSubject(null);
     setPlacement(null);
     setTranscriptOpen(false);
 
@@ -236,11 +253,12 @@ export const Tracklist = ({
   // Closing reverses it and unmounts once the collapse has finished.
   const toggleTranscript = (index) => {
     clearTimeout(transcriptTimerRef.current);
-    const prev = mountedTranscript;
+    const prev = selectedSubject;
 
     // Same subject — collapse it, and hand its colours back to the hover
     // system unless the pointer is still sitting on it
     if (prev === index) {
+      setSelectedSubject(null);
       setTranscriptOpen(false);
       transcriptTimerRef.current = setTimeout(
         () => setMountedTranscript(null),
@@ -269,6 +287,9 @@ export const Tracklist = ({
       return { ...current, [index]: generateRandomColors() };
     });
 
+    // Highlight it now — not when the panel eventually mounts
+    setSelectedSubject(index);
+
     // Opening the transcript collapsed, then expanding it on the next frame, is
     // what makes the transition run. Placement is left for the layout effect:
     // it has to be measured against the *natural* layout, and an existing one
@@ -282,7 +303,7 @@ export const Tracklist = ({
       );
     };
 
-    if (prev !== null && transcriptOpen) {
+    if (mountedTranscript !== null && transcriptOpen) {
       // Would the transcript land in the same slot? Measured against the
       // current layout, which is all this comparison needs — it only decides
       // whether the panel is about to move.
@@ -423,8 +444,14 @@ export const Tracklist = ({
       delete hoverTimeoutsRef.current[index];
     }
 
-    // Mark as actively hovered (instant transition)
+    // Mark as actively hovered (instant transition). Still tracked for the
+    // selected subject, so closing it while the pointer is on it hands the
+    // colours back to hover rather than fading them out under the cursor.
     setActiveHovers((prev) => new Set(prev).add(index));
+
+    // The selected subject already owns its colours — hovering must not reroll
+    // them, or the highlight would change every time the pointer crossed it
+    if (selectedSubject === index) return;
 
     const colors = generateRandomColors();
     setHoverColors((prev) => ({
@@ -471,7 +498,7 @@ export const Tracklist = ({
     });
 
     // The open subject keeps its colours — they are what marks it as selected
-    if (mountedTranscript === index) return;
+    if (selectedSubject === index) return;
 
     // First, wait for linger period (300ms delay from CSS)
     const lingerTimeout = setTimeout(() => fadeOutColors(index), 300);
@@ -533,7 +560,7 @@ export const Tracklist = ({
           const isSubject = isProjectItem;
           // The clicked subject keeps its colours; the transcript itself is
           // rendered after the last item on that subject's line
-          const isSelected = isSubject && mountedTranscript === index;
+          const isSelected = isSubject && selectedSubject === index;
           const isPlaced = mountedTranscript !== null && placement?.anchor === index;
           // This item straddles the end of the line — its title is cut so the
           // first half can stay up there and the transcript slot in below
@@ -563,7 +590,28 @@ export const Tracklist = ({
           // `half` is null for a whole item, or "head"/"tail" when the title is
           // cut across the transcript. Only the head keeps the track number,
           // only the tail keeps the artist — together they read as one item.
-          const renderItem = (half) => (
+          const renderItem = (half) => {
+            const titleText =
+              half === "head"
+                ? displayTitle.slice(0, splitAt)
+                : half === "tail"
+                  ? displayTitle.slice(splitAt + 1)
+                  : displayTitle;
+
+            // Section breaks carry no title and no artist — they exist purely
+            // for the line break. Rendering the item span anyway left an empty
+            // box at the start of every section, 5px wide off the artist's
+            // padding-right.
+            if (isSectionBreak) {
+              return index > 0 ? (
+                <span className="tracklist-item-wrapper">
+                  <br />
+                  <br />
+                </span>
+              ) : null;
+            }
+
+            return (
             <span
               className={
                 isVisible
@@ -571,12 +619,6 @@ export const Tracklist = ({
                   : "tracklist-item-wrapper tracklist-item-wrapper-hidden"
               }
             >
-              {isSectionBreak && index > 0 && half !== "tail" && (
-                <>
-                  <br />
-                  <br />
-                </>
-              )}
               <span
                 ref={
                   half === "tail"
@@ -597,12 +639,12 @@ export const Tracklist = ({
                     : ""
                 }`}
                 onMouseEnter={
-                  !isMobile && !isGreyedOut && !isSectionBreak
+                  !isMobile && !isGreyedOut
                     ? () => handleMouseEnter(index)
                     : undefined
                 }
                 onMouseLeave={
-                  !isMobile && !isGreyedOut && !isSectionBreak
+                  !isMobile && !isGreyedOut
                     ? () => handleMouseLeave(index)
                     : undefined
                 }
@@ -612,7 +654,7 @@ export const Tracklist = ({
                   ...(projectFont && { fontFamily: projectFont }),
                 }}
               >
-                {!isSectionBreak && half !== "tail" && (
+                {half !== "tail" && (
                   <span className="track-number">{trackNumberMap[index]}</span>
                 )}
 
@@ -624,23 +666,13 @@ export const Tracklist = ({
                           titleRefs.current[index] = el;
                         }
                   }
-                  className={`track-title ${
-                    isSectionBreak
-                      ? hasColors
-                        ? "track-title-section-break-hovered"
-                        : isPlaying
-                          ? isDark
-                            ? "track-title-section-break"
-                            : "track-title-section-break-playing"
-                          : "track-title-section-break"
-                      : ""
-                  }`}
+                  className="track-title"
                 >
-                  {half === "head"
-                    ? displayTitle.slice(0, splitAt)
-                    : half === "tail"
-                      ? displayTitle.slice(splitAt + 1)
-                      : displayTitle}{" "}
+                  {titleText}
+                  {/* Separator before the artist — omitted when there is no
+                      title, or section breaks would each open with a stray
+                      space rendered at the 0.5em section-break size */}
+                  {titleText ? " " : ""}
                 </span>
                 {half !== "head" && (
                   <span
@@ -652,7 +684,8 @@ export const Tracklist = ({
                 )}
               </span>
             </span>
-          );
+            );
+          };
 
           return (
             <React.Fragment key={index}>
@@ -668,8 +701,12 @@ export const Tracklist = ({
               >
                 <span className="track-transcript-inner">
                   <span className="track-transcript-body">
-                    {transcriptFor(mountedTranscript, guestInitials).map((turn, t) => (
-                      <span className="track-transcript-line" key={t}>
+                    {transcriptFor(
+                      selectedGuest.tracklist[mountedTranscript],
+                      mountedTranscript,
+                      guestInitials,
+                    ).map((turn) => (
+                      <span className="track-transcript-line" key={turn.key}>
                         <span className="track-transcript-speaker">
                           {turn.speaker}
                         </span>

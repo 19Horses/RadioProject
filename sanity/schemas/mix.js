@@ -1,3 +1,32 @@
+const transcriptTurn = {
+  type: 'object',
+  name: 'transcriptTurn',
+  fields: [
+    {
+      name: 'speaker',
+      title: 'Speaker',
+      type: 'string',
+      options: {
+        list: [
+          { title: 'RADIOproject', value: 'RP' },
+          { title: 'Guest', value: 'guest' },
+        ],
+        layout: 'radio',
+        direction: 'horizontal',
+      },
+      initialValue: 'RP',
+      validation: (Rule) => Rule.required(),
+    },
+    { name: 'text', title: 'Text', type: 'text', rows: 3, validation: (Rule) => Rule.required() },
+  ],
+  preview: {
+    select: { speaker: 'speaker', text: 'text' },
+    prepare({ speaker, text }) {
+      return { title: text || '(empty)', subtitle: speaker === 'guest' ? 'Guest' : 'RP' }
+    },
+  },
+}
+
 const tracklistItem = {
   type: 'object',
   name: 'tracklistItem',
@@ -5,9 +34,24 @@ const tracklistItem = {
     { name: 'title', title: 'Title', type: 'string' },
     { name: 'artist', title: 'Artist', type: 'string' },
     { name: 'startTime', title: 'Chapter Start Time (seconds)', type: 'string', description: 'Only set this for chapter header rows' },
+    {
+      name: 'transcript',
+      title: 'Interview Transcript',
+      type: 'array',
+      of: [transcriptTurn],
+      description:
+        'Only used for PROJECT-section topics — the transcript unfolds under the topic when it is clicked. Speakers labelled "Guest" are shown with the artist\'s initials automatically.',
+    },
   ],
   preview: {
-    select: { title: 'title', subtitle: 'artist' },
+    select: { title: 'title', subtitle: 'artist', transcript: 'transcript' },
+    prepare({ title, subtitle, transcript }) {
+      const turns = transcript?.length
+      return {
+        title,
+        subtitle: turns ? `${subtitle || ''} — ${turns} transcript lines`.trim() : subtitle,
+      }
+    },
   },
 }
 

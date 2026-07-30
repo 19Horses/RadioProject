@@ -65,7 +65,8 @@
       "Bash(awk -F: '$1<380')",
       "Bash(awk '{n=gsub\\(/{/,\"{\"\\); m=gsub\\(/}/,\"}\"\\); print \"open:\"n\" close:\"m}')",
       "Bash(sips -g pixelWidth -g pixelHeight src/components/radiograms/radiogram9/opt/DSC00597.webp)",
-      "Bash(sips --help)"
+      "Bash(sips --help)",
+      "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m => { const t = m.default.fields.find\\(f=>f.name==='tracklist'\\).of[0].fields.map\\(f=>f.name\\); console.log\\('tracklistItem fields:', t.join\\(', '\\)\\); }\\)\")"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

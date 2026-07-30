@@ -163,8 +163,6 @@
 .track-transcript-body {
   display: block;
   max-width: 58ch;
-  padding-left: 1.4rem;
-  border-left: 1px solid rgba(67, 74, 71, 0.25);
   /* The tracklist as a whole is unselectable; transcripts should be readable */
   user-select: text;
   -webkit-user-select: text;
@@ -176,7 +174,7 @@
   font-size: 0.95rem;
   line-height: 1.5;
   letter-spacing: -0.2px;
-  color: #434a47;
+  color: #9a9e9c;
   margin-bottom: 0.55em;
 }
 
@@ -185,9 +183,9 @@
 }
 
 .track-transcript-speaker {
-  font-family: "dot", "VCR", monospace;
+  font-family: "NeueHaasDisplayRoman";
   font-size: 0.75em;
-  color: #9a9e9c;
+  color: #434a47;
   margin-right: 0.7em;
   vertical-align: 0.1em;
 }
