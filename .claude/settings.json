@@ -66,7 +66,14 @@
       "Bash(awk '{n=gsub\\(/{/,\"{\"\\); m=gsub\\(/}/,\"}\"\\); print \"open:\"n\" close:\"m}')",
       "Bash(sips -g pixelWidth -g pixelHeight src/components/radiograms/radiogram9/opt/DSC00597.webp)",
       "Bash(sips --help)",
-      "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m => { const t = m.default.fields.find\\(f=>f.name==='tracklist'\\).of[0].fields.map\\(f=>f.name\\); console.log\\('tracklistItem fields:', t.join\\(', '\\)\\); }\\)\")"
+      "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m => { const t = m.default.fields.find\\(f=>f.name==='tracklist'\\).of[0].fields.map\\(f=>f.name\\); console.log\\('tracklistItem fields:', t.join\\(', '\\)\\); }\\)\")",
+      "Bash(npx --no-install sanity debug)",
+      "Bash(npx --no-install sanity deploy --yes)",
+      "Bash(npx --no-install sanity schema list)",
+      "Bash(grep -n \"track-item \\\\${\" -A 12 src/components/tracklist/Tracklist.jsx)",
+      "Bash(python3 -c \"import urllib.parse;print\\(urllib.parse.quote\\(\\\\\"*[_type=='mix' && count\\(tracklist[defined\\(transcript\\)]\\)>0]{artistName, 'withTranscripts': count\\(tracklist[defined\\(transcript\\)]\\), 'sample': tracklist[defined\\(transcript\\)][0].transcript[0]}\\\\\"\\)\\)\")",
+      "Bash(curl -s https://yc1lcir6.api.sanity.io/v2024-01-01/data/query/production?query=__TRACKED_VAR__)",
+      "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m=>{const t=m.default.fields.find\\(f=>f.name==='tracklist'\\).of[0].fields.find\\(f=>f.name==='transcript'\\);console.log\\('transcript.of[0].fields:', t.of[0].fields.map\\(f=>f.name+':'+f.type\\).join\\(', '\\)\\)}\\)\")"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

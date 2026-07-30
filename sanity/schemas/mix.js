@@ -17,12 +17,36 @@ const transcriptTurn = {
       initialValue: 'RP',
       validation: (Rule) => Rule.required(),
     },
-    { name: 'text', title: 'Text', type: 'text', rows: 3, validation: (Rule) => Rule.required() },
+    {
+      name: 'text',
+      title: 'Text',
+      type: 'array',
+      description: 'Select words and hit Bold (or ⌘B) to emphasise them.',
+      of: [
+        {
+          type: 'block',
+          styles: [{ title: 'Normal', value: 'normal' }],
+          lists: [],
+          marks: {
+            decorators: [{ title: 'Bold', value: 'strong' }],
+            annotations: [],
+          },
+        },
+      ],
+      validation: (Rule) => Rule.required(),
+    },
   ],
   preview: {
     select: { speaker: 'speaker', text: 'text' },
     prepare({ speaker, text }) {
-      return { title: text || '(empty)', subtitle: speaker === 'guest' ? 'Guest' : 'RP' }
+      // `text` is portable text; older entries may still be a plain string
+      const plain =
+        typeof text === 'string'
+          ? text
+          : (text || [])
+              .map((block) => (block.children || []).map((s) => s.text).join(''))
+              .join(' ')
+      return { title: plain || '(empty)', subtitle: speaker === 'guest' ? 'Guest' : 'RP' }
     },
   },
 }

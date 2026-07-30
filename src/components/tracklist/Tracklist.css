@@ -42,7 +42,10 @@
 .tracklist-item-wrapper {
   line-height: 1;
   opacity: 1;
-  filter: blur(0);
+  /* `none`, not blur(0) — a filter value forces a compositing layer on every
+     item for the life of the page, which is what was eating the pointer
+     cursor. It still interpolates from blur(5px), so the reveal is unchanged. */
+  filter: none;
   transition: opacity 0.3s ease-in, filter 1.5s ease-out;
 }
 
@@ -130,7 +133,12 @@
    transcript. */
 /* The open subject is marked by keeping its random hover colours, so it needs
    no decoration of its own */
-.track-item-subject {
+/* The cursor is set on the wrapper as well as the item itself. `.track-item`
+   is inline and the wrapper's line-height is shorter than the font's content
+   box, so the hit test resolves to the wrapper for part of the row — leaving
+   the pointer to flash once and then fall back to the default. */
+.track-item-subject,
+.tracklist-item-wrapper:has(> .track-item-subject) {
   cursor: pointer;
 }
 
@@ -162,36 +170,58 @@
 
 .track-transcript-body {
   display: block;
-  max-width: 58ch;
+  /* Width of the speaker column, shared with the line grid below so the two
+     can't drift apart */
+  --speaker-col: 1.8rem;
+  /* Note: no font-size here, so `ch` resolves against the inherited 2.1rem
+     rather than the 0.95rem the text renders at — this is far wider than the
+     number suggests. The speaker column is subtracted so the indent comes out
+     of the width rather than being added to it. */
+  max-width: calc(58ch - var(--speaker-col));
   /* The tracklist as a whole is unselectable; transcripts should be readable */
   user-select: text;
   -webkit-user-select: text;
 }
 
+/* Two columns so wrapped body text stays in its own column and never runs
+   back underneath the speaker label. Fixed first column rather than auto, so
+   every line's text starts at the same x regardless of the label's width. */
 .track-transcript-line {
-  display: block;
+  display: grid;
+  grid-template-columns: var(--speaker-col) 1fr;
+  align-items: baseline;
   font-family: "NeueHaasDisplayRoman";
   font-size: 0.95rem;
-  line-height: 1.5;
+  line-height: 1.6;
   letter-spacing: -0.2px;
-  color: #9a9e9c;
-  margin-bottom: 0.55em;
+  color: #141a18;
+  /* Turns need to read apart from each other, so the gap between them sits
+     clear of the leading within a turn */
+  margin-bottom: 1em;
 }
 
 .track-transcript-line:last-child {
   margin-bottom: 0;
 }
 
+/* A real heavier face rather than synthesised bold, which the Roman weight
+   would otherwise fake */
+.track-transcript-text strong {
+  font-family: "NeueHaasDisplayMedium";
+  font-weight: normal;
+}
+
+/* Spacing and alignment now come from the grid column and baseline, so no
+   margin or vertical-align needed here */
 .track-transcript-speaker {
-  font-family: "NeueHaasDisplayRoman";
+  font-family: "NeueHaasDisplayMedium";
   font-size: 0.75em;
-  color: #434a47;
-  margin-right: 0.7em;
-  vertical-align: 0.1em;
+  color: #9a9e9c;
 }
 
 @media (max-width: 768px) {
   .track-transcript-body {
+    --speaker-col: 1.6rem;
     padding-left: 0.9rem;
     max-width: none;
   }

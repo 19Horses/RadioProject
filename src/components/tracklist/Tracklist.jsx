@@ -27,11 +27,30 @@ const initialsFor = (name) => {
 
 const TRANSCRIPT_MS = 450; // matches the grid-template-rows transition
 
+// Transcript text is portable text so it can carry bold. Plain strings are
+// still accepted — the placeholder copy uses them, as do any entries authored
+// before the field became rich text.
+const renderText = (value) => {
+  if (typeof value === "string") return value;
+  if (!Array.isArray(value)) return null;
+  return value.flatMap((block, b) =>
+    block?._type !== "block"
+      ? []
+      : (block.children || []).map((span, s) =>
+          span.marks?.includes("strong") ? (
+            <strong key={`${b}-${s}`}>{span.text}</strong>
+          ) : (
+            <React.Fragment key={`${b}-${s}`}>{span.text}</React.Fragment>
+          ),
+        ),
+  );
+};
+
 // Authored in Sanity as { speaker: "RP" | "guest", text }. "guest" resolves to
 // the artist's initials here so the label never has to be retyped per mix.
 // Falls back to placeholder copy for topics that have not been written up yet.
 const transcriptFor = (track, index, guestInitials) => {
-  const authored = track?.transcript?.filter((turn) => turn?.text);
+  const authored = track?.transcript?.filter((turn) => turn?.text?.length);
   if (authored?.length) {
     return authored.map((turn, i) => ({
       key: turn._key ?? i,
@@ -48,12 +67,19 @@ const transcriptFor = (track, index, guestInitials) => {
   }));
 };
 
-export const Tracklist = ({
+// ── TEMPORARY: cursor diagnostic. Delete this block and the useEffect that
+// references it once the pointer-cursor bug is resolved. ────────────────────
+const DEBUG_CURSOR = true;
+let debugRenders = 0;
+let debugNodeSeq = 0;
+
+const TracklistInner = ({
   selectedGuest,
   isMobile,
   isPlaying,
   currentSection,
 }) => {
+  if (DEBUG_CURSOR) debugRenders++;
   const [visibleIndices, setVisibleIndices] = useState(new Set());
   // The transcript is block-level, so it breaks the inline tracklist flow. Only
   // the open one is mounted — otherwise every subject would be forced onto its
@@ -249,6 +275,48 @@ export const Tracklist = ({
     return () => window.removeEventListener("resize", onResize);
   }, []);
 
+  // ── TEMPORARY cursor diagnostic ────────────────────────────────────────
+  // Logs only when something changes, so the console shows the exact moment
+  // the pointer flips rather than a flood of mousemove noise.
+  useEffect(() => {
+    if (!DEBUG_CURSOR) return;
+    let last = "";
+    let lastRenders = debugRenders;
+
+    const onMove = (e) => {
+      const hit = document.elementFromPoint(e.clientX, e.clientY);
+      if (!hit || !hit.closest(".tracklist-content")) return;
+
+      const item = hit.closest(".track-item");
+      // Stamp each element once — a uid that changes means React replaced the
+      // DOM node; a uid that persists means the node is stable.
+      if (item && !item.dataset.dbgUid) item.dataset.dbgUid = String(++debugNodeSeq);
+
+      const snapshot = [
+        item?.dataset.dbgUid ?? "none",
+        item?.classList.contains("track-item-subject") ?? false,
+        getComputedStyle(hit).cursor,
+      ].join("|");
+      if (snapshot === last) return;
+      last = snapshot;
+
+      console.log("[cursor]", {
+        hitElement: `${hit.tagName.toLowerCase()}.${hit.className || "(no class)"}`,
+        hitComputedCursor: getComputedStyle(hit).cursor,
+        insideTrackItem: !!item,
+        itemNodeId: item?.dataset.dbgUid ?? "—",
+        itemHasSubjectClass: item?.classList.contains("track-item-subject") ?? false,
+        itemComputedCursor: item ? getComputedStyle(item).cursor : "—",
+        rendersSinceLastChange: debugRenders - lastRenders,
+        totalRenders: debugRenders,
+      });
+      lastRenders = debugRenders;
+    };
+
+    window.addEventListener("mousemove", onMove);
+    return () => window.removeEventListener("mousemove", onMove);
+  }, []);
+
   // Mount collapsed, then expand on the next frame so the transition runs.
   // Closing reverses it and unmounts once the collapse has finished.
   const toggleTranscript = (index) => {
@@ -303,22 +371,9 @@ export const Tracklist = ({
       );
     };
 
+    // Switching from an open transcript always collapses it where it is first,
+    // then expands the new one once that has finished — same line or not.
     if (mountedTranscript !== null && transcriptOpen) {
-      // Would the transcript land in the same slot? Measured against the
-      // current layout, which is all this comparison needs — it only decides
-      // whether the panel is about to move.
-      const staysPut =
-        placement != null && computePlacement(index).anchor === placement.anchor;
-
-      // Same line: swap the content straight in. It mounts already carrying the
-      // open class, so there is nothing to animate from and it doesn't replay.
-      if (staysPut) {
-        setPlacement(null);
-        setMountedTranscript(index);
-        return;
-      }
-
-      // Different line: collapse where it is, then expand at the new spot
       setTranscriptOpen(false);
       transcriptTimerRef.current = setTimeout(
         () => openAt(index),
@@ -711,7 +766,7 @@ export const Tracklist = ({
                           {turn.speaker}
                         </span>
                         <span className="track-transcript-text">
-                          {turn.text}
+                          {renderText(turn.text)}
                         </span>
                       </span>
                     ))}
@@ -729,3 +784,11 @@ export const Tracklist = ({
     </div>
   );
 };
+
+// The App root drives a cursor-follower from a requestAnimationFrame lerp loop,
+// so it re-renders every frame for the life of the page. Without this the whole
+// tracklist was rebuilt ~60x a second, and the browser kept re-running its
+// hit-test against churning DOM — which is why the pointer cursor showed on
+// mouseenter and then reverted on the next mouse move. All four props are
+// stable between real changes (selectedGuest is a reference from context).
+export const Tracklist = React.memo(TracklistInner);
