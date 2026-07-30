@@ -69,6 +69,7 @@ const MIX_FIELDS = `
   broadcastDate,
   length,
   chapters,
+  transcriptInitials,
   tracklist,
   dontShow,
 `

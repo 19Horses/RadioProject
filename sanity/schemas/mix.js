@@ -172,6 +172,14 @@ export default {
       of: [chapter],
     },
     {
+      name: 'transcriptInitials',
+      title: 'Transcript Initials (Guest)',
+      type: 'string',
+      description:
+        'How the guest is labelled in interview transcripts, e.g. "DV". Leave blank to use the initials of the artist name.',
+      validation: (Rule) => Rule.max(5),
+    },
+    {
       name: 'tracklist',
       title: 'Tracklist',
       type: 'array',

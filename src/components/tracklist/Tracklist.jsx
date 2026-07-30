@@ -562,7 +562,10 @@ const TracklistInner = ({
 
   if (!selectedGuest) return null;
 
-  const guestInitials = initialsFor(selectedGuest.title2);
+  // An explicit label from Sanity wins; otherwise fall back to the artist's
+  // initials so transcripts are labelled without any setup
+  const guestInitials =
+    selectedGuest.transcriptInitials?.trim() || initialsFor(selectedGuest.title2);
 
   // Build a map from array index -> track number (excluding section breaks)
   const trackNumberMap = (() => {
