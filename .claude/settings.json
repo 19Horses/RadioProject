@@ -74,7 +74,9 @@
       "Bash(python3 -c \"import urllib.parse;print\\(urllib.parse.quote\\(\\\\\"*[_type=='mix' && count\\(tracklist[defined\\(transcript\\)]\\)>0]{artistName, 'withTranscripts': count\\(tracklist[defined\\(transcript\\)]\\), 'sample': tracklist[defined\\(transcript\\)][0].transcript[0]}\\\\\"\\)\\)\")",
       "Bash(curl -s https://yc1lcir6.api.sanity.io/v2024-01-01/data/query/production?query=__TRACKED_VAR__)",
       "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m=>{const t=m.default.fields.find\\(f=>f.name==='tracklist'\\).of[0].fields.find\\(f=>f.name==='transcript'\\);console.log\\('transcript.of[0].fields:', t.of[0].fields.map\\(f=>f.name+':'+f.type\\).join\\(', '\\)\\)}\\)\")",
-      "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m=>{const f=m.default.fields.find\\(f=>f.name==='transcriptInitials'\\);console.log\\(f.name, '|', f.type, '|', f.title\\)}\\)\")"
+      "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m=>{const f=m.default.fields.find\\(f=>f.name==='transcriptInitials'\\);console.log\\(f.name, '|', f.type, '|', f.title\\)}\\)\")",
+      "Bash(python3 -c \"import urllib.parse;print\\(urllib.parse.quote\\(\\\\\"*[_type=='mix' && \\(genre match 'diasporic*' || 'diasporic' in tags[]\\)]{artistName, genre, tags}\\\\\"\\)\\)\")",
+      "Bash(node -e ' *)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

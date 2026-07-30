@@ -117,8 +117,10 @@ export const CustomCursor = ({
         opacity: dimmed ? 0.5 : 1,
         transition: "opacity 0.2s ease",
         // Hanging indent: first line (name) flush, every following line
-        // (wrapped title + meta lines) shares this left edge.
-        ...(!isLeft && { paddingLeft: ".2vw", textIndent: "-.2vw" }),
+        // (wrapped title + meta lines) shares this left edge. Guest cursors
+        // only — the form cursor is two short lines that never wrap, so the
+        // indent just knocked line 2 out of line with line 1.
+        ...(!isLeft && isGuest && { paddingLeft: ".2vw", textIndent: "-.2vw" }),
       }}
     >
       {/* Line 1 */}
@@ -196,7 +198,9 @@ export const CustomCursor = ({
           style={{
             position: "relative",
             textTransform: isGuest ? "" : "lowercase",
-            paddingLeft: ".5vh",
+            // Matches line 1's padding for the form cursor, in the same unit,
+            // so both lines' text starts at the same x
+            paddingLeft: isGuest ? ".5vh" : ".2vw",
             paddingRight: ".3vw",
             lineHeight: isGuest ? "2.1vh" : "1.9vh",
             paddingBottom: isGuest ? ".2vh" : "0",

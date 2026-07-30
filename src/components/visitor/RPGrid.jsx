@@ -2,7 +2,7 @@ import React, { useState, useRef, useEffect, useMemo } from "react";
 import { useNavigate } from "react-router-dom";
 import { CustomCursor } from "../ui/CustomCursor";
 import { VisitorModal } from "../modals/VisitorModal";
-import { shuffle, fetchJson } from "../../utils/arrayUtils";
+import { fetchJson } from "../../utils/arrayUtils";
 import { IMAGES_API, DATA_API } from "../../utils/constants";
 
 export function RPGrid({
@@ -117,7 +117,22 @@ export function RPGrid({
           }
         });
 
-        setItems(shuffle(Object.values(grouped)));
+        // Newest first. Entries are keyed `name-<ISO timestamp>` and the form
+        // JSON carries the same timestamp — the JSON is preferred, with the key
+        // as a fallback so entries missing form data still sort correctly.
+        const postedAt = (item) => {
+          const fromJson = Date.parse(item.formData?.timestamp ?? "");
+          if (!Number.isNaN(fromJson)) return fromJson;
+          // baseName is lowercased, so the ISO T/Z separators are too and have
+          // to be restored before Date.parse will accept the string
+          const iso = item.baseName?.match(/\d{4}-\d{2}-\d{2}t[\d:.]+z/)?.[0];
+          const fromKey = iso ? Date.parse(iso.toUpperCase()) : NaN;
+          return Number.isNaN(fromKey) ? 0 : fromKey;
+        };
+
+        setItems(
+          Object.values(grouped).sort((a, b) => postedAt(b) - postedAt(a)),
+        );
         setLoading(false);
       } catch (err) {
         console.error(err);
