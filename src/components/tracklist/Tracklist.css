@@ -125,3 +125,81 @@
   padding-right: 5px;
 }
 
+/* ── Interview transcripts ────────────────────────────────────────────── */
+/* PROJECT-section items are interview subjects — clickable to reveal their
+   transcript. */
+/* The open subject is marked by keeping its random hover colours, so it needs
+   no decoration of its own */
+.track-item-subject {
+  cursor: pointer;
+}
+
+/* display:grid is block-level, so this breaks out of the inline tracklist
+   flow onto its own line. Animating grid-template-rows 0fr -> 1fr expands to
+   the content's natural height without having to measure it. */
+.track-transcript {
+  display: grid;
+  grid-template-rows: 0fr;
+  opacity: 0;
+  transition:
+    grid-template-rows 0.45s cubic-bezier(0.22, 1, 0.36, 1),
+    opacity 0.3s ease,
+    margin 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+  margin: 0;
+}
+
+.track-transcript-open {
+  grid-template-rows: 1fr;
+  opacity: 1;
+  margin: 0.7rem 0 1.1rem;
+}
+
+/* min-height:0 lets the row actually collapse to nothing */
+.track-transcript-inner {
+  overflow: hidden;
+  min-height: 0;
+}
+
+.track-transcript-body {
+  display: block;
+  max-width: 58ch;
+  padding-left: 1.4rem;
+  border-left: 1px solid rgba(67, 74, 71, 0.25);
+  /* The tracklist as a whole is unselectable; transcripts should be readable */
+  user-select: text;
+  -webkit-user-select: text;
+}
+
+.track-transcript-line {
+  display: block;
+  font-family: "NeueHaasDisplayRoman";
+  font-size: 0.95rem;
+  line-height: 1.5;
+  letter-spacing: -0.2px;
+  color: #434a47;
+  margin-bottom: 0.55em;
+}
+
+.track-transcript-line:last-child {
+  margin-bottom: 0;
+}
+
+.track-transcript-speaker {
+  font-family: "dot", "VCR", monospace;
+  font-size: 0.75em;
+  color: #9a9e9c;
+  margin-right: 0.7em;
+  vertical-align: 0.1em;
+}
+
+@media (max-width: 768px) {
+  .track-transcript-body {
+    padding-left: 0.9rem;
+    max-width: none;
+  }
+
+  .track-transcript-line {
+    font-size: 0.85rem;
+  }
+}
+

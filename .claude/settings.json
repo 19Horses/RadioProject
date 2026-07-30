@@ -63,7 +63,9 @@
       "Bash(python3 -)",
       "Bash(awk 'NR<=380 && /@media/ {line=NR; q=$0} END{}' src/components/bookmark/Bookmark.css)",
       "Bash(awk -F: '$1<380')",
-      "Bash(awk '{n=gsub\\(/{/,\"{\"\\); m=gsub\\(/}/,\"}\"\\); print \"open:\"n\" close:\"m}')"
+      "Bash(awk '{n=gsub\\(/{/,\"{\"\\); m=gsub\\(/}/,\"}\"\\); print \"open:\"n\" close:\"m}')",
+      "Bash(sips -g pixelWidth -g pixelHeight src/components/radiograms/radiogram9/opt/DSC00597.webp)",
+      "Bash(sips --help)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"
