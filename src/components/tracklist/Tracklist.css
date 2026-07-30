@@ -20,7 +20,12 @@
 .tracklist-container-desktop {
   height: 100vh;
   display: flex;
+  /* Centred while the tracklist fits, but `safe` falls back to start-aligned
+     once it doesn't. Plain `center` overflows equally in both directions, and
+     scrollable overflow only ever extends downwards — so whatever spilled off
+     the top became unreachable as soon as a transcript was expanded. */
   align-items: center;
+  align-items: safe center;
   padding-left: 30px;
   padding-right: 30px;
   padding-top: 35px;
@@ -36,11 +41,13 @@
 .tracklist-content {
   font-family: "NHaasGroteskDSPro-75Bd";
   font-size: 2.1rem;
+  /* Was 2.1rem — dead level with the font size, so lines nearly touched */
   line-height: 2.1rem;
 }
 
 .tracklist-item-wrapper {
-  line-height: 1;
+  /* Kept in step with the content's line-height above: 1.12 x 2.1rem */
+  line-height: 1.12;
   opacity: 1;
   /* `none`, not blur(0) — a filter value forces a compositing layer on every
      item for the life of the page, which is what was eating the pointer
@@ -93,6 +100,7 @@
   vertical-align: super;
   font-size: 0.5em;
   color: inherit;
+  opacity: 0.5;
 }
 
 /* Track Title */
@@ -133,6 +141,29 @@
    transcript. */
 /* The open subject is marked by keeping its random hover colours, so it needs
    no decoration of its own */
+/* Disclosure marker before an interview subject: + closed, - expanded.
+   Inherits the title's font and size — no overrides. */
+.track-subject-toggle {
+  color: inherit;
+  opacity: 0.5;
+  /* No font-family here on purpose — the marker inherits the item's inline
+     font so it alternates Light/Roman along with its own title. */
+  /* +/- are drawn centred on the maths axis, sitting above the baseline and
+     short of the cap height. Scaling alone can match one edge or the other, not
+     both — so the glyph is scaled until its *height* equals the cap height,
+     then pushed back down by however far its bottom rose. Together those span
+     baseline to caps. Both numbers are estimates from the font's proportions;
+     nudge `top` first if the bottom still sits off. */
+  font-size: 1.48em;
+  position: relative;
+  top: 0.045em;
+  /* The taller glyph would otherwise grow the tracklist's line boxes, since
+     line-height is inherited as a unitless 1 and so scales with font-size */
+  line-height: 0;
+  /* Gap only on the number side — the marker sits flush against the title.
+     Reduced because `em` here now refers to the larger font-size above. */
+}
+
 /* The cursor is set on the wrapper as well as the item itself. `.track-item`
    is inline and the wrapper's line-height is shorter than the font's content
    box, so the hit test resolves to the wrapper for part of the row — leaving
@@ -159,7 +190,7 @@
 .track-transcript-open {
   grid-template-rows: 1fr;
   opacity: 1;
-  margin: 0.7rem 0 1.1rem;
+  margin: 1.3rem 0 1.3rem;
 }
 
 /* min-height:0 lets the row actually collapse to nothing */
@@ -173,11 +204,12 @@
   /* Width of the speaker column, shared with the line grid below so the two
      can't drift apart */
   --speaker-col: 1.8rem;
-  /* Note: no font-size here, so `ch` resolves against the inherited 2.1rem
-     rather than the 0.95rem the text renders at — this is far wider than the
-     number suggests. The speaker column is subtracted so the indent comes out
-     of the width rather than being added to it. */
-  max-width: calc(58ch - var(--speaker-col));
+  /* Mirrors the article's measure — `.radiogram-8 p` is 60% of its column with
+     auto margins. The speaker column still eats into this rather than being
+     added to it, so the indent comes out of the width. */
+  width: 60%;
+  margin-left: auto;
+  margin-right: auto;
   /* The tracklist as a whole is unselectable; transcripts should be readable */
   user-select: text;
   -webkit-user-select: text;
@@ -191,7 +223,8 @@
   grid-template-columns: var(--speaker-col) 1fr;
   align-items: baseline;
   font-family: "NeueHaasDisplayRoman";
-  font-size: 0.95rem;
+  /* Matches `.radiogram-8 p` — same face, size, leading and tracking */
+  font-size: 1rem;
   line-height: 1.6;
   letter-spacing: -0.2px;
   color: #141a18;
@@ -217,13 +250,19 @@
   font-family: "NeueHaasDisplayMedium";
   font-size: 0.75em;
   color: #9a9e9c;
+  /* Right-aligned in its column, so labels of different lengths all end flush
+     against the text. The padding keeps the gutter, since the column edge is
+     now where the label ends rather than where it starts. */
+  text-align: right;
+  padding-right: 0.45rem;
 }
 
 @media (max-width: 768px) {
   .track-transcript-body {
     --speaker-col: 1.6rem;
     padding-left: 0.9rem;
-    max-width: none;
+    /* 60% would be unreadably narrow on a phone */
+    width: auto;
   }
 
   .track-transcript-line {

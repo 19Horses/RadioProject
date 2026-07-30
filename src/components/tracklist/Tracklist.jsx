@@ -716,6 +716,16 @@ const TracklistInner = ({
                   <span className="track-number">{trackNumberMap[index]}</span>
                 )}
 
+                {/* Disclosure marker, between the number and the title. Kept
+                    outside .track-title so that span's firstChild stays the
+                    title text node, which is what the wrap measurement reads.
+                    Prefixes the head half, like the number does. */}
+                {isSubject && half !== "tail" && (
+                  <span className="track-subject-toggle">
+                    {isSelected ? "-" : "+"}
+                  </span>
+                )}
+
                 <span
                   ref={
                     half === "tail"
