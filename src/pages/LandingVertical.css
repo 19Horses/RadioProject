@@ -186,10 +186,30 @@
   height: 100%;
 }
 
+/* A faint slot while the cover is still in flight, so the carousel reads as
+   loading rather than as gaps. Fades out as the image itself fades in. */
+.landing-vertical-image-container::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: rgba(150, 150, 150, 0.07);
+  opacity: 1;
+  transition: opacity 0.4s ease-out;
+  pointer-events: none;
+}
+
+.landing-vertical-image-container[data-loaded="true"]::before {
+  opacity: 0;
+}
+
 .landing-vertical-image {
-  transition: transform 0.5s ease-out, opacity 0.3s ease-out;
+  transition: transform 0.5s ease-out, opacity 0.5s ease-out;
   height: 100%;
   width: auto;
+  /* Sanity encodes intrinsic size in the filename, so each slot can take its
+     final width immediately — without this the carousel starts at zero width
+     and the centring maths runs against a layout that is still moving. */
+  aspect-ratio: var(--img-aspect, 1 / 1);
   display: block;
   cursor: pointer;
   transform-origin: center center;
@@ -197,13 +217,12 @@
   contain: layout paint;
 }
 
+/* Opacity is driven from JS (focus state x load state) — see LandingImage. */
 .landing-vertical-image-focused {
-  opacity: 1;
   will-change: transform;
 }
 
 .landing-vertical-image-unfocused {
-  opacity: 0.4;
   will-change: auto;
 }
 

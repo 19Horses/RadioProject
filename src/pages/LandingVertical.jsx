@@ -9,7 +9,123 @@ import { useItems } from "../ItemsContext";
 import { GridContainer, PhotoContainer, CursorTitle } from "../styles";
 import { CustomCursor } from "../components/ui/CustomCursor";
 import { useNavigate, useLocation } from "react-router-dom";
+import {
+  imageAspectRatio,
+  sanityImage,
+  sanitySrcSet,
+} from "../utils/sanityImage";
 import "./LandingVertical.css";
+
+// Items either side of the centred one are on screen at load, so they shouldn't
+// wait on the lazy-loading heuristic.
+const EAGER_COUNT = 3;
+
+/**
+ * One cover in the carousel, fading in once its bitmap is actually decoded.
+ *
+ * Lives at module scope (rather than inside the page) so that a re-render of
+ * the carousel — on scroll, on focus change — reconciles against the same
+ * component type and leaves loaded images alone instead of remounting them.
+ */
+const LandingImage = React.memo(function LandingImage({
+  guest,
+  isFocused,
+  isMobile,
+  priority,
+  onClick,
+  onHoverChange,
+}) {
+  const srcArray = useMemo(
+    () =>
+      Array.isArray(guest.src) ? guest.src : guest.src ? [guest.src] : [],
+    [guest.src],
+  );
+  const hasMultipleSrcs = srcArray.length > 1;
+  const [activeIndex, setActiveIndex] = useState(0);
+  const [loaded, setLoaded] = useState(false);
+
+  useEffect(() => {
+    if (!hasMultipleSrcs || !loaded) return;
+    const interval = setInterval(() => {
+      setActiveIndex((prev) => (prev + 1) % srcArray.length);
+    }, 4000);
+    return () => clearInterval(interval);
+  }, [hasMultipleSrcs, srcArray.length, loaded]);
+
+  // An image served from cache can finish before React attaches onLoad, so the
+  // ref checks for that case rather than waiting on an event that already fired.
+  const captureLoaded = useCallback((node) => {
+    if (node?.complete) setLoaded(true);
+  }, []);
+
+  const focusOpacity = isFocused ? 1 : 0.4;
+  const aspect = imageAspectRatio(srcArray[0]);
+
+  const sharedProps = {
+    alt: guest.title,
+    onClick: () => onClick(guest),
+    decoding: "async",
+    loading: priority ? "eager" : "lazy",
+    fetchPriority: priority ? "high" : "auto",
+    sizes: isMobile ? "45vh" : "60vh",
+    className: `image landing-vertical-image ${
+      isFocused
+        ? "landing-vertical-image-focused"
+        : "landing-vertical-image-unfocused"
+    }`,
+    ...(!isMobile && {
+      onMouseEnter: () => onHoverChange(guest),
+      onMouseLeave: () => onHoverChange(null),
+    }),
+  };
+
+  return (
+    <div
+      className="landing-vertical-image-container"
+      data-loaded={loaded ? "true" : "false"}
+      style={aspect ? { "--img-aspect": aspect } : undefined}
+    >
+      {hasMultipleSrcs ? (
+        <div style={{ position: "relative", width: "100%", height: "100%" }}>
+          {/* Later slides are pointless until the first one is on screen. */}
+          {srcArray.slice(0, loaded ? srcArray.length : 1).map((imgSrc, idx) => (
+            <img
+              key={imgSrc}
+              {...sharedProps}
+              ref={idx === 0 ? captureLoaded : undefined}
+              onLoad={idx === 0 ? () => setLoaded(true) : undefined}
+              src={sanityImage(imgSrc, { width: 1200 })}
+              srcSet={sanitySrcSet(imgSrc)}
+              style={{
+                position: "absolute",
+                inset: 0,
+                transition: "opacity 1s ease",
+                opacity: loaded ? (activeIndex === idx ? 1 : 0) * focusOpacity : 0,
+              }}
+            />
+          ))}
+          {/* Invisible placeholder to maintain container size */}
+          <img
+            src={sanityImage(srcArray[0], { width: 400 })}
+            alt=""
+            aria-hidden
+            className={sharedProps.className}
+            style={{ visibility: "hidden" }}
+          />
+        </div>
+      ) : (
+        <img
+          {...sharedProps}
+          ref={captureLoaded}
+          onLoad={() => setLoaded(true)}
+          src={sanityImage(srcArray[0], { width: 1200 })}
+          srcSet={sanitySrcSet(srcArray[0])}
+          style={{ opacity: loaded ? focusOpacity : 0 }}
+        />
+      )}
+    </div>
+  );
+});
 
 export const LandingVertical = ({ isMobile, gridView }) => {
   const items = useItems();
@@ -261,85 +377,11 @@ export const LandingVertical = ({ isMobile, gridView }) => {
     [navigate],
   );
 
-  // Remove focusedIndex from dependency array to prevent component recreation
-  const ImageItem = useCallback(
-    ({ guest, isFocused }) => {
-      const handleMouseEnter = () => {
-        if (!isMobile) setHoveredGuest(guest);
-      };
-      const handleMouseLeave = () => {
-        if (!isMobile) setHoveredGuest(null);
-      };
-
-      const srcArray = Array.isArray(guest.src)
-        ? guest.src
-        : guest.src
-          ? [guest.src]
-          : [];
-      const hasMultipleSrcs = srcArray.length > 1;
-      const [activeIndex, setActiveIndex] = useState(0);
-
-      useEffect(() => {
-        if (!hasMultipleSrcs) return;
-        const interval = setInterval(() => {
-          setActiveIndex((prev) => (prev + 1) % srcArray.length);
-        }, 4000);
-        return () => clearInterval(interval);
-      }, [hasMultipleSrcs, srcArray.length]);
-
-      const baseClassName = `image landing-vertical-image ${
-        isFocused
-          ? "landing-vertical-image-focused"
-          : "landing-vertical-image-unfocused"
-      }`;
-
-      const sharedProps = {
-        alt: guest.title,
-        onClick: () => handleItemClick(guest),
-        loading: "lazy",
-        ...(!isMobile && {
-          onMouseEnter: handleMouseEnter,
-          onMouseLeave: handleMouseLeave,
-        }),
-      };
-
-      return (
-        <div className="landing-vertical-image-container">
-          {hasMultipleSrcs ? (
-            <div
-              style={{ position: "relative", width: "100%", height: "100%" }}
-            >
-              {srcArray.map((imgSrc, idx) => (
-                <img
-                  key={idx}
-                  {...sharedProps}
-                  src={imgSrc}
-                  className={baseClassName}
-                  style={{
-                    position: "absolute",
-                    inset: 0,
-                    transition: "opacity 1s ease",
-                    opacity:
-                      (activeIndex === idx ? 1 : 0) * (isFocused ? 1 : 0.4),
-                  }}
-                />
-              ))}
-              {/* Invisible placeholder to maintain container size */}
-              <img
-                src={srcArray[0]}
-                alt=""
-                aria-hidden
-                className={baseClassName}
-                style={{ visibility: "hidden" }}
-              />
-            </div>
-          ) : (
-            <img {...sharedProps} src={srcArray[0]} className={baseClassName} />
-          )}
-        </div>
-      );
+  const handleHoverChange = useCallback(
+    (guest) => {
+      if (!isMobile) setHoveredGuest(guest);
     },
-    [isMobile, handleItemClick],
+    [isMobile],
   );
 
   return (
@@ -372,12 +414,19 @@ export const LandingVertical = ({ isMobile, gridView }) => {
           >
             {filteredItems.map((guest, i) => (
               <div
-                key={i}
+                key={guest.id || i}
                 className={`landing-vertical-item-wrapper ${
                   isMobile ? "landing-vertical-item-wrapper-mobile" : ""
                 }`}
               >
-                <ImageItem guest={guest} isFocused={i === focusedIndex} />
+                <LandingImage
+                  guest={guest}
+                  isFocused={i === focusedIndex}
+                  isMobile={isMobile}
+                  priority={i < EAGER_COUNT}
+                  onClick={handleItemClick}
+                  onHoverChange={handleHoverChange}
+                />
               </div>
             ))}
           </div>

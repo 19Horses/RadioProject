@@ -141,26 +141,28 @@
    transcript. */
 /* The open subject is marked by keeping its random hover colours, so it needs
    no decoration of its own */
-/* Disclosure marker before an interview subject: + closed, - expanded.
-   Inherits the title's font and size — no overrides. */
+/* Disclosure marker trailing an interview subject's title. Static — the open
+   subject is already marked by keeping its random hover colours. */
 .track-subject-toggle {
   color: inherit;
-  /* No font-family here on purpose — the marker inherits the item's inline
-     font so it alternates Light/Roman along with its own title. */
-  /* +/- are drawn centred on the maths axis, sitting above the baseline and
-     short of the cap height. Scaling alone can match one edge or the other, not
-     both — so the glyph is scaled until its *height* equals the cap height,
-     then pushed back down by however far its bottom rose. Together those span
-     baseline to caps. Both numbers are estimates from the font's proportions;
-     nudge `top` first if the bottom still sits off. */
-  font-size: 1.48em;
-  position: relative;
-  top: 0.045em;
+  /* Neue Haas carries no arrows at all, so an inherited font would drop the
+     glyph into whichever system font the platform happens to pick. Fraktion is
+     already loaded site-wide and does have U+2198, which keeps the marker
+     identical everywhere. */
+  font-family: "Fraktion", monospace;
+  /* The arrow is drawn sitting on the baseline already, so it needs no vertical
+     nudge — only scaling. Sized so its ink spans the title's full cap height,
+     i.e. its top meets the top of the topic's capitals. Fraktion's arrow inks
+     1.306x its own em box here, so cap height / that ratio gives the size. */
+  font-size: 1.5em;
   /* The taller glyph would otherwise grow the tracklist's line boxes, since
      line-height is inherited as a unitless 1 and so scales with font-size */
   line-height: 0;
-  /* Gap only on the number side — the marker sits flush against the title.
-     Reduced because `em` here now refers to the larger font-size above. */
+  /* Sits tight to the title it belongs to, with a gap before the artist.
+     Fraktion is monospaced, so the arrow carries a left side bearing inside its
+     advance — visible as a space against the title, and one that grows with the
+     font-size above. The negative margin cancels exactly that bearing. */
+  margin-left: 0.025em;
 }
 
 /* The cursor is set on the wrapper as well as the item itself. `.track-item`

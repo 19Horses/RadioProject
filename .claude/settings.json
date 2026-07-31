@@ -82,10 +82,23 @@
       "Bash(cp \"/private/tmp/claude-501/-Users-palmreader-My-Documents-WEB-Development-WEB-Yogi-CODING-Projects-radio-project/a8587e00-08d1-4336-8c2b-339bd582e84f/scratchpad/check.mjs\" ./.tmp-check-share.mjs)",
       "Bash(node ./.tmp-check-share.mjs)",
       "Bash(rm -f ./.tmp-check-share.mjs)",
-      "Bash(node scripts/prerender-share-meta.mjs)"
+      "Bash(node scripts/prerender-share-meta.mjs)",
+      "Read(//Applications/**)",
+      "Bash(npx playwright *)",
+      "Read(//Users/palmreader/Library/Caches/ms-playwright/**)",
+      "Read(//Users/palmreader/.cache/**)",
+      "Bash(npm init *)",
+      "Bash(npm install *)",
+      "Bash(node check-landing.mjs)",
+      "Read(//Users/palmreader/Library/Caches/ms-playwright/chromium_headless_shell-1228/**)",
+      "Bash(sed -i '' 's|chromium.launch\\(\\)|chromium.launch\\({ executablePath: \"/Users/palmreader/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell\" }\\)|' check-landing.mjs)",
+      "Bash(curl -s http://localhost:5173/)",
+      "Bash(curl -s http://localhost:5173/src/utils/sanityImage.js)",
+      "Bash(sed -i '' 's|localhost:5199|localhost:5173|' check-landing.mjs)"
     ],
     "additionalDirectories": [
-      "/Users/palmreader/Downloads"
+      "/Users/palmreader/Downloads",
+      "/Users/palmreader/.claude/projects/-Users-palmreader-My-Documents-WEB-Development-WEB-Yogi-CODING-Projects-radio-project"
     ]
   }
 }

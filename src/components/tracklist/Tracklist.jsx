@@ -771,6 +771,10 @@ const TracklistInner = ({
                   ? displayTitle.slice(splitAt + 1)
                   : displayTitle;
 
+            // The marker trails the end of the title, so a split one carries it
+            // on the tail half only — the same half that keeps the artist
+            const showToggle = isSubject && half !== "head";
+
             // Section breaks carry no title and no artist — they exist purely
             // for the line break. Rendering the item span anyway left an empty
             // box at the start of every section, 5px wide off the artist's
@@ -831,16 +835,6 @@ const TracklistInner = ({
                   <span className="track-number">{trackNumberMap[index]}</span>
                 )}
 
-                {/* Disclosure marker, between the number and the title. Kept
-                    outside .track-title so that span's firstChild stays the
-                    title text node, which is what the wrap measurement reads.
-                    Prefixes the head half, like the number does. */}
-                {isSubject && half !== "tail" && (
-                  <span className="track-subject-toggle">
-                    {isSelected ? "-" : "+"}
-                  </span>
-                )}
-
                 <span
                   ref={
                     half === "tail"
@@ -854,9 +848,21 @@ const TracklistInner = ({
                   {titleText}
                   {/* Separator before the artist — omitted when there is no
                       title, or section breaks would each open with a stray
-                      space rendered at the 0.5em section-break size */}
-                  {titleText ? " " : ""}
+                      space rendered at the 0.5em section-break size. Also
+                      omitted ahead of the marker, which sits tight against the
+                      title and carries the gap on its own far side instead. */}
+                  {titleText && !showToggle ? " " : ""}
                 </span>
+
+                {/* Disclosure marker, trailing the title of an interview
+                    subject. Kept outside .track-title so that span's firstChild
+                    stays the title text node, which is what the wrap
+                    measurement reads. Follows the tail half, like the artist
+                    does, so a split title keeps the marker with its end. */}
+                {showToggle && (
+                  <span className="track-subject-toggle">↘</span>
+                )}
+
                 {half !== "head" && (
                   <span
                     className="track-artist"
