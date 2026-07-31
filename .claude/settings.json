@@ -94,7 +94,12 @@
       "Bash(sed -i '' 's|chromium.launch\\(\\)|chromium.launch\\({ executablePath: \"/Users/palmreader/Library/Caches/ms-playwright/chromium_headless_shell-1228/chrome-headless-shell-mac-arm64/chrome-headless-shell\" }\\)|' check-landing.mjs)",
       "Bash(curl -s http://localhost:5173/)",
       "Bash(curl -s http://localhost:5173/src/utils/sanityImage.js)",
-      "Bash(sed -i '' 's|localhost:5199|localhost:5173|' check-landing.mjs)"
+      "Bash(sed -i '' 's|localhost:5199|localhost:5173|' check-landing.mjs)",
+      "Bash(python3 -c \"import PIL; print\\('PIL', PIL.__version__\\)\")",
+      "Bash(git stash *)",
+      "Read(//Users/palmreader/.config/sanity/**)",
+      "Bash(timeout 60 npx sanity debug)",
+      "Bash(npx sanity *)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads",

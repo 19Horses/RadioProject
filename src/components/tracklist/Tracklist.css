@@ -158,11 +158,36 @@
   /* The taller glyph would otherwise grow the tracklist's line boxes, since
      line-height is inherited as a unitless 1 and so scales with font-size */
   line-height: 0;
-  /* Sits tight to the title it belongs to, with a gap before the artist.
-     Fraktion is monospaced, so the arrow carries a left side bearing inside its
-     advance — visible as a space against the title, and one that grows with the
-     font-size above. The negative margin cancels exactly that bearing. */
+  /* Sits tight to the title it belongs to. Fraktion is monospaced, so the arrow
+     carries a left side bearing inside its advance — visible as a space against
+     the title, and one that grows with the font-size above. This trims most of
+     that bearing back off; the pair is also glued against a line break by the
+     word joiner the marker is rendered with. */
   margin-left: 0.025em;
+  /* Two different break points have to be shut, and each needs its own tool.
+     The joiner closes the one between the title and this span. This closes the
+     one between the joiner and the arrow inside it: the arrow is an atomic
+     inline (it has to be, to be rotatable), and those offer a break on either
+     side no matter what characters surround them — so without this, even titles
+     that end in a letter drop their arrow onto the next line. */
+  white-space: nowrap;
+}
+
+/* Open topics turn the arrow through 180deg — ↘ upside down is ↖, so the same
+   glyph reads as "collapse" without swapping it out. Runs on the transcript's
+   own timing, so the arrow turns as the panel opens and closes. */
+.track-subject-arrow {
+  display: inline-block;
+  /* Rotating about the box centre would fling the arrow downwards: with
+     line-height 0 that centre sits on the font's ascent/descent midpoint, well
+     above the glyph. This is the ink's own centre — half its cap height above
+     the baseline — measured in the marker's em. */
+  transform-origin: 50% 0.169em;
+  transition: transform 0.45s cubic-bezier(0.22, 1, 0.36, 1);
+}
+
+.track-subject-arrow-open {
+  transform: rotate(-90deg);
 }
 
 /* The cursor is set on the wrapper as well as the item itself. `.track-item`

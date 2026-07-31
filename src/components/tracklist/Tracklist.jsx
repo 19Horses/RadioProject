@@ -858,9 +858,30 @@ const TracklistInner = ({
                     subject. Kept outside .track-title so that span's firstChild
                     stays the title text node, which is what the wrap
                     measurement reads. Follows the tail half, like the artist
-                    does, so a split title keeps the marker with its end. */}
+                    does, so a split title keeps the marker with its end.
+
+                    Opens with a word joiner (U+2060). Removing the space did
+                    not stop the line breaking between them: a title ending in
+                    punctuation — "Handle With Care!", "CCTV!?" — leaves a break
+                    opportunity the arrow can wrap onto on its own. The joiner
+                    forbids a break on either side of itself at zero width, so
+                    the arrow always travels with the last word. */}
                 {showToggle && (
-                  <span className="track-subject-toggle">↘</span>
+                  <span className="track-subject-toggle">
+                    {"\u2060"}
+                    {/* The arrow is its own inline-block so it can be rotated —
+                        transforms do not apply to inline boxes. The joiner stays
+                        outside it, as a text child of this inline span, so it
+                        still sits between title and marker in the text run and
+                        goes on forbidding a break there. */}
+                    <span
+                      className={`track-subject-arrow${
+                        isSelected ? " track-subject-arrow-open" : ""
+                      }`}
+                    >
+                      ↘
+                    </span>
+                  </span>
                 )}
 
                 {half !== "head" && (
