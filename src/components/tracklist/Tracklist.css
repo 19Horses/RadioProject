@@ -240,6 +240,13 @@
   margin-bottom: 0;
 }
 
+/* Paragraph breaks are now separate lines, but soft breaks (shift+enter) still
+   arrive as newlines inside a span — `pre-line` keeps those while collapsing
+   ordinary runs of whitespace */
+.track-transcript-text {
+  white-space: pre-line;
+}
+
 /* Phrases carrying a context note, styled to match `.cite-highlight` in the
    essay articles so citations read the same across the site. */
 .transcript-note-trigger {

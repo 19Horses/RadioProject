@@ -47,54 +47,84 @@ const countNotes = (value) =>
       )
     : 0;
 
-const TranscriptText = ({ value, noteStart = 0 }) => {
+// Splits a block's spans into paragraphs at blank lines. A paragraph break in
+// Sanity can arrive two ways: as a separate block (enter), or as "\n\n" inside
+// a single span (shift+enter twice). Only the first splits the block, so the
+// second has to be found in the text.
+const paragraphsOf = (block) => {
+  const paras = [[]];
+  (block.children || []).forEach((span) => {
+    String(span.text ?? "")
+      .split(/\n{2,}/)
+      .forEach((text, i) => {
+        if (i > 0) paras.push([]);
+        if (text) paras[paras.length - 1].push({ ...span, text });
+      });
+  });
+  return paras.filter((spans) => spans.length);
+};
+
+const TranscriptTurn = ({ turn }) => {
   const [openNote, setOpenNote] = useState(null);
 
-  if (typeof value === "string") return value;
-  if (!Array.isArray(value)) return null;
+  // Placeholder copy is a plain string — wrap it as a single block so it takes
+  // the same path as authored portable text
+  const blocks =
+    typeof turn.text === "string"
+      ? [{ children: [{ text: turn.text, marks: [] }], markDefs: [] }]
+      : Array.isArray(turn.text)
+        ? turn.text.filter((b) => b?._type === "block")
+        : [];
 
   // An annotation can be split across several spans if other marks overlap it,
   // so numbers are assigned per markDef key on first appearance
   const numbers = new Map();
-  let n = noteStart;
+  let n = turn.noteStart ?? 0;
 
-  return value.flatMap((block, b) => {
-    if (block?._type !== "block") return [];
+  const renderSpan = (span, defs, key) => {
+    const content = span.marks?.includes("strong") ? (
+      <strong>{span.text}</strong>
+    ) : (
+      span.text
+    );
+
+    const note = span.marks
+      ?.map((m) => defs.find((d) => d._key === m && d._type === "contextNote"))
+      .find(Boolean);
+
+    if (!note) return <React.Fragment key={key}>{content}</React.Fragment>;
+
+    if (!numbers.has(note._key)) numbers.set(note._key, ++n);
+    const isOpen = openNote === note._key;
+    return (
+      <React.Fragment key={key}>
+        <span
+          className={`transcript-note-trigger${
+            isOpen ? " transcript-note-trigger-open" : ""
+          }`}
+          onClick={() => setOpenNote(isOpen ? null : note._key)}
+        >
+          {content}
+          <sup className="transcript-note-marker">{numbers.get(note._key)}</sup>
+        </span>
+        {isOpen && <span className="transcript-note">{note.note}</span>}
+      </React.Fragment>
+    );
+  };
+
+  // One line per paragraph, so the speaker label repeats down a long answer
+  return blocks.flatMap((block, b) => {
     const defs = block.markDefs || [];
-
-    return (block.children || []).map((span, s) => {
-      const key = `${b}-${s}`;
-      const content = span.marks?.includes("strong") ? (
-        <strong>{span.text}</strong>
-      ) : (
-        span.text
-      );
-
-      const note = span.marks
-        ?.map((m) => defs.find((d) => d._key === m && d._type === "contextNote"))
-        .find(Boolean);
-
-      if (!note) return <React.Fragment key={key}>{content}</React.Fragment>;
-
-      if (!numbers.has(note._key)) numbers.set(note._key, ++n);
-      const isOpen = openNote === note._key;
-      return (
-        <React.Fragment key={key}>
-          <span
-            className={`transcript-note-trigger${
-              isOpen ? " transcript-note-trigger-open" : ""
-            }`}
-            onClick={() => setOpenNote(isOpen ? null : note._key)}
-          >
-            {content}
-            <sup className="transcript-note-marker">
-              {numbers.get(note._key)}
-            </sup>
-          </span>
-          {isOpen && <span className="transcript-note">{note.note}</span>}
-        </React.Fragment>
-      );
-    });
+    return paragraphsOf(block).map((spans, p) => (
+      <span className="track-transcript-line" key={`${b}-${p}`}>
+        {/* Repeated per paragraph, so a multi-paragraph answer stays
+            attributed as it runs on */}
+        <span className="track-transcript-speaker">{turn.speaker}</span>
+        <span className="track-transcript-text">
+          {spans.map((span, s) => renderSpan(span, defs, `${b}-${p}-${s}`))}
+        </span>
+      </span>
+    ));
   });
 };
 
@@ -851,17 +881,7 @@ const TracklistInner = ({
                       guestInitials,
                       notesBefore(selectedGuest.tracklist, mountedTranscript),
                     ).map((turn) => (
-                      <span className="track-transcript-line" key={turn.key}>
-                        <span className="track-transcript-speaker">
-                          {turn.speaker}
-                        </span>
-                        <span className="track-transcript-text">
-                          <TranscriptText
-                            value={turn.text}
-                            noteStart={turn.noteStart}
-                          />
-                        </span>
-                      </span>
+                      <TranscriptTurn key={turn.key} turn={turn} />
                     ))}
                   </span>
                 </span>
