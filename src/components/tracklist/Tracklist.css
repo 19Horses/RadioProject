@@ -201,7 +201,8 @@
 .track-transcript-body {
   display: block;
   /* Width of the speaker column, shared with the line grid below so the two
-     can't drift apart */
+     can't drift apart. Overridden inline with a width sized to the mix's own
+     abbreviation — this is the fallback for when that isn't set. */
   --speaker-col: 1.8rem;
   /* Mirrors the article's measure — `.radiogram-8 p` is 60% of its column with
      auto margins. The speaker column still eats into this rather than being
@@ -323,7 +324,9 @@
 
 @media (max-width: 768px) {
   .track-transcript-body {
-    --speaker-col: 1.6rem;
+    /* No --speaker-col here — the inline width set from the abbreviation wins
+       over a stylesheet rule, so overriding it at this breakpoint would be
+       dead weight */
     /* No extra indent — the speaker column already offsets the text, and on a
        phone this only pushed the block toward the right edge */
     padding-left: 0;

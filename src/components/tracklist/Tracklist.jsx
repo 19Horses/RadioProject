@@ -676,6 +676,12 @@ const TracklistInner = ({
   const guestInitials =
     selectedGuest.transcriptInitials?.trim() || initialsFor(selectedGuest.title2);
 
+  // The label column is a fixed width so every line's text starts at the same
+  // x — but it has to fit the longest label. Sized for the guest's own
+  // abbreviation, since a 4-character one like "WAAW" overflows a column cut
+  // for "RP" and swallows the gutter. ~0.55rem per capital, plus the gutter.
+  const speakerCol = `calc(${Math.max(2, guestInitials.length)} * 0.55rem + 0.45rem)`;
+
   // Build a map from array index -> track number (excluding section breaks)
   const trackNumberMap = (() => {
     const map = {};
@@ -877,7 +883,10 @@ const TracklistInner = ({
                 }`}
               >
                 <span className="track-transcript-inner">
-                  <span className="track-transcript-body">
+                  <span
+                    className="track-transcript-body"
+                    style={{ "--speaker-col": speakerCol }}
+                  >
                     {transcriptFor(
                       selectedGuest.tracklist[mountedTranscript],
                       mountedTranscript,
