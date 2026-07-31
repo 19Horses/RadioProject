@@ -88,13 +88,13 @@ const Links = () => {
           />
           <NavItem
             text="+ SoundCloud"
-            to="https://soundcloud.com/radio_project"
+            to="https://soundcloud.com/radioproject_live"
             external
             menuOpen={menuOpen}
           />
           <NavItem
             text="+ Instagram"
-            to="https://www.instagram.com/radio__project/"
+            to="https://www.instagram.com/radioproject.live/"
             external
             menuOpen={menuOpen}
           />
@@ -168,7 +168,7 @@ const MobileLinks = ({ menuOpen, setMenuOpen, isMobile }) => {
           />
           <NavItem
             text="+ SoundCloud"
-            to="https://soundcloud.com/radio_project"
+            to="https://soundcloud.com/radioproject_live"
             external
             menuOpen={menuOpen}
             isMobile={isMobile}
@@ -178,7 +178,7 @@ const MobileLinks = ({ menuOpen, setMenuOpen, isMobile }) => {
           />
           <NavItem
             text="+ Instagram"
-            to="https://www.instagram.com/radio__project/"
+            to="https://www.instagram.com/radioproject.live/"
             external
             menuOpen={menuOpen}
             isMobile={isMobile}
@@ -223,8 +223,8 @@ export const Header = ({
                 backgroundColor: !menuOpen
                   ? "transparent"
                   : darkMode
-                  ? "#000000"
-                  : "#f7f7f7",
+                    ? "#000000"
+                    : "#f7f7f7",
                 transition: "all .3s ease-in-out",
                 pointerEvents: menuOpen ? "auto" : "none",
                 right: isPlaying ? "6vw" : "",

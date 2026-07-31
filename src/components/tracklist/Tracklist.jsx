@@ -96,8 +96,11 @@ const TranscriptTurn = ({ turn }) => {
 
     if (!numbers.has(note._key)) numbers.set(note._key, ++n);
     const isOpen = openNote === note._key;
+    // The highlight lives on this wrapper, not on the two children. As separate
+    // inline boxes they took their heights from their own fonts — Medium for
+    // the trigger, Roman for the note — so the backgrounds never lined up.
     return (
-      <React.Fragment key={key}>
+      <span className="transcript-note-group" key={key}>
         <span
           className={`transcript-note-trigger${
             isOpen ? " transcript-note-trigger-open" : ""
@@ -108,7 +111,7 @@ const TranscriptTurn = ({ turn }) => {
           <sup className="transcript-note-marker">{numbers.get(note._key)}</sup>
         </span>
         {isOpen && <span className="transcript-note">{note.note}</span>}
-      </React.Fragment>
+      </span>
     );
   };
 

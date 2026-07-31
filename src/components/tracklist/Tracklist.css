@@ -247,19 +247,25 @@
   white-space: pre-line;
 }
 
+/* The highlight sits on the wrapper rather than on the phrase and note
+   individually — as separate inline boxes their heights came from their own
+   fonts, so the two greys never aligned. One box, one set of metrics. */
+.transcript-note-group {
+  background-color: #d9d9d9;
+  padding: 0 1px;
+  /* Keeps the highlight intact when it wraps across lines */
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
 /* Phrases carrying a context note, styled to match `.cite-highlight` in the
    essay articles so citations read the same across the site. */
 .transcript-note-trigger {
-  background-color: #d9d9d9;
   font-family: "NeueHaasDisplayMedium";
-  padding: 0 1px;
   color: inherit;
   text-decoration: none;
   cursor: pointer;
   transition: color 0.2s ease;
-  /* Keeps the highlight intact when a phrase wraps across lines */
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 .transcript-note-trigger:hover,
@@ -279,15 +285,10 @@
 /* The note itself, revealed inline directly after the phrase so it reads as an
    aside inside the sentence and wraps with it */
 .transcript-note {
-  /* Same highlight as the trigger it follows. The gap before it is padding
-     rather than margin so it falls inside the grey — the two spans are
-     adjacent in the DOM, so the backgrounds meet as one continuous block. */
-  background-color: rgb(217, 217, 217);
-  padding: 0 1px 0 0.3em;
+  /* No background of its own — the wrapper provides it. The gap is padding so
+     it falls inside the shared grey rather than cutting a hole in it. */
+  padding-left: 0.3em;
   color: rgba(255, 0, 89, 0.63);
-  /* Keeps the highlight intact when the note wraps across lines */
-  box-decoration-break: clone;
-  -webkit-box-decoration-break: clone;
 }
 
 /* Brackets as pseudo-elements — presentational, so they stay out of the note's

@@ -965,7 +965,7 @@ const Bookmark = ({
                   </a>
 
                   <a
-                    href="https://www.instagram.com/radio__project/"
+                    href="https://www.instagram.com/radioproject.live/"
                     target="_blank"
                     className="icon-blink menu-item-glitch menu-link"
                     onClick={toggleMenu}
@@ -1426,7 +1426,7 @@ const Bookmark = ({
                       </a>
 
                       <a
-                        href="https://www.instagram.com/radio__project/"
+                        href="https://www.instagram.com/radioproject.live/"
                         target="_blank"
                         className="icon-blink menu-item-glitch menu-link"
                         onClick={toggleMenu}
