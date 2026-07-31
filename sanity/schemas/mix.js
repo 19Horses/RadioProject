@@ -29,7 +29,24 @@ const transcriptTurn = {
           lists: [],
           marks: {
             decorators: [{ title: 'Bold', value: 'strong' }],
-            annotations: [],
+            annotations: [
+              {
+                name: 'contextNote',
+                type: 'object',
+                title: 'Context Note',
+                description:
+                  'Select a phrase and add a note. On the site the phrase becomes clickable and the note appears beside it.',
+                fields: [
+                  {
+                    name: 'note',
+                    title: 'Note',
+                    type: 'text',
+                    rows: 3,
+                    validation: (Rule) => Rule.required(),
+                  },
+                ],
+              },
+            ],
           },
         },
       ],

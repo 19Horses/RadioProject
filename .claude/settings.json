@@ -76,7 +76,9 @@
       "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m=>{const t=m.default.fields.find\\(f=>f.name==='tracklist'\\).of[0].fields.find\\(f=>f.name==='transcript'\\);console.log\\('transcript.of[0].fields:', t.of[0].fields.map\\(f=>f.name+':'+f.type\\).join\\(', '\\)\\)}\\)\")",
       "Bash(node --input-type=module -e \"import\\('./sanity/schemas/mix.js'\\).then\\(m=>{const f=m.default.fields.find\\(f=>f.name==='transcriptInitials'\\);console.log\\(f.name, '|', f.type, '|', f.title\\)}\\)\")",
       "Bash(python3 -c \"import urllib.parse;print\\(urllib.parse.quote\\(\\\\\"*[_type=='mix' && \\(genre match 'diasporic*' || 'diasporic' in tags[]\\)]{artistName, genre, tags}\\\\\"\\)\\)\")",
-      "Bash(node -e ' *)"
+      "Bash(node -e ' *)",
+      "Bash(node --input-type=module -e ' *)",
+      "Bash(grep -n \"transcript-note-trigger\\\\`}\" -A 12 src/components/tracklist/Tracklist.jsx)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

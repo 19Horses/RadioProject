@@ -27,36 +27,112 @@ const initialsFor = (name) => {
 
 const TRANSCRIPT_MS = 450; // matches the grid-template-rows transition
 
-// Transcript text is portable text so it can carry bold. Plain strings are
-// still accepted — the placeholder copy uses them, as do any entries authored
-// before the field became rich text.
-const renderText = (value) => {
+// Transcript text is portable text so it can carry bold and context notes.
+// Plain strings are still accepted — the placeholder copy uses them, as do any
+// entries authored before the field became rich text.
+//
+// Bold is a decorator, so it is just a name in `span.marks`. A context note is
+// an annotation: the mark is a key that has to be looked up in the block's
+// `markDefs` to find the note itself.
+// How many context notes a turn carries — markDefs holds one entry per
+// annotation, so its length is the count
+const countNotes = (value) =>
+  Array.isArray(value)
+    ? value.reduce(
+        (n, block) =>
+          n +
+          (block?.markDefs || []).filter((d) => d._type === "contextNote")
+            .length,
+        0,
+      )
+    : 0;
+
+const TranscriptText = ({ value, noteStart = 0 }) => {
+  const [openNote, setOpenNote] = useState(null);
+
   if (typeof value === "string") return value;
   if (!Array.isArray(value)) return null;
-  return value.flatMap((block, b) =>
-    block?._type !== "block"
-      ? []
-      : (block.children || []).map((span, s) =>
-          span.marks?.includes("strong") ? (
-            <strong key={`${b}-${s}`}>{span.text}</strong>
-          ) : (
-            <React.Fragment key={`${b}-${s}`}>{span.text}</React.Fragment>
-          ),
-        ),
-  );
+
+  // An annotation can be split across several spans if other marks overlap it,
+  // so numbers are assigned per markDef key on first appearance
+  const numbers = new Map();
+  let n = noteStart;
+
+  return value.flatMap((block, b) => {
+    if (block?._type !== "block") return [];
+    const defs = block.markDefs || [];
+
+    return (block.children || []).map((span, s) => {
+      const key = `${b}-${s}`;
+      const content = span.marks?.includes("strong") ? (
+        <strong>{span.text}</strong>
+      ) : (
+        span.text
+      );
+
+      const note = span.marks
+        ?.map((m) => defs.find((d) => d._key === m && d._type === "contextNote"))
+        .find(Boolean);
+
+      if (!note) return <React.Fragment key={key}>{content}</React.Fragment>;
+
+      if (!numbers.has(note._key)) numbers.set(note._key, ++n);
+      const isOpen = openNote === note._key;
+      return (
+        <React.Fragment key={key}>
+          <span
+            className={`transcript-note-trigger${
+              isOpen ? " transcript-note-trigger-open" : ""
+            }`}
+            onClick={() => setOpenNote(isOpen ? null : note._key)}
+          >
+            {content}
+            <sup className="transcript-note-marker">
+              {numbers.get(note._key)}
+            </sup>
+          </span>
+          {isOpen && <span className="transcript-note">{note.note}</span>}
+        </React.Fragment>
+      );
+    });
+  });
 };
+
+// Every context note in the topics before `index`, so numbering runs on across
+// the interview instead of restarting at 1 for each topic
+const notesBefore = (tracklist, index) =>
+  (tracklist || [])
+    .slice(0, index)
+    .reduce(
+      (total, track) =>
+        total +
+        (track?.transcript || []).reduce(
+          (n, turn) => n + countNotes(turn?.text),
+          0,
+        ),
+      0,
+    );
 
 // Authored in Sanity as { speaker: "RP" | "guest", text }. "guest" resolves to
 // the artist's initials here so the label never has to be retyped per mix.
 // Falls back to placeholder copy for topics that have not been written up yet.
-const transcriptFor = (track, index, guestInitials) => {
+const transcriptFor = (track, index, guestInitials, noteOffset = 0) => {
   const authored = track?.transcript?.filter((turn) => turn?.text?.length);
   if (authored?.length) {
-    return authored.map((turn, i) => ({
-      key: turn._key ?? i,
-      speaker: turn.speaker === "guest" ? guestInitials : "RP",
-      text: turn.text,
-    }));
+    // Context notes are numbered continuously across the whole interview, so
+    // each turn starts from the count of every note before it — both in earlier
+    // turns of this topic and in the topics preceding it
+    let notes = noteOffset;
+    return authored.map((turn, i) => {
+      const noteStart = notes;
+      notes += countNotes(turn.text);
+      return {
+        key: turn._key ?? i,
+        speaker: turn.speaker === "guest" ? guestInitials : "RP",
+        text: turn.text,
+        noteStart,
+      };
+    });
   }
 
   const turns = 4 + (index % 3); // 4–6 exchanges
@@ -773,13 +849,17 @@ const TracklistInner = ({
                       selectedGuest.tracklist[mountedTranscript],
                       mountedTranscript,
                       guestInitials,
+                      notesBefore(selectedGuest.tracklist, mountedTranscript),
                     ).map((turn) => (
                       <span className="track-transcript-line" key={turn.key}>
                         <span className="track-transcript-speaker">
                           {turn.speaker}
                         </span>
                         <span className="track-transcript-text">
-                          {renderText(turn.text)}
+                          <TranscriptText
+                            value={turn.text}
+                            noteStart={turn.noteStart}
+                          />
                         </span>
                       </span>
                     ))}

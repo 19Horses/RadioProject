@@ -145,7 +145,6 @@
    Inherits the title's font and size — no overrides. */
 .track-subject-toggle {
   color: inherit;
-  opacity: 0.5;
   /* No font-family here on purpose — the marker inherits the item's inline
      font so it alternates Light/Roman along with its own title. */
   /* +/- are drawn centred on the maths axis, sitting above the baseline and
@@ -239,6 +238,59 @@
 
 .track-transcript-line:last-child {
   margin-bottom: 0;
+}
+
+/* Phrases carrying a context note, styled to match `.cite-highlight` in the
+   essay articles so citations read the same across the site. */
+.transcript-note-trigger {
+  background-color: #d9d9d9;
+  font-family: "NeueHaasDisplayMedium";
+  padding: 0 1px;
+  color: inherit;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+  /* Keeps the highlight intact when a phrase wraps across lines */
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+.transcript-note-trigger:hover,
+.transcript-note-trigger-open {
+  color: rgb(255, 0, 90);
+}
+
+.transcript-note-marker {
+  font-family: "NeueHaasDisplayRoman";
+  color: rgb(255, 0, 90);
+  font-size: 0.65em;
+  vertical-align: super;
+  line-height: 0;
+  margin-left: 1px;
+}
+
+/* The note itself, revealed inline directly after the phrase so it reads as an
+   aside inside the sentence and wraps with it */
+.transcript-note {
+  /* Same highlight as the trigger it follows. The gap before it is padding
+     rather than margin so it falls inside the grey — the two spans are
+     adjacent in the DOM, so the backgrounds meet as one continuous block. */
+  background-color: rgb(217, 217, 217);
+  padding: 0 1px 0 0.3em;
+  color: rgba(255, 0, 89, 0.63);
+  /* Keeps the highlight intact when the note wraps across lines */
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+}
+
+/* Brackets as pseudo-elements — presentational, so they stay out of the note's
+   text content */
+.transcript-note::before {
+  content: "[";
+}
+
+.transcript-note::after {
+  content: "]";
 }
 
 /* A real heavier face rather than synthesised bold, which the Roman weight
