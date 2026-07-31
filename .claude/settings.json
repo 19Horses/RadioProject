@@ -78,7 +78,11 @@
       "Bash(python3 -c \"import urllib.parse;print\\(urllib.parse.quote\\(\\\\\"*[_type=='mix' && \\(genre match 'diasporic*' || 'diasporic' in tags[]\\)]{artistName, genre, tags}\\\\\"\\)\\)\")",
       "Bash(node -e ' *)",
       "Bash(node --input-type=module -e ' *)",
-      "Bash(grep -n \"transcript-note-trigger\\\\`}\" -A 12 src/components/tracklist/Tracklist.jsx)"
+      "Bash(grep -n \"transcript-note-trigger\\\\`}\" -A 12 src/components/tracklist/Tracklist.jsx)",
+      "Bash(cp \"/private/tmp/claude-501/-Users-palmreader-My-Documents-WEB-Development-WEB-Yogi-CODING-Projects-radio-project/a8587e00-08d1-4336-8c2b-339bd582e84f/scratchpad/check.mjs\" ./.tmp-check-share.mjs)",
+      "Bash(node ./.tmp-check-share.mjs)",
+      "Bash(rm -f ./.tmp-check-share.mjs)",
+      "Bash(node scripts/prerender-share-meta.mjs)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads"

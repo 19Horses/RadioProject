@@ -9,8 +9,8 @@
  *   dist/article/<slug>/index.html
  *
  * Each is a copy of dist/index.html with the title + OG/Twitter tags rewritten
- * to that item's cover image and details. Crawlers read the static tags; real
- * visitors get the same file and the SPA boots and routes as usual.
+ * to that item's mobile cover image and details. Crawlers read the static tags;
+ * real visitors get the same file and the SPA boots and routes as usual.
  *
  * Run after `vite build`.
  */
@@ -66,7 +66,7 @@ function escapeAttr(value) {
 }
 
 /**
- * Cover image → an absolute, crawler-friendly URL. Sanity's CDN can resize and
+ * Share image → an absolute, crawler-friendly URL. Sanity's CDN can resize and
  * transcode on the fly; we force JPEG since some crawlers won't render webp.
  */
 function coverImageUrl(src) {
@@ -130,12 +130,19 @@ function buildHtml(template, item) {
 
 async function fetchItems() {
   const [mixes, radiograms] = await Promise.all([
+    // Share previews use the mobile cover art, falling back to the landing
+    // cover when a mix/article has no mobile image set.
     client.fetch(`*[_type == "mix" && defined(slug.current)]{
       "slug": slug.current,
       "type": "mix",
       title,
       "byline": artistName,
-      "src": select(count(coverImages) > 0 => coverImages[].asset->url, coverImage.asset->url),
+      "src": select(
+        count(mobileCoverImages) > 0 => mobileCoverImages[].asset->url,
+        defined(mobileCoverImage.asset) => mobileCoverImage.asset->url,
+        count(coverImages) > 0 => coverImages[].asset->url,
+        coverImage.asset->url
+      ),
       "description": description
     }`),
     client.fetch(`*[_type == "radiogram" && defined(slug.current)]{
@@ -143,7 +150,7 @@ async function fetchItems() {
       "type": "radiogram",
       title,
       "byline": authorName,
-      "src": coverImage.asset->url,
+      "src": coalesce(coverImageMobile.asset->url, coverImage.asset->url),
       "description": summary
     }`),
   ]);
