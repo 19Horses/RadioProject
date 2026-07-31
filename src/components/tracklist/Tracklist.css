@@ -220,7 +220,11 @@
    every line's text starts at the same x regardless of the label's width. */
 .track-transcript-line {
   display: grid;
-  grid-template-columns: var(--speaker-col) 1fr;
+  /* minmax(0, 1fr), not 1fr — a plain `1fr` is minmax(auto, 1fr), and that auto
+     minimum stops the text column shrinking below its longest word, so it
+     pushes past the container instead of wrapping. Only bites where the column
+     is narrow, which is why it showed up on mobile. */
+  grid-template-columns: var(--speaker-col) minmax(0, 1fr);
   align-items: baseline;
   font-family: "NeueHaasDisplayRoman";
   /* Matches `.radiogram-8 p` — same face, size, leading and tracking */
@@ -260,9 +264,13 @@
 @media (max-width: 768px) {
   .track-transcript-body {
     --speaker-col: 1.6rem;
-    padding-left: 0.9rem;
-    /* 60% would be unreadably narrow on a phone */
+    /* No extra indent — the speaker column already offsets the text, and on a
+       phone this only pushed the block toward the right edge */
+    padding-left: 0;
+    /* 60% would be unreadably narrow on a phone, but it must not exceed the
+       tracklist's own column either */
     width: auto;
+    max-width: 100%;
   }
 
   .track-transcript-line {
