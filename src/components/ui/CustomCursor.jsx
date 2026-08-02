@@ -150,23 +150,9 @@ export const CustomCursor = ({
             marginLeft: isGuest ? "0.5vh" : "0",
           }}
         >
-          {isGuest ? (
-            <>
-              <span
-                style={{
-                  fontFamily: "NeueBit-Regular",
-                  fontSize: "1.6em",
-                  paddingLeft: type === "mix" ? "0.03em" : "0",
-                  paddingRight: type === "mix" ? "0.075em" : "0",
-                }}
-              >
-                {type === "mix" ? "♬" : "⚖"}
-              </span>{" "}
-              {title2}
-            </>
-          ) : (
-            username
-          )}
+          {/* The mix/article glyph used to lead this line. It now sits on every
+              item's artwork instead — see .landing-vertical-symbol. */}
+          {isGuest ? title2 : username}
         </span>
         <span
           style={

@@ -103,7 +103,12 @@
       "Bash(node pad.mjs)",
       "Bash(sed -i '' 's|}, null, 2\\)\\);|}\\)\\);|' pad.mjs)",
       "Bash(sed -i '' 's|await p.waitForTimeout\\(300\\);|await p.waitForTimeout\\(1400\\);|' padshot.mjs)",
-      "Bash(node padshot.mjs)"
+      "Bash(node padshot.mjs)",
+      "Bash(node inkgap.mjs)",
+      "Bash(node chipshot.mjs)",
+      "Bash(node chipshot2.mjs)",
+      "Bash(node pixscan.mjs)",
+      "Bash(node boxcheck.mjs)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads",

@@ -226,6 +226,44 @@
   will-change: auto;
 }
 
+/* Mix / article marker, top-right of the artwork. Same dark chip and face the
+   cursor used when it carried this glyph, so it reads as the same label just
+   moved onto the item. */
+.landing-vertical-symbol {
+  position: absolute;
+  top: 15px;
+  right: 15px;
+  font-family: "NeueBit-Regular", monospace;
+  font-size: 2.6vh;
+  line-height: 1;
+  /* Square whatever it holds. Padding cannot give that: the two glyphs have
+     different advance widths, so the same padding produced a different width
+     for each — 24px against 20px. A fixed side with aspect-ratio takes the
+     glyph's own metrics out of the box size entirely. */
+  width: 1.05em;
+  aspect-ratio: 1;
+  /* A box with aspect-ratio takes its content as an automatic minimum, so the
+     line box plus the nudge below was inflating the height and the chip came
+     out 24.6x25.5. Releasing that minimum lets the ratio hold. */
+  min-height: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  /* Centring the box is not centring the glyph — flex aligns the line box, and
+     the ink sits high inside it, which left the scales visibly above centre.
+     Padding here shifts the glyph down by half its value; this is the measured
+     correction, split between the two glyphs since their inks differ slightly.
+     In em to scale with the font. */
+  padding-top: 0.111em;
+  box-sizing: border-box;
+  background-color: #d3d3d3;
+  color: #f7f7f7;
+  /* The image underneath owns the hover that drives the custom cursor — the
+     pointer crossing this chip must not register as leaving the item. */
+  pointer-events: none;
+  transition: opacity 0.5s ease-out;
+}
+
 /* Grid view */
 @keyframes gridItemIn {
   from {

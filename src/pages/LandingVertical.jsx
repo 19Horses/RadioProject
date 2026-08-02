@@ -20,6 +20,11 @@ import "./LandingVertical.css";
 // wait on the lazy-loading heuristic.
 const EAGER_COUNT = 3;
 
+// The mix/article chip is a label, not the subject — it sits back from the
+// artwork rather than competing with it. Multiplied into the item's own
+// focused/unfocused opacity so it still dims along with its image.
+const SYMBOL_OPACITY = 1;
+
 /**
  * One cover in the carousel, fading in once its bitmap is actually decoded.
  *
@@ -36,8 +41,7 @@ const LandingImage = React.memo(function LandingImage({
   onHoverChange,
 }) {
   const srcArray = useMemo(
-    () =>
-      Array.isArray(guest.src) ? guest.src : guest.src ? [guest.src] : [],
+    () => (Array.isArray(guest.src) ? guest.src : guest.src ? [guest.src] : []),
     [guest.src],
   );
   const hasMultipleSrcs = srcArray.length > 1;
@@ -88,22 +92,26 @@ const LandingImage = React.memo(function LandingImage({
       {hasMultipleSrcs ? (
         <div style={{ position: "relative", width: "100%", height: "100%" }}>
           {/* Later slides are pointless until the first one is on screen. */}
-          {srcArray.slice(0, loaded ? srcArray.length : 1).map((imgSrc, idx) => (
-            <img
-              key={imgSrc}
-              {...sharedProps}
-              ref={idx === 0 ? captureLoaded : undefined}
-              onLoad={idx === 0 ? () => setLoaded(true) : undefined}
-              src={sanityImage(imgSrc, { width: 1200 })}
-              srcSet={sanitySrcSet(imgSrc)}
-              style={{
-                position: "absolute",
-                inset: 0,
-                transition: "opacity 1s ease",
-                opacity: loaded ? (activeIndex === idx ? 1 : 0) * focusOpacity : 0,
-              }}
-            />
-          ))}
+          {srcArray
+            .slice(0, loaded ? srcArray.length : 1)
+            .map((imgSrc, idx) => (
+              <img
+                key={imgSrc}
+                {...sharedProps}
+                ref={idx === 0 ? captureLoaded : undefined}
+                onLoad={idx === 0 ? () => setLoaded(true) : undefined}
+                src={sanityImage(imgSrc, { width: 1200 })}
+                srcSet={sanitySrcSet(imgSrc)}
+                style={{
+                  position: "absolute",
+                  inset: 0,
+                  transition: "opacity 1s ease",
+                  opacity: loaded
+                    ? (activeIndex === idx ? 1 : 0) * focusOpacity
+                    : 0,
+                }}
+              />
+            ))}
           {/* Invisible placeholder to maintain container size */}
           <img
             src={sanityImage(srcArray[0], { width: 400 })}
@@ -123,6 +131,19 @@ const LandingImage = React.memo(function LandingImage({
           style={{ opacity: loaded ? focusOpacity : 0 }}
         />
       )}
+
+      {/* Marks what the item is — a mix or an article. Sits on the artwork
+          rather than in the cursor, so every item is labelled at once instead
+          of only the one under the pointer. Transparent to the pointer: the
+          image beneath owns the hover that drives the cursor, and a badge
+          catching that would read as leaving the item. */}
+      <span
+        className="landing-vertical-symbol"
+        aria-hidden
+        style={{ opacity: loaded ? focusOpacity * SYMBOL_OPACITY : 0 }}
+      >
+        {guest.type === "mix" ? "♬" : "⚖"}
+      </span>
     </div>
   );
 });
@@ -394,7 +415,6 @@ export const LandingVertical = ({ isMobile, gridView }) => {
           dimmed={hoveredGuest !== filteredItems[focusedIndex]}
         />
       )}
-
 
       <div
         className="landing-vertical-container total-container"
