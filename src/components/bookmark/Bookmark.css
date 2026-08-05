@@ -186,8 +186,14 @@
     }
   }
 
-  .icon-blink:hover {
-    animation: blink .5s ease-in infinite;
+  /* Only where hovering is a real state. On touch, :hover latches onto the
+     last thing tapped, so a menu item went on pulsing its opacity long after
+     the tap — now that switching view leaves the menu open, that pulse sat
+     under the changing label and read as two texts on top of each other. */
+  @media (hover: hover) {
+    .icon-blink:hover {
+      animation: blink .5s ease-in infinite;
+    }
   }
 
   .vertical-marquee {

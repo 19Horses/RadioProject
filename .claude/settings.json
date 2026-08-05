@@ -117,7 +117,10 @@
       "Bash(node carousel2.mjs)",
       "Bash(curl -s -o /dev/null -w \"5173 status: %{http_code}\\\\n\" http://localhost:5173/)",
       "Bash(node diag.mjs)",
-      "Bash(node stagger.mjs)"
+      "Bash(node stagger.mjs)",
+      "Bash(awk 'NR<=189 && /@media/ {ln=NR; q=$0} END{}' src/components/bookmark/Bookmark.css)",
+      "Bash(awk -F: '$1<189')",
+      "Bash(grep -n -B2 -A2 \"^  $\")"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads",

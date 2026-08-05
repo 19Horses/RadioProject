@@ -317,7 +317,9 @@
 @media (max-width: 768px) {
   .landing-grid-container {
     left: 0;
-    padding-top: calc(20px + env(safe-area-inset-top));
+    /* Clears the menu icon, which floats over the top of the page here and
+       ends about 49px down — the old 20px ran the first row under it. */
+    padding-top: calc(64px + env(safe-area-inset-top));
     padding-bottom: calc(4px + env(safe-area-inset-bottom));
   }
 }
