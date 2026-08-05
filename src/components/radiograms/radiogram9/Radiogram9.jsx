@@ -66,6 +66,15 @@ export const Radiogram9 = () => {
   return (
     <div className="radiogram-9" ref={containerRef}>
       <div className="radiogram-9-gallery">
+        <section className="radiogram-9-tile radiogram-9-intro">
+          <p>
+            Compiled, stored, tweaked and shipped NFL style.{" "}
+            <span className="roman">
+              Maybe you can see something of yourself in these images.
+            </span>{" "}
+            Life is good. Enjoy these moments :P
+          </p>
+        </section>
         {images.map((src, i) => (
           <figure key={i} className="radiogram-9-tile">
             <img src={src} alt="" loading="lazy" draggable={false} />

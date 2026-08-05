@@ -28,6 +28,23 @@
   will-change: auto;
 }
 
+/* Opening slide — a single centred line of copy, no image. */
+.radiogram-9-intro p {
+  font-family: "NeueHaasDisplayMedium";
+  font-size: 3.5rem;
+  line-height: 1;
+  letter-spacing: -3%;
+  text-align: center;
+  text-wrap: balance;
+  width: 100%;
+  margin: 0 auto;
+  -webkit-font-smoothing: antialiased;
+}
+
+.radiogram-9-intro p .roman {
+  font-family: "NeueHaasDisplayRoman";
+}
+
 /* Fit within the slide (up to 80dvh tall / 92% wide) preserving aspect ratio.
    Using max-* with auto dimensions lets whichever limit binds first cap the
    image without ever squashing it (a fixed height + max-width would distort). */
