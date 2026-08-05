@@ -240,7 +240,7 @@
      different advance widths, so the same padding produced a different width
      for each — 24px against 20px. A fixed side with aspect-ratio takes the
      glyph's own metrics out of the box size entirely. */
-  width: 1.05em;
+  width: 0.4em;
   aspect-ratio: 1;
   /* A box with aspect-ratio takes its content as an automatic minimum, so the
      line box plus the nudge below was inflating the height and the chip came
@@ -256,12 +256,20 @@
      In em to scale with the font. */
   padding-top: 0.111em;
   box-sizing: border-box;
-  background-color: #d3d3d3;
-  color: #f7f7f7;
+  background-color: #ff005a;
+  color: #ff005a;
   /* The image underneath owns the hover that drives the custom cursor — the
      pointer crossing this chip must not register as leaving the item. */
   pointer-events: none;
   transition: opacity 0.5s ease-out;
+}
+
+/* A grid cell is about half a carousel item, so the marker reads bigger there
+   at the same absolute size. Shrunk, and pulled up and in from the corner. */
+.landing-grid-container .landing-vertical-symbol {
+  width: 0.3em;
+  top: 8px;
+  right: 8px;
 }
 
 /* Grid view */
@@ -271,6 +279,15 @@
   }
   to {
     opacity: 1;
+  }
+}
+
+@keyframes gridItemOut {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
   }
 }
 
@@ -305,17 +322,32 @@
   }
 }
 
+/* Four across. The 3px trims each cell by its share of the three 4px gaps in a
+   row, so the four still fit; padding-bottom equal to the width keeps them
+   square without needing the image to have loaded. */
 .landing-grid-cell {
-  flex: 0 0 calc(14% - 3.2px);
-  width: calc(14% - 3.2px);
+  flex: 0 0 calc(25% - 3px);
+  width: calc(25% - 3px);
   height: 0;
-  padding-bottom: calc(14% - 3.2px);
+  padding-bottom: calc(25% - 3px);
   position: relative;
+  /* Hidden until a direction is chosen, so cells cannot flash at full strength
+     in the frames between the grid mounting and its entrance starting. */
   opacity: 0;
 }
 
+/* Both directions use `both` for fill: the from-state holds through the cell's
+   own stagger delay, and the to-state holds after it finishes — so a cell that
+   has arrived stays put while later ones are still going. Durations and the
+   step must stay in step with the constants in LandingVertical.jsx, which time
+   how long the outgoing view stays mounted. */
 .landing-grid-visible .landing-grid-cell {
-  animation: gridItemIn 0.35s ease forwards;
+  animation: gridItemIn 0.35s ease both;
+  animation-delay: calc(var(--i) * 7ms);
+}
+
+.landing-grid-leaving .landing-grid-cell {
+  animation: gridItemOut 0.35s ease both;
   animation-delay: calc(var(--i) * 7ms);
 }
 

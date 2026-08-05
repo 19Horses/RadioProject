@@ -108,7 +108,16 @@
       "Bash(node chipshot.mjs)",
       "Bash(node chipshot2.mjs)",
       "Bash(node pixscan.mjs)",
-      "Bash(node boxcheck.mjs)"
+      "Bash(node boxcheck.mjs)",
+      "Bash(node gridview.mjs)",
+      "Bash(sed -i '' 's|await p.waitForSelector\\(\".bookmark-container\", { timeout: 25000 }\\);|await p.waitForSelector\\(\".bookmark-container\", { state: \"attached\", timeout: 25000 }\\);|' offlanding.mjs)",
+      "Bash(node offlanding.mjs)",
+      "Bash(node cursorside.mjs)",
+      "Bash(sed -i '' 's|onScreen: r.left > 0 \\\\&\\\\& r.right < innerWidth|onScreen: r.right > 0 \\\\&\\\\& r.left < innerWidth|' carousel2.mjs)",
+      "Bash(node carousel2.mjs)",
+      "Bash(curl -s -o /dev/null -w \"5173 status: %{http_code}\\\\n\" http://localhost:5173/)",
+      "Bash(node diag.mjs)",
+      "Bash(node stagger.mjs)"
     ],
     "additionalDirectories": [
       "/Users/palmreader/Downloads",

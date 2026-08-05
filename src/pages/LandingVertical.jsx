@@ -20,6 +20,17 @@ import "./LandingVertical.css";
 // wait on the lazy-loading heuristic.
 const EAGER_COUNT = 3;
 
+// The grid shows a whole screenful at once, so more of it is above the fold
+// than in the carousel — roughly the first two rows.
+const GRID_EAGER_COUNT = 8;
+
+// Crossfade timings. The grid's cells carry their own fade, staggered per cell,
+// so swapping views has to wait out the last cell's delay as well as its fade —
+// these have to stay in step with the matching values in LandingVertical.css.
+const VIEW_FADE_MS = 250;
+const GRID_ITEM_FADE_MS = 350;
+const GRID_STAGGER_MS = 7;
+
 // The mix/article chip is a label, not the subject — it sits back from the
 // artwork rather than competing with it. Multiplied into the item's own
 // focused/unfocused opacity so it still dims along with its image.
@@ -37,6 +48,7 @@ const LandingImage = React.memo(function LandingImage({
   isFocused,
   isMobile,
   priority,
+  isGrid,
   onClick,
   onHoverChange,
 }) {
@@ -71,14 +83,25 @@ const LandingImage = React.memo(function LandingImage({
     decoding: "async",
     loading: priority ? "eager" : "lazy",
     fetchPriority: priority ? "high" : "auto",
-    sizes: isMobile ? "45vh" : "60vh",
+    // A grid cell is a quarter of the row rather than most of the viewport
+    // height, so the browser would fetch far larger files than it can show if
+    // the carousel's hint carried over.
+    sizes: isGrid
+      ? isMobile
+        ? "50vw"
+        : "23vw"
+      : isMobile
+        ? "45vh"
+        : "60vh",
     className: `image landing-vertical-image ${
       isFocused
         ? "landing-vertical-image-focused"
         : "landing-vertical-image-unfocused"
     }`,
     ...(!isMobile && {
-      onMouseEnter: () => onHoverChange(guest),
+      // The element goes along so the page can see which half of the viewport
+      // this item sits in, and put the cursor's label on the roomier side.
+      onMouseEnter: (event) => onHoverChange(guest, event.currentTarget),
       onMouseLeave: () => onHoverChange(null),
     }),
   };
@@ -140,10 +163,11 @@ const LandingImage = React.memo(function LandingImage({
       <span
         className="landing-vertical-symbol"
         aria-hidden
-        style={{ opacity: loaded ? focusOpacity * SYMBOL_OPACITY : 0 }}
-      >
-        {guest.type === "mix" ? "♬" : "⚖"}
-      </span>
+        style={{
+          opacity: loaded ? focusOpacity * SYMBOL_OPACITY : 0,
+          backgroundColor: guest.type === "mix" ? "#ff005a" : "#5ac588",
+        }}
+      ></span>
     </div>
   );
 });
@@ -152,6 +176,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
   const items = useItems();
   const flexContainer = useRef(null);
   const [hoveredGuest, setHoveredGuest] = useState();
+  const [hoverOnRight, setHoverOnRight] = useState(false);
   const navigate = useNavigate();
   const location = useLocation();
   // const itemRefs = useRef([]); // Not used - refs never set
@@ -162,18 +187,6 @@ export const LandingVertical = ({ isMobile, gridView }) => {
   const [activeView, setActiveView] = useState(gridView);
   const [viewVisible, setViewVisible] = useState(true);
 
-  useEffect(() => {
-    if (gridView === activeView) return;
-    setViewVisible(false);
-    const t = setTimeout(() => {
-      setActiveView(gridView);
-      requestAnimationFrame(() =>
-        requestAnimationFrame(() => setViewVisible(true)),
-      );
-    }, 250);
-    return () => clearTimeout(t);
-  }, [gridView, activeView]);
-
   const filteredItems = useMemo(() => {
     return items
       .filter((item) => {
@@ -183,6 +196,28 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       })
       .reverse();
   }, [items]);
+
+  // Leaving the grid runs the entrance in reverse — each cell fades on its own
+  // delay — so the outgoing view has to stay mounted for the whole stagger,
+  // not just one blanket fade. Declared after filteredItems, which the timing
+  // below reads.
+  const gridLeaving = activeView && !gridView;
+
+  useEffect(() => {
+    if (gridView === activeView) return;
+    setViewVisible(false);
+    const leaveMs = activeView
+      ? GRID_ITEM_FADE_MS +
+        Math.max(0, filteredItems.length - 1) * GRID_STAGGER_MS
+      : VIEW_FADE_MS;
+    const t = setTimeout(() => {
+      setActiveView(gridView);
+      requestAnimationFrame(() =>
+        requestAnimationFrame(() => setViewVisible(true)),
+      );
+    }, leaveMs);
+    return () => clearTimeout(t);
+  }, [gridView, activeView, filteredItems.length]);
 
   // Prevent body scroll in carousel mode; allow it in grid mode
   useEffect(() => {
@@ -299,7 +334,29 @@ export const LandingVertical = ({ isMobile, gridView }) => {
     };
   }, [filteredItems.length]);
 
-  // Track which item is currently centered (throttled for performance)
+  // Re-centre when coming back from the grid: the carousel is a fresh element,
+  // so it starts at scrollLeft 0, which is not the first item — the track is
+  // padded by half the viewport either side.
+  useEffect(() => {
+    if (activeView) return;
+    const centerFirstItem = () => {
+      const container = flexContainer.current;
+      const firstItem = container?.children[0];
+      if (!firstItem) return;
+      const scrollTo =
+        firstItem.offsetLeft +
+        firstItem.offsetWidth / 2 -
+        container.clientWidth / 2;
+      container.scrollLeft = Math.max(0, scrollTo);
+      setFocusedIndex(0);
+    };
+    const t = setTimeout(centerFirstItem, 0);
+    return () => clearTimeout(t);
+  }, [activeView]);
+
+  // Track which item is currently centered (throttled for performance).
+  // Keyed on the view too: the carousel unmounts in grid mode, so this has to
+  // re-attach to the new element when it comes back or focus tracking dies.
   useEffect(() => {
     if (!flexContainer.current) return;
 
@@ -368,7 +425,7 @@ export const LandingVertical = ({ isMobile, gridView }) => {
         container.removeEventListener("scroll", handleScroll);
       }
     };
-  }, [isMobile]);
+  }, [isMobile, activeView]);
 
   const handleItemClick = useCallback(
     (guest) => {
@@ -399,8 +456,29 @@ export const LandingVertical = ({ isMobile, gridView }) => {
   );
 
   const handleHoverChange = useCallback(
-    (guest) => {
-      if (!isMobile) setHoveredGuest(guest);
+    (guest, element) => {
+      if (isMobile) return;
+      // The cursor trails to the right of the pointer by default, which runs it
+      // off the screen on the last column. Only that column flips it to the
+      // pointer's left. Detected as "no room for another cell to my right"
+      // rather than by counting columns, so the short final row is handled too:
+      // its rightmost item is only in column two, and must not flip.
+      if (guest && element) {
+        const track = element.closest(".landing-grid-container");
+        const rect = element.getBoundingClientRect();
+        if (track) {
+          const style = getComputedStyle(track);
+          const trackRight =
+            track.getBoundingClientRect().right -
+            parseFloat(style.paddingRight || 0);
+          const columnStep =
+            rect.width + parseFloat(style.columnGap || style.gap || 0);
+          setHoverOnRight(trackRight - rect.right < columnStep);
+        } else {
+          setHoverOnRight(false);
+        }
+      }
+      setHoveredGuest(guest);
     },
     [isMobile],
   );
@@ -410,48 +488,95 @@ export const LandingVertical = ({ isMobile, gridView }) => {
       {hoveredGuest && !isMobile && (
         <CustomCursor
           hoveredGuest={hoveredGuest}
-          isLeft={false}
+          // Both of these are grid-only. The carousel keeps its original
+          // behaviour: the cursor always trails to the right, and dims on
+          // anything that isn't the centred item. Neither idea carries over —
+          // the grid has no centred item to dim against, and its columns run
+          // to the edge of the screen.
+          isLeft={activeView ? hoverOnRight : false}
           hovered={true}
-          dimmed={hoveredGuest !== filteredItems[focusedIndex]}
+          dimmed={
+            activeView ? false : hoveredGuest !== filteredItems[focusedIndex]
+          }
         />
       )}
 
-      <div
-        className="landing-vertical-container total-container"
-        style={{
-          opacity: viewVisible ? 1 : 0,
-          transition: "opacity 0.25s ease",
-        }}
-      >
-        <div className="landing-vertical-scroll-wrapper scroll-wrapper">
-          <div
-            ref={flexContainer}
-            className={`landing-vertical-flex-container hide-scrollbar ${
-              isMobile
-                ? "landing-vertical-flex-container-mobile"
-                : "landing-vertical-flex-container-desktop"
-            }`}
-          >
-            {filteredItems.map((guest, i) => (
-              <div
-                key={guest.id || i}
-                className={`landing-vertical-item-wrapper ${
-                  isMobile ? "landing-vertical-item-wrapper-mobile" : ""
-                }`}
-              >
-                <LandingImage
-                  guest={guest}
-                  isFocused={i === focusedIndex}
-                  isMobile={isMobile}
-                  priority={i < EAGER_COUNT}
-                  onClick={handleItemClick}
-                  onHoverChange={handleHoverChange}
-                />
-              </div>
-            ))}
+      {/* The grid is its own fixed-position layer, so it sits alongside the
+          carousel's container rather than inside it — that one clips to the
+          viewport and would trap the grid's scrolling.
+
+          It carries no opacity of its own: fading the whole container would
+          flatten the per-cell stagger underneath it. The cells own both
+          directions, and before the first reveal neither class is set, which is
+          what keeps them from flashing in at full strength on mount. */}
+      {activeView ? (
+        <div
+          className={`landing-grid-container ${
+            gridLeaving
+              ? "landing-grid-leaving"
+              : viewVisible
+                ? "landing-grid-visible"
+                : ""
+          }`}
+        >
+          {filteredItems.map((guest, i) => (
+            <div
+              key={guest.id || i}
+              className="landing-grid-cell"
+              style={{ "--i": i }}
+            >
+              <LandingImage
+                guest={guest}
+                // Nothing is "focused" in the grid — every cell reads at full
+                // strength rather than one being singled out.
+                isFocused
+                isMobile={isMobile}
+                isGrid
+                priority={i < GRID_EAGER_COUNT}
+                onClick={handleItemClick}
+                onHoverChange={handleHoverChange}
+              />
+            </div>
+          ))}
+        </div>
+      ) : (
+        <div
+          className="landing-vertical-container total-container"
+          style={{
+            opacity: viewVisible ? 1 : 0,
+            transition: "opacity 0.25s ease",
+          }}
+        >
+          <div className="landing-vertical-scroll-wrapper scroll-wrapper">
+            <div
+              ref={flexContainer}
+              className={`landing-vertical-flex-container hide-scrollbar ${
+                isMobile
+                  ? "landing-vertical-flex-container-mobile"
+                  : "landing-vertical-flex-container-desktop"
+              }`}
+            >
+              {filteredItems.map((guest, i) => (
+                <div
+                  key={guest.id || i}
+                  className={`landing-vertical-item-wrapper ${
+                    isMobile ? "landing-vertical-item-wrapper-mobile" : ""
+                  }`}
+                >
+                  <LandingImage
+                    guest={guest}
+                    isFocused={i === focusedIndex}
+                    isMobile={isMobile}
+                    priority={i < EAGER_COUNT}
+                    onClick={handleItemClick}
+                    onHoverChange={handleHoverChange}
+                  />
+                </div>
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      )}
     </>
   );
 };

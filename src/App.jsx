@@ -347,6 +347,8 @@ function App() {
             setChatUser={setChatUser}
             selectedQuestion={selectedQuestion}
             setSelectedQuestion={setSelectedQuestion}
+            gridView={gridView}
+            setGridView={setGridView}
           />
           {playingGuest && (
             <SoundCloudPlayer

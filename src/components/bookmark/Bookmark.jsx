@@ -29,6 +29,8 @@ const Bookmark = ({
   setChatUser,
   selectedQuestion,
   setSelectedQuestion,
+  gridView,
+  setGridView,
 }) => {
   const {
     currentQuestion: CURRENT_QUESTION,
@@ -194,6 +196,32 @@ const Bookmark = ({
       setMenuAnimationComplete(false);
     }
   }, [menuOpen, isClosing, isMobile]);
+
+  // The landing page *is* the archive, so there the first menu item has nothing
+  // to navigate to — it switches how that page lays out instead, toggling
+  // between the scrolling carousel and the grid. Everywhere else it stays the
+  // link home. The element stays a real link either way, so it still works as
+  // one if the click is never handled.
+  const isLanding = location.pathname === "/";
+  const archiveItemLabel = isLanding
+    ? gridView
+      ? "Focus"
+      : "Unfocus"
+    : "Archive";
+
+  const handleArchiveItemClick = useCallback(
+    (event) => {
+      if (isLanding) {
+        // Switching view is not leaving the page, so the menu stays put — that
+        // also keeps the item under the pointer, ready to switch straight back.
+        event.preventDefault();
+        setGridView((current) => !current);
+        return;
+      }
+      toggleMenu();
+    },
+    [isLanding, setGridView, toggleMenu],
+  );
 
   // Show menu content after animation completes
   useEffect(() => {
@@ -908,7 +936,7 @@ const Bookmark = ({
                   <Link
                     to="/"
                     className="icon-blink menu-item-glitch menu-link"
-                    onClick={toggleMenu}
+                    onClick={handleArchiveItemClick}
                     onMouseEnter={() =>
                       onHoverMenuItem && onHoverMenuItem("archive")
                     }
@@ -922,7 +950,7 @@ const Bookmark = ({
                       animationDelay: "0.45s",
                     }}
                   >
-                    Archive
+                    {archiveItemLabel}
                   </Link>
                   <Link
                     to="/visitorlog"
@@ -1385,7 +1413,7 @@ const Bookmark = ({
                       <Link
                         to="/"
                         className="icon-blink menu-item-glitch menu-link"
-                        onClick={toggleMenu}
+                        onClick={handleArchiveItemClick}
                         onMouseEnter={() =>
                           onHoverMenuItem && onHoverMenuItem("archive")
                         }
@@ -1393,7 +1421,7 @@ const Bookmark = ({
                           onHoverMenuItem && onHoverMenuItem(null)
                         }
                       >
-                        Archive
+                        {archiveItemLabel}
                       </Link>
                       <Link
                         to="/visitorlog"

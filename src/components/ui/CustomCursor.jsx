@@ -46,7 +46,10 @@ export const CustomCursor = ({
     const updateCursor = () => {
       if (!cursor.current) return;
 
-      const offsetX = isLeft ? -16 : 1;
+      // The box is 20vw wide and anchored at its left edge, so shifting it by
+      // its own width is what puts its right edge on the pointer — the extra
+      // 1vw then mirrors the gap the right-hand side leaves.
+      const offsetX = isLeft ? -21 : 1;
       const offsetY = -20;
       const vw = window.innerWidth / 100;
 
@@ -135,7 +138,10 @@ export const CustomCursor = ({
             ? "NHaasGroteskDSPro-75Bd"
             : "NeueHaasDisplayRoman",
           lineHeight: isGuest ? "2.2vh" : "1.9vh",
-          paddingRight: ".1vw",
+          // Right-aligned, this padding insets the title's chip from the edge
+          // the lines below reach, leaving a notch in the block's right edge.
+          // Left-aligned it is invisible, since the chips grow off the text.
+          paddingRight: isLeft ? "0" : ".1vw",
           paddingLeft: isGuest ? "0" : ".2vw",
           textTransform: !isGuest ? "lowercase" : "",
         }}
@@ -160,7 +166,9 @@ export const CustomCursor = ({
               ? {
                   backgroundColor: "#ffffff",
                   paddingLeft: "0.5vh",
-                  paddingRight: ".1vw",
+                  // Matches the .3vw the lines below hold, so the title text
+                  // sits the same distance in from the shared right edge
+                  paddingRight: isLeft ? ".3vw" : ".1vw",
                   WebkitBoxDecorationBreak: "clone",
                   boxDecorationBreak: "clone",
                 }
